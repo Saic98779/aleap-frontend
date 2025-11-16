@@ -14923,7 +14923,11 @@ small {
 /* themeChange */
 table{
   border: 1px solid black !important;
+  border-collapse:collapse !important;
  
+}
+table td, table th {
+  border: 1px solid #dee2e6 !important;
 }
 
 /* themeChange   ==>> table theme change  */

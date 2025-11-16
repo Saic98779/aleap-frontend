@@ -153,7 +153,7 @@
 /* Make sure thead cells have borders */
 .table-container thead th {
   position: sticky;
-  background-color: #07c540; /* Match .bg-lime-green */
+  /* background-color: #07c540;  */
   z-index: 2;
   /* Add border to all sides */
   border: 1px solid #dee2e6 !important;

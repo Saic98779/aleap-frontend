@@ -80,16 +80,16 @@
                             <th class="text-center" rowspan="2">S.No</th>
                             <th rowspan="2" class=" text-center sticky-col-1 " >Outcome Name</th>
                               <ng-container *ngFor="let key of headers ">
-                                    <th class="text-center " colspan="5" class="fw-bolder">{{key.agencyName}}</th>
+                                    <th class="text-center " colspan="5" class="">{{key.agencyName}}</th>
                                 </ng-container>
                         </tr>
                         <tr>
                               <ng-container *ngFor="let key of headers">
-                                <th class="text-center fw-bolder">Outcome Target</th>
-                                <th class="text-center fw-bolder">Participant Achievement</th>
-                                <th class="text-center fw-bolder">Influencer Achievement</th>
-                                <th class="text-center fw-bolder">Total</th>
-                                <th class="text-center fw-bolder">% Achievement</th>
+                                <th class="text-center ">Outcome Target</th>
+                                <th class="text-center ">Participant Achievement</th>
+                                <th class="text-center ">Influencer Achievement</th>
+                                <th class="text-center ">Total</th>
+                                <th class="text-center ">% Achievement</th>
                             </ng-container>
                         </tr>
                     </thead>
@@ -118,14 +118,14 @@
                  <table class="table table-bordered table-striped" *ngIf="!(outcomeIds==-1 && selectedAgencyId==-1)">
                     <thead class="bg-lime-green text-white text-center ">
                         <tr>
-                            <th class="fw-bolder">S.No</th>
-                            <th *ngIf="selectedAgencyId==-1 || outcomeIds!=-1" class="fw-bolder">Agency Name</th>
-                            <th *ngIf="outcomeIds==-1 || selectedAgencyId!=-1" class="fw-bolder">Outcome Name</th>
-                            <th class="fw-bolder">Outcome Target</th>
-                            <th class="fw-bolder">Participant Achievement</th>
-                            <th class="fw-bolder">Influencer Achievement</th>
-                            <th class="fw-bolder">Total</th>
-                            <th class="fw-bolder">% Achievement</th>
+                            <th class="">S.No</th>
+                            <th *ngIf="selectedAgencyId==-1 || outcomeIds!=-1" class="">Agency Name</th>
+                            <th *ngIf="outcomeIds==-1 || selectedAgencyId!=-1" class="">Outcome Name</th>
+                            <th class="">Outcome Target</th>
+                            <th class="">Participant Achievement</th>
+                            <th class="">Influencer Achievement</th>
+                            <th class="">Total</th>
+                            <th class="">% Achievement</th>
                         </tr>
                     </thead>
                     <tbody *ngIf="getDataByAgencyOutcome && getDataByAgencyOutcome.length" class="text-center">
