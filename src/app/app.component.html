@@ -20,7 +20,7 @@
             <img src="../RAMP1/assets/img/aleapLogo.jpeg" alt="Aleap Logo" class="img-fluid" style="height: 47px; width: 100px;">
           </a>
           </ng-container>
-         <ng-container *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
+         <ng-container *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin,Role.SPIU]">
           
           <a class="navbar-brand" href="#"   *ngIf="this.user?.agencyName!='ALEAP'">
             <img src="../RAMP1/assets/img/logo.png" alt="Logo" class="img-fluid" style="height: 45px; width: 45px;">
@@ -295,7 +295,7 @@
                 <ul class="dropdown-menu shadow"  [class.show]="isMainDropdownOpen"
                   style="min-width:220px; max-width:260px; box-shadow:0 4px 16px rgba(0,0,0,0.13); padding: 8px 0; border-radius: 8px; right:-100%; top:100%;">
                   <!-- Dashboard -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin,Role.SPIU]">
                     <a class="dropdown-item" routerLink="/global-dashboard" routerLinkActive="active">Dashboard</a>
                   </li>
                   <!-- Program Participation Verification -->
@@ -324,7 +324,7 @@
                   </li>
                   <!-- training targets -->
                   <!-- non training targets -->
-                     <li *appHasRole="[Role.Admin]" class="dropdown-submenu" style="position:relative;">
+                     <li *appHasRole="[Role.Admin,Role.SPIU]" class="dropdown-submenu" style="position:relative;">
                     <a [ngClass]="{'submenu-open': openSubMenus['Progress']}"
                       class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('Progress', $event)">
@@ -351,7 +351,7 @@
                     <a class="dropdown-item" routerLink="/msme-by-quarter" routerLinkActive="active">Quaterly Wise MoMSME Report</a>
                     </li> -->
                   <!-- Programs Per Agencies (submenu) -->
-                  <li *appHasRole="[Role.Admin]" class="dropdown-submenu" style="position:relative;">
+                  <li *appHasRole="[Role.Admin,Role.SPIU]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('programs', $event)">
                       <span>Programs Per Agencies</span>
@@ -380,12 +380,12 @@
                       style="position:static; background: #dfebeb; min-width:180px;">
                       <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Expenditure
                           Verification</a></li>
-                            <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure
+                            <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure Verification
                           </a></li>
                     </ul>
                   </li>
                   <!-- Masters List (Admin) -->
-                  <li *appHasRole="[Role.Admin]">
+                  <li *appHasRole="[Role.Admin,Role.SPIU]">
                     <a class="dropdown-item" routerLink="/view-table-organization" routerLinkActive="active">Masters List</a>
                   </li>
                    <!-- <li *appHasRole="[Role.Admin]">
@@ -406,7 +406,7 @@
                     <a class="dropdown-item" routerLink="/program-monitoring" routerLinkActive="active">Program Monitoring</a>
                   </li> -->
                   <!-- Reports (Admin) -->
-                  <li *appHasRole="[Role.Admin]" class="dropdown-submenu" style="position:relative;">
+                  <li *appHasRole="[Role.Admin,Role.SPIU]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('reportsAdmin', $event)">
                       <span>Reports</span>
@@ -500,7 +500,7 @@
                       style="position:static; background: #dfebeb;min-width:180px;">
                       <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Expenditure
                           Verification</a></li>
-                      <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure
+                      <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure Verification
                           </a></li>
                     </ul>
                   </li>
@@ -649,8 +649,17 @@
                       <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active">Startups Assessments</a></li>
                     </ul>
                   </li>
-                    <li *appHasRole="[Role.DEVELOPER,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.Admin]">
+                    <li *appHasRole="[Role.DEVELOPER,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.Admin,Role.SPIU]">
                     <a class="dropdown-item" routerLink="/help-support" routerLinkActive="active">Help Support</a>
+                  </li> 
+                 
+                   <li *appHasRole="[Role.FINANCE]">
+                   <a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Expenditure
+                          Verification</a>
+                  </li> 
+                   
+                   <li *appHasRole="[Role.FINANCE]">
+                    <a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active" routerLinkActive="active">Non Training Expenditure Verification</a>
                   </li> 
                 </ul>
               </li>

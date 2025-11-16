@@ -298,10 +298,12 @@ export const APIS = {
     },
     tickets: {
         getAllUser: API_BASE_URL + '/login/allusrs',
+        getAllStatus: API_BASE_URL + '/tickets/roles/',
         save: API_BASE_URL + '/tickets',
         getAll: API_BASE_URL + '/tickets',
         getAllById: API_BASE_URL + '/tickets/',
         getDataByReportId: API_BASE_URL + '/tickets/report/',
+        getDataByReportandStatus: API_BASE_URL + '/tickets/user/',
         update: API_BASE_URL + '/tickets/',
         delete: API_BASE_URL + '/tickets/delete/',
          getAllAssineeId: API_BASE_URL + '/tickets/specific-users',

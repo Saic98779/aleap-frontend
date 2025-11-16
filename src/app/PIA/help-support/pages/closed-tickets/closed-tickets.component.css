@@ -1,0 +1,432 @@
+/* Bootstrap styled components */
+.btn-lime-green {
+  background-color: #32cd32;
+  border-color: #32cd32;
+  color: white;
+}
+
+.btn-lime-green:hover {
+  background-color: #28a428;
+  border-color: #28a428;
+  color: white;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Table styles */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: limegreen;
+  border-top: none;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 12px;
+}
+
+.table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.table-dark th {
+  background-color: #343a40 !important;
+  color: white !important;
+}
+
+/* File Upload */
+.selected-files {
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.file-item {
+  background: white;
+  border: 1px solid #dee2e6;
+}
+
+/* Modal and form styles */
+.modal-header {
+  background-color: limegreen;
+}
+
+.modal-title {
+  color: white !important;
+}
+.badge-type-bug{
+   background-color: #dc3545 !important;
+  color: white !important; 
+}
+/* Badge styles */
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  min-width: 70px;
+}
+
+/* Priority Badges */
+.priority-low { 
+  background-color: #28a745; 
+  color: white; 
+}
+
+.priority-medium { 
+  background-color: #ffc107; 
+  color: #212529; 
+}
+
+.priority-high { 
+  background-color: #fd7e14; 
+  color: white; 
+}
+
+.priority-critical { 
+  background-color: #dc3545; 
+  color: white; 
+}
+
+/* Status Badges */
+.status-open { 
+  background-color: #17a2b8 !important; 
+  color: white !important; 
+}
+
+.status-in-progress { 
+  background-color: #007bff; 
+  color: white; 
+}
+
+.status-resolved { 
+  background-color: #28a745; 
+  color: white; 
+}
+
+.status-closed { 
+  background-color: #6c757d ; 
+  color: white; 
+}
+
+/* Type Badges */
+.type-bug,.type-issue { 
+  background-color: #dc3545 !important;
+  color: white !important; 
+}
+
+
+.type-feature { 
+  background-color: #28a745; 
+  color: white; 
+}
+
+.type-enhancement { 
+  background-color: #007bff; 
+  color: white; 
+}
+
+.type-support { 
+  background-color: #ffc107; 
+  color: #212529; 
+}
+
+/* Button group styles */
+.btn-group .btn {
+  margin-right: 5px;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+  
+  .table td, .table th {
+    padding: 8px;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+/* Existing styles... */
+
+/* Ticket Details Modal Styles */
+.timeline-item {
+  position: relative;
+}
+
+.timeline-marker {
+  font-size: 12px;
+}
+
+.timeline-content {
+  position: relative;
+}
+
+.avatar-circle {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.comment-list .card {
+  border-left: 4px solid #007bff;
+}
+
+.comment-list .card:hover {
+  box-shadow: 0 2px 8px rgba(0,123,255,0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Badge styles for priority */
+.bg-orange {
+  background-color: #fd7e14 !important;
+}
+
+/* Table styles */
+.table th {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.table td {
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  text-decoration: underline;
+}
+
+/* Action buttons */
+.btn-group .btn {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* File attachment cards */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Tab content */
+.tab-content {
+  min-height: 100px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .btn-group .btn {
+    margin-bottom: 2px;
+  }
+}
+
+/* Loading animation */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Modal adjustments */
+.modal-xl {
+  max-width: 90%;
+}
+
+.modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Status badge animations */
+.badge {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Image preview container styles */
+.image-preview-container {
+  background: #f8f9fa;
+  border-radius: 0;
+}
+
+.image-preview-container img {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.image-preview-container img:hover {
+  transform: scale(1.02);
+}
+
+/* PDF container styles */
+.pdf-preview-container {
+  border: 1px solid #dee2e6;
+  border-radius: 0;
+}
+
+/* File type icon colors */
+.fa-file-image {
+  color: #28a745 !important;
+}
+
+.fa-file-pdf {
+  color: #dc3545 !important;
+}
+
+.fa-file-word {
+  color: #007bff !important;
+}
+
+.fa-file-excel {
+  color: #198754 !important;
+}
+
+.fa-file-powerpoint {
+  color: #fd7e14 !important;
+}
+
+.fa-file-archive {
+  color: #6f42c1 !important;
+}
+
+/* Card hover effects */
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+/* Floating download button */
+.position-absolute .btn {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .col-lg-6.col-md-12 {
+    padding: 0 10px;
+  }
+  
+  .image-preview-container img {
+    max-height: 250px;
+  }
+}
+/* DataTables Custom Styling */
+.dtable-container {
+  margin-top: 20px;
+}
+
+.dtable-container table {
+  margin-bottom: 0;
+}
+
+/* DataTables pagination styling */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.375rem 0.75rem;
+  margin-left: 0.25rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  color: #495057;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  color: #212529;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: #007bff !important;
+  color: white !important;
+  border-color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.dataTables_wrapper .dataTables_info {
+  color: #6c757d;
+  font-size: 0.875rem;
+  padding-top: 0.75rem;
+}
+
+/* Table header styling */
+table.dataTable thead th {
+  background-color: #32CD32 !important;  /* Lime Green color */
+  color: white !important;
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.75rem;
+}
+
+/* Specific class for lime-green headers */
+.bg-lime-green thead th,
+.lime-green-header {
+  background-color: #32CD32 !important;
+  color: white !important;
+}
+
+/* DataTables header override */
+#tickets-table thead th {
+  background-color: #32CD32 !important;
+  color: white !important;
+}
+

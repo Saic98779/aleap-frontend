@@ -958,7 +958,7 @@ export class NonTrainingExpendituresComponent implements OnInit {
    getHeadOfExpenseId(val:any){
      this.GetItemsData=[]
      if(val){
-       this._commonService.getDataByUrl(APIS.programExpenditure.getItemByExpenses+'='+val,)?.subscribe({
+       this._commonService.getDataByUrl(APIS.programExpenditure.getItemByExpenses+'='+val+'?agencyId='+this.agencyId,)?.subscribe({
          next: (data: any) => {
           if(data){
             this.GetItemsData = data;

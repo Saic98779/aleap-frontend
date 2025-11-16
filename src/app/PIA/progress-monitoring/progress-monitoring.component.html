@@ -48,6 +48,8 @@
                   <th scope="col" class="text-center">Achievement</th>
                   <th scope="col" class="text-center">Percentage(%)</th>
                   <th scope="col" class="text-center">Budget Allocated (₹)</th>
+                  <th scope="col" class="text-center">Approved Expenditure (₹)</th>
+                  <th scope="col" class="text-center">Pending Expenditure (₹)</th>
                   <th scope="col" class="text-center">Expenditure (₹)</th>
                   <th scope="col" class="text-center">Percentage(%)</th>
                 </tr>
@@ -61,6 +63,8 @@
                   <td class="text-center">{{ training?.trainingAchievement || 0  }}</td>
                   <td class="text-center">{{ (training?.trainingPercentage || 0) | number:'1.0-2' }} %</td>
                   <td class="text-center">{{ (training?.budgetAllocated | commaSeperationIndia ) || 0 }}</td>
+                  <td class="text-center">{{ (training?.approvedExpenditure | commaSeperationIndia) || 'N/A' }}</td>
+                  <td class="text-center">{{ (training?.pendingExpenditure | commaSeperationIndia) || 'N/A' }}</td>
                   <td class="text-center">{{ (training?.expenditure | commaSeperationIndia) || 'N/A' }}</td>
                   <td class="text-center">{{ (training?.expenditurePercentage || 0) | number:'1.0-2' }} %</td>
                 </tr>
@@ -95,7 +99,9 @@
                   <th scope="col" class="text-center">Physical Achievement</th>
                   <th scope="col" class="text-center">Percentage(%)</th>
                   <th scope="col" class="text-center">Budget Allocated (₹)</th>
-                  <th scope="col" class="text-center">Financial Expenditure (₹)</th>
+                  <th scope="col" class="text-center">Approved Expenditure (₹)</th>
+                  <th scope="col" class="text-center">Pending Expenditure (₹)</th>
+                  <th scope="col" class="text-center">Expenditure (₹)</th>
                   <th scope="col" class="text-center">Percentage(%)</th>
                 </tr>
                 </thead>
@@ -108,6 +114,8 @@
                   <td class="text-center">{{ nonTraining?.physicalAchievement || 0 }}</td>
                   <td class="text-center">{{ nonTraining?.physicalPercentage || 0 }} %</td>
                   <td class="text-center">{{ (nonTraining?.financialTarget | commaSeperationIndia ) || 'N/A'  }}</td>
+                   <td class="text-center">{{ (nonTraining?.financialExpenditureApproved | commaSeperationIndia) || 'N/A' }}</td>
+                    <td class="text-center">{{ (nonTraining?.financialExpenditurePending | commaSeperationIndia) || 'N/A' }}</td>
                   <td class="text-center">{{ (nonTraining?.financialExpenditure | commaSeperationIndia  )|| 'N/A' }}</td>
                   <td class="text-center"> {{ nonTraining?.percentage || 0 }} %</td>
                 </tr>

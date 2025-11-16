@@ -73,7 +73,7 @@
                                 <thead class="bg-lime-green text-white">
                                     <tr>
                                        
-                                        <th>Edit</th>
+                                        <th *ngIf="loginsessionDetails.agencyId">Edit</th>
                                         <th>S.No</th>
                                         <th>Type Of Expenditure</th>
                                         <th>Head of Expense</th>
@@ -96,7 +96,7 @@
                                 <tbody *ngIf="getExpenditureDataBoth?.length">
                                     <tr  *ngFor="let item of getExpenditureDataBoth; let i=index">
                                          
-                                     <td class="text-center">
+                                     <td *ngIf="loginsessionDetails.agencyId" class="text-center">
                                         <button type="button" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}"  (click)="OpenModal('edit',item)"><span class="bi bi-pencil"></span></button>
                                     </td>
                                         <td class="text-start">{{i+1}}</td>
