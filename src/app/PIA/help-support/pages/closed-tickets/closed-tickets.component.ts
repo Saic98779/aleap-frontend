@@ -244,7 +244,7 @@ export class ClosedTicketsComponent implements OnInit {
         data: 'title',
         title: 'Title',
         className: 'text-start fw-bold text-wrap',
-        width: isAdminOrSpiu ? '15%' : '20%',
+        width: isAdminOrSpiu ? '15%' : '30%',
         render: function(data: any, type: any, row: any) {
       return `<span class="text-primary cursor-pointer" title="Click for details">${data || '-'}</span>`;
         }
@@ -253,7 +253,7 @@ export class ClosedTicketsComponent implements OnInit {
         data: 'ticketId',
         title: 'Ticket Id',
         className: 'text-start fw-bold',
-        width: isAdminOrSpiu ? '15%' : '20%',
+        width: isAdminOrSpiu ? '10%' : '10%',
         render: function(data: any, type: any, row: any) {
       return `<span  title="Click for details">${data || '-'}</span>`;
       }
@@ -384,7 +384,7 @@ export class ClosedTicketsComponent implements OnInit {
         width: isAdminOrSpiu ? '8%' : '10%'
       },
       {
-        data: 'createdAt',
+        data: 'updatedAt',
         title: 'Created On',
         render: function(data: any, type: any, row: any) {
       if (data) {

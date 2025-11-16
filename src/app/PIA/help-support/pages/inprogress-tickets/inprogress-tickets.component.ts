@@ -251,7 +251,7 @@ adminUpdateForm!: FormGroup;
           data: 'title',
           title: 'Title',
           className: 'text-start fw-bold text-wrap',
-          width: '20%',
+          width: '35%',
           render: function(data: any, type: any, row: any) {
         return `<span class="text-primary cursor-pointer" title="Click for details">${data || '-'}</span>`;
           }
@@ -260,7 +260,7 @@ adminUpdateForm!: FormGroup;
           data: 'ticketId',
           title: 'Ticket Id',
           className: 'text-start fw-bold',
-          width: '20%',
+          width: '10%',
           render: function(data: any, type: any, row: any) {
         return `<span  title="Click for details">${data || '-'}</span>`;
         }
@@ -390,7 +390,7 @@ adminUpdateForm!: FormGroup;
           width: '10%'
         },
         {
-          data: 'createdAt',
+          data: 'updatedAt',
           title: 'Created On',
           render: function(data: any, type: any, row: any) {
         if (data) {
@@ -643,9 +643,7 @@ previewFile(file: any, index: number): void {
 
   // Handle success response
   handleSuccess(): void {
-    this.adminAssigneeId=''
-    this.adminComment=''
-    this.adminStatus=''
+    
     this.resetForm();
     this.closeAllModel()
     this.loading = false;
@@ -692,15 +690,12 @@ previewFile(file: any, index: number): void {
     }
      }
      else{
-      console.log(this.loginsessionDetails?.userId)
-       this.adminAssigneeId=this.selectedTicketForDetails?.assigneeId
-      this.adminStatus=this.selectedTicketForDetails?.status
       this.adminUpdateForm.patchValue({
         adminAssigneeId: this.selectedTicketForDetails?.assigneeId,
         adminStatus: this.selectedTicketForDetails?.status,
         adminComment: '',
       });
-      this.loginsessionDetails?.userRole!='DEVELOPER' && this.loginsessionDetails?.userRole != 'SPIU' && this.loginsessionDetails?.userRole!='ADMIN'? this.adminAssigneeData=['admin@gmail.com']: this.loginsessionDetails?.userRole=='DEVELOPER'?this.adminAssigneeData=['admin@gmail.com'] :this.adminAssigneeData=['dev@gmail.com',ticket.reporterId]
+      (this.loginsessionDetails?.userRole!='DEVELOPER' && this.loginsessionDetails?.userRole != 'SPIU' && this.loginsessionDetails?.userRole!='ADMIN')? this.adminAssigneeData=['admin@gmail.com']: (this.loginsessionDetails?.userRole=='DEVELOPER' || this.loginsessionDetails?.agencyId)?this.adminAssigneeData=['admin@gmail.com'] :this.adminAssigneeData=['dev@gmail.com',ticket.reporterId]
      this.activeScreenTab=''
       const modalElement = document.getElementById('ticketDetailModalAdmin');
     if (modalElement) {
@@ -1012,9 +1007,7 @@ openFileInNewTab(file: any): void {
   }
 }
 // admin related comments
-adminAssigneeId:any=''
-adminComment:any=''
-adminStatus:any=''
+
 onAdminCommentSubmit(){
    if (this.adminUpdateForm.invalid) {
       this.markFormGroupTouched1(this.adminUpdateForm);
@@ -1026,7 +1019,7 @@ onAdminCommentSubmit(){
   let ticketData: any = {};
   let comments:any=[{message:formValue.adminComment,authorId:this.loginsessionDetails.userId}]
   ticketData = {
-    assigneeId: this.adminAssigneeId,
+    assigneeId: formValue.adminAssigneeId?formValue.adminAssigneeId:this.selectedTicketForDetails.assigneeId,
     status: formValue.adminStatus?formValue.adminStatus:this.selectedTicketForDetails.status,
     
   };

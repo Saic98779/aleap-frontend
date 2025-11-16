@@ -172,7 +172,7 @@
                 <label for="status" class="form-label">Status *</label>
                 <select id="status" formControlName="status" class="form-select"
                   [class.is-invalid]="f['status'].invalid && (f['status'].dirty || f['status'].touched)">
-                  <option value="">Select Status</option>
+                  <option value="" selected>Select Status</option>
                   <option *ngFor="let status of statuses" [value]="status">{{ status.replace('_', ' ') }}</option>
                 </select>
                 <div *ngIf="f['status'].invalid && (f['status'].dirty || f['status'].touched)" class="invalid-feedback">
@@ -795,18 +795,21 @@
               <h5 class="mb-2 fw-bold text-primary fs-8">{{ selectedTicketForDetails?.title }}</h5>
               <p class="text-muted mb-1">{{ selectedTicketForDetails?.description }}</p>
             </div>
-            <div class="col-md-4 text-end fw-600">
+             <div class="col-md-4 text-end fw-600">
               <div class="mb-2">
+                <span class="fw-bold fs-8">Status : </span>
                 <span class="badge fs-8" [ngClass]="getStatusBadgeClass(selectedTicketForDetails?.status)">
                   {{ selectedTicketForDetails?.status?.replace('_', ' ') }}
                 </span>
               </div>
               <div class="mb-2">
+                <span class="fw-bold fs-8">Priority : </span>
                 <span class="badge fs-8" [ngClass]="getPriorityBadgeClass(selectedTicketForDetails?.priority)">
                   {{ selectedTicketForDetails?.priority }}
                 </span>
               </div>
               <div>
+                <span class="fw-bold fs-8">Type : </span>
                 <span class="badge fs-8" [ngClass]="getTypeBadgeClass(selectedTicketForDetails?.type)">
                   {{ selectedTicketForDetails?.type }}
                 </span>
@@ -854,7 +857,7 @@
                 <label for="adminAssigneeId" class="form-label">Assignee <span class="text-danger">*</span></label>
                 <select id="adminAssigneeId" formControlName="adminAssigneeId" class="form-select"
                   [class.is-invalid]="adminUpdateFormControls['adminAssigneeId'].invalid && adminUpdateFormControls['adminAssigneeId'].touched">
-                  <option value="">Select Assignee</option>
+                  <option value="" selected>Select Assignee</option>
                   <option *ngFor="let assignee of adminAssigneeData" [value]="assignee">
                     {{ assignee }}
                   </option>
@@ -871,7 +874,7 @@
                 <label for="adminStatus" class="form-label">Status <span class="text-danger">*</span></label>
                 <select id="adminStatus" formControlName="adminStatus" class="form-select"
                   [class.is-invalid]="adminUpdateFormControls['adminStatus'].invalid && adminUpdateFormControls['adminStatus'].touched">
-                  <option value="">Select Status</option>
+                  <option value="" selected>Select Status</option>
                   <option *ngFor="let status of statuses" [value]="status">
                     {{ status.replace('_', ' ') }}
                   </option>
