@@ -515,7 +515,7 @@
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['updateOutcomes']"
                       style="position:static; background: #dfebeb;min-width:180px;">
                       <li><a class="dropdown-item" routerLink="/capture-outcome" routerLinkActive="active">Capture Outcome</a></li>
-                      <li><a class="dropdown-item isDisabled" routerLink="/shg-training"  routerLinkActive="active">SHG Training Status</a></li>
+                      <li><a class="dropdown-item" routerLink="/shg-training"  routerLinkActive="active">SHG Training Status</a></li>
                        <li > <a class="dropdown-item" routerLink="/view-Outcomes" routerLinkActive="active">View Outcomes</a> </li>
                     </ul>
                   </li>
@@ -581,7 +581,7 @@
                   </li>
                    
                   <!-- ESPD Training (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu isDisabled"  style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu "  style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('esdpTraining', $event)">
                       <span>ESDP Training</span>
@@ -617,7 +617,7 @@
                     </ul>
                   </li>
                   <!-- Counsellor (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu isDisabled" style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu " style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('counsellor', $event)">
                       <span>Counsellor</span>
@@ -635,7 +635,7 @@
                     </ul>
                   </li>
                   <!-- Others (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu isDisabled" style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('others', $event)">
                       <span>Others</span>
