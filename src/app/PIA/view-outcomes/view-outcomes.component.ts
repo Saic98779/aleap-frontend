@@ -281,7 +281,7 @@ export class ViewOutcomesComponent implements OnInit {
         { className: "text-center", targets: 0 }
       ],
         headerCallback: function(thead: any, data: any, start: any, end: any, display: any) {
-      $(thead).addClass('bg-lime-green text-white');
+      $(thead).addClass('bg-lime-green');
     },
       initComplete: function() {
         self.isTableInitialized = true;

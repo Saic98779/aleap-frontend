@@ -5,10 +5,10 @@
                 <div class="card-header bg-transparent">
                     <div class="row align-items-center">
                         <div class="col-12 col-sm-7 col-md-8 col-lg-6">
-                            <h6 class="fw-600 mb-2 mb-sm-0 text-green">View Programs</h6>
+                            <h6 class="fw-600 mb-2 mb-sm-0 text-green">DIC Login - View Programs by District</h6>
                         </div>
                         <ng-container >
-                                                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 custom-ui " style="margin-bottom: 2rem;">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 custom-ui " style="margin-bottom: 2rem;">
                             <mat-form-field appearance="outline" class="mb-3 w-100">
                             <mat-label>Select Date Range</mat-label>
                             <mat-date-range-input [rangePicker]="picker">
@@ -23,14 +23,14 @@
                             <div class="col-12 col-sm-5 col-md-4 col-lg-3">
                                 <!-- Material Select with Filter -->
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>List Of Agencies</mat-label>
-                                    <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="GetProgramsByAgency($event.value)">
-                                        <mat-select-filter [array]="agencyList" [displayMember]="'agencyName'"
+                                    <mat-label>List Of Districts</mat-label>
+                                    <mat-select [(ngModel)]="districtName" (selectionChange)="GetProgramsByAgency($event.value)">
+                                        <mat-select-filter [array]="agencyList" [displayMember]="'districtName'"
                                             (filteredReturn)="agencyListFiltered = $event">
                                         </mat-select-filter>
-                                        <mat-option value="-1">All Agencies</mat-option>
-                                        <mat-option *ngFor="let list of agencyListFiltered" [value]="list.agencyId">
-                                            {{ list.agencyName }}
+                                        <!-- <mat-option value="-1">All Agencies</mat-option> -->
+                                        <mat-option *ngFor="let list of agencyListFiltered" [value]="list.districtName">
+                                            {{ list.districtName }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>

@@ -75,7 +75,7 @@
                  <div class="table-container" #tableContainer>
                     <!-- all agency and all outcomes -->
                       <table class="table table-bordered table-striped" *ngIf="outcomeIds==-1 && selectedAgencyId==-1">
-                    <thead class="bg-lime-green text-white text-center fw-bold" style="font-weight: bolder !important;">
+                    <thead class="bg-lime-green text-center fw-bold" style="font-weight: bolder !important;">
                         <tr>
                             <th class="text-center" rowspan="2">S.No</th>
                             <th rowspan="2" class=" text-center sticky-col-1 " >Outcome Name</th>
@@ -116,7 +116,7 @@
                 </table>
                 <!-- except all agency and all outcomes -->
                  <table class="table table-bordered table-striped" *ngIf="!(outcomeIds==-1 && selectedAgencyId==-1)">
-                    <thead class="bg-lime-green text-white text-center ">
+                    <thead class="bg-lime-green text-center ">
                         <tr>
                             <th class="">S.No</th>
                             <th *ngIf="selectedAgencyId==-1 || outcomeIds!=-1" class="">Agency Name</th>
