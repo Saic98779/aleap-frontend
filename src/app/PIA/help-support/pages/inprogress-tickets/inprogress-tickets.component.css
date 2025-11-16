@@ -1,14 +1,14 @@
 /* Bootstrap styled components */
 .btn-lime-green {
-  background-color: #32cd32;
-  border-color: #32cd32;
-  color: white;
+  background-color: #f8bc81;
+  border-color: #f8bc81;
+  /* color: white; */
 }
 
 .btn-lime-green:hover {
-  background-color: #28a428;
-  border-color: #28a428;
-  color: white;
+  background-color: #f8bc81;
+  border-color: #f8bc81;
+  /* color: white; */
 }
 
 .fw-600 {
@@ -41,7 +41,7 @@
 }
 
 .table th {
-  background-color: limegreen;
+  background-color: #f8bc81;
   border-top: none;
   font-weight: 600;
   color: #ffffff;
@@ -72,7 +72,7 @@
 
 /* Modal and form styles */
 .modal-header {
-  background-color: limegreen;
+  background-color: #f8bc81;
 }
 
 .modal-title {
@@ -411,7 +411,7 @@
 
 /* Table header styling */
 table.dataTable thead th {
-  background-color: #32CD32 !important;  /* Lime Green color */
+  background-color: #f8bc81 !important;  /* Lime Green color */
   color: white !important;
   border-bottom: 1px solid #dee2e6;
   padding: 0.75rem;
@@ -420,13 +420,13 @@ table.dataTable thead th {
 /* Specific class for lime-green headers */
 .bg-lime-green thead th,
 .lime-green-header {
-  background-color: #32CD32 !important;
+  background-color: #f8bc81 !important;
   color: white !important;
 }
 
 /* DataTables header override */
 #tickets-table thead th {
-  background-color: #32CD32 !important;
+  background-color: #f8bc81 !important;
   color: white !important;
 }
 
