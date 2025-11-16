@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <table id="view-table" class="table table-borderless table-striped nowrap w-100">
-                        <thead class="bg-lime-green text-white">
+                        <thead class="bg-lime-green">
                             <tr>
                                 <th>S.No</th>
                                 <th>Type Of User</th>
@@ -107,6 +107,7 @@
                                     <option value="DEVELOPER">DEVELOPER</option>
                                     <option value="SPIU">SPIU</option>
                                     <option value="FINANCE">FINANCE</option>
+                                     <option value="DIC">DIC</option>
                                 </select>
                                 <label for="floatingSelect">Type Of User</label>
                                 <div *ngIf="f2['userRole'].touched && f2['userRole'].invalid" class="error"

@@ -8,5 +8,6 @@
     SPIU = 'SPIU',
     AGENCY_USER = "AGENCY_USER",
     DEVELOPER = "DEVELOPER",
-    FINANCE = "FINANCE"
+    FINANCE = "FINANCE",
+    DIC = "DIC"
 }

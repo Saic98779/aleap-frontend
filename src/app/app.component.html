@@ -655,7 +655,10 @@
                     <li *appHasRole="[Role.DEVELOPER,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.Admin,Role.SPIU]">
                     <a class="dropdown-item" routerLink="/help-support" routerLinkActive="active">Help Support</a>
                   </li> 
-                 
+                    <li *appHasRole="[Role.DIC]">
+                   <a class="dropdown-item" routerLink="/veiw-program-dic" routerLinkActive="active">View Program</a>
+                  </li> 
+                   
                    <li *appHasRole="[Role.FINANCE]">
                    <a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Expenditure
                           Verification</a>

@@ -71,6 +71,9 @@ export class LoginComponent implements OnInit {
                          else if(res?.data.userRole === Role.DEVELOPER) {
                             this.router.navigateByUrl('/help-support');
                         }
+                          else if(res?.data.userRole === Role.DIC) {
+                            this.router.navigateByUrl('/veiw-program-dic');
+                        }
                         else if(res?.data.userRole === Role.FINANCE) {
                             this.router.navigateByUrl('/expenditure-verification');
                         }

@@ -120,6 +120,7 @@ import { CommaSeperationIndiaPipe } from './common_components/comma-seperation-i
 import { NonTrainingExpendituresComponent } from './PIA/non-training-expenditures/non-training-expenditures.component';
 import { ClosedTicketsComponent } from './PIA/help-support/pages/closed-tickets/closed-tickets.component';
 import { InprogressTicketsComponent } from './PIA/help-support/pages/inprogress-tickets/inprogress-tickets.component';
+import { ViewProgramDicComponent } from './PIA/view-program-dic/view-program-dic.component';
 @NgModule({
     imports: [
         MaterialModule,
@@ -243,7 +244,8 @@ import { InprogressTicketsComponent } from './PIA/help-support/pages/inprogress-
         CommaSeperationIndiaPipe,
         NonTrainingExpendituresComponent,
         ClosedTicketsComponent,
-        InprogressTicketsComponent
+        InprogressTicketsComponent,
+        ViewProgramDicComponent
 
     ],
     exports:[MaterialModule,

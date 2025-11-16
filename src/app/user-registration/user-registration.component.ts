@@ -101,6 +101,8 @@ export class UserRegistrationComponent implements OnInit,AfterViewInit {
       if(this.RegisterForm.value.userRole === 'ADMIN' 
         || this.RegisterForm.value.userRole === 'CALL_CENTER'
         || this.RegisterForm.value.userRole === 'DEPARTMENT'
+        || this.RegisterForm.value.userRole === 'FINANCE'
+        || this.RegisterForm.value.userRole === 'DIC'
         || this.RegisterForm.value.userRole === 'SPIU') {
         url = APIS.userRegistration.add;
         payload = {
