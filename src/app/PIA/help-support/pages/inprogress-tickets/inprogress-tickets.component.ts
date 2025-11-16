@@ -625,7 +625,7 @@ previewFile(file: any, index: number): void {
         });
       } else {
         const formData = new FormData();
-        formData.append('ticket', JSON.stringify({...ticketData, comments:comments, assigneeId: (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') ?ticketData?.assigneeId:'spiu@gmail.com',reporterId:this.loginsessionDetails.userId}));
+        formData.append('ticket', JSON.stringify({...ticketData, comments:comments, assigneeId: (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') ? ticketData?.assigneeId:'spiu@gmail.com',reporterId:this.loginsessionDetails.userId}));
         this.commonService.add(APIS.tickets.save, formData).subscribe({
           next: (response: any) => {
             this.toastrService.success('Ticket created successfully!');
@@ -887,7 +887,7 @@ previewFile(file: any, index: number): void {
       priority: 'LOW',
       status: 'CREATED',
       type: 'SUPPORT',
-      assigneeId: [this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'?'dev@gmail.com':'spiu@gmail.com',],
+      assigneeId: this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'?'dev@gmail.com':'spiu@gmail.com',
     });
     this.selectedTicket = null;
     const fileInput = document.getElementById('files') as HTMLInputElement;
