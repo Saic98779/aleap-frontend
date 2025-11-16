@@ -1069,7 +1069,8 @@
                 <div class="comment-list" style="max-height: 400px; overflow-y: auto;">
                   <div class="card mb-3" *ngFor="let comment of selectedTicketForDetails?.comments">
                     <div class="card-body p-3">
-                      <div class="d-flex align-items-start">
+                     
+                       <div class="d-flex align-items-start">
                         <div
                           class="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
                           style="width: 40px; height: 40px; min-width: 40px;">
@@ -1077,11 +1078,11 @@
                         </div>
                         <div class="flex-grow-1">
                           <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0 fw-bold">{{ comment.authorName }}</h6>
+                            <h6 class="mb-0 fw-bold">{{ comment.message }}</h6>
                             <small class="text-muted">{{ comment.createdAt }}</small>
                           </div>
-                          <p class="mb-0">{{ comment.message }}</p>
-                          <small class="text-muted">{{ comment.authorId }}</small>
+                          <!-- <p class="mb-0">{{ comment.message }}</p> -->
+                          <small class="text-muted">{{ comment.authorName }}</small>
                         </div>
                       </div>
                     </div>
