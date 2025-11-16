@@ -12,7 +12,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: #07C540 !important; /* Keep the lime-green color */
+  /* background-color: #07C540 !important;  */
   border-bottom: 2px solid #1e7e34;
 }
 

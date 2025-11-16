@@ -64,7 +64,7 @@
 
 .table-container thead th {
   position: sticky;
-  background-color: #8dc63f; /* Match .bg-lime-green */
+  background-color: #fdd4a8; /* Match .bg-lime-green */
   z-index: 2;
 }
 
@@ -129,7 +129,7 @@
 
 .table-container thead th {
   position: sticky;
-  background-color: #8dc63f; /* Match .bg-lime-green */
+  background-color: #fdd4a8; /* Match .bg-lime-green */
   z-index: 2;
 }
 
@@ -153,7 +153,7 @@
 /* Make sure thead cells have borders */
 .table-container thead th {
   position: sticky;
-  background-color: #07c540; /* Match .bg-lime-green */
+  background-color: #fdd4a8; /* Match .bg-lime-green */
   z-index: 2;
   /* Add border to all sides */
   border: 1px solid #dee2e6 !important;
