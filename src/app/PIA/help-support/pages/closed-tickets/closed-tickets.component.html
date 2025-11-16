@@ -165,9 +165,9 @@
                   </ng-container>
                   
                   <option *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'" value="dev@gmail.com">dev@gmail.com</option>
-                  <option *ngIf="loginsessionDetails?.userRole=='DEVELOPER'" value="spiu@gmail.com">spiu@gmail.com
+                  <option *ngIf="loginsessionDetails?.userRole=='DEVELOPER'" value="admin@gmail.com">admin@gmail.com
                   </option>
-                  <option *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'SPIU'  && loginsessionDetails?.userRole != 'DEVELOPER'" value="spiu@gmail.com">spiu@gmail.com</option>
+                  <option *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'SPIU'  && loginsessionDetails?.userRole != 'DEVELOPER'" value="admin@gmail.com">admin@gmail.com</option>
                 </select>
                 <div *ngIf="f['assigneeId'].invalid && (f['assigneeId'].dirty || f['assigneeId'].touched)"
                   class="invalid-feedback">
@@ -1040,11 +1040,11 @@
                         </div>
                         <div class="flex-grow-1">
                           <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0 fw-bold">{{ comment.authorName }}</h6>
+                            <h6 class="mb-0 fw-bold">{{ comment.message }}</h6>
                             <small class="text-muted">{{ comment.createdAt }}</small>
                           </div>
-                          <p class="mb-0">{{ comment.message }}</p>
-                          <small class="text-muted">{{ comment.authorId }}</small>
+                          <!-- <p class="mb-0">{{ comment.message }}</p> -->
+                          <small class="text-muted">{{ comment.authorName }}</small>
                         </div>
                       </div>
                     </div>

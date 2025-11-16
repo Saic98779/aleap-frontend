@@ -76,7 +76,7 @@ export class ClosedTicketsComponent implements OnInit {
        status: ['CREATED', [Validators.required]],
        type: ['SUPPORT', [Validators.required]],
        message:[''],
-       assigneeId: [this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'?'dev@gmail.com':'spiu@gmail.com',],
+       assigneeId: [this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'?'dev@gmail.com':'admin@gmail.com',],
        reporterId:[this.loginsessionDetails.userId],
        assigneeName: ['',]
      });
@@ -600,7 +600,7 @@ export class ClosedTicketsComponent implements OnInit {
        // Create new ticket
        if (this.selectedFiles.length > 0) {
          const formData = new FormData();
-         formData.append('ticket', JSON.stringify({...ticketData, comments:comments, assigneeId: (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') ?ticketData?.assigneeId:'spiu@gmail.com',reporterId:this.loginsessionDetails.userId}));
+         formData.append('ticket', JSON.stringify({...ticketData, comments:comments, assigneeId: (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') ?ticketData?.assigneeId:'admin@gmail.com',reporterId:this.loginsessionDetails.userId}));
          this.selectedFiles.forEach((file: any) => {
            formData.append('files', file);
          });
@@ -618,7 +618,7 @@ export class ClosedTicketsComponent implements OnInit {
          });
        } else {
          const formData = new FormData();
-         formData.append('ticket', JSON.stringify({...ticketData, comments:comments, assigneeId: (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') ?ticketData?.assigneeId:'spiu@gmail.com',reporterId:this.loginsessionDetails.userId}));
+         formData.append('ticket', JSON.stringify({...ticketData, comments:comments, assigneeId: (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') ?ticketData?.assigneeId:'admin@gmail.com',reporterId:this.loginsessionDetails.userId}));
          this.commonService.add(APIS.tickets.save, formData).subscribe({
            next: (response: any) => {
              this.toastrService.success('Ticket created successfully!');
@@ -693,7 +693,7 @@ export class ClosedTicketsComponent implements OnInit {
          adminStatus: this.selectedTicketForDetails?.status,
          adminComment: '',
        });
-       this.loginsessionDetails?.userRole!='DEVELOPER' && this.loginsessionDetails?.userRole != 'SPIU' && this.loginsessionDetails?.userRole!='ADMIN'? this.adminAssigneeData=['spiu@gmail.com']: this.loginsessionDetails?.userRole=='DEVELOPER'?this.adminAssigneeData=['spiu@gmail.com'] :this.adminAssigneeData=['dev@gmail.com',ticket.reporterId]
+       this.loginsessionDetails?.userRole!='DEVELOPER' && this.loginsessionDetails?.userRole != 'SPIU' && this.loginsessionDetails?.userRole!='ADMIN'? this.adminAssigneeData=['admin@gmail.com']: this.loginsessionDetails?.userRole=='DEVELOPER'?this.adminAssigneeData=['admin@gmail.com'] :this.adminAssigneeData=['dev@gmail.com',ticket.reporterId]
       this.activeScreenTab=''
        const modalElement = document.getElementById('ticketDetailModalAdminClosed');
      if (modalElement) {
@@ -880,7 +880,7 @@ export class ClosedTicketsComponent implements OnInit {
        priority: 'LOW',
        status: 'CREATED',
        type: 'SUPPORT',
-       assigneeId: [this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'?'dev@gmail.com':'spiu@gmail.com',],
+       assigneeId: [this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'?'dev@gmail.com':'admin@gmail.com',],
      });
      this.selectedTicket = null;
      const fileInput = document.getElementById('files') as HTMLInputElement;

@@ -106,7 +106,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title " id="addTicketModalLabel">{{ isEditMode ? 'Update' : 'Add' }} Ticket</h6>
+        <h6 class="modal-title" id="addTicketModalLabel" >{{ isEditMode ? 'Update' : 'Add' }} Ticket</h6>
         <button type="button" class="btn-close me-1" aria-label="Close" data-bs-dismiss="modal"
           (click)="resetTicketForm()"></button>
       </div>
@@ -196,11 +196,11 @@
 
                   <option *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'"
                     value="dev@gmail.com">dev@gmail.com</option>
-                  <option *ngIf="loginsessionDetails?.userRole=='DEVELOPER'" value="spiu@gmail.com">spiu@gmail.com
+                  <option *ngIf="loginsessionDetails?.userRole=='DEVELOPER'" value="admin@gmail.com">admin@gmail.com
                   </option>
                   <option
                     *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'SPIU'  && loginsessionDetails?.userRole != 'DEVELOPER'"
-                    value="spiu@gmail.com">spiu@gmail.com</option>
+                    value="admin@gmail.com">admin@gmail.com</option>
                 </select>
                 <div *ngIf="f['assigneeId'].invalid && (f['assigneeId'].dirty || f['assigneeId'].touched)"
                   class="invalid-feedback">
