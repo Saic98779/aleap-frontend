@@ -47,16 +47,16 @@ togglePanel() {
     // CALL_CENTER
     let url:any= ''
     if(this.userDetails.userRole=='AGENCY_MANAGER' || this.userDetails.userRole=='AGENCY_EXECUTOR'){ 
-        url=APIS.notificationDisplay.getNotificationDisplayByAgency + this.userDetails.agencyId
+        url=APIS.notificationDisplay.getNotificationDisplayByRole + 'AGENCY'
     }
     else{
-        url=APIS.notificationDisplay.getNotificationDisplayByCallCenter+this.userDetails.userId;
+        url=APIS.notificationDisplay.getNotificationDisplayByRole+this.userDetails.userRole;
     }
     
     this.commonService.getDataByUrl(url)
       .subscribe((res: any) => {
-        if (res && res['remarks'].length > 0) {
-          this.notificationsList = res['remarks'];
+        if (res && res.data['messages'].length > 0) {
+          this.notificationsList = res.data['messages'];
           this.notificationCount = this.notificationsList.length;
         } else {
           this.notificationsList = [];

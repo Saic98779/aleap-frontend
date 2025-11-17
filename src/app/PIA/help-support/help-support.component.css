@@ -1,0 +1,6 @@
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    color: #0b0f13;
+    background-color: var(--bs-nav-tabs-link-active-bg);
+    border-color: var(--bs-nav-tabs-link-active-border-color);
+}

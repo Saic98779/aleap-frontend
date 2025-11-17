@@ -75,9 +75,7 @@
   background-color: #f8bc81;
 }
 
-.modal-title {
-  color: white !important;
-}
+
 .badge-type-bug{
    background-color: #dc3545 !important;
   color: white !important; 
@@ -421,7 +419,7 @@ table.dataTable thead th {
 .bg-lime-green thead th,
 .lime-green-header {
   background-color: #f8bc81 !important;
-  color: white !important;
+  /* color: white !important; */
 }
 
 /* DataTables header override */

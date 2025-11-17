@@ -427,7 +427,7 @@
         <h6 class="modal-title" id="ticketDetailModalLabel">
           <i class="fas fa-ticket-alt me-2"></i>Ticket Details
         </h6>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
           (click)="closeAllModel()"></button>
       </div>
       <div class="modal-body p-0" *ngIf="selectedTicketForDetails">
@@ -541,7 +541,7 @@
                           <div class="file-info d-flex align-items-center">
                             <i [class]="getFileIcon(attachment.filePath)" class="me-2 fa-lg text-primary"></i>
                             <div>
-                              <h6 class="mb-0 fw-bold">{{ attachment.filePath }}</h6>
+                              <h6 class="mb-0 fw-bold">{{ attachment.fileName }}</h6>
                               <small class="text-muted">{{ attachment.contentType }}</small>
                               <small class="text-muted ms-2" *ngIf="attachment.fileSize">
                                 ({{ formatFileSize(attachment.fileSize) }})
@@ -748,9 +748,9 @@
     <div class="modal-content" style="font-size:12px !important">
       <div class="modal-header bg-lime-green py-2">
         <h6 class="modal-title" id="ticketDetailModalAdminLabel">
-          <i class="fas fa-ticket-alt me-2"></i>Ticket Details
+          <i class="fas fa-ticket-alt me-2 "></i>Ticket Details
         </h6>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeAllModel()"></button>
       </div>
       <div class="modal-body p-0" *ngIf="selectedTicketForDetails">
@@ -942,7 +942,7 @@
                           <div class="file-info d-flex align-items-center">
                             <i [class]="getFileIcon(attachment.filePath)" class="me-2 fa-lg text-primary"></i>
                             <div>
-                              <h6 class="mb-0 fw-bold">{{ attachment.filePath }}</h6>
+                              <h6 class="mb-0 fw-bold">{{ attachment.fileName }}</h6>
                               <small class="text-muted">{{ attachment.contentType }}</small>
                               <small class="text-muted ms-2" *ngIf="attachment.fileSize">
                                 ({{ formatFileSize(attachment.fileSize) }})
@@ -974,7 +974,7 @@
                             <!-- Floating Download Button for Images -->
                             <div class="position-absolute top-0 end-0 m-2">
                               <a [href]="getFileDownloadUrl(attachment)" target="_blank"
-                                class="btn btn-dark btn-sm opacity-75 rounded-circle"
+                                class="btn btn-lime-green btn-sm opacity-75 rounded-circle"
                                 title="Download {{ attachment.filePath }}" style="backdrop-filter: blur(10px);">
                                 <i class="fas fa-download"></i>
                               </a>

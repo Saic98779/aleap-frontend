@@ -282,6 +282,7 @@ export const APIS = {
     notificationDisplay:{
         getNotificationDisplayByAgency: API_BASE_URL + '/notifications/agency/remarks/',
         getNotificationDisplayByCallCenter: API_BASE_URL + '/notifications/callcenter/remarks/',
+        getNotificationDisplayByRole: API_BASE_URL + '/api/notifications/role/',
         getNotificationByAgency: API_BASE_URL + '/notifications/agency/',
         getNotificationByCallCenter: API_BASE_URL + '/notifications/callcenter/',
         getNotifications: API_BASE_URL + '/notifications/by-user',

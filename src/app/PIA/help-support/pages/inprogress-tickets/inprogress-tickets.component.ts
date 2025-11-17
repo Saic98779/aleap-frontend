@@ -678,8 +678,8 @@ previewFile(file: any, index: number): void {
      this.closeAllModel()
      if( this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'SPIU' && this.loginsessionDetails?.userRole!='DEVELOPER'){
        this.adminUpdateForm.patchValue({
-        adminAssigneeId: this.selectedTicketForDetails?.assigneeId,
-        adminStatus: this.selectedTicketForDetails?.status,
+        adminAssigneeId: '',
+        adminStatus: this.statuses.includes(this.selectedTicketForDetails?.status)?this.selectedTicketForDetails?.status:'',
         adminComment: '',
       });
       this.activeScreenTab=''
@@ -691,8 +691,8 @@ previewFile(file: any, index: number): void {
      }
      else{
       this.adminUpdateForm.patchValue({
-        adminAssigneeId: this.selectedTicketForDetails?.assigneeId,
-        adminStatus: this.selectedTicketForDetails?.status,
+        adminAssigneeId: '',
+        adminStatus: this.statuses.includes(this.selectedTicketForDetails?.status)?this.selectedTicketForDetails?.status:'',
         adminComment: '',
       });
       (this.loginsessionDetails?.userRole!='DEVELOPER' && this.loginsessionDetails?.userRole != 'SPIU' && this.loginsessionDetails?.userRole!='ADMIN')? this.adminAssigneeData=['admin@gmail.com']: (this.loginsessionDetails?.userRole=='DEVELOPER' || this.loginsessionDetails?.agencyId)?this.adminAssigneeData=['admin@gmail.com'] :this.adminAssigneeData=['dev@gmail.com',ticket.reporterId]
@@ -765,8 +765,6 @@ previewFile(file: any, index: number): void {
  readonly BASE_URL = 'https://metaverseedu.in/';
   // File download URL method
   getFileDownloadUrl(file: any): string {
-    
-
     if (file.filePath) {
       // Convert Windows path to URL format
       let urlPath = file.filePath.replace(/\\/g, '/');
@@ -774,7 +772,7 @@ previewFile(file: any, index: number): void {
       if (urlPath.includes('public_html')) {
         urlPath = urlPath.substring(urlPath.indexOf('public_html') + 11);
       }
-      console.log('Generated file download URL:', `${this.BASE_URL}${urlPath}`);
+      // console.log('Generated file download URL:', `${this.BASE_URL}${urlPath}`);
       return `${this.BASE_URL}${urlPath}`;
     }
     return '';

@@ -182,31 +182,29 @@
             </div>
             <div class="col-md-6"
               *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU' || loginsessionDetails?.userRole=='DEVELOPER'">
-              <div class="form-group mb-3">
+            <div class="form-group mb-3">
                 <label for="assigneeId" class="form-label">Assignee *</label>
                 <select id="assigneeId" formControlName="assigneeId" class="form-select"
-                  [class.is-invalid]="f['assigneeId'].invalid && (f['assigneeId'].dirty || f['assigneeId'].touched)">
-                  <option value="" selected>Select Assignee</option>
-                  <ng-container
-                    *ngIf="loginsessionDetails?.userRole=='ADMIN' || loginsessionDetails?.userRole == 'SPIU' ">
-                    <option *ngFor="let assignee of getAssineeData" [value]="assignee">
-                      {{ assignee }}
+                    [class.is-invalid]="f['assigneeId'].invalid && (f['assigneeId'].dirty || f['assigneeId'].touched)">
+                    <option value="" disabled selected>Select Assignee</option>
+                    <ng-container *ngIf="loginsessionDetails?.userRole=='ADMIN' || loginsessionDetails?.userRole == 'SPIU' ">
+                        <option *ngFor="let assignee of getAssineeData" [value]="assignee">
+                            {{ assignee }}
+                        </option>
+                    </ng-container>
+                    <option *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'"
+                        value="dev@gmail.com">dev@gmail.com</option>
+                    <option *ngIf="loginsessionDetails?.userRole=='DEVELOPER'" value="admin@gmail.com">admin@gmail.com
                     </option>
-                  </ng-container>
-
-                  <option *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'"
-                    value="dev@gmail.com">dev@gmail.com</option>
-                  <option *ngIf="loginsessionDetails?.userRole=='DEVELOPER'" value="admin@gmail.com">admin@gmail.com
-                  </option>
-                  <option
-                    *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'SPIU'  && loginsessionDetails?.userRole != 'DEVELOPER'"
-                    value="admin@gmail.com">admin@gmail.com</option>
+                    <option
+                        *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'SPIU'  && loginsessionDetails?.userRole != 'DEVELOPER'"
+                        value="admin@gmail.com">admin@gmail.com</option>
                 </select>
                 <div *ngIf="f['assigneeId'].invalid && (f['assigneeId'].dirty || f['assigneeId'].touched)"
-                  class="invalid-feedback">
-                  <div *ngIf="f['assigneeId'].errors?.['required']">Assignee is required</div>
+                    class="invalid-feedback">
+                    <div *ngIf="f['assigneeId'].errors?.['required']">Assignee is required</div>
                 </div>
-              </div>
+            </div>
             </div>
           </div>
 
@@ -437,7 +435,7 @@
                 title="Preview File">
                 <i class="fas fa-eye"></i>
               </button>
-              <a [href]="getFileDownloadUrl(file)" target="_blank" class="btn btn-outline-success btn-sm"
+              <a [href]="getFileDownloadUrl(file)" target="_blank" class="btn btn-lime-green btn-sm"
                 title="Download File">
                 <i class="fas fa-download"></i>
               </a>
@@ -461,7 +459,7 @@
         <h6 class="modal-title" id="ticketDetailModalLabel">
           <i class="fas fa-ticket-alt me-2"></i>Ticket Details
         </h6>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
           (click)="closeAllModel()"></button>
       </div>
       <div class="modal-body p-0" *ngIf="selectedTicketForDetails">
@@ -575,7 +573,7 @@
                           <div class="file-info d-flex align-items-center">
                             <i [class]="getFileIcon(attachment.filePath)" class="me-2 fa-lg text-primary"></i>
                             <div>
-                              <h6 class="mb-0 fw-bold">{{ attachment.filePath }}</h6>
+                              <h6 class="mb-0 fw-bold">{{ attachment.fileName }}</h6>
                               <small class="text-muted">{{ attachment.contentType }}</small>
                               <small class="text-muted ms-2" *ngIf="attachment.fileSize">
                                 ({{ formatFileSize(attachment.fileSize) }})
@@ -607,7 +605,7 @@
                             <!-- Floating Download Button for Images -->
                             <div class="position-absolute top-0 end-0 m-2">
                               <a [href]="getFileDownloadUrl(attachment)" target="_blank"
-                                class="btn btn-dark btn-sm opacity-75 rounded-circle"
+                                class="btn btn-lime-green  btn-sm opacity-75 rounded-circle"
                                 title="Download {{ attachment.filePath }}" style="backdrop-filter: blur(10px);">
                                 <i class="fas fa-download"></i>
                               </a>
@@ -784,7 +782,7 @@
         <h6 class="modal-title" id="ticketDetailModalAdminLabel">
           <i class="fas fa-ticket-alt me-2"></i>Ticket Details
         </h6>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
           (click)="closeAllModel()"></button>
       </div>
       <div class="modal-body p-0" *ngIf="selectedTicketForDetails">
@@ -857,7 +855,7 @@
                 <label for="adminAssigneeId" class="form-label">Assignee <span class="text-danger">*</span></label>
                 <select id="adminAssigneeId" formControlName="adminAssigneeId" class="form-select"
                   [class.is-invalid]="adminUpdateFormControls['adminAssigneeId'].invalid && adminUpdateFormControls['adminAssigneeId'].touched">
-                  <option value="" selected>Select Assignee</option>
+                    <option value="" selected>Select Assignee</option>
                   <option *ngFor="let assignee of adminAssigneeData" [value]="assignee">
                     {{ assignee }}
                   </option>
@@ -961,7 +959,7 @@
                           <div class="file-info d-flex align-items-center">
                             <i [class]="getFileIcon(attachment.filePath)" class="me-2 fa-lg text-primary"></i>
                             <div>
-                              <h6 class="mb-0 fw-bold">{{ attachment.filePath }}</h6>
+                              <h6 class="mb-0 fw-bold">{{ attachment.fileName }}</h6>
                               <small class="text-muted">{{ attachment.contentType }}</small>
                               <small class="text-muted ms-2" *ngIf="attachment.fileSize">
                                 ({{ formatFileSize(attachment.fileSize) }})
@@ -993,7 +991,7 @@
                             <!-- Floating Download Button for Images -->
                             <div class="position-absolute top-0 end-0 m-2">
                               <a [href]="getFileDownloadUrl(attachment)" target="_blank"
-                                class="btn btn-dark btn-sm opacity-75 rounded-circle"
+                                class="btn btn-lime-green  btn-sm opacity-75 rounded-circle"
                                 title="Download {{ attachment.filePath }}" style="backdrop-filter: blur(10px);">
                                 <i class="fas fa-download"></i>
                               </a>
