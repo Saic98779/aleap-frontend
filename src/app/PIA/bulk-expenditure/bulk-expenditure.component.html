@@ -16,7 +16,7 @@
                 </div>
                 <div class="card-body">   
                   <table id="expenditure-table-bulk" class="table table-bordered nowrap w-100">
-                        <thead class="bg-lime-green text-white">
+                        <thead class="bg-lime-green">
                             <tr>
                                 <th>S.No</th>
                                 <th>Head of Expense</th>
@@ -103,7 +103,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">{{isEdit?'Edit':'Add'}} Bulk Expenditure</h6>
+                <h6 class="modal-title" id="addResourceLabel">{{isEdit?'Edit':'Add'}} Bulk Expenditure</h6>
                 <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -325,7 +325,7 @@ aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">Image Preview</h6>
+                <h6 class="modal-title" id="addResourceLabel">Image Preview</h6>
                 
                 <a href="{{imagePreviewUrl}}" style="margin-left: 491px;" target="_blank" class="btn btn-secondary" *ngIf="imagePreviewUrl">Download</a>
                 

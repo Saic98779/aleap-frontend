@@ -1,0 +1,427 @@
+<main class="mt-4">
+    <section>
+        <div class="container-fluid">
+            <div class="card mb-3">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-7 col-md-8 col-lg-6">
+                            <h6 class="fw-600 mb-2 mb-sm-0 text-green">DIC Login - View Programs by District</h6>
+                        </div>
+                        <ng-container >
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 custom-ui " style="margin-bottom: 2rem;">
+                            <mat-form-field appearance="outline" class="mb-3 w-100">
+                            <mat-label>Select Date Range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="dateRange.start" (dateChange)="onDateRangeChange()">
+                                <input matEndDate placeholder="End date" [(ngModel)]="dateRange.end" (dateChange)="onDateRangeChange()">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                        
+                    </div>
+                            <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+                                <!-- Material Select with Filter -->
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>List Of Districts</mat-label>
+                                    <mat-select [(ngModel)]="districtName" (selectionChange)="GetProgramsByAgency($event.value)">
+                                        <mat-select-filter [array]="agencyList" [displayMember]="'districtName'"
+                                            (filteredReturn)="agencyListFiltered = $event">
+                                        </mat-select-filter>
+                                        <!-- <mat-option value="-1">All Agencies</mat-option> -->
+                                        <mat-option *ngFor="let list of agencyListFiltered" [value]="list.districtName">
+                                            {{ list.districtName }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <!-- Bootstrap Fallback (commented out) -->
+                                <!-- <label for="Agencies" style="font-weight: 600;">List Of Agencies</label>
+                                <select class="form-select" id="Agencies" [(ngModel)]="selectedAgencyId"    
+                                    (change)="GetProgramsByAgency($any($event.target).value)">
+                                    <option value="-1"> All Agencies</option>
+                                    <option *ngFor="let list of agencyList" value="{{list.agencyId}}">
+                                        {{list.agencyName}}</option>
+                                </select> -->
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                     
+                        <!-- <div class="col-12 col-12 col-sm-6 col-md-6 col-lg-6 text-end">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Download Programs
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" (click)="downloadProgram('excel')" href="javascript:void(0)">
+                                            Excel
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" (click)="downloadProgram('pdf')" href="javascript:void(0)">
+                                            PDF
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            &nbsp;&nbsp;
+                            <button type="button"  (click)="openFileUploadModal()" class="btn btn-lime-green" >Upload Programs</button>
+                        </div> -->
+                    </div>
+                    <div class="row mb-3 g-2">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-primary]="StatusData !== 'programsScheduled'"
+                                 [class.bg-dark]="StatusData === 'programsScheduled'"
+                                 [class.border-3]="StatusData === 'programsScheduled'"
+                                 [class.border-primary]="StatusData === 'programsScheduled'"
+                                 (click)="getProgramsByStatus('programsScheduled')" 
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Total Programs Scheduled</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programScheduled || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsScheduled'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-warning]="StatusData !== 'programsInProcess'"
+                                 [class.bg-dark]="StatusData === 'programsInProcess'"
+                                 [class.border-3]="StatusData === 'programsInProcess'"
+                                 [class.border-warning]="StatusData === 'programsInProcess'"
+                                 (click)="getProgramsByStatus('programsInProcess')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs In-Progress</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programInProcess || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsInProcess'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-success]="StatusData !== 'programsCompleted'"
+                                 [class.bg-dark]="StatusData === 'programsCompleted'"
+                                 [class.border-3]="StatusData === 'programsCompleted'"
+                                 [class.border-success]="StatusData === 'programsCompleted'"
+                                 (click)="getProgramsByStatus('programsCompleted')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Completed & Data Uploaded</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompleted || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsCompleted'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [ngClass]="StatusData === 'programsCompletedDataPending' ? 'bg-dark border-3' : ''"
+                                 [style.background-color]="StatusData !== 'programsCompletedDataPending' ? 'chocolate' : ''"
+                                 [style.border-color]="StatusData === 'programsCompletedDataPending' ? 'chocolate' : ''"
+                                 (click)="getProgramsByStatus('programsCompletedDataPending')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Completed - Data Pending</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompletedDataPending || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsCompletedDataPending'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-danger]="StatusData !== 'programsOverdue'"
+                                 [class.bg-dark]="StatusData === 'programsOverdue'"
+                                 [class.border-3]="StatusData === 'programsOverdue'"
+                                 [class.border-danger]="StatusData === 'programsOverdue'"
+                                 (click)="getProgramsByStatus('programsOverdue')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Over Due</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programOverDue || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsOverdue'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-info]="StatusData !== 'programsYetToBegin'"
+                                 [class.bg-dark]="StatusData === 'programsYetToBegin'"
+                                 [class.border-3]="StatusData === 'programsYetToBegin'"
+                                 [class.border-info]="StatusData === 'programsYetToBegin'"
+                                 (click)="getProgramsByStatus('programsYetToBegin')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Yet To Begin</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programYetBegin || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsYetToBegin'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dtable-container">
+                        <table id="view-program" class="display nowrap" style="width:100%">
+                            <thead class="bg-lime-green">
+                                <tr>
+
+                                    <th>S.No</th>
+                                    <th>Actions</th>
+                                    <th>Status</th>
+                                    <th>agency Name</th>
+                                    <th>Type Of Activity</th>
+                                    <th>Sub Activity</th>
+                                    <th>Budget Head</th>
+                                    <th>District</th>
+                                    <th>Title Of Program</th>
+                                    <!-- <th>No. Of Days</th> -->
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>In Time</th>
+                                    <!-- <th>Out Time</th> -->
+                                    <th>SPOC Name</th>
+                                    <th>SPOC Contact No.</th>
+                                    <th>Program Location</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of tableList; let i = index">
+
+                                    <td>{{ i + 1 }}</td>
+                                    <td *ngIf="loginsessionDetails?.userRole == 'AGENCY_MANAGER' || loginsessionDetails?.userRole == 'AGENCY_EXECUTOR'
+                                    || loginsessionDetails?.userRole == 'ADMIN'">
+                                        <!-- (click)="sessionDetails(item)" data-bs-toggle="modal" data-bs-target="#viewModal" -->
+                                        <button type="button" class="btn btn-default btn-sm text-lime-green"
+                                            title="Sessions" data-bs-toggle="modal" data-bs-target="#viewModal"
+                                            (click)="sessionDetails(item)" title="View"><span
+                                                class="bi bi-eye"></span></button>
+                                        <!-- <button type="button" class="btn btn-default btn-sm text-primary mx-2" title="Edit" (click)="editProgram(item)"><span class="bi bi-pencil"></span></button> -->
+                                        <!-- <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button> -->
+                                    </td>
+                                    <td>{{ item.status }}</td>
+                                    <td>{{ item.activityName }}</td>
+                                    <td>{{ item.subActivityName }}</td>
+                                    <td>{{ item.programType }}</td>
+                                    <!-- <td>{{ item.programDetails }}</td> -->
+                                    <td>{{ item.programTitle }}</td>
+                                    <!-- <td>{{ item.noOfDays }}</td> -->
+                                    <td>{{ item.startDate }}</td>
+                                    <td>{{ item.endDate }}</td>
+                                    <td class="text-center">{{ item.startTime }}</td>
+                                    <!-- <td class="text-center">{{ item.endTime }}</td> -->
+                                    <td>{{ item.spocName }}</td>
+                                    <td>{{ item.spocContactNo }}</td>
+                                    <td>{{ item.programLocationName }}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- begin:: view modal -->
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="addResourceLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header py-2">
+                <h6 class="modal-title" id="addResourceLabel">View Session Details</h6>
+                <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-lime-green">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Type Of Session</th>
+                            <th>Methodology</th>
+                            <!-- <th>Session Details</th> -->
+                            <th>Resource Person</th>
+                            <th>Upload File</th>
+                            <!-- <th>Type Of Material Used</th> -->
+                            <!-- <th>Upload</th> -->
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let session of sessionDetailsList; let i = index">
+                        <tr>
+                            <td class="text-start">{{ i + 1 }}</td>
+                            <td>{{ session.sessionDate }}</td>
+                            <td>{{ session.startTime }}</td>
+                            <td>{{ session.endTime }}</td>
+                            <td>{{ session.sessionTypeName }}</td>
+                            <td>{{ session.sessionTypeMethodology }}</td>
+                            <!-- <td>{{ session.sessionDetails }}</td> -->
+                            <td>{{ session.resourceName }}</td>
+                            <!-- <td>{{ session.meterialType }}</td> -->
+                            <td>
+                                <ng-container *ngIf="session.files?.length > 0">
+                                    <i *ngIf="!collapseStates[i]" class="fa fa-arrow-circle-down" role="button" data-bs-toggle="collapse"
+                                        [attr.data-bs-target]="'#collapseFiles' + i" aria-expanded="false"
+                                        [attr.aria-controls]="'collapseFiles' + i"
+                                        (click)="toggleIcon(i)"></i>
+                                    <i *ngIf="collapseStates[i]"  class="fa fa-arrow-circle-up" role="button" data-bs-toggle="collapse"
+                                        [attr.data-bs-target]="'#collapseFiles' + i" aria-expanded="false"
+                                        [attr.aria-controls]="'collapseFiles' + i"
+                                        (click)="toggleIcon(i)"></i>
+                                </ng-container>
+                                <ng-container *ngIf="!session.files?.length">
+                                    <span>No File</span>
+                                </ng-container>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- <div [id]="'collapseFiles' + i" class="collapse mt-2">
+                                <div class="file-carousel mt-2">
+                                    <div *ngFor="let file of session.files; let j = index" class="file-item">
+                                        <div class="card text-center">
+                                            <div class="fw-bold mb-1">File {{ j + 1 }}</div>
+                                            <i [ngClass]="getFileIcon(file.filePath)" class="me-2 fa-2x text-secondary"></i>
+                                            
+                                            <a (click)="showPreviewPopup(file)" [attr.href]="previewData" target="_blank" class="text-primary text-decoration-underline">
+                                                Download File
+                                            </a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <td colspan="8" class="sub-table">
+                                <div [id]="'collapseFiles' + i" class="collapse mt-2">
+                                    <div class="file-carousel-container">
+                                        <div class="file-carousel">
+                                            <div *ngFor="let file of session.files" class="file-card">
+                                                <div class="file-icon">
+                                                    <i [ngClass]="getFileIcon(file.filePath)"
+                                                        [ngStyle]="{'color': getIconColor(file.filePath)}"
+                                                        class="fa-3x"></i>
+                                                </div>
+                                                <div class="file-name">
+                                                    <a (click)="showPreviewPopup(file)" [attr.href]="previewData"
+                                                        target="_blank" class="text-primary text-decoration-none">
+                                                        Download
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                    <!-- <tbody>
+                        <tr>
+                            <td class="text-start">1</td>
+                            <td>29-12-2024</td>
+                            <td>09-15 AM</td>
+                            <td>11:00 AM</td>
+                            <td>Session</td>
+                            <td>Lecture</td>
+                            <td>To Share Knowledge</td>
+                            <td>Mr. Ravi</td>
+                            <td>PDF</td>
+                            <td>mymaterial.pdf</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start">1</td>
+                            <td>29-12-2024</td>
+                            <td>09-15 AM</td>
+                            <td>11:00 AM</td>
+                            <td>Session</td>
+                            <td>Lecture</td>
+                            <td>To Share Knowledge</td>
+                            <td>Mr. Ravi</td>
+                            <td>PDF</td>
+                            <td>mymaterial.pdf</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start">1</td>
+                            <td>29-12-2024</td>
+                            <td>09-15 AM</td>
+                            <td>11:00 AM</td>
+                            <td>Session</td>
+                            <td>Lecture</td>
+                            <td>To Share Knowledge</td>
+                            <td>Mr. Ravi</td>
+                            <td>PDF</td>
+                            <td>mymaterial.pdf</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start">1</td>
+                            <td>29-12-2024</td>
+                            <td>09-15 AM</td>
+                            <td>11:00 AM</td>
+                            <td>Session</td>
+                            <td>Lecture</td>
+                            <td>To Share Knowledge</td>
+                            <td>Mr. Ravi</td>
+                            <td>PDF</td>
+                            <td>mymaterial.pdf</td>
+                        </tr>
+                    </tbody> -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="viewSheduleModal" tabindex="-1" aria-labelledby="viewSheduleModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header py-2">
+                <h6 class="modal-title" id="viewSheduleModal">View Reschedule data</h6>
+                <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="mb-3 text-start fw-bold text-primary border-bottom pb-2">Title Of Program : {{ selectedRescheduleData?.[0]?.programTitle }}</h5>
+                <table class="table table-bordered">
+                    <thead class="bg-lime-green">
+                        <tr>
+                            <th>S no</th>
+                            <th>Program Name</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let session of selectedRescheduleData; let i = index">
+                        <tr>
+                            <td class="text-start">{{ i+1 }}</td>
+                            <td>{{ session.programTitle }}</td>
+                            <td>{{ session.oldStartDate }}</td>
+                            <td>{{ session.newStartDate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                    <div class="text-center" *ngIf="!selectedRescheduleData?.length">
+                        <strong>Data not Available.</strong>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

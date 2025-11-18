@@ -190,7 +190,7 @@
                     <div class="tab-pane fade active show" id="nav-ones" role="tabpanel" aria-labelledby="nav-home-tab" [ngClass]="{ 'active':activeTab==='nav-ones'}" *ngIf="activeTab==='nav-ones'" >
                         <div class="table-container">
                             <table id="session-table" class="table table-bordered nowrap w-100">
-                                <thead class="bg-lime-green text-white">
+                                <thead class="bg-lime-green">
                                     <tr>
                                         <th>S.No</th>
                                         <th>Date</th>
@@ -293,7 +293,7 @@
                     </div>
                     <div class="tab-pane fade show" id="nav-twos" role="tabpanel" aria-labelledby="nav-profile-tab" [ngClass]="{ 'active':activeTab==='nav-twos'}" *ngIf="activeTab==='nav-twos'">
                         <table id="view-table-participant1" class="table table-borderless table-striped nowrap">
-                            <thead class="bg-lime-green text-white">
+                            <thead class="bg-lime-green">
                                 <tr>
                                     <th>S.No</th>
                                     <th>IsAspirant</th>
@@ -348,7 +348,7 @@
                     <div class="tab-pane fade show" id="nav-three" role="tabpanel" aria-labelledby="nav-profile-tab" [ngClass]="{ 'active':activeTab==='nav-three'}" *ngIf="activeTab==='nav-three'">
                         <div class="table-container">
                             <table class="table table-bordered nowrap">
-                                <thead class="bg-lime-green text-white">
+                                <thead class="bg-lime-green">
                                     <tr>
                                         <th>S.No</th>
                                         <th>Participant Name</th>
@@ -389,7 +389,7 @@
                       <div class="tab-pane fade show" id="nav-four" role="tabpanel" aria-labelledby="nav-profile-tab" [ngClass]="{ 'active':activeTab==='nav-four'}" *ngIf="activeTab==='nav-four'">
                         <div class="table-container">
                             <table  class="table table-bordered nowrap w-100">
-                                <thead class="bg-lime-green text-white">
+                                <thead class="bg-lime-green">
                                     <tr>
                                         <!-- <th class="text-center">Edit {{this.loginsessionDetails?.userRole == 'ADMIN'?'SPIU Comment':'Agency Response'}}</th> -->
                                         <th>S.No</th>
@@ -560,7 +560,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">File Preview</h6>
+                <h6 class="modal-title" id="addResourceLabel">File Preview</h6>
                 
                 <a href="{{imagePreviewUrl}}" style="margin-left: 491px;" target="_blank" class="btn btn-secondary" *ngIf="imagePreviewUrl">Download</a>
                 

@@ -131,7 +131,7 @@
             </div>
             <div class="card-body">
               <table id="view-Upload" class="table table-bordered nowrap w-100 trainingTable">
-                <thead class="bg-lime-green text-white">
+                <thead class="bg-lime-green">
                   <tr>
                     <th>S.No</th>
                     <th>{{selectedBudgetHead=='77'?'Video':'Document'}} Name</th>
@@ -201,7 +201,7 @@
             </div>
             <div class="card-body">
               <table id="view-Vendor" class="table table-bordered nowrap w-100 trainingTable">
-                <thead class="bg-lime-green text-white">
+                <thead class="bg-lime-green">
                   <tr>
                     <th>S.No</th>
                     <th>Vendor Company Name</th>
@@ -259,7 +259,7 @@
             <div class="card-body">      
                 <div class="table-scroll-container">                    
                     <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
-                        <thead class="bg-lime-green text-white">
+                        <thead class="bg-lime-green">
                             <tr>
                                 <th>S.No</th>
                                 <th *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78'">Date of Payment</th>
@@ -338,7 +338,7 @@
                                 <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Employee Details</h6>
                                   <div class="table-scroll-container">
                                 <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
-                                  <thead class="bg-lime-green text-white">
+                                  <thead class="bg-lime-green">
                                     <tr>
                                       <th>S.No</th>
                                       <th>Name of the Employee</th>
@@ -388,7 +388,7 @@
                                 <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Payment Details</h6>
                                   <div class="table-scroll-container">
                                 <table id="view-Payments" class="table table-bordered nowrap w-100 trainingTable">
-                                    <thead class="bg-lime-green text-white">
+                                    <thead class="bg-lime-green">
                                         <tr>
                                             <th>S.No</th>
                                             <th>Amount (in Rs.)</th>
@@ -446,7 +446,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addUploadLabel">{{isEditModeUpload ? 'Update' : 'Add'}} Media Deatils</h6>
+                <h6 class="modal-title" id="addUploadLabel">{{isEditModeUpload ? 'Update' : 'Add'}} Media Deatils</h6>
                 <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close" (click)="resetmediaDeatilsForm()"></button>
             </div>
             <div class="modal-body">
@@ -631,7 +631,7 @@ aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title text-white" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Resource</h6>
+        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Resource</h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -799,7 +799,7 @@ aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header py-2">
-                    <h6 class="modal-title text-white" id="addPaymentLabel">Add Payment</h6>
+                    <h6 class="modal-title" id="addPaymentLabel">Add Payment</h6>
                     <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -884,13 +884,13 @@ aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header py-2">
-                    <h6 class="modal-title text-white" id="viewpaymentLabel">View Payment Details</h6>
+                    <h6 class="modal-title" id="viewpaymentLabel">View Payment Details</h6>
                     <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="table-scroll-container">                    
                      <table class="table table-bordered nowrap w-100 trainingTable">
-                                    <thead class="bg-lime-green text-white">
+                                    <thead class="bg-lime-green">
                                         <tr>
                                             <th>S.No</th>
                                             <th>Amount (in Rs.)</th>
@@ -926,7 +926,7 @@ aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title text-white" id="addPaymentLabel">{{iseditModePayment?'Update' :'Add'}} Payment</h6>
+        <h6 class="modal-title" id="addPaymentLabel">{{iseditModePayment?'Update' :'Add'}} Payment</h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -1201,7 +1201,7 @@ aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title text-white" id="addSurveyLabel">{{iseditMode?'Update' :'Add'}} Expenditure</h6>
+        <h6 class="modal-title" id="addSurveyLabel">{{iseditMode?'Update' :'Add'}} Expenditure</h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()" ></button>
       </div>
       <div class="modal-body">

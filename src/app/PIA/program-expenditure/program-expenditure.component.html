@@ -23,7 +23,7 @@
                                     <label for="coverage">Program</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" hidden>
                                 <div class="form-floating mb-3 mb-sm-3 mb-md-0">
                                     <select class="form-select events-expenditure" name="activityId"  formControlName="activityId">
                                         <option selected value="">Select Type Of Activity</option>
@@ -32,7 +32,7 @@
                                     <label for="activity">Select Activity</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" hidden>
                                 <div class="form-floating mb-3 mb-sm-0">
                                     <select class="form-select events-expenditure" name="subActivityId"  formControlName="subActivityId">
                                         <option  value="">Select Sub Activity</option>
@@ -86,7 +86,7 @@
                     <div class="card-body">
                         <!-- id="expenditure-table" -->
                         <table  class="table table-bordered nowrap w-100">
-                            <thead class="bg-lime-green text-white">
+                            <thead class="bg-lime-green">
                                 <tr>
                                     <th>S.No</th>
                                     <th>Type Of Expenditure</th>
@@ -159,7 +159,9 @@
                                     <td>Total</td>
                                     <td>{{TotalAmount | commaSeperationIndia}}</td>
                                     <td></td>
-                                    
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -187,7 +189,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">{{isEdit?'Edit':'Add'}} {{this.expenditureType=='PRE'?'Pre':'Post'}} Event Expenditure</h6>
+                <h6 class="modal-title" id="addResourceLabel">{{isEdit?'Edit':'Add'}} {{this.expenditureType=='PRE'?'Pre':'Post'}} Event Expenditure</h6>
                 <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -331,7 +333,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">Bulk Expenditure</h6>
+                <h6 class="modal-title" id="addResourceLabel">Bulk Expenditure</h6>
                 <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -515,7 +517,7 @@ aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">Preview</h6>
+                <h6 class="modal-title" id="addResourceLabel">Preview</h6>
                 
                 <a href="{{imagePreviewUrl}}" style="margin-left: 491px;" target="_blank" class="btn btn-secondary" *ngIf="imagePreviewUrl">Download</a>
                 
@@ -538,7 +540,7 @@ aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h6 class="modal-title text-white" id="addResourceLabel">File Preview</h6>
+                <h6 class="modal-title" id="addResourceLabel">File Preview</h6>
                 
                 <a href="{{imagePreviewUrl}}" style="margin-left: 491px;" target="_blank" class="btn btn-secondary" *ngIf="imagePreviewUrl">Download</a>
                 

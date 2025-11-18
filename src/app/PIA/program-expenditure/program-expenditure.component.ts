@@ -91,6 +91,7 @@ export class ProgramExpenditureComponent implements OnInit {
            this.programData = data?.data;
           //  this.getSubActivitiesList(this.programData.activityId)
            this.programCreationMain.get('activityId')?.setValue(Number(this.programData?.activityId))
+           this.programCreationMain.get('subActivityId')?.setValue(Number(this.programData?.subActivityId))
            
          
          }
@@ -377,7 +378,7 @@ export class ProgramExpenditureComponent implements OnInit {
       // return true;;
     }
     else{
-      this.toastrService.warning('Please select Activity,subactivity,Program then only you have to Add '+this.expenditureType+' Expenditure')
+      this.toastrService.warning('Please select Program then only you have to Add '+this.expenditureType+' Expenditure')
       // return false;
      
     }

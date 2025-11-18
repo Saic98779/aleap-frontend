@@ -2,7 +2,7 @@
 .table-container {
   max-height: 350px; 
   overflow: auto; /* Enables both vertical and horizontal scrolling */
-  border: 1px solid #dee2e6;
+  /* border: 1px solid #dee2e6; */
 }
 
 /* .table-container table {
@@ -12,7 +12,7 @@
 
 .table-container thead th {
   position: sticky;
-  background-color: #8dc63f; /* Match .bg-lime-green */
+  background-color: #f8bc81; /* Match .bg-lime-green */
   z-index: 2;
 }
 
@@ -68,7 +68,7 @@
 
 .table-container thead th {
   position: sticky;
-  background-color: #8dc63f; /* Match .bg-lime-green */
+  background-color: #f8bc81; /* Match .bg-lime-green */
   z-index: 2;
 }
 
@@ -81,7 +81,7 @@
 /* Add explicit borders to all cells */
 .table-container th,
 .table-container td {
-  border: 1px solid #dee2e6;
+  /* border: 1px solid #dee2e6; */
 }
 
 /* Override Bootstrap's default border styles */
@@ -92,31 +92,31 @@
 /* Make sure thead cells have borders */
 .table-container thead th {
   position: sticky;
-  background-color: #07c540; /* Match .bg-lime-green */
+  background-color: #f8bc81; /* Match .bg-lime-green */
   z-index: 2;
   /* Add border to all sides */
-  border: 1px solid #dee2e6 !important;
+  /* border: 1px solid #dee2e6 !important; */
 }
 
 /* Ensure each header row has a distinct background and border */
 .table-container thead tr:nth-child(1) th {
   top: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important; */
 }
 
 .table-container thead tr:nth-child(2) th {
   top: 38px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important; */
 }
 
 .table-container thead tr:nth-child(3) th {
   top: 76px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important; */
 }
 
 .table-container thead tr:nth-child(4) th {
   top: 114px;
-  border-bottom: 2px solid #dee2e6 !important; /* Thicker border for the last row */
+  /* border-bottom: 2px solid #dee2e6 !important; */ /* Thicker border for the last row */
 }
 
 /* Remove the after pseudo-element as we're using actual borders */

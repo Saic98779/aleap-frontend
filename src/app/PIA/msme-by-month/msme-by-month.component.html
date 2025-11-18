@@ -61,7 +61,7 @@
             <!--  id=view-physical-table  -->
             <div class="table-container">
               <table  class="table table-bordered table-striped nowrap w-100 fsize-10">
-                <thead class="bg-lime-green text-white">
+                <thead class="bg-lime-green">
                   <tr>
                     <th class="text-center sticky-col-1" rowspan="4" colspan="1" >Actions </th>
                     <th   class="text-center sticky-col-2" rowspan="4">Intervention</th>
@@ -180,7 +180,7 @@
                       <td class="text-center"><input class="form-control form-control-sm" type="number" style="width: fit-content;" [(ngModel)]="newRow.currentMonthMoMSMEBenefitedDto.sc"></td>
                       <td class="text-center"><input class="form-control form-control-sm" type="number" style="width: fit-content;" [(ngModel)]="newRow.currentMonthMoMSMEBenefitedDto.obc"></td>
                       </ng-container>
-                      <td>  <button class="btn btn-outline-secondary btn-sm"(click)="viewRow(row)" data-bs-toggle="modal" data-bs-target="#viewRowModal"title="View"> <i class="bi bi-eye"></i></button></td>
+                      <td>  <button class="btn btn-lime-green btn-sm"(click)="viewRow(row)" data-bs-toggle="modal" data-bs-target="#viewRowModal"title="View"> <i class="bi bi-eye"></i></button></td>
                     
                   </tr>
                     <!-- <tr *ngIf="!errorMessage">
@@ -273,7 +273,7 @@
       </div>
       <div class="modal-body">
         <table class="table table-bordered">
-            <thead class="bg-lime-green text-white">
+            <thead class="bg-lime-green">
                 <tr>
                     <th colspan="4">Targets v/s Achievements {{selectedFinancialYear}}</th>
                     <th colspan="5">MSME's Benifitted</th>

@@ -12,7 +12,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: #07C540 !important; /* Keep the lime-green color */
+  /* background-color: #07C540 !important;  */
   border-bottom: 2px solid #1e7e34;
 }
 
@@ -24,6 +24,7 @@
 /* Add some padding to table cells for better readability */
 .scrollable-table td,
 .scrollable-table th {
+  max-width: fit-content !important;
   padding: 0.75rem;
   vertical-align: middle;
 }
@@ -58,4 +59,24 @@
   position: sticky;
   top: 0;
   z-index: 1; /* Ensures the header stays on top of the scrolling content */
+}
+.bg-blue{
+  background-color: #03a9f4 !important;
+  font-weight: 700 !important;
+}
+.bg-blue tr th{
+  font-weight: 700 !important;
+}
+.btn-blue {
+  background-color: #03a9f4;
+  transition: linear 0.5s;
+  color: #000000;
+  font-weight: bold;
+}
+.btn-blue:hover {
+  background-color: #03a9f4;
+  color: #000000;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  transform: scale(1.05);
 }

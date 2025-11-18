@@ -17,9 +17,9 @@
     <div *ngFor="let n of notificationsList" class="notification-card" [ngClass]="{'read': n.readRecipients}">
       <div class="notification-card-content" (click)="openNotificationDetail(n)">
         <!-- <div class="notification-card-title">{{ n.screenName }}</div> -->
-        <div class="notification-card-message">{{ n.remarksText }}</div>
-         <div class="notification-card-message" style="font-size: 12px !important;">{{ n.remarksDate | date }}</div>
-         <div class="notification-card-message" style="font-size: 12px !important;color: #8f8d8d !important;">{{ this.userDetails.userRole=='CALL_CENTER'?n?.agencyName: n?.ccName }}</div>
+        <div class="notification-card-message">{{ n.text }}</div>
+         <div class="notification-card-message" style="font-size: 12px !important;">{{ n.createdAt | date }}</div>
+         <div class="notification-card-message" style="font-size: 12px !important;color: #8f8d8d !important;">{{ n.sentBy }}</div>
       </div>
     </div>
   </div>

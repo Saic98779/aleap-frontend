@@ -118,6 +118,9 @@ import { CommonFileViewerComponent } from './common_components/common-file-viewe
 import { ViewOutcomesComponent } from './PIA/view-outcomes/view-outcomes.component';
 import { CommaSeperationIndiaPipe } from './common_components/comma-seperation-india.pipe';
 import { NonTrainingExpendituresComponent } from './PIA/non-training-expenditures/non-training-expenditures.component';
+import { ClosedTicketsComponent } from './PIA/help-support/pages/closed-tickets/closed-tickets.component';
+import { InprogressTicketsComponent } from './PIA/help-support/pages/inprogress-tickets/inprogress-tickets.component';
+import { ViewProgramDicComponent } from './PIA/view-program-dic/view-program-dic.component';
 @NgModule({
     imports: [
         MaterialModule,
@@ -239,7 +242,10 @@ import { NonTrainingExpendituresComponent } from './PIA/non-training-expenditure
         CommonFileViewerComponent,
         ViewOutcomesComponent,
         CommaSeperationIndiaPipe,
-        NonTrainingExpendituresComponent
+        NonTrainingExpendituresComponent,
+        ClosedTicketsComponent,
+        InprogressTicketsComponent,
+        ViewProgramDicComponent
 
     ],
     exports:[MaterialModule,

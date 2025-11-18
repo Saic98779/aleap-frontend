@@ -20,24 +20,20 @@ white-space: nowrap;
         top: 0;
         z-index: 10;
       }
-    
       /* Style for the header cells */
       table thead th {
         /* background-color: #28a745; Same as bg-lime-green */
-        color: white;
+        /* color: white; */
         position: sticky;
         top: 0;
       }
-    
       /* For the nested headers, we need to make the second and third rows sticky at different levels */
       table thead tr:nth-child(2) th {
         top: 38px; /* Height of the first header row */
       }
-    
       table thead tr:nth-child(3) th {
         top: 76px; /* Height of first two header rows */
       }
-    
       /* Ensure table cells have proper borders */
       table.table-bordered th,
       table.table-bordered td {
