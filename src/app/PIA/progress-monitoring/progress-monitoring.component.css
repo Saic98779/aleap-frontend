@@ -24,6 +24,7 @@
 /* Add some padding to table cells for better readability */
 .scrollable-table td,
 .scrollable-table th {
+  max-width: fit-content !important;
   padding: 0.75rem;
   vertical-align: middle;
 }
