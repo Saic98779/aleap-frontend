@@ -682,6 +682,7 @@ previewFile(file: any, index: number): void {
         adminStatus: this.statuses.includes(this.selectedTicketForDetails?.status)?this.selectedTicketForDetails?.status:'',
         adminComment: '',
       });
+      this.adminAssigneeData=['admin@gmail.com']
       this.activeScreenTab=''
       const modalElement = document.getElementById('ticketDetailModalAdmin');
     if (modalElement) {
