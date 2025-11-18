@@ -13,7 +13,6 @@ white-space: nowrap;
         overflow-y: auto;
         position: relative;
       }
-    
       /* Make the header sticky */
       table thead {
         position: sticky;
