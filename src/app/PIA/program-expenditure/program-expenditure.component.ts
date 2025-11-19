@@ -398,7 +398,7 @@ export class ProgramExpenditureComponent implements OnInit {
       console.log(item)
       
       
-     
+     this.expenditureType=item?.expenditureType
       const modal1 = new bootstrap.Modal(this.PreEventModal.nativeElement);
       modal1.show();
     }
@@ -414,7 +414,7 @@ export class ProgramExpenditureComponent implements OnInit {
       console.log(item?.itemName,this.getExpenseIdByName(item?.headOfExpense))
       this.getBulkDataByItem(item?.itemName,this.getExpenseIdByName(item?.headOfExpense))
       // this.PrePostExpenditureForm.get('uploadBillUrl')?.setValue(item?.uploadBillUrl)
-  
+      
       console.log(item)
       
       

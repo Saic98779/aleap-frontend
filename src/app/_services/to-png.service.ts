@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import html2canvas from 'html2canvas';
 import { APIS } from '@app/constants/constants';
+import { ImageService } from './image.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToPngService {
-  constructor() {}
+  constructor( private imageService: ImageService,) {}
 
   // Convert DOM to PNG Data URL
   toPng(node: HTMLElement): Promise<string> {
@@ -21,22 +22,31 @@ export class ToPngService {
   }
 
   // Upload PNG as FormData
-  uploadImage(dataUrl: string, fileName: string, programId: number): Promise<any> {
+  uploadImage(dataUrl: string, fileName: string, programId: number) {
     const blob = this.dataURItoBlob(dataUrl);
     const formData = new FormData();
     formData.append('programId', programId.toString()); // ensure string
     formData.append('image', blob, fileName);
+    
+     this.imageService.saveImages(`${APIS.collageCreation.UPLOAD_COLLAGE}`,formData).subscribe((res)=>{
+      console.log('Image uploaded successfully via ImageService:', res);
+      return res.json();
 
-
-    return fetch(`${APIS.collageCreation.UPLOAD_COLLAGE}`, {
-      method: 'POST',
-      body: formData
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error(`Upload failed: ${response.statusText}`);
       }
-      return response.json();
-    });
+     ,(error)=>{
+      console.error('Error uploading image via ImageService:', error);
+      throw new Error(`Upload failed: ${error.message}`);
+     });
+
+    // return fetch(`${APIS.collageCreation.UPLOAD_COLLAGE}`, {
+    //   method: 'POST',
+    //   body: formData
+    // }).then(response => {
+    //   if (!response.ok) {
+    //     throw new Error(`Upload failed: ${response.statusText}`);
+    //   }
+    //   return response.json();
+    // });
 
   }
 

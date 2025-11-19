@@ -14,10 +14,11 @@
       <i class="fa fa-inbox fa-2x text-muted"></i>
       <div class="mt-2 text-muted">No notifications</div>
     </div>
-    <div *ngFor="let n of notificationsList" class="notification-card" [ngClass]="{'read': n.readRecipients}">
-      <div class="notification-card-content" (click)="openNotificationDetail(n)">
+    <div *ngFor="let n of notificationsList" class="notification-card" [ngClass]="{'read': n.isRead}">
+      <div class="notification-card-content" (click)="openNotificationDetailIsRead(n)" [ngClass]="{'bolderData':!n.isRead}">
+        <!-- redirct hide (click)="openNotificationDetail(n)" -->
         <!-- <div class="notification-card-title">{{ n.screenName }}</div> -->
-        <div class="notification-card-message">{{ n.text }}</div>
+        <div class="notification-card-message fs-8" >{{ n.text || n.message }}</div>
          <div class="notification-card-message" style="font-size: 12px !important;">{{ n.createdAt | date }}</div>
          <div class="notification-card-message" style="font-size: 12px !important;color: #8f8d8d !important;">{{ n.sentBy }}</div>
       </div>

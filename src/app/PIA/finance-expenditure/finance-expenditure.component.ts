@@ -1313,17 +1313,21 @@ openRemarks(item:any){
     UpdateExpenditure(item:any){
 
     }
-
+    checkExpenditure(data: any): boolean {
+      // Returns true if all records in data have status 'Approved'
+      if (!Array.isArray(data)) return false;
+      return data.every((item: any) => item.status === 'APPROVED' || item.status === 'Approved' );
+    }
     sessionSubmissionFinal() {
               let data = {}
-              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId}?status=Program Expenditure Updated`, data).subscribe({
+              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId?this.programCreationMain.value.programId:this.programIds}?status=Program Expenditure Approved`, data).subscribe({
                 next: (data: any) => {
                   console.log('Response from API:', data);
                   this.toastrService.success('Program Expenditure Details Submitted Successfully', "");
                   this.closeConfirmSession();
                   this.getExpenditureDataBoth = ''
                   this.programCreationMain.reset()
-                  this.onAgencyChange()
+                  this.getProgramsByAgencyAdmin(this.agencyId)
                 },
                 error: (err: any) => {
                   this.closeConfirmSession();        

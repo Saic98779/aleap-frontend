@@ -283,11 +283,13 @@ export const APIS = {
         getNotificationDisplayByAgency: API_BASE_URL + '/notifications/agency/remarks/',
         getNotificationDisplayByCallCenter: API_BASE_URL + '/notifications/callcenter/remarks/',
         getNotificationDisplayByRole: API_BASE_URL + '/api/notifications/role/',
+        getNotificationDisplayByAgencyId: API_BASE_URL + '/api/notifications/un-read?agencyId=',
         getNotificationByAgency: API_BASE_URL + '/notifications/agency/',
         getNotificationByCallCenter: API_BASE_URL + '/notifications/callcenter/',
         getNotifications: API_BASE_URL + '/notifications/by-user',
         markAsRead: API_BASE_URL + '/notifications/mark-read',
         updateData: API_BASE_URL + '/notifications/status',
+        UpdatemarkAsRead: API_BASE_URL + '/api/notifications/',
     },
     msmeQueaterly:{
         getMSMEByQuarter: API_BASE_URL + '/momsme/report/by-quarter',

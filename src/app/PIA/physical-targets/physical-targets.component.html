@@ -44,6 +44,7 @@
               <thead class="bg-lime-green">
                 <tr>
                   <th class="text-center"  rowspan="2">S.No</th>
+                  <th class="text-center"  rowspan="2">Actions</th>
                   <th class="text-center"  rowspan="2">Output</th>
                   <th class="text-center"  rowspan="2">Grand Total</th>
                   <ng-container *ngFor="let item of this.tableheaderList">
@@ -67,6 +68,16 @@
               <tbody *ngIf="tableList?.length">
                 <tr *ngFor="let item of tableList; let i = index">
                   <td>{{i+1}}</td>
+                  <td class="text-center" >
+                    <button type="button" class="btn btn-default btn-sm text-lime-green" [ngClass]="{'disabled': selectedAgencyId==-1}"
+                      (click)="openTargetsModal('edit',item)">
+                      <span class="bi bi-pencil"></span>
+                    </button>
+                    <!-- <button type="button" class="btn btn-default btn-sm text-danger ms-2"
+                      (click)="deleteExpenditure(item)">
+                      <span class="bi bi-trash"></span>
+                    </button> -->
+                  </td>
                   <td>{{item?.outcomeTableName}}</td>
                   <td>{{item?.grandTotal}}</td>
                  
@@ -119,8 +130,8 @@
       <div class="modal-body">
         <form [formGroup]="targetsScreenForm">
           <div class="form-floating mb-3">
-            <div class="form-floating mb-3">
-              <select class="form-select" formControlName="outcomeId">
+            <div class="form-floating mb-3"> 
+              <select class="form-select" formControlName="outcomeId" [ngClass]="{'isDisabled':editRow}">
                 <option selected value="">Select Outcome </option>
                 <option *ngFor="let val of ListOfOutCome" value="{{val?.outcomeTableId}}">
                   {{val?.outcomeTableDisplayName}}</option>
@@ -130,9 +141,9 @@
             <div *ngIf="f2['outcomeId'].touched && !f2['outcomeId'].valid" class="error" style="color: red;">Outcome
               is required</div>
           </div>
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3" *ngIf="!this.editRow">
             <div class="form-floating mb-3">
-              <select class="form-select" formControlName="financialYear">
+              <select class="form-select" formControlName="financialYear" >
                 <option selected value="">Select FY </option>
                 <option *ngFor="let val of this.financialYears" value="{{val}}">{{val}}</option>
               </select>
@@ -140,7 +151,18 @@
             </div>
             <!-- <label for="fySelect">Seelct Fy</label> -->
           </div>
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3" *ngIf="this.editRow">
+            <div class="form-floating mb-3">
+              <select class="form-select" formControlName="financialYear" (change)="onFinancialYearChange($any($event).target.value)">
+                <option selected value="">Select FY </option>
+                <option *ngFor="let val of this.editFinancialYear" value="{{val}}">{{val}}</option>
+              </select>
+              <label>Select Fy <span class="c-red"> *</span></label>
+            </div>
+            <!-- <label for="fySelect">Seelct Fy</label> -->
+          </div>
+          
+          <div class="form-floating mb-3" >
             <div class="form-floating mb-3">
               <input type="number" class="form-control" id="qone" formControlName="q1" placeholder="">
               <label for="qone">Apr-Jun(Q1)</label>

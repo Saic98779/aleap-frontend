@@ -1,10 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { ToPngService } from '../../_services/to-png.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ImageService } from '../../_services/image.service';
-import { Agency } from '../../_models/agencies.model';
-import { Program } from '../../_models/program.model';
-import { Router } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ToPngService
+} from '../../_services/to-png.service';
+import {
+  DomSanitizer,
+  SafeUrl
+} from '@angular/platform-browser';
+import {
+  ImageService
+} from '../../_services/image.service';
+import {
+  Agency
+} from '../../_models/agencies.model';
+import {
+  Program
+} from '../../_models/program.model';
+import {
+  Router
+} from '@angular/router';
+import {
+  CommonServiceService
+} from '@app/_services/common-service.service';
+import {
+  APIS
+} from '@app/constants/constants';
 
 @Component({
   selector: 'app-collage-creation',
@@ -13,46 +35,54 @@ import { Router } from '@angular/router';
 })
 export class CollageCreationComponent implements OnInit {
   public sanitizedImageUrls: SafeUrl[] = [];
-  selectedImages: SafeUrl[] = [];  
-  collageImages: SafeUrl[] = [];  
+  selectedImages: SafeUrl[] = [];
+  collageImages: SafeUrl[] = [];
   collageMode: '2x2' | '3x3' = '2x2';
   aspectRatio: string = '1:1';
   backgroundColor: string = '#ffffff';
   padding: number = 10;
   draggingSource: 'selected' | 'collage' | null = null;
-  images: any[] = []; 
-  showDbImages: boolean = false; 
+  images: any[] = [];
+  showDbImages: boolean = false;
   selectedImage: string | null = null;
-  user :any; 
+  user: any;
 
   maxImages: number = 4;
-  zoomLevels: { [index: number]: number } = {};
-  imageOffsets: { [index: number]: { x: number, y: number } } = {};
-  draggingIndex: number | null = null; 
+  zoomLevels: {
+    [index: number]: number
+  } = {};
+  imageOffsets: {
+    [index: number]: {
+      x: number,
+      y: number
+    }
+  } = {};
+  draggingIndex: number | null = null;
 
-  
+
   agencies: Agency[] = [];
   programs: Program[] = [];
   selectedAgency: number | null = null;
   selectedProgram: number | null = null;
   collageName: string = 'program-collage';
   agencyId: any;
-  loginsessionDetails:any
+  loginsessionDetails: any
   constructor(
     private toPngService: ToPngService,
     private sanitizer: DomSanitizer,
     private imageService: ImageService,
-    public router: Router
+    public router: Router,
+    private _commonService: CommonServiceService,
   ) {
-    this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
+    this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');
     this.selectedAgency = this.loginsessionDetails.agencyId;
-    if(this.selectedAgency){
+    if (this.selectedAgency) {
       this.onAgencyChange(this.selectedAgency)
     }
   }
-  
 
- 
+
+
 
   ngOnInit(): void {
     console.log('Fetching collage images and all images...');
@@ -60,9 +90,10 @@ export class CollageCreationComponent implements OnInit {
     console.log('User:', this.user);
     this.updateMaxImages();
     this.getAgencies();
-  }  
+  }
 
   onAgencyChange(event: any): void {
+    this.handleClearCollage()
     const selectedAgencyId = Number(event);
     this.selectedAgency = selectedAgencyId;
     this.selectedProgram = null; // Reset selected program
@@ -70,8 +101,9 @@ export class CollageCreationComponent implements OnInit {
       this.getPrograms(this.selectedAgency);
     }
   }
-  
+
   onProgramChange(event: Event): void {
+    this.handleClearCollage()
     const selectedProgram = Number(event);
     const selectedProgramName = this.programs.find(program => program.programId === selectedProgram);
 
@@ -139,10 +171,10 @@ export class CollageCreationComponent implements OnInit {
     this.imageOffsets = {};
   }
 
-  async handleSaveCollage(): Promise<void> {
+  async handleSaveCollage(): Promise < void > {
     const node = document.getElementById('collage-preview');
     const zoomControls = document.querySelectorAll('.zoom-controls');
-    
+
     zoomControls.forEach(control => (control as HTMLElement).style.display = 'none');
 
     const fileName = this.collageName.trim() !== '' ? `${this.collageName}.png` : 'collage.png';
@@ -160,11 +192,22 @@ export class CollageCreationComponent implements OnInit {
         return;
       }
       const response = await this.toPngService.uploadImage(dataUrl, fileName, this.selectedProgram);
+
       console.log('Upload success:', response);
       alert('Collage uploaded successfully!');
+      this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.selectedProgram}?status=Collage Added`, {}).subscribe({
+        next: (data: any) => {
+
+        },
+        error: (err: any) => {
+
+          new Error(err);
+        },
+      });
+
       // window.location.href="/collage-home"
       this.router.navigate(['/collage-home'])
-      
+
       this.handleClearCollage();
     } catch (err) {
       console.error('Error generating or uploading image:', err);
@@ -183,8 +226,8 @@ export class CollageCreationComponent implements OnInit {
 
   handleDragStart(index: number, source: 'selected' | 'collage'): void {
     this.draggingIndex = index;
-    this.draggingSource = source; 
-  }  
+    this.draggingSource = source;
+  }
 
 
   handleDragOver(event: Event): void {
@@ -193,12 +236,12 @@ export class CollageCreationComponent implements OnInit {
 
   handleDrop(index: number): void {
     if (this.draggingIndex === null || this.draggingSource === null) return;
-  
+
     if (this.draggingSource === 'selected') {
       const draggedImage = this.selectedImages[this.draggingIndex];
-  
+
       this.collageImages[index] = draggedImage;
-  
+
     } else if (this.draggingSource === 'collage') {
       if (this.draggingIndex !== index) {
         const temp = this.collageImages[this.draggingIndex];
@@ -206,11 +249,11 @@ export class CollageCreationComponent implements OnInit {
         this.collageImages[index] = temp;
       }
     }
-  
+
     this.draggingIndex = null;
     this.draggingSource = null;
   }
-  
+
 
 
   handleImageSwap(index: number, image: SafeUrl): void {
@@ -218,42 +261,47 @@ export class CollageCreationComponent implements OnInit {
   }
 
   getAspectRatioValue(): number {
-  switch (this.aspectRatio) {
-    case '16:9': return 16 / 9;
-    case '4:3': return 4 / 3;
-    case '1:1': return 1;
-    default: return 1;
-  }
-}
-
-  
-  getAgencies(): void {
-  this.imageService.getAgencies().subscribe(
-    (res) => {
-      this.agencies = res.data;
-    },
-    (err) => {
-      console.error('Error fetching agencies:', err);
+    switch (this.aspectRatio) {
+      case '16:9':
+        return 16 / 9;
+      case '4:3':
+        return 4 / 3;
+      case '1:1':
+        return 1;
+      default:
+        return 1;
     }
-  );
+  }
+
+
+  getAgencies(): void {
+    this.imageService.getAgencies().subscribe(
+      (res) => {
+        this.agencies = res.data;
+      },
+      (err) => {
+        console.error('Error fetching agencies:', err);
+      }
+    );
   }
 
   getPrograms(agencyId: number): void {
-    
-  this.imageService.getPrograms(agencyId).subscribe(
-    (res) => {
-      this.programs = res.data.filter(
-        (program: any) =>
+
+    this.imageService.getPrograms(agencyId).subscribe(
+      (res) => {
+        this.programs = res.data.filter(
+          (program: any) =>
           program.status === 'Program Execution Updated' ||
           program.status === 'Program Expenditure Updated'
-      );
-      console.log('Filtered programs:', this.programs);
-    },
-    (err) => {
-      console.error('Error fetching programs:', err);
-    }
-  );
-}
+        );
+        console.log('Filtered programs:', this.programs);
+      },
+      (err) => {
+        console.error('Error fetching programs:', err);
+      }
+    );
+
+  }
 
   getProgramImages(programId: number): void {
     this.imageService.getAllImages(programId).subscribe(
@@ -271,5 +319,5 @@ export class CollageCreationComponent implements OnInit {
     );
   }
 
-  
+
 }
