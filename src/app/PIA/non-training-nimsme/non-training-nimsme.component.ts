@@ -402,7 +402,7 @@ createForm(): FormGroup {
   ConfirmdeleteExpenditure(item:any){
     console.log(item,'jdjd')
       this._commonService
-      .deleteId(APIS.nontrainingtargets.deleteNonTrainingtargetsAleapContingency,item).subscribe({
+      .deleteId(APIS.nontrainingtargets.deleteNonTrainingtargetsAleapPriliminary,item).subscribe({
         next: (data: any) => {
           this.toastrService.success('Expenditure deleted successfully', 'Success!');
           const editSessionModal = document.getElementById('exampleModalDeletepreliminary');
