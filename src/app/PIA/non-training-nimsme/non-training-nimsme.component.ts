@@ -392,7 +392,7 @@ createForm(): FormGroup {
   deletePreliminaryID:any
   deletePreliminary(id:any):void{
     this.deletePreliminaryID=id
-     const previewModal = document.getElementById('exampleModalDelete');
+     const previewModal = document.getElementById('exampleModalDeletepreliminary');
     if (previewModal) {
       const modal = new bootstrap.Modal(previewModal);
       modal.show();
@@ -400,11 +400,12 @@ createForm(): FormGroup {
   }
 
   ConfirmdeleteExpenditure(item:any){
+    console.log(item,'jdjd')
       this._commonService
       .deleteId(APIS.nontrainingtargets.deleteNonTrainingtargetsAleapContingency,item).subscribe({
         next: (data: any) => {
           this.toastrService.success('Expenditure deleted successfully', 'Success!');
-          const editSessionModal = document.getElementById('exampleModalDelete');
+          const editSessionModal = document.getElementById('exampleModalDeletepreliminary');
           if (editSessionModal) {
             const modal = bootstrap.Modal.getInstance(editSessionModal);
             if (modal) modal.hide();
