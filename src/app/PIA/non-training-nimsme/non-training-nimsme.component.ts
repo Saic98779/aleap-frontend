@@ -391,6 +391,7 @@ createForm(): FormGroup {
 
   deletePreliminaryID:any
   deletePreliminary(id:any):void{
+    console.log('Delete Preliminary ID:', id);
     this.deletePreliminaryID=id
      const previewModal = document.getElementById('exampleModalDelete');
     if (previewModal) {
@@ -400,6 +401,7 @@ createForm(): FormGroup {
   }
 
   ConfirmdeleteExpenditure(item:any){
+    console.log('Delete Preliminary ID:', item);
       this._commonService
       .deleteId(APIS.nontrainingtargets.deleteNonTrainingtargetsAleapContingency,item).subscribe({
         next: (data: any) => {
