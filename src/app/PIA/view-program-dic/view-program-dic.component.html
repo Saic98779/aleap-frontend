@@ -90,57 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [class.bg-warning]="StatusData !== 'programsInProcess'"
-                                 [class.bg-dark]="StatusData === 'programsInProcess'"
-                                 [class.border-3]="StatusData === 'programsInProcess'"
-                                 [class.border-warning]="StatusData === 'programsInProcess'"
-                                 (click)="getProgramsByStatus('programsInProcess')"
-                                 style="transition: all 0.3s ease; cursor: pointer;">
-                                <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs In-Progress</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programInProcess || 0}}</p>
-                                </div>
-                                <div *ngIf="StatusData === 'programsInProcess'" class="position-absolute top-0 end-0 p-2">
-                                    <i class="fa fa-check-circle text-success"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [class.bg-success]="StatusData !== 'programsCompleted'"
-                                 [class.bg-dark]="StatusData === 'programsCompleted'"
-                                 [class.border-3]="StatusData === 'programsCompleted'"
-                                 [class.border-success]="StatusData === 'programsCompleted'"
-                                 (click)="getProgramsByStatus('programsCompleted')"
-                                 style="transition: all 0.3s ease; cursor: pointer;">
-                                <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs Completed & Data Uploaded</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompleted || 0}}</p>
-                                </div>
-                                <div *ngIf="StatusData === 'programsCompleted'" class="position-absolute top-0 end-0 p-2">
-                                    <i class="fa fa-check-circle text-success"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [ngClass]="StatusData === 'programsCompletedDataPending' ? 'bg-dark border-3' : ''"
-                                 [style.background-color]="StatusData !== 'programsCompletedDataPending' ? 'chocolate' : ''"
-                                 [style.border-color]="StatusData === 'programsCompletedDataPending' ? 'chocolate' : ''"
-                                 (click)="getProgramsByStatus('programsCompletedDataPending')"
-                                 style="transition: all 0.3s ease; cursor: pointer;">
-                                <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs Completed - Data Pending</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompletedDataPending || 0}}</p>
-                                </div>
-                                <div *ngIf="StatusData === 'programsCompletedDataPending'" class="position-absolute top-0 end-0 p-2">
-                                    <i class="fa fa-check-circle text-success"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
                                  [class.bg-danger]="StatusData !== 'programsOverdue'"
                                  [class.bg-dark]="StatusData === 'programsOverdue'"
@@ -174,6 +124,75 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-warning]="StatusData !== 'programsInProcess'"
+                                 [class.bg-dark]="StatusData === 'programsInProcess'"
+                                 [class.border-3]="StatusData === 'programsInProcess'"
+                                 [class.border-warning]="StatusData === 'programsInProcess'"
+                                 (click)="getProgramsByStatus('programsInProcess')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs In-Progress</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programInProcess || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsInProcess'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [ngClass]="StatusData === 'programsCompletedDataPending' ? 'bg-dark border-3' : ''"
+                                 [style.background-color]="StatusData !== 'programsCompletedDataPending' ? 'chocolate' : ''"
+                                 [style.border-color]="StatusData === 'programsCompletedDataPending' ? 'chocolate' : ''"
+                                 (click)="getProgramsByStatus('programsCompletedDataPending')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Completed - Data Pending</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompletedDataPending || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsCompletedDataPending'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-success]="StatusData !== 'programsCompleted'"
+                                 [class.bg-dark]="StatusData === 'programsCompleted'"
+                                 [class.border-3]="StatusData === 'programsCompleted'"
+                                 [class.border-success]="StatusData === 'programsCompleted'"
+                                 (click)="getProgramsByStatus('programsCompleted')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Completed & Data Uploaded</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompleted || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsCompleted'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-violet]="StatusData !== 'programExpenditureApproved'"
+                                 [class.bg-dark]="StatusData === 'programExpenditureApproved'"
+                                 [class.border-3]="StatusData === 'programExpenditureApproved'"
+                                 [class.border-success]="StatusData === 'programExpenditureApproved'"
+                                 (click)="getProgramsByStatus('programExpenditureApproved')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Program Expenditure Verified</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programExpenditureApproved || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programExpenditureApproved'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                      
+                       
                     </div>
                     <div class="dtable-container">
                         <table id="view-program" class="display nowrap" style="width:100%">
