@@ -83,7 +83,7 @@ export class NonTrainingCoiComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if( this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
+          if( this.selectedBudgetHead=='27' || this.selectedBudgetHead=='132' || this.selectedBudgetHead=='133' || this.selectedBudgetHead=='28'){
             this.getPreliminaryDataById()
 
           }
@@ -98,7 +98,7 @@ export class NonTrainingCoiComponent implements OnInit {
 
           
         }, (error) => {
-                    if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
+                    if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='132' || this.selectedBudgetHead=='133' ||  this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
                  this.getPreliminaryDataById()
 
           }
