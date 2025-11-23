@@ -149,7 +149,7 @@
                                                 {{item?.agencyComments?.[0]}}                        
                                             </td>
                                               <td class="text-center">
-                                        <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED'}" class="btn btn-default text-lime-green btn-sm"  (click)="openRemarks(item)"><span class="bi bi-pencil"></span></button>
+                                        <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED' || !item.status}" class="btn btn-default text-lime-green btn-sm"  (click)="openRemarks(item)"><span class="bi bi-pencil"></span></button>
                                     </td>
                                         <!-- <td>{{item?.remarksOrResponse}}</td> -->
                                         <!-- <td>{{item?.purpose}}</td> -->
@@ -223,9 +223,9 @@
                             style="color: red;">Status is required</div>
                             
                         </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="spiuComments"  name="spiuComments" id="consumed" >
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12"  *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
+                            <div class="form-floating mb-3" *ngIf="fRemark['status'].value !== 'APPROVED'">
+                                <input type="text" class="form-control" formControlName="spiuComments" name="spiuComments" id="consumed">
                                 <label for="consumed">SPIU Comments</label>
                             </div>
                             <div *ngIf="fRemark['spiuComments'].touched && !fRemark['spiuComments'].valid"  class="error"
