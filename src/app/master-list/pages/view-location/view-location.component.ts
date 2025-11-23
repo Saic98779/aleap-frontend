@@ -41,7 +41,7 @@ export class ViewLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAgenciesList();
-    if (this.loginsessionDetails?.userRole == 'ADMIN') {
+    if (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') {
       this.agencyId = -1;
     } else {
       this.agencyId = this.loginsessionDetails?.agencyId;
@@ -217,7 +217,7 @@ onUpdateLocation() {
 
   // Refresh locations list
   refreshLocationsList() {
-    if (this.loginsessionDetails?.userRole == 'ADMIN') {
+    if (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') {
       this.agencyId = -1;
     } else {
       this.agencyId = this.loginsessionDetails?.agencyId;
@@ -231,7 +231,7 @@ onUpdateLocation() {
     if (event == 'All Agency') {
       this.agencyId = -1;
     } else {
-      if (this.loginsessionDetails?.userRole == 'ADMIN') {
+      if (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') {
         this.agencyId = event;
       } else {
         this.agencyId = this.loginsessionDetails?.agencyId;
@@ -337,7 +337,8 @@ columns: [
     render: (data: any, type: any, row: any, meta: any) => {
       if (this.loginsessionDetails?.userRole == 'AGENCY_MANAGER' || 
           this.loginsessionDetails?.userRole == 'AGENCY_EXECUTOR' || 
-          this.loginsessionDetails?.userRole == 'ADMIN') {
+          this.loginsessionDetails?.userRole == 'ADMIN' ||
+          this.loginsessionDetails?.userRole == 'SPIU') {
         return `   
           <button type="button" class="btn btn-default text-lime-green btn-sm edit-location-btn" data-index="${meta.row}">
             <span class="bi bi-pencil"></span>
@@ -354,7 +355,7 @@ columns: [
     orderable: false,
     width: '120px'
   },
-  ...(this.loginsessionDetails?.userRole === 'ADMIN' ? [{
+  ...((this.loginsessionDetails?.userRole === 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU' )? [{
     data: 'agencyName',
     title: 'Agency',
     render: function(data: any, type: any, row: any) {

@@ -43,7 +43,7 @@ export class ViewProgramDicComponent implements OnInit {
      this.initializeDataTable(this.selectedAgencyId || this.agencyId);
  
      }
-     districtName:any;
+     districtName:any=-1;
      GetProgramsByAgency(event:any){
       //  this.agencyByAdmin=event;
        // this.StatusData=''
@@ -166,11 +166,20 @@ export class ViewProgramDicComponent implements OnInit {
        data: 'endDate',
        title: 'End Date'
    },
+    { 
+       data: 'programTitle',
+       title: 'Title Of Program'
+   },
+
      { 
-         data: 'startTime',
-         title: 'In Time',
-         className: 'text-center'
-     },
+       data: 'status',
+       title: 'Status',
+   },
+    //  { 
+    //      data: 'startTime',
+    //      title: 'In Time',
+    //      className: 'text-center'
+    //  },
      // { 
      //     data: 'endTime',
      //     title: 'Out Time',
@@ -184,33 +193,12 @@ export class ViewProgramDicComponent implements OnInit {
          return data ? data : '';
        }
    },
-   { 
-     title: 'District',
-     orderable: false ,
-     render: function(data, type, row, meta:any) {
-       // console.log(data,meta,type, row)
-         return row?.district ? row?.district : '-';   
-     },
-     className: 'dt-center'
- },
-     { 
-       data: 'programType',
-       title: 'Budget Head'
-   },
-       { 
+    { 
          data: 'agencyName',
          orderable: false,
          title: 'Agency Name'
      },
-     { 
-       data: 'programTitle',
-       title: 'Title Of Program'
-   },
-     { 
-       data: 'status',
-       title: 'Status',
-   },
-         { 
+       { 
              data: 'activityName',
              orderable: false,
              title: 'Type Of Activity'
@@ -223,10 +211,16 @@ export class ViewProgramDicComponent implements OnInit {
              return data ? data : '';
            }
        },
-        
-       
-       
-         { 
+        { 
+        title: 'District',
+        orderable: false ,
+        render: function(data, type, row, meta:any) {
+          // console.log(data,meta,type, row)
+            return row?.district ? row?.district : '-';   
+        },
+        className: 'dt-center'
+    },
+        { 
              data: 'spocName',
              title: 'SPOC Name'
          },
@@ -234,6 +228,13 @@ export class ViewProgramDicComponent implements OnInit {
              data: 'spocContactNo',
              title: 'SPOC Contact No.'
          },
+     
+     { 
+       data: 'programType',
+       title: 'Budget Head'
+   },
+      
+     
          // { 
          //   data: null,
          //   title: 'Edit / Delete',
@@ -297,9 +298,10 @@ export class ViewProgramDicComponent implements OnInit {
            const year = endDate.getFullYear();
            params += `&toDate=${day}-${month}-${year}`;
          }
-         if(this.districtName){
+         if(this.districtName!=-1 && this.districtName){
           params += `&districtName=${this.districtName}`;
          }
+       
          
           this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyByStatusDetails}${agency}${statusDataurl}${params}`)
          .pipe()
@@ -438,7 +440,7 @@ export class ViewProgramDicComponent implements OnInit {
          this.agencyListFiltered=this.agencyList;
             this.StatusData = 'programsInProcess'; 
          this.selectedAgencyId =-1
-         this.districtName=this.agencyListFiltered[0]?.districtName
+         this.districtName=-1
          this.GetProgramsByAgency(this.districtName);
        }, (error) => {
          this.toastrService.error(error.error.message);
@@ -507,7 +509,7 @@ export class ViewProgramDicComponent implements OnInit {
            const year = endDate.getFullYear();
            params += `&toDate=${day}-${month}-${year}`;
          }
-         if(this.districtName){
+         if(this.districtName != -1 && this.districtName){
           if(this.dateRange.start || this.dateRange.end){
             params += `&districtName=${this.districtName}`;
           }

@@ -136,7 +136,7 @@ export class ProgramExpenditureComponent implements OnInit {
  onAgencyChange(): void {
   this.programs = [];
   if (this.agencyId) {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Program Execution Updated`).subscribe({
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Collage Added`).subscribe({
       next: (data: any) => {
         this.programs = data.data;
       },
@@ -840,7 +840,7 @@ export class ProgramExpenditureComponent implements OnInit {
 
     sessionSubmissionFinal() {
               let data = {}
-              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId}?status=Program Expenditure Updated`, data).subscribe({
+              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId}?status=Collage Added`, data).subscribe({
                 next: (data: any) => {
                   console.log('Response from API:', data);
                   this.toastrService.success('Program Expenditure Details Submitted Successfully', "");

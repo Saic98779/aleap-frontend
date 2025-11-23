@@ -125,11 +125,7 @@ export class ViewProgramsSeperateComponent implements OnInit ,AfterViewInit {
           orderable: false,
           className: 'text-center'
       },
-       { 
-        data: 'agencyName',
-        orderable: false,
-        title: 'Agency Name'
-    },
+      
       { 
         data: 'startDate',
         title: 'Start Date'
@@ -141,34 +137,11 @@ export class ViewProgramsSeperateComponent implements OnInit ,AfterViewInit {
       data: 'programTitle',
       title: 'Title Of Program'
   },
+    { 
+      data: 'status',
+      title: 'Status',
+  },
    { 
-            data: 'spocName',
-            title: 'SPOC Name'
-        },
-        { 
-            data: 'spocContactNo',
-            title: 'SPOC Contact No.'
-        },
-         { 
-    title: 'District',
-    orderable: false ,
-    render: function(data, type, row, meta:any) {
-      // console.log(data,meta,type, row)
-        return row?.district ? row?.district : '-';   
-    },
-    className: 'dt-center'
-},
-    { 
-        data: 'startTime',
-        title: 'In Time',
-        className: 'text-center'
-    },
-    { 
-        data: 'endTime',
-        title: 'Out Time',
-        className: 'text-center'
-    },
-    { 
       data: 'programLocationName',
       orderable: false,
       title: 'Program Location',
@@ -176,17 +149,11 @@ export class ViewProgramsSeperateComponent implements OnInit ,AfterViewInit {
         return data ? data : '';
       }
   },
- 
-    { 
-      data: 'programType',
-      title: 'Budget Head'
-  },
-     
-   
-    { 
-      data: 'status',
-      title: 'Status',
-  },
+  { 
+        data: 'agencyName',
+        orderable: false,
+        title: 'Agency Name'
+    },
         { 
             data: 'activityName',
             orderable: false,
@@ -198,6 +165,44 @@ export class ViewProgramsSeperateComponent implements OnInit ,AfterViewInit {
             title: 'Sub Activity'
         },
        
+      { 
+    title: 'District',
+    orderable: false ,
+    render: function(data, type, row, meta:any) {
+      // console.log(data,meta,type, row)
+        return row?.district ? row?.district : '-';   
+    },
+    className: 'dt-center'
+},
+   
+   { 
+            data: 'spocName',
+            title: 'SPOC Name'
+        },
+        { 
+            data: 'spocContactNo',
+            title: 'SPOC Contact No.'
+        },
+     
+    // { 
+    //     data: 'startTime',
+    //     title: 'In Time',
+    //     className: 'text-center'
+    // },
+    // { 
+    //     data: 'endTime',
+    //     title: 'Out Time',
+    //     className: 'text-center'
+    // },
+   
+ 
+    { 
+      data: 'programType',
+      title: 'Budget Head'
+  },
+     
+   
+  
       
       
        

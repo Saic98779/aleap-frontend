@@ -30,7 +30,7 @@ export class ViewAllProgramsRelatedDataComponent implements OnInit {
     this.formDetailsRemark()
     this.activeTab = 'nav-five';
     this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-    if(this.loginsessionDetails.userRole == 'ADMIN') {
+    if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'SPIU') {
       this.getAgenciesList()
     }
     else{
@@ -625,7 +625,7 @@ getAgenciesList() {
     return this.RemarkForm.controls;
   }
   formDetailsRemark() {
-    if(this.loginsessionDetails?.userRole == 'ADMIN'){
+    if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'){
        this.RemarkForm = new FormGroup({
       spiuComments: new FormControl("", [Validators.required]),
       agencyComments: new FormControl("", ),
@@ -684,7 +684,7 @@ openRemarks(item:any){
       let url:any
       if(this.expenditureType=='PRE' || this.expenditureType=='POST'){
         url=APIS.programExpenditure.saveRemarks+'?status='+this.fRemark['status'].value
-        if(this.loginsessionDetails?.userRole == 'ADMIN'){
+        if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'){
             payload={
             "userId": this.loginsessionDetails?.userId,
             "spiuComments": this.fRemark['spiuComments'].value,
@@ -703,7 +703,7 @@ openRemarks(item:any){
     }
       else{
         url=APIS.programExpenditure.saveRemarksBulk+'?status='+this.fRemark['status'].value
-          if(this.loginsessionDetails?.userRole == 'ADMIN'){
+          if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'){
             payload={
             "userId": this.loginsessionDetails?.userId,
             "spiuComments": this.fRemark['spiuComments'].value,

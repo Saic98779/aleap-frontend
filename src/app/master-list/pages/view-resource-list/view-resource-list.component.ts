@@ -39,7 +39,7 @@ export class ViewResourceListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAgenciesList();
-    if (this.loginsessionDetails?.userRole == 'ADMIN') {
+    if (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') {
       this.agencyId = -1;
     } else {
       this.agencyId = this.loginsessionDetails?.agencyId;
@@ -249,7 +249,7 @@ export class ViewResourceListComponent implements OnInit, OnDestroy {
     if (event == 'All Agency') {
       this.agencyId = -1;
     } else {
-      if (this.loginsessionDetails?.userRole == 'ADMIN') {
+      if (this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') {
         this.agencyId = event;
       } else {
         this.agencyId = this.loginsessionDetails?.agencyId;
@@ -355,7 +355,7 @@ export class ViewResourceListComponent implements OnInit, OnDestroy {
             // Check if user has permission and if a specific agency is selected (not "All Agencies")
             if ((this.loginsessionDetails?.userRole == 'AGENCY_MANAGER' || 
                 this.loginsessionDetails?.userRole == 'AGENCY_EXECUTOR' || 
-                this.loginsessionDetails?.userRole == 'ADMIN') && 
+                this.loginsessionDetails?.userRole == 'ADMIN'  || this.loginsessionDetails?.userRole == 'SPIU') && 
                 self.agencyId !== -1) {
               return `   
                 <button type="button" class="btn btn-default text-lime-green btn-sm edit-resource-btn" data-index="${meta.row}">
@@ -367,7 +367,7 @@ export class ViewResourceListComponent implements OnInit, OnDestroy {
               `;
             } else if ((this.loginsessionDetails?.userRole == 'AGENCY_MANAGER' || 
                       this.loginsessionDetails?.userRole == 'AGENCY_EXECUTOR' || 
-                      this.loginsessionDetails?.userRole == 'ADMIN') && 
+                      this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU') && 
                       self.agencyId === -1) {
               // Show disabled buttons when "All Agencies" is selected
               return `   
@@ -386,7 +386,7 @@ export class ViewResourceListComponent implements OnInit, OnDestroy {
           orderable: false,
           width: '120px'
         },
-        ...(this.loginsessionDetails?.userRole === 'ADMIN' ? [{
+        ...(this.loginsessionDetails?.userRole === 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU' ? [{
           data: 'agencyNames',
           title: 'Agency',
           render: function(data: any, type: any, row: any) {

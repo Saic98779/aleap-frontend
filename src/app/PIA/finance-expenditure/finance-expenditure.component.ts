@@ -36,7 +36,7 @@ export class FinanceExpenditureComponent implements OnInit {
     
     this.activeTab = 'nav-five';
     this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-    if(this.loginsessionDetails.userRole == 'ADMIN') {
+    if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'FINANCE') {
       this.getAgenciesList()
     }
     else{
@@ -100,7 +100,7 @@ getAgenciesList() {
   }
   // get programs by  Agency login
   getProgramsByAgency() {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Program Expenditure Updated`).subscribe({
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Collage Added`).subscribe({
       next: (data: any) => {
         this.agencyProgramList = data?.data
         this.agencyProgramListFiltered=this.agencyProgramList
@@ -497,7 +497,7 @@ getAgenciesList() {
     return this.RemarkForm.controls;
   }
   formDetailsRemark() {
-    if(this.loginsessionDetails?.userRole == 'ADMIN'){
+    if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
        this.RemarkForm = new FormGroup({
       spiuComments: new FormControl("", [Validators.required]),
       agencyComments: new FormControl("", ),
@@ -555,14 +555,14 @@ openRemarks(item:any){
       let payload:any
       let url:any
       if(this.expenditureType=='PRE' || this.expenditureType=='POST'){
-        if(this.loginsessionDetails?.userRole != 'ADMIN'){
+        if(this.loginsessionDetails?.userRole != 'ADMIN' || this.loginsessionDetails?.userRole != 'FINANCE'){
            url=APIS.programExpenditure.saveRemarks
         }
         else{
           url=APIS.programExpenditure.saveRemarks+'?status='+this.fRemark['status'].value
         }
         
-        if(this.loginsessionDetails?.userRole == 'ADMIN'){
+        if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
             payload={
             "userId": this.loginsessionDetails?.userId,
             "spiuComments": this.fRemark['spiuComments'].value,
@@ -580,14 +580,14 @@ openRemarks(item:any){
       }
     }
       else{
-        if(this.loginsessionDetails?.userRole != 'ADMIN'){
+        if(this.loginsessionDetails?.userRole != 'ADMIN' || this.loginsessionDetails?.userRole != 'FINANCE'){
            url=APIS.programExpenditure.saveRemarksBulk
         }
         else{
             url=APIS.programExpenditure.saveRemarksBulk+'?status='+this.fRemark['status'].value
         }
       
-          if(this.loginsessionDetails?.userRole == 'ADMIN'){
+          if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
             payload={
             "userId": this.loginsessionDetails?.userId,
             "spiuComments": this.fRemark['spiuComments'].value,

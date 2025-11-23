@@ -32,7 +32,7 @@ export class OutputProgressComponent implements OnInit {
     
       ngOnInit(): void {
         this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-        if(this.loginsessionDetails.userRole == 'ADMIN') {
+        if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'SPIU'){
           this.getAgenciesList()
           this.getOutcomes()
         }
@@ -56,7 +56,7 @@ export class OutputProgressComponent implements OnInit {
       this._commonService.getDataByUrl(APIS.masterList.agencyList).subscribe((res: any) => {
         this.agencyList = res.data;
         this.agencyListFiltered = this.agencyList;
-        if(this.loginsessionDetails.userRole == 'ADMIN'){
+        if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'SPIU'){
            if(Number(sessionStorage.getItem('selectAgecytoOutpuAchievements'))){
           this.selectedAgencyId=Number(sessionStorage.getItem('selectAgecytoOutpuAchievements'))
           this.selectedAgencyId=this.selectedAgencyId==-1?'-1':this.selectedAgencyId

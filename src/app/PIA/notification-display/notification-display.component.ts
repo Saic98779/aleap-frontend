@@ -55,7 +55,7 @@ togglePanel() {
     
     this.commonService.getDataByUrl(url)
       .subscribe((res: any) => {
-        if(this.userDetails.userRole=='AGENCY_MANAGER' || this.userDetails.userRole=='AGENCY_EXECUTOR'){
+        if(this.userDetails?.userRole=='AGENCY_MANAGER' || this.userDetails?.userRole=='AGENCY_EXECUTOR'){
           if(res && res.data.length > 0) {
             this.notificationsList = res.data;
             this.notificationCount = this.notificationsList.length;
@@ -65,7 +65,7 @@ togglePanel() {
           }
         }
         else{
-           if (res && res.data['messages'].length > 0) {
+           if (res && res.data?.['messages'].length > 0) {
           this.notificationsList = res.data['messages'];
           this.notificationCount = this.notificationsList.length;
         } else {

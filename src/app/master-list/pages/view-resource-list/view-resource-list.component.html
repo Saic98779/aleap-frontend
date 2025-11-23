@@ -10,7 +10,7 @@
                         <div class="col-12 col-sm-5 col-md-4 col-lg-3 text-end">
                             <button type="button" (click)="downloadProgramApi('resource')" class="btn btn-secondary">Download Resources</button>
                         </div>
-                        <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                        <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'">
                             <div class="col-12 col-sm-5 col-md-4 col-lg-3">
                                 <label for="Agencies" style="font-weight: 600;">List Of Agencies</label>
                                 <select class="form-select" (change)="getResourcesByAgency($any($event.target).value)">

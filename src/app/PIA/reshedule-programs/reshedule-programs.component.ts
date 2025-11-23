@@ -36,7 +36,7 @@ export class ResheduleProgramsComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.loginsessionDetails);
-    if(this.loginsessionDetails.userRole == 'ADMIN') {
+    if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'SPIU') {
       this.getAgenciesList()
     }
     else{
@@ -477,7 +477,7 @@ export class ResheduleProgramsComponent implements OnInit {
       this.dataTable.destroy();
     }
     setTimeout(() => {
-      if( this.loginsessionDetails?.userRole == 'ADMIN'){
+      if( this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'SPIU'){
         this.initializeDataTable(this.agencyId?this.agencyId:this.selectedAgencyId);
       }
       else{

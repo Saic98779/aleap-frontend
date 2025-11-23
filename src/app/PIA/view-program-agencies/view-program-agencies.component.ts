@@ -165,11 +165,19 @@ onDateRangeChange() {
       data: 'endDate',
       title: 'End Date'
   },
-    { 
-        data: 'startTime',
-        title: 'In Time',
-        className: 'text-center'
-    },
+  { 
+      data: 'programTitle',
+      title: 'Title Of Program'
+  },
+  { 
+      data: 'status',
+      title: 'Status',
+  },
+    // { 
+    //     data: 'startTime',
+    //     title: 'In Time',
+    //     className: 'text-center'
+    // },
     // { 
     //     data: 'endTime',
     //     title: 'Out Time',
@@ -183,32 +191,13 @@ onDateRangeChange() {
         return data ? data : '';
       }
   },
-  { 
-    title: 'District',
-    orderable: false ,
-    render: function(data, type, row, meta:any) {
-      // console.log(data,meta,type, row)
-        return row?.district ? row?.district : '-';   
-    },
-    className: 'dt-center'
-},
     { 
-      data: 'programType',
-      title: 'Budget Head'
-  },
-      { 
         data: 'agencyName',
         orderable: false,
         title: 'Agency Name'
     },
-    { 
-      data: 'programTitle',
-      title: 'Title Of Program'
-  },
-    { 
-      data: 'status',
-      title: 'Status',
-  },
+    
+    
         { 
             data: 'activityName',
             orderable: false,
@@ -222,6 +211,16 @@ onDateRangeChange() {
             return data ? data : '';
           }
       },
+  { 
+    title: 'District',
+    orderable: false ,
+    render: function(data, type, row, meta:any) {
+      // console.log(data,meta,type, row)
+        return row?.district ? row?.district : '-';   
+    },
+    className: 'dt-center'
+},
+   
        
       
       
@@ -233,6 +232,11 @@ onDateRangeChange() {
             data: 'spocContactNo',
             title: 'SPOC Contact No.'
         },
+         { 
+      data: 'programType',
+      title: 'Budget Head'
+  },
+    
         // { 
         //   data: null,
         //   title: 'Edit / Delete',

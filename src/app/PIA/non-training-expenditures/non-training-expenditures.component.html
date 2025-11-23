@@ -6,7 +6,7 @@
                     <div class="col-12 col-sm-5 col-md-5 col-lg-5">
                         <h6 class="fw-600 mb-2 mb-sm-0">Non Training Expenditure Verification</h6>
                     </div>
-                    <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                    <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
                         <div class="col-12 col-sm-2 col-md-2 col-lg-2">
                            
                               <mat-form-field appearance="outline" class="w-100">
@@ -50,7 +50,7 @@
                             </mat-form-field>
                         </div>
                     </ng-container>   
-                    <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN'">
+                    <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'FINANCE'">
                          <div class="col-12 col-sm-2 col-md-2 col-lg-2"></div>
                        <div class="col-12 col-sm-2 col-md-2 col-lg-2">
                           
@@ -109,7 +109,7 @@
                                 <th>Upload Bill/Invoice</th>
                                 <th>SPIU Comment</th>
                                 <th>Agency Response</th>
-                                <th class="text-center">Add {{this.loginsessionDetails?.userRole == 'ADMIN'?'SPIU Comment':'Agency Response'}}</th>
+                                <th class="text-center">Add {{this.loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'SPIU Comment':'Agency Response'}}</th>
                             </tr>
                         </thead>
                         <tbody *ngIf="getExpenditureDataBoth?.length">
@@ -233,13 +233,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addRemarkslabel">Add {{loginsessionDetails?.userRole == 'ADMIN'?'Remarks':'Response'}}</h5>
+                <h5 class="modal-title" id="addRemarkslabel">Add {{loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'Remarks':'Response'}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
             </div>
             <div class="modal-body">
                <form [formGroup]="RemarkForm">
                     <div class="row">
-                          <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                          <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
                             
                             <div class="form-floating mb-3">
                                <select class="form-select" formControlName="status"  name="status" id="status" >
@@ -253,7 +253,7 @@
                             style="color: red;">Status is required</div>
                             
                         </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" formControlName="spiuComments"  name="spiuComments" id="consumed" >
                                 <label for="consumed">SPIU Comments</label>
@@ -262,7 +262,7 @@
                             style="color: red;">SPIU Comments is required</div>
                             
                         </div>
-                         <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole != 'ADMIN'">
+                         <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'FINANCE'">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" formControlName="agencyComments"  name="agencyComments" id="consumed" >
                                 <label for="consumed">Agency Response</label>

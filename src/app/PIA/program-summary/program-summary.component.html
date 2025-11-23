@@ -7,7 +7,7 @@
                         <div class="col-12 col-sm-4 col-md-6 col-lg-6">
                             <h6 class="fw-600 mb-2 mb-sm-0 mb-md-0">Program Summary</h6>
                         </div>
-                        <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                        <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'">
                             <div class="col-12 col-sm-4 col-md-3 col-lg-3" >
                                 <!-- <label for="Agencies" style="font-weight: 600;">List Of Agencies</label>
                                 <select class="form-select" id="Agencies" (change)="getProgramsByAgency($any($event.target).value)">
