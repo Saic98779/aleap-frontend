@@ -840,7 +840,7 @@ export class ProgramExpenditureComponent implements OnInit {
 
     sessionSubmissionFinal() {
               let data = {}
-              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId}?status=Collage Added`, data).subscribe({
+              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId}?status=Program Expenditure Updated`, data).subscribe({
                 next: (data: any) => {
                   console.log('Response from API:', data);
                   this.toastrService.success('Program Expenditure Details Submitted Successfully', "");

@@ -286,20 +286,27 @@ export class CollageCreationComponent implements OnInit {
   }
 
   getPrograms(agencyId: number): void {
-
-    this.imageService.getPrograms(agencyId).subscribe(
-      (res) => {
-        this.programs = res.data.filter(
-          (program: any) =>
-          program.status === 'Program Execution Updated' ||
-          program.status === 'Program Expenditure Updated'
-        );
-        console.log('Filtered programs:', this.programs);
+      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${agencyId}?status=Program Execution Updated`).subscribe({
+      next: (data: any) => {
+        this.programs = data.data;
       },
-      (err) => {
-        console.error('Error fetching programs:', err);
+      error: (err) => {
+        console.error('Error loading programs:', err);
       }
-    );
+    });
+    // this.imageService.getPrograms(agencyId).subscribe(
+    //   (res) => {
+    //     this.programs = res.data.filter(
+    //       (program: any) =>
+    //       program.status === 'Program Execution Updated' ||
+    //       program.status === 'Program Expenditure Updated'
+    //     );
+    //     console.log('Filtered programs:', this.programs);
+    //   },
+    //   (err) => {
+    //     console.error('Error fetching programs:', err);
+    //   }
+    // );
 
   }
 
