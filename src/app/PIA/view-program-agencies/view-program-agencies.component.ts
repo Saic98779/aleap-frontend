@@ -533,3 +533,34 @@ onDateRangeChange() {
       this.loader.hide();
     }
   }
+
+
+  //  <tr *ngFor="let item of tableList; let i = index">
+
+  //                                   <td>{{ i + 1 }}</td>
+  //                                   <td *ngIf="loginsessionDetails?.userRole == 'AGENCY_MANAGER' || loginsessionDetails?.userRole == 'AGENCY_EXECUTOR'
+  //                                   || loginsessionDetails?.userRole == 'ADMIN'">
+  //                                       <!-- (click)="sessionDetails(item)" data-bs-toggle="modal" data-bs-target="#viewModal" -->
+  //                                       <button type="button" class="btn btn-default btn-sm text-lime-green"
+  //                                           title="Sessions" data-bs-toggle="modal" data-bs-target="#viewModal"
+  //                                           (click)="sessionDetails(item)" title="View"><span
+  //                                               class="bi bi-eye"></span></button>
+  //                                       <!-- <button type="button" class="btn btn-default btn-sm text-primary mx-2" title="Edit" (click)="editProgram(item)"><span class="bi bi-pencil"></span></button> -->
+  //                                       <!-- <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button> -->
+  //                                   </td>
+  //                                   <td>{{ item.status }}</td>
+  //                                   <td>{{ item.activityName }}</td>
+  //                                   <td>{{ item.subActivityName }}</td>
+  //                                   <td>{{ item.programType }}</td>
+  //                                   <!-- <td>{{ item.programDetails }}</td> -->
+  //                                   <td>{{ item.programTitle }}</td>
+  //                                   <!-- <td>{{ item.noOfDays }}</td> -->
+  //                                   <td>{{ item.startDate }}</td>
+  //                                   <td>{{ item.endDate }}</td>
+  //                                   <td class="text-center">{{ item.startTime }}</td>
+  //                                   <!-- <td class="text-center">{{ item.endTime }}</td> -->
+  //                                   <td>{{ item.spocName }}</td>
+  //                                   <td>{{ item.spocContactNo }}</td>
+  //                                   <td>{{ item.programLocationName }}</td>
+                                    
+  //                               </tr>

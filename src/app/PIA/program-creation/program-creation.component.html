@@ -48,20 +48,19 @@
                                 <div *ngIf="f2['subActivityId'].touched && !f2['subActivityId'].valid" class="error"
                                     style="color: red;">Sub Activity is required</div>
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" formControlName="programType">
                                         <option selected value="">Select Budget Head</option>
-                                        <!-- <option value="ESDP Training">ESDP Training</option>
-                                        <option value="Awareness">Awareness</option> -->
+                                       
                                         <option value="{{list.programType}}" *ngFor="let list of getProgramType">{{list.programType}}</option>
-                                        <!-- <option value="Program3">Program3</option> -->
+                                       
                                     </select>
                                     <label>Budget Head <span class="c-red"> *</span></label>
                                 </div>
                                 <div *ngIf="f2['programType'].touched && !f2['programType'].valid" class="error"
                                     style="color: red;">Budget Head is required</div>
-                            </div>
+                            </div> -->
                             <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" formControlName="programDetails">
@@ -133,7 +132,7 @@
                                     style="color: red;">Out Time is required</div>
 
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" formControlName="kpi">
                                         <option selected value="">Select KPI </option>
@@ -146,7 +145,7 @@
                                 </div>
                                 <div *ngIf="f2['kpi'].touched && !f2['kpi'].valid" class="error" style="color: red;">KPI
                                     is required</div>
-                            </div>
+                            </div> -->
                             <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" placeholder="" formControlName="kpi">

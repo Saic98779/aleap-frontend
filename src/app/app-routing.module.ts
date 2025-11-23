@@ -98,14 +98,10 @@ const routes: Routes = [
     {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.DEVELOPER] }
     },
     {
         path: 'password-settings',
         component: PasswordSettingsComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,,Role.DEVELOPER] }
     },
     {
         path: 'user-registration',

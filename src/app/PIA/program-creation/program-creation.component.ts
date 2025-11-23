@@ -133,7 +133,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     this.programCreationMain = new FormGroup({
       activityId: new FormControl("", [Validators.required]),
       subActivityId: new FormControl("", [Validators.required]),
-      programType: new FormControl("", [Validators.required]),
+      // programType: new FormControl("", [Validators.required]),
       //programDetails: new FormControl("", [Validators.required]),new FormControl("",[Validators.pattern(/^[^\s].*/)]),
       programTitle: new FormControl("", [Validators.required, Validators.pattern(/^[^\s].*/)]),
       startDate: new FormControl("", [Validators.required]),
@@ -144,7 +144,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
       spocName: new FormControl("", [Validators.required,Validators.pattern(/^[A-Za-z][A-Za-z .]*$/)]), //Validators.required
       spocContactNo: new FormControl("", [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
       programLocation: new FormControl("", [Validators.required]),
-      kpi: new FormControl("", [Validators.required]),
+      // kpi: new FormControl("", [Validators.required]),
     }, { validators: this.validateDates as ValidatorFn });
     // Mark all controls as touched to show validation errors immediately
     //Object.values(this.programCreationMain.controls).forEach(control => control.markAsTouched());
@@ -379,7 +379,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
         this.programCreationMain.patchValue({
           activityId: program.activityId,
           subActivityId: program.subActivityId,
-          programType: program.programType,
+          // programType: program.programType,
           //programDetails: program.programDetails,
           programTitle: program.programTitle,
           startDate: this.convertToISOFormat(program.startDate),
@@ -389,7 +389,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
           spocName: program.spocName,
           spocContactNo: program.spocContactNo,
           programLocation: program.programLocation,
-          kpi: program.kpi,
+          // kpi: program.kpi,
         });
 
         if (this.programCreationMain.invalid) {

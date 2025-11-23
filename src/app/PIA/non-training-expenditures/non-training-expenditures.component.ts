@@ -39,7 +39,7 @@ export class NonTrainingExpendituresComponent implements OnInit {
      
      this.activeTab = 'nav-five';
      this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-     if(this.loginsessionDetails.userRole == 'ADMIN') {
+     if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'FINANCE'){ 
        this.getAgenciesList()
      }
      else{
@@ -537,7 +537,7 @@ export class NonTrainingExpendituresComponent implements OnInit {
      return this.RemarkForm.controls;
    }
    formDetailsRemark() {
-     if(this.loginsessionDetails?.userRole == 'ADMIN'){
+     if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
         this.RemarkForm = new FormGroup({
        spiuComments: new FormControl("", [Validators.required]),
        agencyComments: new FormControl("", ),
@@ -595,14 +595,14 @@ export class NonTrainingExpendituresComponent implements OnInit {
        let payload:any
        let url:any=APIS.programExpenditure.saveRemarksNonTraining
        if(this.expenditureType=='PRE' || this.expenditureType=='POST'){
-         if(this.loginsessionDetails?.userRole != 'ADMIN'){
+         if(this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'FINANCE'){
             url=APIS.programExpenditure.saveRemarks
          }
          else{
            url=APIS.programExpenditure.saveRemarksNonTraining+'?status='+this.fRemark['status'].value
          }
          
-         if(this.loginsessionDetails?.userRole == 'ADMIN'){
+         if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
              payload={
              "userId": this.loginsessionDetails?.userId,
              "spiuComments": this.fRemark['spiuComments'].value,
@@ -621,14 +621,14 @@ export class NonTrainingExpendituresComponent implements OnInit {
        }
      }
        else{
-         if(this.loginsessionDetails?.userRole != 'ADMIN'){
+         if(this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'FINANCE'){
             url=APIS.programExpenditure.saveRemarksNonTraining
          }
          else{
              url=APIS.programExpenditure.saveRemarksNonTraining+'?status='+this.fRemark['status'].value
          }
        
-           if(this.loginsessionDetails?.userRole == 'ADMIN'){
+           if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
              payload={
              "userId": this.loginsessionDetails?.userId,
              "spiuComments": this.fRemark['spiuComments'].value,

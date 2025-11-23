@@ -51,19 +51,31 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of tableList; let i = index">
+              
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+<!--   <tr *ngFor="let item of tableList; let i = index">
 
                   <td>{{ i + 1 }}</td>
                   <td *ngIf="loginsessionDetails?.userRole == 'AGENCY_MANAGER' || loginsessionDetails?.userRole == 'AGENCY_EXECUTOR'
                                     || loginsessionDetails?.userRole == 'ADMIN'">
-                    <!-- (click)="sessionDetails(item)" data-bs-toggle="modal" data-bs-target="#viewModal" -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-lime-green"
+                    (click)="sessionDetails(item)" data-bs-toggle="modal" data-bs-target="#viewModal"
+                    <button type="button" class="btn btn-default btn-sm text-lime-green"
                                             title="Sessions" data-bs-toggle="modal" data-bs-target="#viewModal"
                                             (click)="sessionDetails(item)" title="View"><span
-                                                class="bi bi-eye"></span></button> -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button> -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-primary mx-2" title="Edit" (click)="editProgram(item)"><span class="bi bi-pencil"></span></button> -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button> -->
+                                                class="bi bi-eye"></span></button>
+                    <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button>
+                    <button type="button" class="btn btn-default btn-sm text-primary mx-2" title="Edit" (click)="editProgram(item)"><span class="bi bi-pencil"></span></button>
+                    <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button>
                   </td>
                   <td>{{ item.startDate }}</td>
                   <td>{{ item.endDate }}</td>
@@ -75,21 +87,12 @@
                   <td>{{ item.activityName }}</td>
                   <td>{{ item.subActivityName }}</td>
 
-                  <!-- <td>{{ item.programDetails }}</td> -->
+                  <td>{{ item.programDetails }}</td>
 
-                  <!-- <td>{{ item.noOfDays }}</td> -->
+                  <td>{{ item.noOfDays }}</td>
 
                   <td>{{ item.spocName }}</td>
                   <td>{{ item.spocContactNo }}</td>
                   <td>{{ item.programLocationName }}</td>
 
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
+                </tr> -->

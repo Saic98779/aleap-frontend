@@ -159,7 +159,7 @@
                                 <td *ngIf="item?.spiuComments?.length > 1">
                                     <i class="bx docu-hv-text" style="position: relative;">
                                         {{item?.spiuComments[0]}}..
-                                        <div class="statusmes-data" style="width: auto !important;background-color: #ffc107;">
+                                        <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
                                             <p>{{item?.spiuComments}}</p>
                                         </div>
                                     </i>
@@ -170,7 +170,7 @@
                                 <td *ngIf="item?.agencyComments?.length > 1">
                                     <i class="bx docu-hv-text" style="position: relative;">
                                         {{item?.agencyComments[0]}}..
-                                        <div class="statusmes-data" style="width: auto !important;background-color: #ffc107;">
+                                        <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
                                             <p>{{item?.agencyComments}}</p>
                                         </div>
                                     </i>
@@ -254,7 +254,7 @@
                             
                         </div>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
-                            <div class="form-floating mb-3">
+                            <div class="form-floating mb-3" *ngIf="fRemark['status'].value !== 'APPROVED'">
                                 <input type="text" class="form-control" formControlName="spiuComments"  name="spiuComments" id="consumed" >
                                 <label for="consumed">SPIU Comments</label>
                             </div>
