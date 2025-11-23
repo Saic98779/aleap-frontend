@@ -5,3 +5,7 @@
 .bg-violet{
       background-color: #9C27B0 !important;
     }
+    thead tr th {
+      height: 20px;
+        text-align: center;
+    }

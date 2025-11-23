@@ -331,6 +331,8 @@
   class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
   style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050;"
   *ngIf="showDbImages"
+  (keydown.escape)="showDbImages = false"
+  tabindex="0"
 >
   <div 
     class="bg-white rounded-4 shadow-lg p-4 position-relative"

@@ -11,7 +11,7 @@
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 custom-ui " style="margin-bottom: 2rem;">
                             <mat-form-field appearance="outline" class="mb-3 w-100">
                             <mat-label>Select Date Range</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
+                            <mat-date-range-input [rangePicker]="picker" class="pt-3">
                                 <input matStartDate placeholder="Start date" [(ngModel)]="dateRange.start" (dateChange)="onDateRangeChange()">
                                 <input matEndDate placeholder="End date" [(ngModel)]="dateRange.end" (dateChange)="onDateRangeChange()">
                             </mat-date-range-input>

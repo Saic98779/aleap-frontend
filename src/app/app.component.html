@@ -417,8 +417,8 @@
                     </a>
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['reportsAdmin']"
                       style="position:static; background: #dfebeb;min-width:180px;">
-                      <li *ngIf="Role.SPIU"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">View Collage</a></li>
-                      <li *ngIf="!Role.SPIU"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">Create Collage</a></li>
+                      <li *ngIf="this.user?.userRole=='SPIU'"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">View Collage</a></li>
+                      <li *ngIf="this.user?.userRole=='ADMIN'"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">Create Collage</a></li>
                       <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active">Program Summary</a></li>
                       <li>
                         <a class="dropdown-item" routerLink="/reshedule-programs" routerLinkActive="active">Reschedule Programs</a>
