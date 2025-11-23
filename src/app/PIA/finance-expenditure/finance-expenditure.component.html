@@ -97,7 +97,7 @@
                                     <tr  *ngFor="let item of getExpenditureDataBoth; let i=index">
                                          
                                      <td *ngIf="loginsessionDetails.agencyId" class="text-center">
-                                        <button type="button" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}"  (click)="OpenModal('edit',item)"><span class="bi bi-pencil"></span></button>
+                                        <button type="button"  [ngClass]="{'disabled':item?.status=='APPROVED'}" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}"  (click)="OpenModal('edit',item)"><span class="bi bi-pencil"></span></button>
                                     </td>
                                         <td class="text-start">{{i+1}}</td>
                                         <td>{{item?.expenditureType}}</td>
@@ -149,7 +149,7 @@
                                                 {{item?.agencyComments?.[0]}}                        
                                             </td>
                                               <td class="text-center">
-                                        <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED' || !item.status}" class="btn btn-default text-lime-green btn-sm"  (click)="openRemarks(item)"><span class="bi bi-pencil"></span></button>
+                                        <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED'}" class="btn btn-default text-lime-green btn-sm"  (click)="openRemarks(item)"><span class="bi bi-pencil"></span></button>
                                     </td>
                                         <!-- <td>{{item?.remarksOrResponse}}</td> -->
                                         <!-- <td>{{item?.purpose}}</td> -->

@@ -555,7 +555,7 @@ openRemarks(item:any){
       let payload:any
       let url:any
       if(this.expenditureType=='PRE' || this.expenditureType=='POST'){
-        if(this.loginsessionDetails?.userRole != 'ADMIN' || this.loginsessionDetails?.userRole != 'FINANCE'){
+        if(this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'FINANCE'){
            url=APIS.programExpenditure.saveRemarks
         }
         else{
@@ -580,7 +580,7 @@ openRemarks(item:any){
       }
     }
       else{
-        if(this.loginsessionDetails?.userRole != 'ADMIN' || this.loginsessionDetails?.userRole != 'FINANCE'){
+        if(this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'FINANCE'){
            url=APIS.programExpenditure.saveRemarksBulk
         }
         else{
