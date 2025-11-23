@@ -100,7 +100,7 @@ getAgenciesList() {
   }
   // get programs by  Agency login
   getProgramsByAgency() {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Collage Added`).subscribe({
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Program Expenditure Updated`).subscribe({
       next: (data: any) => {
         this.agencyProgramList = data?.data
         this.agencyProgramListFiltered=this.agencyProgramList

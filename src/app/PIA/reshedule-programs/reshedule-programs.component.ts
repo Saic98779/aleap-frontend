@@ -317,55 +317,7 @@ export class ResheduleProgramsComponent implements OnInit {
           return data ? data : '';
         }
     },
-      { 
-          data: 'startTime',
-          title: 'In Time',
-          className: 'text-center',
-          render: function(data, type, row) {
-            return data ? data : '';
-          }
-      },
-      { 
-          data: 'endTime',
-          title: 'Out Time',
-          className: 'text-center',
-          render: function(data, type, row) {
-            return data ? data : '';
-          }
-      },
-      { 
-        data: 'programLocationName',
-        title: 'Program Location',
-        orderable: false ,
-        render: function(data, type, row) {
-          return data ? data : '';
-        }
-    },
-    { 
-      title: 'District',
-      orderable: false ,
-      render: function(data, type, row, meta:any) {
-        // console.log(data,meta,type, row)
-          return row?.district ? row?.district : '-';   
-      },
-      className: 'dt-center'
-  },
-    { 
-      data: 'programType',
-      title: 'Budget Head',
-      render: function(data, type, row) {
-        return data ? data : '';
-      }
-    },
-    { 
-      data: 'agencyName',
-      title: 'Agency Name',
-      orderable: false,
-      render: function(data, type, row) {
-        return data ? data : '';
-      }
-    },
-    { 
+     { 
       data: 'programTitle',
       title: 'Title Of Program',
       render: function(data, type, row) {
@@ -379,6 +331,40 @@ export class ResheduleProgramsComponent implements OnInit {
         return data ? data : '';
       }
     },
+      // { 
+      //     data: 'startTime',
+      //     title: 'In Time',
+      //     className: 'text-center',
+      //     render: function(data, type, row) {
+      //       return data ? data : '';
+      //     }
+      // },
+      // { 
+      //     data: 'endTime',
+      //     title: 'Out Time',
+      //     className: 'text-center',
+      //     render: function(data, type, row) {
+      //       return data ? data : '';
+      //     }
+      // },
+      { 
+        data: 'programLocationName',
+        title: 'Program Location',
+        orderable: false ,
+        render: function(data, type, row) {
+          return data ? data : '';
+        }
+    },
+     { 
+      data: 'agencyName',
+      title: 'Agency Name',
+      orderable: false,
+      render: function(data, type, row) {
+        return data ? data : '';
+      }
+    },
+   
+    
      { 
           data: 'activityName',
           title: 'Type Of Activity',
@@ -395,6 +381,23 @@ export class ResheduleProgramsComponent implements OnInit {
             return data ? data : '';
           }
       },
+    { 
+      title: 'District',
+      orderable: false ,
+      render: function(data, type, row, meta:any) {
+        // console.log(data,meta,type, row)
+          return row?.district ? row?.district : '-';   
+      },
+      className: 'dt-center'
+  },
+    // { 
+    //   data: 'programType',
+    //   title: 'Budget Head',
+    //   render: function(data, type, row) {
+    //     return data ? data : '';
+    //   }
+    // },
+   
       
      
       { 

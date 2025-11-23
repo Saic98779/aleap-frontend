@@ -28,7 +28,7 @@
                                         <mat-select-filter [array]="agencyList" [displayMember]="'districtName'"
                                             (filteredReturn)="agencyListFiltered = $event">
                                         </mat-select-filter>
-                                        <mat-option [value]="-1">All Agencies</mat-option>
+                                        <mat-option [value]="-1">All Districts</mat-option>
                                         <mat-option *ngFor="let list of agencyListFiltered" [value]="list.districtName">
                                             {{ list.districtName }}
                                         </mat-option>

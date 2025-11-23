@@ -232,10 +232,10 @@ onDateRangeChange() {
             data: 'spocContactNo',
             title: 'SPOC Contact No.'
         },
-         { 
-      data: 'programType',
-      title: 'Budget Head'
-  },
+  //        { 
+  //     data: 'programType',
+  //     title: 'Budget Head'
+  // },
     
         // { 
         //   data: null,

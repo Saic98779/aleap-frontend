@@ -229,10 +229,10 @@ export class ViewProgramDicComponent implements OnInit {
              title: 'SPOC Contact No.'
          },
      
-     { 
-       data: 'programType',
-       title: 'Budget Head'
-   },
+  //    { 
+  //      data: 'programType',
+  //      title: 'Budget Head'
+  //  },
       
      
          // { 

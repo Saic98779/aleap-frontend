@@ -455,13 +455,13 @@ onDateRangeChange() {
             return data ? data : '';
           }
       },
-      { 
-      data: 'programType',
-      title: 'Budget Head',
-      render: function(data, type, row) {
-        return data ? data : '';
-      }
-    },
+    //   { 
+    //   data: 'programType',
+    //   title: 'Budget Head',
+    //   render: function(data, type, row) {
+    //     return data ? data : '';
+    //   }
+    // },
      
       // { 
       //   data: null,

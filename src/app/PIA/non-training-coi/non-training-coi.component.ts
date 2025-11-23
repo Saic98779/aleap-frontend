@@ -76,7 +76,8 @@ export class NonTrainingCoiComponent implements OnInit {
  TargetDetails: any;
     getDeatilOfTargets() {
         this.TargetDetails=[]
-        this._commonService.getDataByUrl(APIS.nontrainingtargets.getNonTrainingtargets+this.selectedBudgetHead).subscribe((res: any) => {
+        setTimeout(() => {
+           this._commonService.getDataByUrl(APIS.nontrainingtargets.getNonTrainingtargets+this.selectedBudgetHead).subscribe((res: any) => {
           this.TargetDetails = res.data;
           this.physicalTarget = this.TargetDetails?.physicalTarget || 0;
           this.financialTarget = this.TargetDetails?.financialTarget || 0;
@@ -113,6 +114,8 @@ export class NonTrainingCoiComponent implements OnInit {
           }
           // this.toastrService.error(error.message);
         });
+        }, 1000);
+       
       }
 
 
@@ -272,7 +275,7 @@ createForm(): FormGroup {
         ifscCode: item?.ifscCode || '',
         modeOfPayment: item?.modeOfPayment || '',
         transactionId: item?.transactionId || '',
-          checkNo: item?.checkNo || '',
+        checkNo: item?.checkNo || '',
         checkDate: item?.checkDate ? this.convertToISOFormat(item?.checkDate) : '',
         purpose: item?.purpose || '',
         uploadBillUrl: ''
@@ -417,11 +420,18 @@ createForm(): FormGroup {
        this.f['agencyId'].setValue(Number(this.selectedAgencyId));
         this.f['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
 +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
-        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,{...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID},this.preliminaryID).subscribe((res: any) => {
+            const formData = new FormData();
+              formData.append("dto", JSON.stringify({...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID}));
+
+          if (this.financialForm.value.uploadBillUrl) {
+            formData.append("file", this.uploadedFiles);
+            }
+        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,formData,this.preliminaryID).subscribe((res: any) => {
           this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
           
           console.log('Preliminary Data:', this.getPreliminaryData);
           this.resetForm();
+          this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modalElement = document.getElementById('addSurvey');
           const modal1 = modalElement ? bootstrap.Modal.getInstance(modalElement) : null;
@@ -430,13 +440,14 @@ createForm(): FormGroup {
           }
         
         }, (error) => {
+          this.getDeatilOfTargets()
            this.resetForm();
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
           this.toastrService.error(error.message,"Non Training Progress Data Error!");
         });
-        this.getDeatilOfTargets()
+        
     }
     else{
       console.log('Form Submitted:', this.financialForm.value);
@@ -453,6 +464,7 @@ createForm(): FormGroup {
           this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
           this.getPreliminaryData.push(res.data)
           this.resetForm();
+          this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
@@ -460,12 +472,13 @@ createForm(): FormGroup {
         
         }, (error) => {
           this.resetForm();
+          this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
           this.toastrService.error(error.message);
         });
-        this.getDeatilOfTargets()
+        
     }
    
     }

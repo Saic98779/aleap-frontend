@@ -196,10 +196,10 @@ export class ViewProgramsSeperateComponent implements OnInit ,AfterViewInit {
     // },
    
  
-    { 
-      data: 'programType',
-      title: 'Budget Head'
-  },
+  //   { 
+  //     data: 'programType',
+  //     title: 'Budget Head'
+  // },
      
    
   
