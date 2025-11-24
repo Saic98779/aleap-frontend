@@ -230,7 +230,7 @@
                     <tr>
                       <th>S.No</th>
                       <!-- <th>Name of the Agency</th> -->
-                      <th *ngIf="selectedBudgetHead=='132' || selectedBudgetHead=='133'">Date of payment</th>
+                      <th *ngIf="selectedBudgetHead=='132' || selectedBudgetHead=='133'">Date of Payment</th>
                       <th *ngIf="selectedBudgetHead=='27'">Date of hiring</th>
                       <ng-container *ngIf="selectedBudgetHead=='132'">
                         <th>Category</th>
@@ -1123,7 +1123,7 @@
                   [attr.aria-describedby]="isSubmitted && fPayment['dateOfPayment'].invalid ? 'dateError' : null">
                 <label for="dateOfPayment">Date of Payment</label>
                 <div *ngIf="isSubmitted && fPayment['dateOfPayment'].invalid" class="invalid-feedback" id="dateError">
-                  Date of payment is required
+                  Date of Payment is required
                 </div>
               </div>
             </div>
