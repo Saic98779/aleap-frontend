@@ -263,15 +263,17 @@ export class NonTrainingTgtpc10Component implements OnInit {
    iseditMode = false;
    preliminaryID:any
    openModel(mode: string,item?: any): void {
-     if (mode === 'add') {
-       this.financialForm.reset();
-       this.iseditMode = false;
-       this.resetForm();
-     }
-     if (mode === 'edit') {
-       this.preliminaryID=item?.id
-       this.iseditMode = true;
-       this.modeOfPaymentIt(item?.modeOfPayment);
+      if (mode === 'add') {
+        this.uploadedFilesFinance=null
+      this.financialForm.reset();
+      this.iseditMode = false;
+      this.resetForm();
+    }
+    if (mode === 'edit') {
+      this.preliminaryID=item?.id
+      this.iseditMode = true;
+      this.modeOfPaymentIt(item?.modeOfPayment);
+      this.uploadedFilesFinance=item?.uploadBillUrl
        this.financialForm.patchValue({
          agencyId: item?.agencyId || 0,
          nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
@@ -293,6 +295,12 @@ export class NonTrainingTgtpc10Component implements OnInit {
        });
        
      }
+      setTimeout(() => {
+       const fileInput = document.getElementById('files') as HTMLInputElement;
+       if (fileInput) {
+         fileInput.value = '';
+       }
+     }, 100);
      const modal1 = new bootstrap.Modal(document.getElementById('addSurvey'));
      modal1.show();
    }
@@ -431,8 +439,20 @@ export class NonTrainingTgtpc10Component implements OnInit {
         this.f['agencyId'].setValue(Number(this.selectedAgencyId));
          this.f['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
  +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
-         this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,{...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID},this.preliminaryID).subscribe((res: any) => {
-           this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
+         const formData = new FormData();
+            console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
+             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+              formData.append("files", this.uploadedFilesFinance);
+              }
+              else{
+                this.financialForm.patchValue({uploadBillUrl:this.uploadedFilesFinance})
+              }
+
+              formData.append("dto", JSON.stringify({...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID}));
+
+         
+        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,formData,this.preliminaryID).subscribe((res: any) => {
+         this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
            
            console.log('Preliminary Data:', this.getPreliminaryData);
            this.resetForm();
@@ -460,8 +480,8 @@ export class NonTrainingTgtpc10Component implements OnInit {
           const formData = new FormData();
            formData.append("dto", JSON.stringify({...this.financialForm.value}));
  
-           if (this.financialForm.value.uploadBillUrl) {
-             formData.append("file", this.uploadedFiles);
+             if (this.uploadedFilesFinance) {
+             formData.append("file", this.uploadedFilesFinance);
              }
          this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsCodeIT,formData).subscribe((res: any) => {
            this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
@@ -530,16 +550,21 @@ export class NonTrainingTgtpc10Component implements OnInit {
        this.getDeatilOfTargets()
      } 
      uploadedFiles: any ;
-   onFileSelected(event: any): void {
-     const file = event.target.files[0];
-     if (file) {
-       this.uploadedFiles = file;
-       // Handle file upload logic here
-       // You might want to upload the file and then set the URL
-       this.financialForm.patchValue({
-         uploadBillUrl: file.name // This would be the uploaded file URL
-       });
-     }
+   uploadedFilesFinance: any ;
+  onFileSelected(event: any): void {
+    console.log('File selected event:', event);
+    const file = event.target.files[0];
+    if (file) {
+      this.uploadedFilesFinance = file;
+      // Handle file upload logic here
+      // You might want to upload the file and then set the URL
+      // this.financialForm.patchValue({
+      //   uploadBillUrl: file.name // This would be the uploaded file URL
+      // });
+    }
+  }
+removeFile(): void {
+     this.uploadedFilesFinance=null   
    }
  
    // end infracture

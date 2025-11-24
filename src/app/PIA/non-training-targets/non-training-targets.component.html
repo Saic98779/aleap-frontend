@@ -153,20 +153,20 @@
                      <td>{{ vendor.vendorCompanyName }}</td>
                      <td>{{ vendor.dateOfOrder | date:'dd-MM-yyyy' }}</td>
                      <td>{{ vendor.orderDetails }}</td>
-                      <td class="text-center">
-                        <a *ngIf="vendor?.orderUpload"  class="btn btn-default text-primary btn-sm"
-                           (click)="showFileViewer(vendor?.orderUpload)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!vendor?.orderUpload" class="text-muted">No file</span>
-                      </td>
                      <td class="text-center">
-                         <button type="button" class="btn btn-default text-lime-green btn-sm"
-                          (click)="openVendorModal('edit', vendor)"><span class="bi bi-pencil"></span></button>
-                         <button type="button" class="btn btn-default text-danger btn-sm"
-                            (click)="deleteVendor(vendor.vendorId)"><span class="bi bi-trash"></span></button>
-                       </td>
-                   
+                       <a *ngIf="vendor?.orderUpload" class="btn btn-default text-primary btn-sm"
+                         (click)="showFileViewer(vendor?.orderUpload)">
+                         <span class="bi bi-eye"></span>
+                       </a>
+                       <span *ngIf="!vendor?.orderUpload" class="text-muted">No file</span>
+                     </td>
+                     <td class="text-center">
+                       <button type="button" class="btn btn-default text-lime-green btn-sm"
+                         (click)="openVendorModal('edit', vendor)"><span class="bi bi-pencil"></span></button>
+                       <button type="button" class="btn btn-default text-danger btn-sm"
+                         (click)="deleteVendor(vendor.vendorId)"><span class="bi bi-trash"></span></button>
+                     </td>
+
                    </tr>
                    <tr *ngIf="getVendorData.length === 0">
                      <td colspan="6" class="text-center text-muted">No vendor data available.</td>
@@ -229,14 +229,14 @@
                        <td>{{ preliminary?.transactionId }}</td>
                        <td>{{ preliminary?.bankName }}</td>
                        <td>{{ preliminary?.ifscCode }}</td>
-                      <td>{{ preliminary?.purpose }}</td>
-                      <td class="text-center">
-                        <a *ngIf="preliminary?.uploadBillUrl"  class="btn btn-default text-primary btn-sm"
+                       <td>{{ preliminary?.purpose }}</td>
+                       <td class="text-center">
+                         <a *ngIf="preliminary?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
                            (click)="showFileViewer(preliminary.uploadBillUrl)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
-                      </td>
+                           <span class="bi bi-eye"></span>
+                         </a>
+                         <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
+                       </td>
                        <td class="text-center">
                          <button type="button" class="btn btn-default text-lime-green btn-sm"
                            (click)="openModel('edit',preliminary)"><span class="bi bi-pencil"></span></button>
@@ -350,13 +350,13 @@
                        <td>{{ payment?.paymentForMonth }}</td>
                        <td>{{ payment?.dateOfPayment }}</td>
                        <td>{{ payment?.resourceName }}</td>
-                        <td class="text-center">
-                        <a *ngIf="payment?.uploadBillUrl"  class="btn btn-default text-primary btn-sm"
+                       <td class="text-center">
+                         <a *ngIf="payment?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
                            (click)="showFileViewer(payment.uploadBillUrl)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
-                      </td>
+                           <span class="bi bi-eye"></span>
+                         </a>
+                         <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
+                       </td>
                        <td class="text-center">
                          <button type="button" class="btn btn-default text-lime-green btn-sm"
                            (click)="openModelPayment('edit', payment)">
@@ -915,8 +915,7 @@
                </div>
              </div>
              <!-- Vendor Dropdown in Expenditure Modal -->
-             <div class="col-12 col-sm-6 col-md-4 col-lg-4"
-               *ngIf="selectedBudgetHead=='69' ">
+             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='69' ">
                <div class="form-floating mb-3">
                  <select class="form-select" id="vendorSelect" formControlName="category">
                    <option value="">Select Vendor</option>
@@ -1055,9 +1054,20 @@
              <!-- Upload Bill -->
              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                <div class="form-floating mb-3">
-                 <input type="file" class="form-control" formControlName="uploadBillUrl"
+                 <input type="file" id="files" class="form-control" [disabled]="uploadedFilesFinance"
                    (change)="onFileSelected($event)">
-                 <label for="uploadBill">Upload Bill Invoice</label>
+                 <label for="uploadBill" for="files">Upload Bill Invoice</label>
+               </div>
+
+               <div *ngIf=" uploadedFilesFinance " class="mt-2">
+                 <div class="d-flex align-items-center mb-1">
+                   <span
+                     class="me-2">{{  this.uploadedFilesFinance.name?uploadedFilesFinance.name:uploadedFilesFinance.split('/').pop() }}</span>
+                   <!-- -->
+                   <button type="button" (click)="removeFile()" class="btn btn-sm btn-lime-green">
+                     <span class="bi bi-trash"></span>
+                   </button>
+                 </div>
                </div>
              </div>
            </div>
@@ -1925,8 +1935,8 @@
              <!-- Date of Order -->
              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                <div class="form-floating mb-3">
-                 <input type="date" class="form-control" id="dateOfOrder" formControlName="dateOfOrder" appDisableFutureDates
-                   [class.is-invalid]="isSubmitted && fVendor['dateOfOrder'].errors">
+                 <input type="date" class="form-control" id="dateOfOrder" formControlName="dateOfOrder"
+                   appDisableFutureDates [class.is-invalid]="isSubmitted && fVendor['dateOfOrder'].errors">
                  <label for="dateOfOrder">Date of Order *</label>
                  <div class="invalid-feedback" *ngIf="isSubmitted && fVendor['dateOfOrder'].errors">
                    <small *ngIf="fVendor['dateOfOrder'].errors?.['required']">Date of order is required</small>

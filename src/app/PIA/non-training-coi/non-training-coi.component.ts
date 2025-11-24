@@ -228,7 +228,7 @@ createForm(): FormGroup {
       nonTrainingSubActivityId: [0, ],
        nonTrainingActivityId: [0, ],
       paymentDate: ['', Validators.required],
-      // category: ['', Validators.required],
+      category: [''],
       expenditureAmount: [0, [Validators.required, Validators.min(0)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
@@ -240,7 +240,7 @@ createForm(): FormGroup {
       transactionId: [''],
       purpose: ['',],
       uploadBillUrl: [''],
-       checkNo: [''],
+      checkNo: [''],
       checkDate: ['']
     });
   }
@@ -253,6 +253,7 @@ createForm(): FormGroup {
   preliminaryID:any
   openModel(mode: string,item?: any): void {
     if (mode === 'add') {
+        this.uploadedFilesFinance=null
       this.financialForm.reset();
       this.iseditMode = false;
       this.resetForm();
@@ -261,6 +262,7 @@ createForm(): FormGroup {
       this.preliminaryID=item?.id
       this.iseditMode = true;
       this.modeOfPaymentIt(item?.modeOfPayment);
+      this.uploadedFilesFinance=item?.uploadBillUrl
       this.financialForm.patchValue({
         agencyId: item?.agencyId || 0,
         nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
@@ -282,6 +284,12 @@ createForm(): FormGroup {
       });
       
     }
+     setTimeout(() => {
+       const fileInput = document.getElementById('files') as HTMLInputElement;
+       if (fileInput) {
+         fileInput.value = '';
+       }
+     }, 100);
     const modal1 = new bootstrap.Modal(document.getElementById('addSurvey'));
     modal1.show();
   }
@@ -421,11 +429,17 @@ createForm(): FormGroup {
         this.f['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
 +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
             const formData = new FormData();
+            console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
+             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+              formData.append("files", this.uploadedFilesFinance);
+              }
+              else{
+                this.financialForm.patchValue({uploadBillUrl:this.uploadedFilesFinance})
+              }
+
               formData.append("dto", JSON.stringify({...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID}));
 
-          if (this.financialForm.value.uploadBillUrl) {
-            formData.append("file", this.uploadedFiles);
-            }
+         
         this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,formData,this.preliminaryID).subscribe((res: any) => {
           this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
           
@@ -440,8 +454,9 @@ createForm(): FormGroup {
           }
         
         }, (error) => {
-          this.getDeatilOfTargets()
+         
            this.resetForm();
+            this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
@@ -457,8 +472,8 @@ createForm(): FormGroup {
          const formData = new FormData();
           formData.append("dto", JSON.stringify({...this.financialForm.value}));
 
-          if (this.financialForm.value.uploadBillUrl) {
-            formData.append("file", this.uploadedFiles);
+          if (this.uploadedFilesFinance) {
+            formData.append("file", this.uploadedFilesFinance);
             }
         this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsCodeIT,formData).subscribe((res: any) => {
           this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
@@ -528,19 +543,23 @@ createForm(): FormGroup {
       }
       this.getDeatilOfTargets()
     } 
-    uploadedFiles: any ;
+     uploadedFiles: any ;
+    uploadedFilesFinance: any ;
   onFileSelected(event: any): void {
+    console.log('File selected event:', event);
     const file = event.target.files[0];
     if (file) {
-      this.uploadedFiles = file;
+      this.uploadedFilesFinance = file;
       // Handle file upload logic here
       // You might want to upload the file and then set the URL
-      this.financialForm.patchValue({
-        uploadBillUrl: file.name // This would be the uploaded file URL
-      });
+      // this.financialForm.patchValue({
+      //   uploadBillUrl: file.name // This would be the uploaded file URL
+      // });
     }
   }
-
+removeFile(): void {
+     this.uploadedFilesFinance=null   
+   }
   // end infracture
 
   // contingency fund || staff
@@ -626,12 +645,14 @@ createForm(): FormGroup {
           
           console.log('Preliminary Data:', this.getContingencyData);
           this.resetFormContingency();
+           this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
         
         }, (error) => {
            this.resetFormContingency();
+            this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
@@ -643,6 +664,7 @@ createForm(): FormGroup {
         this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingency,{...this.contingencyForm.value,"expenditures":[],nonTrainingActivityId:Number(this.selectedActivity),nonTrainingSubActivityId:Number(this.selectedBudgetHead),dateOfJoining:this.contingencyForm?.value?.dateOfJoining?moment(this.contingencyForm?.value?.dateOfJoining).format('DD-MM-YYYY'):null}).subscribe((res: any) => {
           this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
           this.resetFormContingency();
+           this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
@@ -650,13 +672,14 @@ createForm(): FormGroup {
         
         }, (error) => {
           this.resetFormContingency();
+           this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
           this.toastrService.error(error.message);
         });
     }
-   this.getDeatilOfTargets()
+  
       }
 
   }

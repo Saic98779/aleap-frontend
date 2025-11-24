@@ -300,16 +300,23 @@ export class NonTrainingTargetsComponent implements OnInit {
   existingFileName: string = '';
 
 openModel(mode: string, item?: any): void {
-  if (mode === 'add') {
-    this.financialForm.reset();
-    this.iseditMode = false;
-    this.resetForm();
-    this.existingFileName = ''; // Clear the existing filename
-  }
-  if (mode === 'edit') {
-    this.preliminaryID = item?.id;
-    this.iseditMode = true;
-    this.modeOfPaymentIt(item?.modeOfPayment);
+   setTimeout(() => {
+       const fileInput = document.getElementById('files') as HTMLInputElement;
+       if (fileInput) {
+         fileInput.value = '';
+       }
+     }, 10);
+   if (mode === 'add') {
+        this.uploadedFilesFinance=null
+      this.financialForm.reset();
+      this.iseditMode = false;
+      this.resetForm();
+    }
+    if (mode === 'edit') {
+      this.preliminaryID=item?.id
+      this.iseditMode = true;
+      this.modeOfPaymentIt(item?.modeOfPayment);
+      this.uploadedFilesFinance=item?.uploadBillUrl
 
     // Create a copy of the form values WITHOUT the file input
     const formValues = {...item};
@@ -327,6 +334,7 @@ openModel(mode: string, item?: any): void {
     // Store the filename separately
     this.existingFileName = item?.uploadBillUrl || '';
   }
+  
   const modal1 = new bootstrap.Modal(document.getElementById('addSurvey'));
   modal1.show();
 }
@@ -339,14 +347,17 @@ getPreliminaryData:any=[]
         this.f['agencyId'].setValue(Number(this.selectedAgencyId));
          this.f['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
          this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
+            const formData = new FormData();
+            console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
+             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+              formData.append("files", this.uploadedFilesFinance);
+              }
+              else{
+                this.financialForm.patchValue({uploadBillUrl:this.uploadedFilesFinance})
+              }
 
-        const formData = {...this.financialForm.value, nonTrainingSubActivityId: Number(this.selectedBudgetHead), id: this.preliminaryID};
-        
-        // If no new file was selected but we have an existing file, use the existing filename
-        if (!this.uploadedFiles && this.existingFileName) {
-          formData.uploadBillUrl = this.existingFileName;
-        }
-
+              formData.append("dto", JSON.stringify({...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID}));
+  
          this._commonService.update(
         APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,
         formData,
@@ -383,8 +394,8 @@ getPreliminaryData:any=[]
           const formData = new FormData();
            formData.append("dto", JSON.stringify({...this.financialForm.value}));
  
-           if (this.financialForm.value.uploadBillUrl) {
-             formData.append("file", this.uploadedFiles);
+           if (this.uploadedFilesFinance) {
+             formData.append("file", this.uploadedFilesFinance);
              }
          this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsCodeIT,formData).subscribe((res: any) => {
            this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
@@ -456,17 +467,22 @@ getPreliminaryData:any=[]
       this.getDeatilOfTargets()
     } 
     uploadedFiles:any
+  uploadedFilesFinance: any ;
   onFileSelected(event: any): void {
+    console.log('File selected event:', event);
     const file = event.target.files[0];
-if (file) {
-      this.uploadedFiles = file;
+    if (file) {
+      this.uploadedFilesFinance = file;
       // Handle file upload logic here
       // You might want to upload the file and then set the URL
-      this.financialForm.patchValue({
-        uploadBillUrl: file.name // This would be the uploaded file URL
-      });
+      // this.financialForm.patchValue({
+      //   uploadBillUrl: file.name // This would be the uploaded file URL
+      // });
     }
   }
+removeFile(): void {
+     this.uploadedFilesFinance=null   
+   }
  onFileSelectedPayment(event: any): void {
     this.uploadedFiles = null;
     const file = event.target.files[0];

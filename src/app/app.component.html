@@ -417,7 +417,7 @@
                     </a>
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['reportsAdmin']"
                       style="position:static; background: #dfebeb;min-width:180px;">
-                      <li *ngIf="this.user?.userRole=='SPIU'"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">View Collage</a></li>
+                      <!-- <li *ngIf="this.user?.userRole=='SPIU'"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">View Collage</a></li> -->
                       <li *ngIf="this.user?.userRole=='ADMIN'"><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">Create Collage</a></li>
                       <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active">Program Summary</a></li>
                       <li>
@@ -501,9 +501,8 @@
                     </a>
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['financeAgency']"
                       style="position:static; background: #dfebeb;min-width:180px;">
-                      <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Training Expenditure Verfication</a></li>
-                      <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure Verification
-                          </a></li>
+                      <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Training Expenditure</a></li>
+                      <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure </a></li>
                     </ul>
                   </li>
                   <!-- Update Outcomes (Agency) -->

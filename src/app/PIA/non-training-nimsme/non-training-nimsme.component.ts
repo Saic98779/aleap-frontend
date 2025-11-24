@@ -206,21 +206,23 @@ createForm(): FormGroup {
  
   iseditMode = false;
   preliminaryID:any
-  openModel(mode: string,item?: any): void {
+ openModel(mode: string,item?: any): void {
     if (mode === 'add') {
-      this.iseditMode = false;
-      this.preliminaryID = '';
+        this.uploadedFilesFinance=null
       this.financialForm.reset();
+      this.iseditMode = false;
+      this.resetForm();
     }
     if (mode === 'edit') {
+      this.preliminaryID=item?.id
       this.iseditMode = true;
-      this.preliminaryID = item?.id;
-    
+      this.modeOfPaymentIt(item?.modeOfPayment);
+      this.uploadedFilesFinance=item?.uploadBillUrl
       this.financialForm.patchValue({
         agencyId: item?.agencyId || 0,
         nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
         paymentDate: item?.paymentDate ? this.convertToISOFormat(item?.paymentDate) : '',
-        category: item?.category ? item?.category : '',
+        // category: item?.category ? item?.category : '',
         expenditureAmount: item?.expenditureAmount || 0,
         billNo: item?.billNo || '',
         billDate: item?.billDate ? this.convertToISOFormat(item?.billDate) : '',
@@ -230,14 +232,19 @@ createForm(): FormGroup {
         ifscCode: item?.ifscCode || '',
         modeOfPayment: item?.modeOfPayment || '',
         transactionId: item?.transactionId || '',
-          checkNo: item?.checkNo || '',
+        checkNo: item?.checkNo || '',
         checkDate: item?.checkDate ? this.convertToISOFormat(item?.checkDate) : '',
         purpose: item?.purpose || '',
-        uploadBillUrl: '',
-        DummyuploadBillUrl: item?.uploadBillUrl || '',
+        uploadBillUrl: ''
       });
-      this.modeOfPaymentIt(item?.modeOfPayment || '')
+      
     }
+     setTimeout(() => {
+       const fileInput = document.getElementById('files') as HTMLInputElement;
+       if (fileInput) {
+         fileInput.value = '';
+       }
+     }, 100);
     const modal1 = new bootstrap.Modal(document.getElementById('addSurvey'));
     modal1.show();
   }
@@ -319,10 +326,20 @@ createForm(): FormGroup {
           this.f['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
   +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
             // this.f['uploadBillUrl'].patchValue(this.f['DummyuploadBillUrl'].value);
-            // delete this.f['DummyuploadBillUrl'];
-          console.log('Form Submitted for Update:', this.financialForm.value);
-          this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,{...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID,uploadBillUrl:this.f['DummyuploadBillUrl'].value},this.preliminaryID).subscribe((res: any) => {
-            this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
+         const formData = new FormData();
+            console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
+             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+              formData.append("files", this.uploadedFilesFinance);
+              }
+              else{
+                this.financialForm.patchValue({uploadBillUrl:this.uploadedFilesFinance})
+              }
+
+              formData.append("dto", JSON.stringify({...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID}));
+
+         
+        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,formData,this.preliminaryID).subscribe((res: any) => {
+           this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
             
             console.log('Preliminary Data:', this.getPreliminaryData);
             this.resetForm();
@@ -351,9 +368,9 @@ createForm(): FormGroup {
            const formData = new FormData();
             formData.append("dto", JSON.stringify({...this.financialForm.value}));
   
-            if (this.financialForm.value.uploadBillUrl) {
-              formData.append("file", this.uploadedFiles);
-              }
+            if (this.uploadedFilesFinance) {
+             formData.append("file", this.uploadedFilesFinance);
+             }
           this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsCodeIT,formData).subscribe((res: any) => {
             this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
 
@@ -419,7 +436,22 @@ createForm(): FormGroup {
         },
       });
     }
-
+ uploadedFilesFinance: any ;
+  onFileSelected(event: any): void {
+    console.log('File selected event:', event);
+    const file = event.target.files[0];
+    if (file) {
+      this.uploadedFilesFinance = file;
+      // Handle file upload logic here
+      // You might want to upload the file and then set the URL
+      // this.financialForm.patchValue({
+      //   uploadBillUrl: file.name // This would be the uploaded file URL
+      // });
+    }
+  }
+removeFile(): void {
+     this.uploadedFilesFinance=null   
+   }
 
 
 // media upload code
@@ -1277,17 +1309,6 @@ closeModalDelete(): void {
       }
     }
        uploadedFiles: any ;
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.uploadedFiles = file;
-      // Handle file upload logic here
-      // You might want to upload the file and then set the URL
-      this.financialForm.patchValue({
-        uploadBillUrl: file.name // This would be the uploaded file URL
-      });
-    }
-  }
 
     ConfirmdeletePayment(item:any){
         this._commonService

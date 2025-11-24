@@ -1,11 +1,11 @@
 .col-lg-2 {
         flex: 0 0 auto;
-        width: 14.2% !important;
+        width: 20% !important;
     }
 .bg-violet{
       background-color: #9C27B0 !important;
     }
     thead tr th {
-      height: 20px;
-        text-align: center;
+      height: 20px !important;
+      text-align: center;
     }
