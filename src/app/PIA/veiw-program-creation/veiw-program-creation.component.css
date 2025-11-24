@@ -90,5 +90,12 @@ button.editable-btn:disabled .bi-pencil {
   color: #bdbdbd !important;
   opacity: 0.6 !important;
 }
+.col-lg-2 {
+        flex: 0 0 auto;
+        width: 14.2% !important;
+    }
+    .bg-violet{
+      background-color: #9C27B0 !important;
+    }
 
 

@@ -8,7 +8,7 @@
   >
     <!-- Filter Section -->
     <div class="d-flex flex-column" >
-      <ng-container *ngIf = "user.userRole === 'ADMIN'">
+      <ng-container *ngIf = "user.userRole === 'ADMIN' || user.userRole === 'DIC' || user.userRole === 'SPIU' || user.userRole === 'FINANCE'">
         <!-- <label 
         for="agencyFilter" 
         class="form-label fw-semibold mb-1"
@@ -47,7 +47,7 @@
 
 
     <!-- Button Section -->
-    <button 
+    <button  *ngIf="user.userRole != 'SPIU'"
       class="btn btn-sm fw-semibold shadow-sm" 
       (click)="redirectToCollageCreation()"
       style="background-color: #1abc9c; color: white; padding: 8px 16px; border-radius: 4px;"

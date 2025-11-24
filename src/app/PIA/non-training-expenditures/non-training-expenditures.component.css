@@ -128,7 +128,7 @@
       /* Style for the header cells */
       table thead th {
         /* background-color: #28a745; Same as bg-lime-green */
-        color: white;
+        /* color: white; */
         position: sticky;
         top: 0;
       }

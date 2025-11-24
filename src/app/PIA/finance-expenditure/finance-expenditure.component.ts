@@ -36,7 +36,7 @@ export class FinanceExpenditureComponent implements OnInit {
     
     this.activeTab = 'nav-five';
     this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-    if(this.loginsessionDetails.userRole == 'ADMIN') {
+    if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'FINANCE') {
       this.getAgenciesList()
     }
     else{
@@ -497,7 +497,7 @@ getAgenciesList() {
     return this.RemarkForm.controls;
   }
   formDetailsRemark() {
-    if(this.loginsessionDetails?.userRole == 'ADMIN'){
+    if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
        this.RemarkForm = new FormGroup({
       spiuComments: new FormControl("", [Validators.required]),
       agencyComments: new FormControl("", ),
@@ -555,14 +555,14 @@ openRemarks(item:any){
       let payload:any
       let url:any
       if(this.expenditureType=='PRE' || this.expenditureType=='POST'){
-        if(this.loginsessionDetails?.userRole != 'ADMIN'){
+        if(this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'FINANCE'){
            url=APIS.programExpenditure.saveRemarks
         }
         else{
           url=APIS.programExpenditure.saveRemarks+'?status='+this.fRemark['status'].value
         }
         
-        if(this.loginsessionDetails?.userRole == 'ADMIN'){
+        if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
             payload={
             "userId": this.loginsessionDetails?.userId,
             "spiuComments": this.fRemark['spiuComments'].value,
@@ -580,14 +580,14 @@ openRemarks(item:any){
       }
     }
       else{
-        if(this.loginsessionDetails?.userRole != 'ADMIN'){
+        if(this.loginsessionDetails?.userRole != 'ADMIN' && this.loginsessionDetails?.userRole != 'FINANCE'){
            url=APIS.programExpenditure.saveRemarksBulk
         }
         else{
             url=APIS.programExpenditure.saveRemarksBulk+'?status='+this.fRemark['status'].value
         }
       
-          if(this.loginsessionDetails?.userRole == 'ADMIN'){
+          if(this.loginsessionDetails?.userRole == 'ADMIN' || this.loginsessionDetails?.userRole == 'FINANCE'){
             payload={
             "userId": this.loginsessionDetails?.userId,
             "spiuComments": this.fRemark['spiuComments'].value,
@@ -1313,17 +1313,21 @@ openRemarks(item:any){
     UpdateExpenditure(item:any){
 
     }
-
+    checkExpenditure(data: any): boolean {
+      // Returns true if all records in data have status 'Approved'
+      if (!Array.isArray(data)) return false;
+      return data.every((item: any) => item.status === 'APPROVED' || item.status === 'Approved' );
+    }
     sessionSubmissionFinal() {
               let data = {}
-              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId}?status=Program Expenditure Updated`, data).subscribe({
+              this._commonService.add(`${APIS.programCreation.updateSessionByStatus}${this.programCreationMain.value.programId?this.programCreationMain.value.programId:this.programIds}?status=Program Expenditure Approved`, data).subscribe({
                 next: (data: any) => {
                   console.log('Response from API:', data);
                   this.toastrService.success('Program Expenditure Details Submitted Successfully', "");
                   this.closeConfirmSession();
                   this.getExpenditureDataBoth = ''
                   this.programCreationMain.reset()
-                  this.onAgencyChange()
+                  this.getProgramsByAgencyAdmin(this.agencyId)
                 },
                 error: (err: any) => {
                   this.closeConfirmSession();        

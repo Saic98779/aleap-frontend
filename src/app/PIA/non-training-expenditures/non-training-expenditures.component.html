@@ -4,9 +4,9 @@
             <div class="card-header bg-transparent">
                 <div class="row align-items-center mb-3">
                     <div class="col-12 col-sm-5 col-md-5 col-lg-5">
-                        <h6 class="fw-600 mb-2 mb-sm-0">Non Training Expenditure</h6>
+                        <h6 class="fw-600 mb-2 mb-sm-0">Non Training Expenditure <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">Verification</ng-container> </h6>  
                     </div>
-                    <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                    <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
                         <div class="col-12 col-sm-2 col-md-2 col-lg-2">
                            
                               <mat-form-field appearance="outline" class="w-100">
@@ -50,7 +50,7 @@
                             </mat-form-field>
                         </div>
                     </ng-container>   
-                    <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN'">
+                    <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'FINANCE'">
                          <div class="col-12 col-sm-2 col-md-2 col-lg-2"></div>
                        <div class="col-12 col-sm-2 col-md-2 col-lg-2">
                           
@@ -105,10 +105,11 @@
                                 <th>Purpose</th>
                                  <th>Cheque Number</th>
                                 <th>Cheque Date</th>
+                                 <th>Status</th>
                                 <th>Upload Bill/Invoice</th>
                                 <th>SPIU Comment</th>
                                 <th>Agency Response</th>
-                                <th class="text-center">Add {{this.loginsessionDetails?.userRole == 'ADMIN'?'SPIU Comment':'Agency Response'}}</th>
+                                <th class="text-center">Add {{this.loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'SPIU Comment':'Agency Response'}}</th>
                             </tr>
                         </thead>
                         <tbody *ngIf="getExpenditureDataBoth?.length">
@@ -134,6 +135,7 @@
                                 <td>{{item?.purpose}}</td>
                                 <td>{{item?.checkNo }}</td>
                                 <td class="noWrap">{{item?.checkDate }}</td>
+                                <td>{{item?.status }}</td>
                                 <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() !== 'pdf'">
                                     <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
                                         <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')" rel="noopener noreferrer">
@@ -151,10 +153,13 @@
                                         </a>
                                     </ng-container>
                                 </td>
+                                <td *ngIf="!item?.uploadBillUrl">
+                                    <span class="text-danger">No File</span>
+                                </td>
                                 <td *ngIf="item?.spiuComments?.length > 1">
                                     <i class="bx docu-hv-text" style="position: relative;">
                                         {{item?.spiuComments[0]}}..
-                                        <div class="statusmes-data" style="width: auto !important;background-color: #ffc107;">
+                                        <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
                                             <p>{{item?.spiuComments}}</p>
                                         </div>
                                     </i>
@@ -165,7 +170,7 @@
                                 <td *ngIf="item?.agencyComments?.length > 1">
                                     <i class="bx docu-hv-text" style="position: relative;">
                                         {{item?.agencyComments[0]}}..
-                                        <div class="statusmes-data" style="width: auto !important;background-color: #ffc107;">
+                                        <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
                                             <p>{{item?.agencyComments}}</p>
                                         </div>
                                     </i>
@@ -173,8 +178,8 @@
                                 <td *ngIf="item?.agencyComments?.length <= 1">
                                     {{item?.agencyComments?.[0]}}
                                 </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-default text-lime-green btn-sm" (click)="openRemarks(item)">
+                                <td class="text-center" >
+                                    <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED'}" class="btn btn-default text-lime-green btn-sm" (click)="openRemarks(item)">
                                         <span class="bi bi-pencil"></span>
                                     </button>
                                 </td>
@@ -193,6 +198,17 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                 <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                
+                              
                             </tr>
                         </tbody>
                         <tbody *ngIf="getExpenditureDataBoth?.length==0">
@@ -203,7 +219,10 @@
                     </table>
                 </div>
             </div>
-            
+           
+              <!-- <div class="mb-3 me-3">
+                <button type="button"  style='margin-left: 20px;' [ngClass]="{'disabled':getExpenditureDataBoth?.length==0 ||  !checkExpenditure(getExpenditureDataBoth)}" class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#exampleModalDeleteConfirm">Program Expenditure Verfied </button>
+            </div> -->
         </div>
 
     </section>
@@ -214,13 +233,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addRemarkslabel">Add {{loginsessionDetails?.userRole == 'ADMIN'?'Remarks':'Response'}}</h5>
+                <h5 class="modal-title" id="addRemarkslabel">Add {{loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'Remarks':'Response'}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
             </div>
             <div class="modal-body">
                <form [formGroup]="RemarkForm">
                     <div class="row">
-                          <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                          <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
                             
                             <div class="form-floating mb-3">
                                <select class="form-select" formControlName="status"  name="status" id="status" >
@@ -234,8 +253,8 @@
                             style="color: red;">Status is required</div>
                             
                         </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
-                            <div class="form-floating mb-3">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
+                            <div class="form-floating mb-3" *ngIf="fRemark['status'].value !== 'APPROVED'">
                                 <input type="text" class="form-control" formControlName="spiuComments"  name="spiuComments" id="consumed" >
                                 <label for="consumed">SPIU Comments</label>
                             </div>
@@ -243,7 +262,7 @@
                             style="color: red;">SPIU Comments is required</div>
                             
                         </div>
-                         <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole != 'ADMIN'">
+                         <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'FINANCE'">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" formControlName="agencyComments"  name="agencyComments" id="consumed" >
                                 <label for="consumed">Agency Response</label>
@@ -790,4 +809,23 @@ aria-hidden="true">
         </div>
     </div>
 </div>
+</div>
+
+<div class="modal fade" id="exampleModalDeleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalDeleteConfirmLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalDeleteConfirmLabel">Program Expenditure Verification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to submit all the verified expenditures for the current program? You will not be able to add or modify any Expenditure after submission.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-lime-green" (click)="sessionSubmissionFinal()">Confirm</button>
+            </div>
+        </div>
+    </div>
 </div>

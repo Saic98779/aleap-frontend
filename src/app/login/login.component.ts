@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-             username: ['', [Validators.required, Validators.email]],
+            username: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
     }
@@ -82,8 +82,8 @@ export class LoginComponent implements OnInit {
                         }
                 },
                 error: error => {
+                    console.log('error:', error);
                     this.error = error;
-                    // this.error = 'Server Error. Please try again later.';
                     this.loading = false;
                 }
             });

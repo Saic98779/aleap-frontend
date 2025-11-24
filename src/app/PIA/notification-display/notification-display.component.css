@@ -169,6 +169,10 @@
 .notification-card-content {
   width: 100%;
 }
+.notification-card.bolderData {
+  font-weight: bolder !important;
+  font-size: large !important;
+}
 .notification-card-title {
   font-size: 1.08rem;
   font-weight: 700;

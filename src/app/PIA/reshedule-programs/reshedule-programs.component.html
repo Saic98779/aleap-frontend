@@ -7,7 +7,7 @@
                         <div class="col-12 col-sm-7 col-md-8 col-lg-9">
                             <h6 class="fw-600 mb-2 mb-sm-0 text-green">View Reshedule Programs</h6>
                         </div>
-                        <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+                        <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'SPIU'">
                             <div class="col-12 col-sm-5 col-md-4 col-lg-3">
                                 <label for="Agencies" style="font-weight: 600;">List Of Agencies</label>
                                 <select class="form-select" id="Agencies" [(ngModel)]="selectedAgencyId"    
@@ -52,10 +52,32 @@
                     <div class="dtable-container">
                         <table id="view-table-program" class="display nowrap" style="width:100%">
                             <thead class="bg-lime-green">
-                               
+                                <!-- <tr>
+
+                                    <th>S.No</th>
+                                    <th class="text-center" >Actions</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>In Time</th>
+                                    <th>Out Time</th>
+                                    <th>Budget Head</th>
+                                    <th>District</th>
+                                    <th>Title Of Program</th>
+                                    <th>Status</th>
+                                    <th>agency Name</th>
+                                    <th>Type Of Activity</th>
+                                    <th>Sub Activity</th>
+                                    
+                                 
+                                   
+                                    <th>SPOC Name</th>
+                                    <th>SPOC Contact No.</th>
+                                    <th>Program Location</th>
+                                    
+                                </tr> -->
                             </thead>
                             <tbody>
-                                
+                               
                             </tbody>
                         </table>
                     </div>

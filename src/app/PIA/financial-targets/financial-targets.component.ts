@@ -7,6 +7,7 @@ import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { data } from 'jquery';
 declare var bootstrap: any;
 declare var $: any;
 
@@ -80,7 +81,7 @@ export class FinancialTargetsComponent implements OnInit {
     }
     financialYears:any=[]
     financialYRFiltered:any;
-    selectedFinancialYear: any = '';
+    selectedFinancialYear: any = -1;
     generateFinancialYears() {
       const currentYear = new Date().getFullYear();
       const fixedYear = 2024; // Fixed year for the first two entries 
@@ -149,6 +150,57 @@ export class FinancialTargetsComponent implements OnInit {
             // this.tableheaderList = Array.from(allYears).sort();
             this.tableheaderList=[this.selectedFinancialYear]
             this.tableList = dataList
+            const groupedData: any = {};
+            const yearsSet: Set<string> = new Set();
+
+           if(year==-1){
+             // Collect all years and group by outcomeName
+            dataList.forEach((item: any) => {
+              yearsSet.add(item.financialYear);
+              if (!groupedData[item.outcomeName]) {
+                groupedData[item.outcomeName] = {
+                  outcomeName: item.outcomeName,
+                  grandtotal: { totalTarget: 0, totalAchieved: 0 }
+                };
+              }
+              this.financialYears.forEach((year:any)=>{
+                if(!groupedData[item.outcomeName][year]){
+                  groupedData[item.outcomeName][year] = {
+                    totalTarget: 0,
+                    totalAchieved: 0
+                  };
+                }
+              })
+              groupedData[item.outcomeName][item.financialYear] = {
+                totalTarget: item.totalTarget,
+                totalAchieved: item.totalAchieved
+              };
+              groupedData[item.outcomeName].grandtotal.totalTarget += item.totalTarget;
+              groupedData[item.outcomeName].grandtotal.totalAchieved += item.totalAchieved;
+            });
+
+            // Prepare tableheaderList with all unique years
+            this.tableheaderList = Array.from(yearsSet).sort();
+
+            // Prepare tableList for display
+            this.tableList = Object.values(groupedData);
+            console.log(this.tableheaderList, this.tableList, 'Combined Data');
+           }
+
+            // if(year==-1){
+            //   this.financialYears.map((item:any)=>{
+            //       dataList.forEach((dataItem:any)=>{
+            //         dataItem.financialYear.forEach((fy: any) => {
+            //           if(fy.financialYear==item){
+            //             allYears.add(fy.financialYear)
+            //           }
+            //         });
+            //       }
+            //   })
+            //   })
+              
+            //   this.tableheaderList = Array.from(allYears).sort();
+            // }
             // Object.keys(dataList.data || {}).map((key: any) => {
             //   this.tableList.push(dataList.data[key]) 
             // })

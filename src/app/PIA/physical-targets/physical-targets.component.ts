@@ -167,14 +167,26 @@ export class PhysicalTargetsComponent implements OnInit {
     }
     editRow:boolean = false;
     physicalTargetId:any=''
+    editFinancialYear:any=[]
+    objectOfEditRow: any = [];
     openTargetsModal(type:any,item?:any) {
+      this.editFinancialYear = [];
+      this.objectOfEditRow=[]
       this.editRow= type === 'edit' ? true : false;
       this.targetsScreenForm.reset();
       
       this.physicalTargetId=''
       if(this.editRow){
-        this.physicalTargetId = item.physicalTargetId;
-        this.targetsScreenForm.patchValue({...item});
+      
+        if(item?.financialYear && item?.financialYear.length>0){
+          this.objectOfEditRow=item?.financialYear;
+           this.editFinancialYear =item?.financialYear.map((item:any)=>{
+            return item.financialYear
+           }) || [];
+            this.physicalTargetId = item.financialYear[0].physicalTargetId;
+            this.targetsScreenForm.patchValue({...item.financialYear[0],financialYear:item?.financialYear[0]?.financialYear,outcomeId:item?.financialYear[0]?.outcomeId,});
+        }
+        
       }
       else{
         this.targetsScreenForm.patchValue({financialYear:this.selectedFinancialYear,})
@@ -183,6 +195,16 @@ export class PhysicalTargetsComponent implements OnInit {
       const modal1 = new bootstrap.Modal(document.getElementById('addTarget'));
       modal1.show();
 
+    }
+    onFinancialYearChange(value:any){
+       
+      const item = this.objectOfEditRow.find((itm:any)=>{
+        console.log(itm.financialYear,'itm.financialYear',value,itm);
+        return itm.financialYear === value
+      } );
+      console.log(item, value,this.objectOfEditRow,'item');
+      this.physicalTargetId = item.physicalTargetId;
+      this.targetsScreenForm.patchValue({...item,financialYear:item?.financialYear,outcomeId:item?.outcomeId,});
     }
 
     closeModalTargets(): void {

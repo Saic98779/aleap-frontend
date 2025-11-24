@@ -20,7 +20,7 @@
                                 <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="GetProgramsByAgency($any($event).value)">
                                 <mat-select-filter [array]="agencyList" [displayMember]="'agencyName'" (filteredReturn)="agencyListFiltered = $event">
                                 </mat-select-filter>
-                                <mat-option value="-1" >All Agencies</mat-option>
+                                <!-- <mat-option value="-1" >All Agencies</mat-option> -->
                                 <mat-option *ngFor="let list of agencyListFiltered" [value]="list.agencyId">
                                 {{ list.agencyName }}
                                 </mat-option>
@@ -44,7 +44,7 @@
                                 <mat-select [(ngModel)]="selectedFinancialYear" (selectionChange)="getBasedOnYearSelection($any($event).value)">
                                 <mat-select-filter [array]="financialYears" (filteredReturn)="financialYRFiltered = $event">
                                 </mat-select-filter>
-                                <!-- <mat-option value="" disabled>Select Program</mat-option> -->
+                                <mat-option [value]="-1" >All Years</mat-option>
                                 <mat-option *ngFor="let list of financialYRFiltered" [value]="list">
                                 {{ list }}
                                 </mat-option>
@@ -58,7 +58,7 @@
               <i class="bi bi-arrow-left"></i> Back
             </button>
             <!--  id=view-physical-table  -->
-            <div class="table-container">
+            <div class="table-container" *ngIf="selectedFinancialYear!=-1">
               <table  class="table table-bordered table-striped nowrap w-100 fsize-10">
                 <thead class="bg-lime-green">
                   <tr>
@@ -121,13 +121,62 @@
                 </tbody>
                 <tbody *ngIf="!tableList?.length">
                   <tr>
-                    <td class="text-center" colspan="7">Data Not Available</td>
+                    <td class="text-center" colspan="14">Data Not Available</td>
                   </tr>
                   
                 </tbody>
                 </table>
             </div>
-          
+          <div class="table-container" *ngIf="selectedFinancialYear==-1">
+              <table  class="table table-bordered table-striped nowrap w-100 fsize-10">
+                <thead class="bg-lime-green">
+                  <tr>
+                    <th class="text-center"  rowspan="3">Output</th>
+                    <th  class="text-center"  colspan="2">Grand Total</th>
+                    <ng-container *ngFor="let item of this.financialYears">
+                      <th  class="text-center"  colspan="2">FY{{item}}</th>
+                    </ng-container>  
+                </tr>
+                <!-- <tr>
+
+                  <ng-container *ngFor="let item of this.tableheaderList">
+                    <th class="text-center" rowspan="1" colspan="2" >Grand Total</th>
+                    <th class="text-center"rowspan="1"  colspan="2" >Q1(Apr-Jun)</th>
+                    <th class="text-center" rowspan="1" colspan="2" >Q2(Jul-Sep)</th>
+                    <th class="text-center" rowspan="1" colspan="2" >Q3(Oct-Dec)</th>
+                    <th class="text-center" rowspan="1"  colspan="2" >Q4(Jan-Mar)</th>
+                  </ng-container>
+                 
+                   
+    
+                </tr> -->
+                <tr> 
+                   <th class="text-center" >Target</th>
+                  <th class="text-center" >Achieved</th>
+                  <ng-container *ngFor="let item of this.financialYears">
+                  <th class="text-center" >Target</th>
+                  <th class="text-center" >Achieved</th>
+                </ng-container></tr>
+                </thead>
+                <tbody >
+                  <tr *ngFor="let item of tableList; let i = index">
+                    <td>{{item?.outcomeName}}</td>
+                    <td>{{item?.grandtotal?.totalTarget}}</td>
+                    <td>{{item?.grandtotal?.totalAchieved}}</td>
+                    <ng-container *ngFor="let year of financialYears">
+                      <td>{{item?.[year]?.totalTarget || 0}}</td>
+                      <td>{{item?.[year]?.totalAchieved || 0}}</td>
+                    </ng-container>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!tableList?.length">
+                  <tr>
+                    <td class="text-center" colspan="11" >Data Not Available</td>
+                  </tr>
+                  
+                </tbody>
+                </table>
+            </div>
             
         
           </div>

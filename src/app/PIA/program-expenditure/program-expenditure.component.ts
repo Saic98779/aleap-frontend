@@ -136,7 +136,7 @@ export class ProgramExpenditureComponent implements OnInit {
  onAgencyChange(): void {
   this.programs = [];
   if (this.agencyId) {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Program Execution Updated`).subscribe({
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Collage Added`).subscribe({
       next: (data: any) => {
         this.programs = data.data;
       },
@@ -396,6 +396,8 @@ export class ProgramExpenditureComponent implements OnInit {
       // this.PrePostExpenditureForm.get('uploadBillUrl')?.setValue(item?.uploadBillUrl)
       item['uploadBillUrl']=this.editUploadUrl
       console.log(item)
+      
+      
      this.expenditureType=item?.expenditureType
       const modal1 = new bootstrap.Modal(this.PreEventModal.nativeElement);
       modal1.show();

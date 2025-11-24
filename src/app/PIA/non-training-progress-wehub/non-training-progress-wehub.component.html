@@ -152,19 +152,19 @@
                       </a>
                       <span *ngIf="!vendor.orderUpload" class="text-muted">No file</span>
                     </td> -->
-                     <td class="text-center">
-                        <a *ngIf="vendor?.orderUpload"  class="btn btn-default text-primary btn-sm"
-                           (click)="showFileViewer(vendor.orderUpload)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!vendor?.orderUpload" class="text-muted">No file</span>
-                      </td>
-                     <td class="text-center">
-                         <button type="button" class="btn btn-default text-lime-green btn-sm"
-                          (click)="openVendorModal('edit', vendor)"><span class="bi bi-pencil"></span></button>
-                         <button type="button" class="btn btn-default text-danger btn-sm"
-                            (click)="deleteVendor(vendor.vendorId)"><span class="bi bi-trash"></span></button>
-                       </td>
+                    <td class="text-center">
+                      <a *ngIf="vendor?.orderUpload" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(vendor.orderUpload)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!vendor?.orderUpload" class="text-muted">No file</span>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-default text-lime-green btn-sm"
+                        (click)="openVendorModal('edit', vendor)"><span class="bi bi-pencil"></span></button>
+                      <button type="button" class="btn btn-default text-danger btn-sm"
+                        (click)="deleteVendor(vendor.vendorId)"><span class="bi bi-trash"></span></button>
+                    </td>
                   </tr>
                   <tr *ngIf="getVendorData.length === 0">
                     <td colspan="6" class="text-center text-muted">No vendor data available.</td>
@@ -195,7 +195,7 @@
                   <tr>
                     <th>S.No</th>
                     <th>Payment date</th>
-                    <th >{{selectedBudgetHead=='63'?'Vendor Company Name' :'Category'}}</th>
+                    <th>{{selectedBudgetHead=='63'?'Vendor Company Name' :'Category'}}</th>
                     <th>Item Details</th>
                     <th>Expenditure (in Rs.)</th>
                     <th>Bill No.</th>
@@ -230,13 +230,13 @@
                     <td>{{ preliminary?.bankName }}</td>
                     <td>{{ preliminary?.ifscCode }}</td>
                     <!-- <td>{{ preliminary?.purpose }}</td> -->
-                      <td class="text-center">
-                        <a *ngIf="preliminary?.uploadBillUrl"  class="btn btn-default text-primary btn-sm"
-                           (click)="showFileViewer(preliminary.uploadBillUrl)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
-                      </td>
+                    <td class="text-center">
+                      <a *ngIf="preliminary?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(preliminary.uploadBillUrl)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
+                    </td>
                     <!-- <td class="text-center">
                                                 <a href="#" class="btn btn-default text-primary btn-sm"><span class="bi bi-eye"></span></a>
                                             </td> -->
@@ -309,13 +309,13 @@
                     <td>{{ preliminary?.bankName }}</td>
                     <td>{{ preliminary?.ifscCode }}</td>
                     <td>{{ preliminary?.purpose }}</td>
-                     <td class="text-center">
-                        <a *ngIf="preliminary?.uploadBillUrl"  class="btn btn-default text-primary btn-sm"
-                           (click)="showFileViewer(preliminary.uploadBillUrl)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
-                      </td>
+                    <td class="text-center">
+                      <a *ngIf="preliminary?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(preliminary.uploadBillUrl)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
+                    </td>
                     <!-- <td class="text-center">
                                                 <a href="#" class="btn btn-default text-primary btn-sm"><span class="bi bi-eye"></span></a>
                                             </td> -->
@@ -436,13 +436,13 @@
                     <td>{{ payment?.paymentForMonth }}</td>
                     <td>{{ payment?.dateOfPayment }}</td>
                     <td>{{ payment?.resourceName }}</td>
-                     <td class="text-center">
-                        <a *ngIf="payment?.uploadBillUrl"  class="btn btn-default text-primary btn-sm"
-                           (click)="showFileViewer(payment.uploadBillUrl)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
-                      </td>
+                    <td class="text-center">
+                      <a *ngIf="payment?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(payment.uploadBillUrl)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
+                    </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-default text-lime-green btn-sm"
                         (click)="openModelPayment('edit', payment)">
@@ -534,7 +534,7 @@
                     <th>Payment For Month</th>
                     <th>Date of Payment</th>
                     <th>Name of MSME</th>
-                     <th>View Bill Invoice</th>
+                    <th>View Bill Invoice</th>
                     <th class="text-center">Edit / Delete</th>
                   </tr>
                 </thead>
@@ -548,13 +548,13 @@
                     <td>{{ payment?.paymentForMonth }}</td>
                     <td>{{ payment?.dateOfPayment }}</td>
                     <td>{{ payment?.resourceName }}</td>
-                     <td class="text-center">
-                        <a *ngIf="payment?.uploadBillUrl"  class="btn btn-default text-primary btn-sm"
-                           (click)="showFileViewer(payment.uploadBillUrl)">
-                          <span class="bi bi-eye"></span>
-                        </a>
-                        <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
-                      </td>
+                    <td class="text-center">
+                      <a *ngIf="payment?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(payment.uploadBillUrl)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
+                    </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-default text-lime-green btn-sm"
                         (click)="openModelPayment('edit', payment)">
@@ -675,17 +675,18 @@
               </div>
             </div>
             <!-- Vendor Dropdown in Expenditure Modal -->
-          <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='63' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
-            <div class="form-floating mb-3">
-              <select class="form-select" id="vendorSelect" formControlName="category">
-                <option value="">Select Vendor</option>
-                <option *ngFor="let vendor of getVendorData" [value]="vendor.vendorCompanyName">
-                  {{ vendor.vendorCompanyName }}
-                </option>
-              </select>
-              <label for="vendorSelect">Select Vendor</label>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4"
+              *ngIf="selectedBudgetHead=='63' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
+              <div class="form-floating mb-3">
+                <select class="form-select" id="vendorSelect" formControlName="category">
+                  <option value="">Select Vendor</option>
+                  <option *ngFor="let vendor of getVendorData" [value]="vendor.vendorCompanyName">
+                    {{ vendor.vendorCompanyName }}
+                  </option>
+                </select>
+                <label for="vendorSelect">Select Vendor</label>
+              </div>
             </div>
-          </div>
             <!-- Payment Date -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
@@ -699,7 +700,8 @@
             </div>
 
             <!-- Categrory Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead!='63' && selectedBudgetHead!='80' && selectedBudgetHead!='81'">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4"
+              *ngIf="selectedBudgetHead!='63' && selectedBudgetHead!='80' && selectedBudgetHead!='81'">
               <div class="form-floating mb-3">
                 <select class="form-select" id="itCategory" formControlName="category">
                   <option value="#">Select Category</option>
@@ -861,10 +863,20 @@
 
             <!-- Upload Bill -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="file" class="form-control" formControlName="uploadBillUrl"
-                  (change)="onFileSelected($event)">
-                <label for="uploadBill">Upload Bill Invoice</label>
+             <div class="form-floating mb-3">
+                <input type="file"  id="files" class="form-control" [disabled]="uploadedFilesFinance" (change)="onFileSelected($event)">
+                <label for="uploadBill"  for="files">Upload Bill Invoice</label>
+              </div>
+
+              <div *ngIf=" uploadedFilesFinance " class="mt-2">
+                <div class="d-flex align-items-center mb-1">
+                  <span
+                    class="me-2">{{  this.uploadedFilesFinance.name?uploadedFilesFinance.name:uploadedFilesFinance.split('/').pop() }}</span>
+                  <!-- -->
+                  <button type="button" (click)="removeFile()" class="btn btn-sm btn-lime-green">
+                    <span class="bi bi-trash"></span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -954,8 +966,8 @@
             <!-- Date of Joining -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="dateOfJoining" formControlName="dateOfJoining" appDisableFutureDates
-                  [class.is-invalid]="isSubmitted && fContingency['dateOfJoining'].invalid"
+                <input type="date" class="form-control" id="dateOfJoining" formControlName="dateOfJoining"
+                  appDisableFutureDates [class.is-invalid]="isSubmitted && fContingency['dateOfJoining'].invalid"
                   placeholder="Date of joining">
                 <label for="dateOfJoining">Date of Joining</label>
                 <div *ngIf="isSubmitted && fContingency['dateOfJoining'].invalid" class="invalid-feedback">
@@ -1286,8 +1298,9 @@
             <!-- Date of Payment -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="dateOfPayment" formControlName="dateOfPayment" appDisableFutureDates
-                  [class.is-invalid]="isSubmitted && fPayment['dateOfPayment'].invalid" placeholder="Date of payment"
+                <input type="date" class="form-control" id="dateOfPayment" formControlName="dateOfPayment"
+                  appDisableFutureDates [class.is-invalid]="isSubmitted && fPayment['dateOfPayment'].invalid"
+                  placeholder="Date of payment"
                   [attr.aria-describedby]="isSubmitted && fPayment['dateOfPayment'].invalid ? 'dateError' : null">
                 <label for="dateOfPayment">Date of Payment</label>
                 <div *ngIf="isSubmitted && fPayment['dateOfPayment'].invalid" class="invalid-feedback" id="dateError">
@@ -1391,8 +1404,8 @@
 
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="dateOfTravel" formControlName="dateOfTravel" appDisableFutureDates
-                  name="dateOfTravel" placeholder="">
+                <input type="date" class="form-control" id="dateOfTravel" formControlName="dateOfTravel"
+                  appDisableFutureDates name="dateOfTravel" placeholder="">
                 <label for="travelDate">Date Of Travel</label>
               </div>
             </div>
@@ -1897,8 +1910,9 @@
             <!-- Date of Payment -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="dateOfPayment" formControlName="dateOfPayment" appDisableFutureDates
-                  [class.is-invalid]="isSubmitted && fPayment['dateOfPayment'].invalid" placeholder="Date of payment"
+                <input type="date" class="form-control" id="dateOfPayment" formControlName="dateOfPayment"
+                  appDisableFutureDates [class.is-invalid]="isSubmitted && fPayment['dateOfPayment'].invalid"
+                  placeholder="Date of payment"
                   [attr.aria-describedby]="isSubmitted && fPayment['dateOfPayment'].invalid ? 'dateError' : null">
                 <label for="dateOfPayment">Date of Payment</label>
                 <div *ngIf="isSubmitted && fPayment['dateOfPayment'].invalid" class="invalid-feedback" id="dateError">
@@ -2071,16 +2085,15 @@
             <!-- Vendor Company Name -->
             <div class="col-12 col-sm-6 col-md-6 col-lg-6">
               <div class="form-floating mb-3">
-                <input type="text" 
-                       class="form-control" 
-                       id="vendorCompanyName" 
-                       formControlName="vendorCompanyName"
-                       placeholder="Vendor Company Name"
-                       [class.is-invalid]="isSubmitted && fVendor['vendorCompanyName'].errors">
+                <input type="text" class="form-control" id="vendorCompanyName" formControlName="vendorCompanyName"
+                  placeholder="Vendor Company Name"
+                  [class.is-invalid]="isSubmitted && fVendor['vendorCompanyName'].errors">
                 <label for="vendorCompanyName">Vendor Company Name *</label>
                 <div class="invalid-feedback" *ngIf="isSubmitted && fVendor['vendorCompanyName'].errors">
-                  <small *ngIf="fVendor['vendorCompanyName'].errors?.['required']">Vendor company name is required</small>
-                  <small *ngIf="fVendor['vendorCompanyName'].errors?.['minlength']">Vendor company name must be at least 2 characters</small>
+                  <small *ngIf="fVendor['vendorCompanyName'].errors?.['required']">Vendor company name is
+                    required</small>
+                  <small *ngIf="fVendor['vendorCompanyName'].errors?.['minlength']">Vendor company name must be at least
+                    2 characters</small>
                 </div>
               </div>
             </div>
@@ -2088,11 +2101,8 @@
             <!-- Date of Order -->
             <div class="col-12 col-sm-6 col-md-6 col-lg-6">
               <div class="form-floating mb-3">
-                <input type="date" 
-                       class="form-control" 
-                       id="dateOfOrder" 
-                       formControlName="dateOfOrder"
-                       [class.is-invalid]="isSubmitted && fVendor['dateOfOrder'].errors">
+                <input type="date" class="form-control" id="dateOfOrder" formControlName="dateOfOrder"
+                  [class.is-invalid]="isSubmitted && fVendor['dateOfOrder'].errors">
                 <label for="dateOfOrder">Date of Order *</label>
                 <div class="invalid-feedback" *ngIf="isSubmitted && fVendor['dateOfOrder'].errors">
                   <small *ngIf="fVendor['dateOfOrder'].errors?.['required']">Date of order is required</small>
@@ -2103,29 +2113,24 @@
             <!-- Order Details -->
             <div class="col-12">
               <div class="form-floating mb-3">
-                <textarea class="form-control" 
-                          id="orderDetails" 
-                          formControlName="orderDetails"
-                          placeholder="Order Details"
-                          style="height: 100px"
-                          [class.is-invalid]="isSubmitted && fVendor['orderDetails'].errors">
+                <textarea class="form-control" id="orderDetails" formControlName="orderDetails"
+                  placeholder="Order Details" style="height: 100px"
+                  [class.is-invalid]="isSubmitted && fVendor['orderDetails'].errors">
                 </textarea>
                 <label for="orderDetails">Order Details *</label>
                 <div class="invalid-feedback" *ngIf="isSubmitted && fVendor['orderDetails'].errors">
                   <small *ngIf="fVendor['orderDetails'].errors?.['required']">Order details are required</small>
-                  <small *ngIf="fVendor['orderDetails'].errors?.['minlength']">Order details must be at least 10 characters</small>
+                  <small *ngIf="fVendor['orderDetails'].errors?.['minlength']">Order details must be at least 10
+                    characters</small>
                 </div>
               </div>
             </div>
-            
+
             <!-- Order Upload File Input -->
             <div class="col-12 col-sm-6 col-md-6 col-lg-6">
               <div class="form-floating mb-3">
-                <input type="file" 
-                       class="form-control" 
-                       id="orderUpload" 
-                       (change)="onOrderUploadSelected($event)"
-                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                <input type="file" class="form-control" id="orderUpload" (change)="onOrderUploadSelected($event)"
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
                 <label for="orderUpload">Order Upload</label>
               </div>
             </div>
@@ -2142,7 +2147,8 @@
   </div>
 </div>
 <!-- Vendor Delete Confirmation Modal -->
-<div class="modal fade" id="exampleModalDeleteVendor" tabindex="-1" aria-labelledby="exampleModalDeleteVendorLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalDeleteVendor" tabindex="-1" aria-labelledby="exampleModalDeleteVendorLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

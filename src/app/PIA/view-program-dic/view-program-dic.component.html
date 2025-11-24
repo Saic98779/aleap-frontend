@@ -11,7 +11,7 @@
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 custom-ui " style="margin-bottom: 2rem;">
                             <mat-form-field appearance="outline" class="mb-3 w-100">
                             <mat-label>Select Date Range</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
+                            <mat-date-range-input [rangePicker]="picker" class="pt-3">
                                 <input matStartDate placeholder="Start date" [(ngModel)]="dateRange.start" (dateChange)="onDateRangeChange()">
                                 <input matEndDate placeholder="End date" [(ngModel)]="dateRange.end" (dateChange)="onDateRangeChange()">
                             </mat-date-range-input>
@@ -28,7 +28,7 @@
                                         <mat-select-filter [array]="agencyList" [displayMember]="'districtName'"
                                             (filteredReturn)="agencyListFiltered = $event">
                                         </mat-select-filter>
-                                        <!-- <mat-option value="-1">All Agencies</mat-option> -->
+                                        <mat-option [value]="-1">All Districts</mat-option>
                                         <mat-option *ngFor="let list of agencyListFiltered" [value]="list.districtName">
                                             {{ list.districtName }}
                                         </mat-option>
@@ -90,6 +90,40 @@
                                 </div>
                             </div>
                         </div>
+                         <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-danger]="StatusData !== 'programsOverdue'"
+                                 [class.bg-dark]="StatusData === 'programsOverdue'"
+                                 [class.border-3]="StatusData === 'programsOverdue'"
+                                 [class.border-danger]="StatusData === 'programsOverdue'"
+                                 (click)="getProgramsByStatus('programsOverdue')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Over Due</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programOverDue || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsOverdue'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [class.bg-info]="StatusData !== 'programsYetToBegin'"
+                                 [class.bg-dark]="StatusData === 'programsYetToBegin'"
+                                 [class.border-3]="StatusData === 'programsYetToBegin'"
+                                 [class.border-info]="StatusData === 'programsYetToBegin'"
+                                 (click)="getProgramsByStatus('programsYetToBegin')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Yet To Begin</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programYetBegin || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsYetToBegin'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
                                  [class.bg-warning]="StatusData !== 'programsInProcess'"
@@ -103,6 +137,22 @@
                                     <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programInProcess || 0}}</p>
                                 </div>
                                 <div *ngIf="StatusData === 'programsInProcess'" class="position-absolute top-0 end-0 p-2">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
+                                 [ngClass]="StatusData === 'programsCompletedDataPending' ? 'bg-dark border-3' : ''"
+                                 [style.background-color]="StatusData !== 'programsCompletedDataPending' ? 'chocolate' : ''"
+                                 [style.border-color]="StatusData === 'programsCompletedDataPending' ? 'chocolate' : ''"
+                                 (click)="getProgramsByStatus('programsCompletedDataPending')"
+                                 style="transition: all 0.3s ease; cursor: pointer;">
+                                <div class="card-body p-0 d-flex flex-column justify-content-between">
+                                    <label class="mb-2 fw-600 small">Programs Completed - Data Pending</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompletedDataPending || 0}}</p>
+                                </div>
+                                <div *ngIf="StatusData === 'programsCompletedDataPending'" class="position-absolute top-0 end-0 p-2">
                                     <i class="fa fa-check-circle text-success"></i>
                                 </div>
                             </div>
@@ -124,64 +174,53 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                         <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [ngClass]="StatusData === 'programsCompletedDataPending' ? 'bg-dark border-3' : ''"
-                                 [style.background-color]="StatusData !== 'programsCompletedDataPending' ? 'chocolate' : ''"
-                                 [style.border-color]="StatusData === 'programsCompletedDataPending' ? 'chocolate' : ''"
-                                 (click)="getProgramsByStatus('programsCompletedDataPending')"
+                                 [class.bg-violet]="StatusData !== 'programExpenditureApproved'"
+                                 [class.bg-dark]="StatusData === 'programExpenditureApproved'"
+                                 [class.border-3]="StatusData === 'programExpenditureApproved'"
+                                 [class.border-success]="StatusData === 'programExpenditureApproved'"
+                                 (click)="getProgramsByStatus('programExpenditureApproved')"
                                  style="transition: all 0.3s ease; cursor: pointer;">
                                 <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs Completed - Data Pending</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompletedDataPending || 0}}</p>
+                                    <label class="mb-2 fw-600 small">Program Expenditure Verified</label>
+                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programExpenditureApproved || 0}}</p>
                                 </div>
-                                <div *ngIf="StatusData === 'programsCompletedDataPending'" class="position-absolute top-0 end-0 p-2">
+                                <div *ngIf="StatusData === 'programExpenditureApproved'" class="position-absolute top-0 end-0 p-2">
                                     <i class="fa fa-check-circle text-success"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [class.bg-danger]="StatusData !== 'programsOverdue'"
-                                 [class.bg-dark]="StatusData === 'programsOverdue'"
-                                 [class.border-3]="StatusData === 'programsOverdue'"
-                                 [class.border-danger]="StatusData === 'programsOverdue'"
-                                 (click)="getProgramsByStatus('programsOverdue')"
-                                 style="transition: all 0.3s ease; cursor: pointer;">
-                                <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs Over Due</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programOverDue || 0}}</p>
-                                </div>
-                                <div *ngIf="StatusData === 'programsOverdue'" class="position-absolute top-0 end-0 p-2">
-                                    <i class="fa fa-check-circle text-success"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                            <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [class.bg-info]="StatusData !== 'programsYetToBegin'"
-                                 [class.bg-dark]="StatusData === 'programsYetToBegin'"
-                                 [class.border-3]="StatusData === 'programsYetToBegin'"
-                                 [class.border-info]="StatusData === 'programsYetToBegin'"
-                                 (click)="getProgramsByStatus('programsYetToBegin')"
-                                 style="transition: all 0.3s ease; cursor: pointer;">
-                                <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs Yet To Begin</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programYetBegin || 0}}</p>
-                                </div>
-                                <div *ngIf="StatusData === 'programsYetToBegin'" class="position-absolute top-0 end-0 p-2">
-                                    <i class="fa fa-check-circle text-success"></i>
-                                </div>
-                            </div>
-                        </div>
+                        </div> -->
+                      
+                       
                     </div>
                     <div class="dtable-container">
                         <table id="view-program" class="display nowrap" style="width:100%">
                             <thead class="bg-lime-green">
-                               
+                                <!-- <tr>
+
+                                    <th>S.No</th>
+                                    <th>Actions</th>
+                                    <th>Status</th>
+                                    <th>agency Name</th>
+                                    <th>Type Of Activity</th>
+                                    <th>Sub Activity</th>
+                                    <th>Budget Head</th>
+                                    <th>District</th>
+                                    <th>Title Of Program</th>
+                                    <th>No. Of Days</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>In Time</th>
+                                    <th>Out Time</th>
+                                    <th>SPOC Name</th>
+                                    <th>SPOC Contact No.</th>
+                                    <th>Program Location</th>
+                                    
+                                </tr> -->
                             </thead>
                             <tbody>
-                               
+                              
                             </tbody>
                         </table>
                     </div>

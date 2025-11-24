@@ -364,22 +364,36 @@ onDateRangeChange() {
           return data ? data : '';
         }
     },
-      { 
-          data: 'startTime',
-          title: 'In Time',
-          className: 'text-center',
-          render: function(data, type, row) {
-            return data ? data : '';
-          }
-      },
-      { 
-          data: 'endTime',
-          title: 'Out Time',
-          className: 'text-center',
-          render: function(data, type, row) {
-            return data ? data : '';
-          }
-      },
+     { 
+      data: 'programTitle',
+      title: 'Title Of Program',
+      render: function(data, type, row) {
+        return data ? data : '';
+      }
+    },
+     { 
+      data: 'status',
+      title: 'Status',
+      render: function(data, type, row) {
+        return data ? data : '';
+      }
+    },
+      // { 
+      //     data: 'startTime',
+      //     title: 'In Time',
+      //     className: 'text-center',
+      //     render: function(data, type, row) {
+      //       return data ? data : '';
+      //     }
+      // },
+      // { 
+      //     data: 'endTime',
+      //     title: 'Out Time',
+      //     className: 'text-center',
+      //     render: function(data, type, row) {
+      //       return data ? data : '';
+      //     }
+      // },
       { 
         data: 'programLocationName',
         title: 'Program Location',
@@ -389,16 +403,6 @@ onDateRangeChange() {
         }
     },
     { 
-      title: 'District',
-      orderable: false ,
-      render: function(data, type, row, meta:any) {
-        // console.log(data,meta,type, row)
-          return row?.district ? row?.district : '-';   
-      },
-      className: 'dt-center'
-  },
-  
-    { 
       data: 'agencyName',
       title: 'Agency Name',
       orderable: false,
@@ -406,20 +410,8 @@ onDateRangeChange() {
         return data ? data : '';
       }
     },
-    { 
-      data: 'programTitle',
-      title: 'Title Of Program',
-      render: function(data, type, row) {
-        return data ? data : '';
-      }
-    },
-    { 
-      data: 'status',
-      title: 'Status',
-      render: function(data, type, row) {
-        return data ? data : '';
-      }
-    },
+   
+   
      { 
           data: 'activityName',
           title: 'Type Of Activity',
@@ -436,6 +428,17 @@ onDateRangeChange() {
             return data ? data : '';
           }
       },
+    { 
+      title: 'District',
+      orderable: false ,
+      render: function(data, type, row, meta:any) {
+        // console.log(data,meta,type, row)
+          return row?.district ? row?.district : '-';   
+      },
+      className: 'dt-center'
+  },
+    
+    
       
      
       { 
@@ -452,6 +455,13 @@ onDateRangeChange() {
             return data ? data : '';
           }
       },
+    //   { 
+    //   data: 'programType',
+    //   title: 'Budget Head',
+    //   render: function(data, type, row) {
+    //     return data ? data : '';
+    //   }
+    // },
      
       // { 
       //   data: null,

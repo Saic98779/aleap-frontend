@@ -41,7 +41,7 @@ export class ProgramSummaryComponent implements OnInit {
 
     ngOnInit(): void {
       this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-      if(this.loginsessionDetails.userRole == 'ADMIN') {
+      if(this.loginsessionDetails.userRole == 'ADMIN' || this.loginsessionDetails.userRole == 'SPIU') {
         this.getAgenciesList()
         
       }

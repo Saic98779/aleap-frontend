@@ -47,7 +47,7 @@ togglePanel() {
     // CALL_CENTER
     let url:any= ''
     if(this.userDetails.userRole=='AGENCY_MANAGER' || this.userDetails.userRole=='AGENCY_EXECUTOR'){ 
-        url=APIS.notificationDisplay.getNotificationDisplayByRole + 'AGENCY'
+        url=APIS.notificationDisplay.getNotificationDisplayByAgencyId +this.userDetails.agencyId+'&isRead=false'
     }
     else{
         url=APIS.notificationDisplay.getNotificationDisplayByRole+this.userDetails.userRole;
@@ -55,13 +55,25 @@ togglePanel() {
     
     this.commonService.getDataByUrl(url)
       .subscribe((res: any) => {
-        if (res && res.data['messages'].length > 0) {
+        if(this.userDetails?.userRole=='AGENCY_MANAGER' || this.userDetails?.userRole=='AGENCY_EXECUTOR'){
+          if(res && res.data.length > 0) {
+            this.notificationsList = res.data;
+            this.notificationCount = this.notificationsList.length;
+          } else {
+            this.notificationsList = [];
+            this.notificationCount = 0;
+          }
+        }
+        else{
+           if (res && res.data?.['messages'].length > 0) {
           this.notificationsList = res.data['messages'];
           this.notificationCount = this.notificationsList.length;
         } else {
           this.notificationsList = [];
           this.notificationCount = 0;
         }
+        }
+       
       }, (err: any) => {
         console.log(err);
       });
@@ -83,11 +95,47 @@ togglePanel() {
       });
     
   }
-  openNotificationDetail(notification: any) {
-    // Add Router to constructor
-    this.panelOpen = false;
-  this.router.navigate(['/notification-viewer-update']).then(() => {
-    this.commonService.triggerRefresh(); // trigger refresh after navigation
-  });
+
+//   openNotificationDetail(notification: any) {
+//     // Add Router to constructor
+//     this.panelOpen = false;
+//   this.router.navigate(['/notification-viewer-update']).then(() => {
+//     this.commonService.triggerRefresh(); // trigger refresh after navigation
+//   });
+// }
+
+openNotificationDetailIsRead(notification: any) {
+   let url= APIS.notificationDisplay.UpdatemarkAsRead+(notification.notificationId?notification.notificationId:notification.id)+'/read?isRead=true';
+   this.commonService.updatedata(url, {}).subscribe((res:any)=>{
+    console.log('Notification marked as read',res);
+    this.getNotifications()
+    if(notification.notificationType=='TICKETS'){
+       this.router.navigate(['/help-support']).then(() => {
+      this.commonService.triggerRefresh(); // trigger refresh after navigation
+    });
+
+    }
+    else if(notification.notificationType=='TRAINING_EXPENDITURE'){
+        this.router.navigate(['/expenditure-verification']).then(() => {
+      this.commonService.triggerRefresh(); // trigger refresh after navigation
+    });
+    }
+    else if(notification.notificationType=='NON_TRAINING_EXPENDITURE'){
+        this.router.navigate(['/Non-training-Expenditure']).then(() => {
+      this.commonService.triggerRefresh(); // trigger refresh after navigation
+    });
+    }
+     else if(notification.notificationType=='PROGRAM_RESCHEDULE'){
+        this.router.navigate(['/reshedule-programs']).then(() => {
+      this.commonService.triggerRefresh(); // trigger refresh after navigation
+    });
+    }
+    // this.panelOpen = false ;
+    // this.router.navigate(['/notification-viewer-update']).then(() => {
+    //   this.commonService.triggerRefresh(); // trigger refresh after navigation
+    // });
+   },(err:any)=>{
+    console.log(err);
+   });
 }
 }

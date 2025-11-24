@@ -6,27 +6,54 @@
               <div class="row"> 
                <h6 class="fw-bold mb-3">Add MoMSME Report Data By monthly </h6>
             </div>
-            <div class="row align-items-center mb-2">
-              <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+            <div class="row align-items-center mb-2 mt-2">
+              <div class="col-12 col-sm-12 col-md-4 col-lg-2">
                 <!-- <h6 class="fw-600 mb-2 mb-sm-2 mb-md-0">Quarterly Progress Monitoring</h6> -->
             
               </div>
-              <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+              <div class="col-12 col-sm-5 col-md-4 col-lg-2">
                 
                <mat-form-field appearance="outline" class="w-100">
                             <mat-label>List Of Intervention</mat-label>
-                                <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="GetProgramsByAgency($any($event).value)">
+                                <mat-select [(ngModel)]="selectedInterventionId" (selectionChange)="GetCompoentsBasedIntervention($any($event).value)">
                                 <mat-select-filter [array]="agencyList"  (filteredReturn)="agencyListFiltered = $event">
                                 </mat-select-filter>
                                 <!-- <mat-option value="-1" >All Agencies</mat-option> -->
-                                <mat-option *ngFor="let list of agencyListFiltered" [value]="list.moMSMEActivityId">
-                                {{ list.intervention }}
+                                <mat-option *ngFor="let list of agencyListFiltered" [value]="list">
+                                {{ list }}
                                 </mat-option>
                             </mat-select>
                             </mat-form-field>
               </div>
-           
-              <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+               <div class="col-12 col-sm-5 col-md-4 col-lg-2">
+                
+               <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>List Of Components</mat-label>
+                                <mat-select [(ngModel)]="selectedComponent" (selectionChange)="GetActivitiessBasedComponent($any($event).value)">
+                                <mat-select-filter [array]="compoentData"  (filteredReturn)="filteredComponentList = $event">
+                                </mat-select-filter>
+                                <!-- <mat-option value="-1" >All Agencies</mat-option> -->
+                                <mat-option *ngFor="let list of filteredComponentList" [value]="list">
+                                {{ list }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+              </div>
+               <div class="col-12 col-sm-5 col-md-4 col-lg-2">
+                
+               <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>List Of Activities</mat-label>
+                                <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="GetProgramsByAgency($any($event).value)">
+                                <mat-select-filter [array]="ActivitiesData"  (filteredReturn)="fiteredActivitiesList = $event" [displayMember]="'activity'">
+                                </mat-select-filter>
+                                <!-- <mat-option value="-1" >All Agencies</mat-option> -->
+                                <mat-option *ngFor="let list of fiteredActivitiesList" [value]="list.moMSMEActivityId">
+                                {{ list.activity }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-5 col-md-4 col-lg-2">
             
                 <mat-form-field appearance="outline" class="w-100">
                             <mat-label>List Of FY</mat-label>
@@ -40,7 +67,7 @@
                             </mat-select>
                             </mat-form-field>
               </div>
-              <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+              <div class="col-12 col-sm-12 col-md-4 col-lg-2">
                  <mat-form-field appearance="outline" class="w-100">
                  <mat-label>List Of Months</mat-label>
                                 <mat-select [(ngModel)]="selectedMonthName" (selectionChange)="getSelectedMonth($any($event).value)">

@@ -28,4 +28,7 @@ export class ImageService {
   getPrograms(agencyId: number): Observable<ProgramResponse> {
     return this.http.get<ProgramResponse>(`${APIS.collageCreation.GET_PROGRAMS}/${agencyId}`);
   }
+  saveImages(url:any,data:any): Observable<any> {
+    return this.http.post<any>(`${url}`,data);
+  }
 }

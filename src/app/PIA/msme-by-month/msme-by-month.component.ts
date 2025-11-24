@@ -44,20 +44,62 @@ export class MsmeByMonthComponent implements OnInit {
     this.generateFinancialYears();
       // Set current month by default
   }
-
+selectedInterventionId:any=''
   getAgenciesList() {
-     this._commonService.getDataByUrl(APIS.msmeQueaterly.getlistOfIntervention).subscribe({
+     this._commonService.getDataByUrl(APIS.msmeQueaterly.getUniqueIntervention).subscribe({
        next: (res: any) => {
          this.agencyList = res.data;
-         this.selectedAgencyId=res.data[0]?.moMSMEActivityId
+         this.selectedInterventionId=res.data[0]
          this.selectedMonthName='april'
          this.agencyListFiltered = this.agencyList;
+         this.GetCompoentsBasedIntervention(this.selectedInterventionId)
+       },
+       error: (err) => {
+         this.toastrService.error(err.error.message);
+       },
+     });
+    }
+    compoentData:any=[]
+    filteredComponentList:any=[]
+    selectedComponent:any=''
+    GetCompoentsBasedIntervention(value: any) {
+      this.getTableData=[]
+      this.selectedInterventionId=value
+      this.compoentData=[]
+      this.filteredComponentList=[]
+      this.selectedAgencyId=''
+      this._commonService.getDataByUrl(APIS.msmeQueaterly.getCompoentsBasedIntervention+'?intervention='+value).subscribe({
+       next: (res: any) => {
+         this.compoentData = res.data;
+         this.filteredComponentList = this.compoentData;
+         this.selectedComponent=this.compoentData[0]
+         this.GetActivitiessBasedComponent(this.selectedComponent)
+       },
+       error: (err) => {
+         this.toastrService.error(err.error.message);
+       },
+     });
+
+    }
+    // Project%20team%20%283%20team%20members%20%40%202.9%20lakh%20per%20month%29
+    ActivitiesData:any=[]
+    fiteredActivitiesList:any=[]
+    selectedActivity:any=''
+    GetActivitiessBasedComponent(value: any) {
+      this.selectedComponent=value
+      this.selectedAgencyId=''
+      this._commonService.getDataByUrl(APIS.msmeQueaterly.getActiitiedBasedComp+value).subscribe({
+       next: (res: any) => {
+         this.ActivitiesData = res.data;
+         this.fiteredActivitiesList = this.ActivitiesData;
+         this.selectedAgencyId=this.ActivitiesData[0]?.moMSMEActivityId
          this.getBasedOnQuarterSelection()
        },
        error: (err) => {
          this.toastrService.error(err.error.message);
        },
      });
+
     }
 
   isAddingRow = false;

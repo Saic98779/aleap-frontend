@@ -30,7 +30,7 @@ export class DownloadExcelPdfComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
-    this.isAdmin = this.currentUser.userRole === 'ADMIN';
+    this.isAdmin = this.currentUser.userRole === 'ADMIN' || this.currentUser.userRole === 'SPIU';
     this.agencyId = this.currentUser.agencyId;
 
     if (this.isAdmin) {

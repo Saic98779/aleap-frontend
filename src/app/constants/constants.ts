@@ -283,11 +283,13 @@ export const APIS = {
         getNotificationDisplayByAgency: API_BASE_URL + '/notifications/agency/remarks/',
         getNotificationDisplayByCallCenter: API_BASE_URL + '/notifications/callcenter/remarks/',
         getNotificationDisplayByRole: API_BASE_URL + '/api/notifications/role/',
+        getNotificationDisplayByAgencyId: API_BASE_URL + '/api/notifications/un-read?agencyId=',
         getNotificationByAgency: API_BASE_URL + '/notifications/agency/',
         getNotificationByCallCenter: API_BASE_URL + '/notifications/callcenter/',
         getNotifications: API_BASE_URL + '/notifications/by-user',
         markAsRead: API_BASE_URL + '/notifications/mark-read',
         updateData: API_BASE_URL + '/notifications/status',
+        UpdatemarkAsRead: API_BASE_URL + '/api/notifications/',
     },
     msmeQueaterly:{
         getMSMEByQuarter: API_BASE_URL + '/momsme/report/by-quarter',
@@ -295,7 +297,11 @@ export const APIS = {
         getMSMEByMonth: API_BASE_URL + '/momsme/report/by-month',
         saveMonth: API_BASE_URL + '/momsme/submitted-save',
         getCuulativebyIntervention: API_BASE_URL + '/momsme/report/by-cumulative',
-        pushToMoMSME: API_BASE_URL + '/momsme/push-to-momsme'
+        pushToMoMSME: API_BASE_URL + '/momsme/push-to-momsme',
+        getUniqueIntervention:API_BASE_URL+'/momsme/interventions/unique',
+        getCompoentsBasedIntervention:API_BASE_URL+'/momsme/components',
+        getActiitiedBasedComp:API_BASE_URL+'/momsme/activities?component=',
+
     },
     tickets: {
         getAllUser: API_BASE_URL + '/login/allusrs',

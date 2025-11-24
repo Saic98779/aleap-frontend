@@ -230,7 +230,8 @@
                     <tr>
                       <th>S.No</th>
                       <!-- <th>Name of the Agency</th> -->
-                      <th>Date of hiring</th>
+                      <th *ngIf="selectedBudgetHead=='132' || selectedBudgetHead=='133'">Date of payment</th>
+                      <th *ngIf="selectedBudgetHead=='27'">Date of hiring</th>
                       <ng-container *ngIf="selectedBudgetHead=='132'">
                         <th>Category</th>
                         <th>Item Name</th>
@@ -479,15 +480,17 @@
               <div class="form-floating mb-3">
                 <input type="date" class="form-control" formControlName="paymentDate" appDisableFutureDates
                   [class.is-invalid]="isSubmitted && f['paymentDate'].invalid">
-                <label for="paymentDate">Date of hiring</label>
+                  
+                <label *ngIf="selectedBudgetHead=='132' || selectedBudgetHead=='133'" for="paymentDate">Date of Payement</label>
+                 <label *ngIf="!(selectedBudgetHead=='132' || selectedBudgetHead=='133')" for="paymentDate">Date of hiring</label>
                 <div *ngIf="isSubmitted && f['paymentDate'].invalid" class="invalid-feedback">
-                  Date of hiring is required
+                  Date is required
                 </div>
               </div>
             </div>
 
             <!-- Categrory Date -->
-            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='132'">
               <div class="form-floating mb-3">
                 <select class="form-select" id="itCategory" formControlName="category">
                   <option value="#">Select Category</option>
@@ -502,8 +505,8 @@
                   Category is required
                 </div>
               </div>
-            </div> -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='132'">
+            </div>
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='132'">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="category" placeholder="" formControlName="category">
                 <label for="category">Category</label>
@@ -511,7 +514,7 @@
                   Category is required
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- item -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='132'">
               <div class="form-floating mb-3">
