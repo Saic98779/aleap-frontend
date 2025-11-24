@@ -26,64 +26,10 @@
           <div class="dtable-container">
             <table id="view-table-program" class="display nowrap" style="width:100%">
               <thead class="bg-lime-green">
-                <tr>
-
-                  <th>S.No</th>
-                  <th class="text-center">Actions</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>In Time</th>
-                  <th>Out Time</th>
-                  <th>Budget Head</th>
-                  <th>District</th>
-                  <th>Title Of Program</th>
-                  <th>Status</th>
-                  <th>agency Name</th>
-                  <th>Type Of Activity</th>
-                  <th>Sub Activity</th>
-
-                  <!-- <th>No. Of Days</th> -->
-
-                  <th>SPOC Name</th>
-                  <th>SPOC Contact No.</th>
-                  <th>Program Location</th>
-
-                </tr>
+               
               </thead>
               <tbody>
-                <tr *ngFor="let item of tableList; let i = index">
-
-                  <td>{{ i + 1 }}</td>
-                  <td *ngIf="loginsessionDetails?.userRole == 'AGENCY_MANAGER' || loginsessionDetails?.userRole == 'AGENCY_EXECUTOR'
-                                    || loginsessionDetails?.userRole == 'ADMIN'">
-                    <!-- (click)="sessionDetails(item)" data-bs-toggle="modal" data-bs-target="#viewModal" -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-lime-green"
-                                            title="Sessions" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                            (click)="sessionDetails(item)" title="View"><span
-                                                class="bi bi-eye"></span></button> -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button> -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-primary mx-2" title="Edit" (click)="editProgram(item)"><span class="bi bi-pencil"></span></button> -->
-                    <!-- <button type="button" class="btn btn-default btn-sm text-danger" title="Delete"><span class="bi bi-trash"></span></button> -->
-                  </td>
-                  <td>{{ item.startDate }}</td>
-                  <td>{{ item.endDate }}</td>
-                  <td class="text-center">{{ item.startTime }}</td>
-                  <td class="text-center">{{ item.endTime }}</td>
-                  <td>{{ item.programType }}</td>
-                  <td>{{ item.programTitle }}</td>
-                  <td>{{ item.status }}</td>
-                  <td>{{ item.activityName }}</td>
-                  <td>{{ item.subActivityName }}</td>
-
-                  <!-- <td>{{ item.programDetails }}</td> -->
-
-                  <!-- <td>{{ item.noOfDays }}</td> -->
-
-                  <td>{{ item.spocName }}</td>
-                  <td>{{ item.spocContactNo }}</td>
-                  <td>{{ item.programLocationName }}</td>
-
-                </tr>
+               
               </tbody>
             </table>
           </div>

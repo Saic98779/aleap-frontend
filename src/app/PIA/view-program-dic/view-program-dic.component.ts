@@ -193,10 +193,7 @@ export class ViewProgramDicComponent implements OnInit {
      },
      className: 'dt-center'
  },
-     { 
-       data: 'programType',
-       title: 'Budget Head'
-   },
+    
        { 
          data: 'agencyName',
          orderable: false,

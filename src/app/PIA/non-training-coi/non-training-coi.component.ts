@@ -76,14 +76,15 @@ export class NonTrainingCoiComponent implements OnInit {
  TargetDetails: any;
     getDeatilOfTargets() {
         this.TargetDetails=[]
-        this._commonService.getDataByUrl(APIS.nontrainingtargets.getNonTrainingtargets+this.selectedBudgetHead).subscribe((res: any) => {
+        setTimeout(() => {
+           this._commonService.getDataByUrl(APIS.nontrainingtargets.getNonTrainingtargets+this.selectedBudgetHead).subscribe((res: any) => {
           this.TargetDetails = res.data;
           this.physicalTarget = this.TargetDetails?.physicalTarget || 0;
           this.financialTarget = this.TargetDetails?.financialTarget || 0;
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if( this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
+          if( this.selectedBudgetHead=='27' || this.selectedBudgetHead=='132' || this.selectedBudgetHead=='133' || this.selectedBudgetHead=='28'){
             this.getPreliminaryDataById()
 
           }
@@ -98,7 +99,7 @@ export class NonTrainingCoiComponent implements OnInit {
 
           
         }, (error) => {
-                    if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
+                    if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='132' || this.selectedBudgetHead=='133' ||  this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
                  this.getPreliminaryDataById()
 
           }
@@ -113,6 +114,8 @@ export class NonTrainingCoiComponent implements OnInit {
           }
           // this.toastrService.error(error.message);
         });
+        }, 1000);
+       
       }
 
 
@@ -225,7 +228,7 @@ createForm(): FormGroup {
       nonTrainingSubActivityId: [0, ],
        nonTrainingActivityId: [0, ],
       paymentDate: ['', Validators.required],
-      // category: ['', Validators.required],
+      category: [''],
       expenditureAmount: [0, [Validators.required, Validators.min(0)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
@@ -237,7 +240,7 @@ createForm(): FormGroup {
       transactionId: [''],
       purpose: ['',],
       uploadBillUrl: [''],
-       checkNo: [''],
+      checkNo: [''],
       checkDate: ['']
     });
   }
@@ -250,6 +253,7 @@ createForm(): FormGroup {
   preliminaryID:any
   openModel(mode: string,item?: any): void {
     if (mode === 'add') {
+        this.uploadedFilesFinance=null
       this.financialForm.reset();
       this.iseditMode = false;
       this.resetForm();
@@ -258,6 +262,7 @@ createForm(): FormGroup {
       this.preliminaryID=item?.id
       this.iseditMode = true;
       this.modeOfPaymentIt(item?.modeOfPayment);
+      this.uploadedFilesFinance=item?.uploadBillUrl
       this.financialForm.patchValue({
         agencyId: item?.agencyId || 0,
         nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
@@ -272,13 +277,19 @@ createForm(): FormGroup {
         ifscCode: item?.ifscCode || '',
         modeOfPayment: item?.modeOfPayment || '',
         transactionId: item?.transactionId || '',
-          checkNo: item?.checkNo || '',
+        checkNo: item?.checkNo || '',
         checkDate: item?.checkDate ? this.convertToISOFormat(item?.checkDate) : '',
         purpose: item?.purpose || '',
         uploadBillUrl: ''
       });
       
     }
+     setTimeout(() => {
+       const fileInput = document.getElementById('files') as HTMLInputElement;
+       if (fileInput) {
+         fileInput.value = '';
+       }
+     }, 100);
     const modal1 = new bootstrap.Modal(document.getElementById('addSurvey'));
     modal1.show();
   }
@@ -417,11 +428,24 @@ createForm(): FormGroup {
        this.f['agencyId'].setValue(Number(this.selectedAgencyId));
         this.f['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
 +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
-        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,{...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID},this.preliminaryID).subscribe((res: any) => {
+            const formData = new FormData();
+            console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
+             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+              formData.append("files", this.uploadedFilesFinance);
+              }
+              else{
+                this.financialForm.patchValue({uploadBillUrl:this.uploadedFilesFinance})
+              }
+
+              formData.append("dto", JSON.stringify({...this.financialForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),id:this.preliminaryID}));
+
+         
+        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapPriliminary,formData,this.preliminaryID).subscribe((res: any) => {
           this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
           
           console.log('Preliminary Data:', this.getPreliminaryData);
           this.resetForm();
+          this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modalElement = document.getElementById('addSurvey');
           const modal1 = modalElement ? bootstrap.Modal.getInstance(modalElement) : null;
@@ -430,13 +454,15 @@ createForm(): FormGroup {
           }
         
         }, (error) => {
+         
            this.resetForm();
+            this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
           this.toastrService.error(error.message,"Non Training Progress Data Error!");
         });
-        this.getDeatilOfTargets()
+        
     }
     else{
       console.log('Form Submitted:', this.financialForm.value);
@@ -446,13 +472,14 @@ createForm(): FormGroup {
          const formData = new FormData();
           formData.append("dto", JSON.stringify({...this.financialForm.value}));
 
-          if (this.financialForm.value.uploadBillUrl) {
-            formData.append("file", this.uploadedFiles);
+          if (this.uploadedFilesFinance) {
+            formData.append("file", this.uploadedFilesFinance);
             }
         this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsCodeIT,formData).subscribe((res: any) => {
           this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
           this.getPreliminaryData.push(res.data)
           this.resetForm();
+          this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
@@ -460,12 +487,13 @@ createForm(): FormGroup {
         
         }, (error) => {
           this.resetForm();
+          this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addSurvey'));
           modal1.hide();
           this.toastrService.error(error.message);
         });
-        this.getDeatilOfTargets()
+        
     }
    
     }
@@ -515,19 +543,23 @@ createForm(): FormGroup {
       }
       this.getDeatilOfTargets()
     } 
-    uploadedFiles: any ;
+     uploadedFiles: any ;
+    uploadedFilesFinance: any ;
   onFileSelected(event: any): void {
+    console.log('File selected event:', event);
     const file = event.target.files[0];
     if (file) {
-      this.uploadedFiles = file;
+      this.uploadedFilesFinance = file;
       // Handle file upload logic here
       // You might want to upload the file and then set the URL
-      this.financialForm.patchValue({
-        uploadBillUrl: file.name // This would be the uploaded file URL
-      });
+      // this.financialForm.patchValue({
+      //   uploadBillUrl: file.name // This would be the uploaded file URL
+      // });
     }
   }
-
+removeFile(): void {
+     this.uploadedFilesFinance=null   
+   }
   // end infracture
 
   // contingency fund || staff
@@ -613,12 +645,14 @@ createForm(): FormGroup {
           
           console.log('Preliminary Data:', this.getContingencyData);
           this.resetFormContingency();
+           this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
         
         }, (error) => {
            this.resetFormContingency();
+            this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
@@ -630,6 +664,7 @@ createForm(): FormGroup {
         this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingency,{...this.contingencyForm.value,"expenditures":[],nonTrainingActivityId:Number(this.selectedActivity),nonTrainingSubActivityId:Number(this.selectedBudgetHead),dateOfJoining:this.contingencyForm?.value?.dateOfJoining?moment(this.contingencyForm?.value?.dateOfJoining).format('DD-MM-YYYY'):null}).subscribe((res: any) => {
           this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
           this.resetFormContingency();
+           this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
@@ -637,13 +672,14 @@ createForm(): FormGroup {
         
         }, (error) => {
           this.resetFormContingency();
+           this.getDeatilOfTargets()
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
           modal1.hide();
           this.toastrService.error(error.message);
         });
     }
-   this.getDeatilOfTargets()
+  
       }
 
   }

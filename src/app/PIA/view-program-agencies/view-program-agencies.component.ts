@@ -192,10 +192,7 @@ onDateRangeChange() {
     },
     className: 'dt-center'
 },
-    { 
-      data: 'programType',
-      title: 'Budget Head'
-  },
+  
       { 
         data: 'agencyName',
         orderable: false,
