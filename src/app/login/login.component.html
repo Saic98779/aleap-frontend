@@ -44,9 +44,10 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-3">                                        
-                                        <input type="text" formControlName="username" placeholder="User Name" autofocus class="form-control form-control-lg" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                                        <input type="email" formControlName="username" placeholder="User Name" autofocus class="form-control form-control-lg" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                                         <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                                             <div *ngIf="f.username.errors.required">Username is required</div>
+                                            <div *ngIf="f.username.errors.email">Please enter a valid email address</div>
                                         </div>
                                     </div>
                                 </div>
