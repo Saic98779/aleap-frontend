@@ -27,7 +27,7 @@ export class NotificationDisplayComponent implements OnInit {
     if (this.getNotifications) {
       this.getNotifications();
     }
-  }, 10000);
+  }, 1000);
     }
 
   }

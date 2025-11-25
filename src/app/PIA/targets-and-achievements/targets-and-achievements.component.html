@@ -54,9 +54,27 @@
             </div>
           </div>
           <div class="card-body mb-3">
-            <button class="btn btn-secondary mb-3" type="button" (click)="goBack()">
+                <nav>
+            <div class="nav nav-tabs mb-3 d-flex justify-content-between align-items-center" id="nav-tab" role="tablist">
+              <div class="d-flex">
+                <button [ngClass]="{ 'active':activeTab==='nav-twos'}" (click)="onTabChange('nav-twos')"
+                  class="nav-link active text-primary fw-600" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-twos" type="button"
+                  role="tab" aria-controls="nav-home" aria-selected="true">Training Targets Vs Achivements</button>
+                <button [ngClass]="{ 'active':activeTab==='nav-ones'}" (click)="onTabChange('nav-ones')"
+                  class="nav-link active text-primary fw-600 ms-2" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-ones" type="button"
+                  role="tab" aria-controls="nav-home" aria-selected="true">Non Training Targets Vs Achivements</button>
+              </div>
+               <button class="btn btn-secondary mb-3" type="button" (click)="goBack()">
               <i class="bi bi-arrow-left"></i> Back
             </button>
+            </div>
+          </nav>
+          <div class="tab-content border bg-light" id="nav-tabContent">
+             <div class="tab-pane fade active show mb-3" id="nav-twos" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-twos'}" *ngIf="activeTab==='nav-twos'">
+             <div class="m-3">
+                <div class="card-body mb-3">
+          
             <h6 class="fw-bold mb-3">Training Targets Vs Achivements</h6>
             <!--  id=view-physical-table  -->
             <div class="table-container">
@@ -128,7 +146,14 @@
             
         
           </div>
-          <div class="card-body">
+             </div>
+
+            </div>
+           
+            <div class="tab-pane fade active show mb-3" id="nav-ones" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-ones'}" *ngIf="activeTab==='nav-ones'">
+            <div class="m-3">
+                <div class="card-body">
             <h6 class="fw-bold mb-3">Non Training Targets Vs Achivements</h6>
             <!--  id=view-physical-table  -->
             <div class="table-container" >
@@ -220,6 +245,15 @@
             
         
           </div>
+           
+            </div>
+
+            </div>
+          </div>
+
+          </div>
+          
+         
         </div>
       </div>
     </section>

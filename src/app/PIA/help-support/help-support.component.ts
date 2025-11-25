@@ -29,7 +29,7 @@ export class HelpSupportComponent implements OnInit {
     this.activeTab = 'nav-twos';
    
   }
-  onTabChange(activeTab:any){
-    this.activeTab = activeTab;
-  }
+onTabChange(activeTab:any){
+  this.activeTab = activeTab;
+}
 }

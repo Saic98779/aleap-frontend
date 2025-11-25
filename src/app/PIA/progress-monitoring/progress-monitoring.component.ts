@@ -18,6 +18,7 @@ localStorageData: any;
   agencyList: any = [];
   loginsessionDetails: any;
   agencyId: any;
+  activeTab: any;
 
  constructor(
      private toastrService: ToastrService,
@@ -30,7 +31,19 @@ localStorageData: any;
  
 
   ngOnInit(): void {
+    this.activeTab = 'nav-twos';
     this.getAgenciesList()
+  }
+    onTabChange(activeTab:any){
+    this.activeTab = activeTab;
+    if(Number(sessionStorage.getItem('selectedAgencyIdByProgressMonitoring'))){
+          this.selectedAgencyId=Number(sessionStorage.getItem('selectedAgencyIdByProgressMonitoring'))
+          this.GetProgramsByAgency(this.selectedAgencyId);
+        }
+        else{
+          //  this.selectedAgencyId = res.data[0].agencyId;
+          this.GetProgramsByAgency(this.selectedAgencyId);
+        }
   }
  selectedAgencyId: any;
   agencyListFiltered: any;

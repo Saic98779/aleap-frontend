@@ -26,13 +26,27 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="text-end mb-3">
-            <button (click)="redirectAchievements()" class="btn btn-blue me-2">Quarterly Progress Monitoring</button>
-            <!-- <button (click)="redirectPrograms()" class="btn btn-lime-green">View Programs</button> -->
-          </div>
+        
           
           <!-- Training Programs Table -->
-            <div class="row mb-4" *ngIf="tableListTraining && tableListTraining?.length > 0">
+              <nav>
+            <div class="nav nav-tabs mb-3 d-flex justify-content-between align-items-center" id="nav-tab" role="tablist">
+              <div class="d-flex">
+                <button [ngClass]="{ 'active':activeTab==='nav-twos'}" (click)="onTabChange('nav-twos')"
+                  class="nav-link active text-primary fw-600" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-twos" type="button"
+                  role="tab" aria-controls="nav-home" aria-selected="true">Training Programs</button>
+                <button [ngClass]="{ 'active':activeTab==='nav-ones'}" (click)="onTabChange('nav-ones')"
+                  class="nav-link active text-primary fw-600 ms-2" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-ones" type="button"
+                  role="tab" aria-controls="nav-home" aria-selected="true">Non Training Programs</button>
+              </div>
+              <button (click)="redirectAchievements()" class="btn btn-blue me-2">Quarterly Progress Monitoring</button>
+            </div>
+          </nav>
+          <div class="tab-content border bg-light" id="nav-tabContent">
+             <div class="tab-pane fade active show mb-3" id="nav-twos" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-twos'}" *ngIf="activeTab==='nav-twos'">
+             <div class="m-3">
+               <div class="row mb-4" *ngIf="tableListTraining && tableListTraining?.length > 0">
             <div class="col-12">
               <h6 class="fw-600 mb-3 text-primary">Training Programs : {{getAgencyName(selectedAgencyId)}}</h6>
               <div class="scrollable-table">
@@ -83,8 +97,14 @@
               </div>
             </div>
             </div>
-          
-            <!-- Non-Training Programs Table -->
+             </div>
+
+            </div>
+           
+            <div class="tab-pane fade active show mb-3" id="nav-ones" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-ones'}" *ngIf="activeTab==='nav-ones'">
+            <div class="m-3">
+                <!-- Non-Training Programs Table -->
             <div class="row mb-4" *ngIf="tableList && tableList?.length > 0">
             <div class="col-12">
               <h6 class="fw-600 mb-3 text-success">Non-Training Programs : {{getAgencyName(selectedAgencyId)}}</h6>
@@ -135,6 +155,13 @@
               </div>
             </div>
             </div>
+            </div>
+
+            </div>
+          </div>
+           
+          
+          
           <!-- No Data Message -->
           <!-- <div class="row" *ngIf="!tableList || (!tableList.trainingPrograms?.length && !tableList.nonTrainingPrograms?.length)">
             <div class="col-12">

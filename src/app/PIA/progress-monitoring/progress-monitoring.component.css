@@ -1,6 +1,6 @@
 /* Scrollable table container with sticky header */
 .scrollable-table {
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
   overflow-x: auto;
   border: 1px solid #dee2e6;
@@ -50,7 +50,7 @@
 }
 
 .table-scroll-container {
-  max-height: 250px; /* You can adjust this height */
+  max-height: 350px; /* You can adjust this height */
   overflow-y: auto;
   position: relative;
 }
