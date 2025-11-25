@@ -23,14 +23,20 @@ export class NotificationDisplayComponent implements OnInit {
     console.log(this.userDetails);
     if (this.userDetails && this.userDetails.userId) {
       this.getNotifications();
+      setInterval((): void => {
+    if (this.getNotifications) {
+      this.getNotifications();
     }
+  }, 10000);
+    }
+
   }
 
 togglePanel() {
   this.getNotifications()
   if (!this.panelOpen) {
     this.panelOpen = true;
-    this.markAllAsRead();
+    // this.markAllAsRead();
   } else {
     this.panelOpen = false;
   }
@@ -138,4 +144,5 @@ openNotificationDetailIsRead(notification: any) {
     console.log(err);
    });
 }
+
 }
