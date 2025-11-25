@@ -957,7 +957,14 @@ openRemarks(item:any){
     this.Expenditureid=''
     this.fileErrors='';  
      this.editUploadUrl=''
+     setTimeout(() => {
+       const fileInput = document.getElementById('files') as HTMLInputElement;
+       if (fileInput) {
+         fileInput.value = '';
+       }
+     }, 100);
    if(type=='add'){
+    this.uploadedFiles=null
     this.isEdit=false
     if(this.programCreationMain.value.activityId && this.programCreationMain.value.subActivityId && this.programCreationMain.value.programId){
       this.PrePostExpenditureForm.reset()
@@ -981,13 +988,13 @@ openRemarks(item:any){
     }
    }
    else{
+     this.uploadedFiles=item?.uploadBillUrl
      this.editUploadUrl=item?.uploadBillUrl;
     if(item?.expenditureType=='PRE' || item?.expenditureType=='POST'){
       this.Expenditureid=item?.programExpenditureId
       this.isEdit=true
       console.log(item)
       this.PrePostExpenditureForm.reset()
-      item['uploadBillUrl']=''
       this.modeOfPayment(item?.modeOfPayment)
       this.programCreationMain.patchValue({...item})
       this.PrePostExpenditureForm.patchValue({...item,headOfExpenseId:this.getExpenseIdByName(item?.headOfExpense),billDate:this.convertToISOFormat(item?.billDate),checkDate:this.convertToISOFormat(item?.checkDate)})
@@ -1048,7 +1055,7 @@ openRemarks(item:any){
     return allowedExtensions.includes(fileExtension || '');
   }
   fileErrors:any=''
-  uploadedFiles: any = [];
+  uploadedFiles: any;
   onFileChange(event: any) {
     this.fileErrors=''
     // const file = event.target.files[0];
@@ -1084,9 +1091,14 @@ openRemarks(item:any){
       //this.sessionForm.get('uploaFiles')?.setValue(validFiles);
       // Save valid files separately
       this.uploadedFiles = validFiles;
+      console.log(this.uploadedFiles)
       // this.sessionForm.patchValue({ videoUrls: urlsList });
     }
   }
+  removeFile(): void {
+     this.uploadedFiles=null   
+   }
+   
   //save pre and post expenditure 
   ExpenditureSubmit(){
    this.PrePostExpenditureForm.value.checkDate=this.PrePostExpenditureForm.value.checkDate?moment(this.PrePostExpenditureForm.value.checkDate).format('DD-MM-YYYY'):null;
@@ -1100,7 +1112,7 @@ openRemarks(item:any){
     const formData = new FormData();
      
        formData.append("request", JSON.stringify(payload));
-      if (this.PrePostExpenditureForm.value.uploadBillUrl) {
+      if ( this.uploadedFiles[0]) {
         formData.append("files", this.uploadedFiles[0]);
         }
         if(this.isEdit){

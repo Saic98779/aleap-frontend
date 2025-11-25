@@ -25,6 +25,7 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
    loginsessionDetails: any;
    agencyId: any;
    targetsScreenForm!: FormGroup;
+    activeTab: any;
    constructor(
      private toastrService: ToastrService,
      private _commonService: CommonServiceService,
@@ -34,7 +35,9 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      // this.selectedAgencyId = this.loginsessionDetails.agencyId;
    }
  
+
    ngOnInit(): void {
+    this.activeTab = 'nav-twos';
      this.getAgenciesList() 
      this.generateFinancialYears() 
      
@@ -42,6 +45,9 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      
      this.formDetails()
    }
+     onTabChange(activeTab:any){
+    this.activeTab = activeTab;
+  }
  
    selectedAgencyId: any;
    FinanCialYear: any;

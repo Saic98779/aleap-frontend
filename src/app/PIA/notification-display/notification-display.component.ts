@@ -24,13 +24,16 @@ export class NotificationDisplayComponent implements OnInit {
     if (this.userDetails && this.userDetails.userId) {
       this.getNotifications();
     }
+    setInterval(() => {
+      this.getNotifications();
+    }, 10000); // Refresh every 5 minutes
   }
 
 togglePanel() {
   this.getNotifications()
   if (!this.panelOpen) {
     this.panelOpen = true;
-    this.markAllAsRead();
+    // this.markAllAsRead();
   } else {
     this.panelOpen = false;
   }

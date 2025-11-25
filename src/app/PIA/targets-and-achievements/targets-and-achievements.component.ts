@@ -24,6 +24,7 @@ export class TargetsAndAchievementsComponent implements OnInit {
   loginsessionDetails: any;
   agencyId: any;
   targetsScreenForm!: FormGroup;
+  activeTab: any;
   constructor(
     private toastrService: ToastrService,
     private _commonService: CommonServiceService,
@@ -34,12 +35,20 @@ export class TargetsAndAchievementsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activeTab = 'nav-twos';
     this.getAgenciesList() 
     this.generateFinancialYears() 
     
     this.GetOutComes()
     
     this.formDetails()
+  }  
+  onTabChange(activeTab:any){
+    this.activeTab = activeTab;
+    let id=Number(sessionStorage.getItem('selectedAgencyIdByProgressMonitoring')) || null
+        console.log(id, typeof(id),'selectedAgencyIdByProgressMonitoring');
+        this.GetProgramsByAgency(this.selectedAgencyId);
+        
   }
 
   selectedAgencyId: any;
