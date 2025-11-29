@@ -53,12 +53,12 @@
                             <table  class="table table-bordered nowrap w-100">
                                 <thead class="bg-lime-green">
                                     <tr>
-                                       
+                                        <th>S.No</th>
                                         <th *ngIf="loginsessionDetails.agencyId">Edit</th>
                                          <th class="text-center">Add {{this.loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'SPIU Comment':'Agency Response'}}</th>
                                          <th>SPIU Comment</th>
                                         <th>Agency Response</th>
-                                         <th>S.No</th>
+                                        
                                         <th>Type Of Expenditure</th>
                                         <th>Head of Expense</th>
                                         <th>Program Name</th>
@@ -73,7 +73,7 @@
                                 </thead>
                                 <tbody *ngIf="getExpenditureDataBoth?.length">
                                     <tr  *ngFor="let item of getExpenditureDataBoth; let i=index">
-                                         
+                                        <td class="text-start">{{i+1}}</td>
                                      <td *ngIf="loginsessionDetails.agencyId" class="text-center">
                                         <button type="button"  [ngClass]="{'disabled':item?.status=='APPROVED'}" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}"  (click)="OpenModal('edit',item)"><span class="bi bi-pencil"></span></button>
                                     </td>
@@ -102,7 +102,7 @@
                                             <td *ngIf="item?.agencyComments?.length<=1 ">
                                                 {{item?.agencyComments?.[0]}}                        
                                             </td>
-                                        <td class="text-start">{{i+1}}</td>
+                                        
                                         <td>{{item?.expenditureType}}</td>
                                         <td>{{item?.headOfExpense}}</td>
                                         <td>{{item.programName}}</td>
@@ -168,12 +168,12 @@
                             <table  class="table table-bordered nowrap w-100">
                                 <thead class="bg-lime-green">
                                     <tr>
-                                       
+                                         <th>S.No</th>
                                         <th *ngIf="loginsessionDetails.agencyId">Edit</th>
                                          <th class="text-center">Add {{this.loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'SPIU Comment':'Agency Response'}}</th>
                                          <th>SPIU Comment</th>
                                         <th>Agency Response</th>
-                                         <th>S.No</th>
+                                        
                                         <th>Type Of Expenditure</th>
                                         <th>Head of Expense</th>
                                         <th>Program Name</th>
@@ -188,7 +188,7 @@
                                 </thead>
                                 <tbody *ngIf="getExpenditureDataBoth?.length">
                                     <tr  *ngFor="let item of getExpenditureDataBoth; let i=index">
-                                         
+                                         <td class="text-start">{{i+1}}</td>
                                      <td *ngIf="loginsessionDetails.agencyId" class="text-center">
                                         <button type="button"  [ngClass]="{'disabled':item?.status=='APPROVED'}" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}"  (click)="OpenModal('edit',item)"><span class="bi bi-pencil"></span></button>
                                     </td>
@@ -217,7 +217,7 @@
                                             <td *ngIf="item?.agencyComments?.length<=1 ">
                                                 {{item?.agencyComments?.[0]}}                        
                                             </td>
-                                        <td class="text-start">{{i+1}}</td>
+                                        
                                         <td>{{item?.expenditureType}}</td>
                                         <td>{{item?.headOfExpense}}</td>
                                         <td>{{item.programName}}</td>
@@ -572,7 +572,7 @@
                             </div> -->
 
                             <!-- Previous Comments -->
-                             <ng-container *ngIf="activeTab=='nav-threes'">
+                             <ng-container >
                                  <div class="col-md-6" *ngIf="selectedExpenditureItem?.spiuComments?.length && selectedExpenditureItem?.spiuComments?.[0]" >
                                 <div class="info-item">
                                     <label class="info-label">Previous SPIU Comments:</label>
