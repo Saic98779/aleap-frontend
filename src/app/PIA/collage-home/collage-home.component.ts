@@ -59,6 +59,22 @@ export class CollageHomeComponent implements OnInit {
     this.getAgencies();
     this.getPrograms(1);
   }
+  getColleges(): void {
+     this.user = JSON.parse(sessionStorage.getItem('user') || '{}');  
+    console.log('Logged-in User:', this.user);
+     this.imageService.getCollageImages().subscribe(
+      (res: any[]) => {
+        this.collageImages = res.filter((fileob: any) =>
+          fileob.fileUrl?.match(/\.(jpeg|jpg|png|gif|png)$/i)
+        );
+        this.filteredImages = [...this.collageImages]; // Default show all
+      },
+      (err) => {
+        console.error('Error fetching collage images:', err);
+        this.filteredImages = [];
+      }
+    )
+  }
 
   getFileName(fileUrl: string): string {
     return fileUrl.split('/').pop() || 'Unknown File';
@@ -155,5 +171,23 @@ export class CollageHomeComponent implements OnInit {
         console.error('Error fetching programs:', err);
       }
     );
+  }
+  deleteImage(imageId: number): void {
+    if (!confirm('Are you sure you want to delete this image?')) {
+      return;
+    }
+
+    this.imageService.deleteImage(imageId).subscribe(
+      (res) => {
+        console.log('Image deleted successfully:', res);
+        // Remove the deleted image from local arrays
+        this.getColleges()
+      },
+      (err) => {
+        this.getColleges()
+        console.error('Error deleting image:', err);
+      }
+    );
+
   }
 }

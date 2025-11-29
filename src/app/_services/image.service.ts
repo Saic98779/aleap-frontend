@@ -31,4 +31,7 @@ export class ImageService {
   saveImages(url:any,data:any): Observable<any> {
     return this.http.post<any>(`${url}`,data);
   }
+  deleteImage(imageId: any): Observable<any> {
+    return this.http.delete<any>(`${APIS.collageCreation.DELETE_IMAGE}${imageId?.programId}&fileId=${imageId.fileId}`);
+  }
 }

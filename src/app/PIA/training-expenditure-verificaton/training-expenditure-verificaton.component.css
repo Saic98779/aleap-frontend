@@ -1,0 +1,187 @@
+/* Main tab container styling */
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  /* Individual tab button styling */
+  .nav-tabs .nav-link {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #00b300;
+    background-color: #fff;
+    /* border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem; */
+    margin-right: 0.25rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover state for tabs */
+  .nav-tabs .nav-link:hover {
+    /* border-color: #e9ecef #e9ecef #dee2e6; */
+    background-color: #fff;
+    color: #00b300;
+  }
+  
+  /* Active tab styling */
+  .nav-tabs .nav-link.active {
+    color: #00b300;
+    background-color: #fff;
+    /* border-color: #dee2e6 #dee2e6 #fff; */
+    border-bottom: 3px solid #00b300;
+  }
+  
+  /* Focus state for accessibility */
+  .nav-tabs .nav-link:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  /* Tab content area styling */
+  .tab-content {
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 0.25rem 0.25rem;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  
+  /* Animation for tab transitions */
+  .tab-pane.fade {
+    transition: opacity 0.15s linear;
+  }
+  
+  .tab-pane.fade:not(.show) {
+    opacity: 0;
+  }
+  
+  .tab-pane.fade.show {
+    opacity: 1;
+  }
+  
+  /* Margin for the tab container */
+  .mb-3 {
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Light background for the tab content */
+  .bg-light {
+    background-color: #fff !important;
+  }
+  .file-carousel-container {
+    overflow-x: auto;
+    padding: 10px;
+  }
+  
+  .file-carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+  }
+  
+  .file-card {
+    position: relative;
+    min-width: 150px;
+    max-width: 200px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .file-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .file-icon {
+    margin-bottom: 10px;
+  }
+  
+  .file-name {
+    font-size: 14px;
+    word-break: break-word;
+  }
+      /* Container for the table to enable scrolling */
+      .table-container {
+        max-height: 500px; /* Adjust as needed */
+        overflow-y: auto;
+        position: relative;
+      }
+    
+      /* Make the header sticky */
+      table thead {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+    
+      /* Style for the header cells */
+      table thead th {
+        /* background-color: #28a745; Same as bg-lime-green */
+        /* color: white; */
+        position: sticky;
+        top: 0;
+      }
+    
+      /* For the nested headers, we need to make the second and third rows sticky at different levels */
+      table thead tr:nth-child(2) th {
+        top: 38px; /* Height of the first header row */
+      }
+    
+      table thead tr:nth-child(3) th {
+        top: 76px; /* Height of first two header rows */
+      }
+    
+      /* Ensure table cells have proper borders */
+      table.table-bordered th,
+      table.table-bordered td {
+        border: 1px solid #dee2e6;
+      }
+    
+      /* Optional: Add shadow to sticky header */
+      table thead {
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+      }
+      .d-block{
+        color: #0b0d88 !important;
+      }
+  .statusmes-data {
+    background: #ffff;
+    position: absolute;
+    z-index: 9;
+    color: #000;
+    right: -2px;
+    width: 400px;
+    padding: 3px 6px 7px;
+    display: none;
+    top: 33px;
+    border-radius: 8px;
+}
+.statusmes-data p {
+    margin: 3px 0 0px 0;
+    font-size: 13px;
+    line-height: 17px;
+}
+.docu-hv-text:hover .statusmes-data {
+    display: block;
+}
+
+
+.statusmes-data:before {
+    width: 0px;
+    height: 0px;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 10px solid #ffffff;
+    border-top: 0px;
+    content: "";
+    position: absolute;
+    top: -9px;
+    right: 35px;
+}

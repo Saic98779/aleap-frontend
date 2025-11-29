@@ -83,6 +83,7 @@ import { MasterListComponent } from './master-list/master-list.component';
 import { ViewOutcomesComponent } from './PIA/view-outcomes/view-outcomes.component';
 import { NonTrainingExpendituresComponent } from './PIA/non-training-expenditures/non-training-expenditures.component';
 import { ViewProgramDicComponent } from './PIA/view-program-dic/view-program-dic.component';
+import { TrainingExpenditureVerificatonComponent } from './PIA/training-expenditure-verificaton/training-expenditure-verificaton.component';
 const routes: Routes = [
     {
         path: '',
@@ -135,7 +136,7 @@ const routes: Routes = [
     // },
      {
         path: 'expenditure-verification',
-        component: FinanceExpenditureComponent,
+        component: TrainingExpenditureVerificatonComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,,Role.FINANCE] }
     },
