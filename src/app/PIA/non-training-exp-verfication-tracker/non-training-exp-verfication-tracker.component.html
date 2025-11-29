@@ -1,0 +1,674 @@
+<main class="mt-4">
+  <section>
+    <div class="card mb-3">
+      <div class="card-header bg-transparent">
+        <div class="row align-items-center mb-3">
+          <div class="col-12 col-sm-5 col-md-5 col-lg-5">
+            <h6 class="fw-600 mb-2 mb-sm-0">Non Training Expenditure Tracker<ng-container
+                *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
+                Verification</ng-container>
+            </h6>
+          </div>
+          <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2">
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>List Of Agencies</mat-label>
+                <mat-select [(ngModel)]="agencyId" (selectionChange)="getBudgetHeadList($any($event).value)">
+                  <mat-select-filter [array]="agencyList" [displayMember]="'agencyName'"
+                    (filteredReturn)="agencyListFiltered = $event">
+                  </mat-select-filter>
+                  <mat-option value="" disabled>Select Agency</mat-option>
+                  <mat-option *ngFor="let list of agencyListFiltered" [value]="list.agencyId">
+                    {{ list.agencyName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2">
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>List Of Activities</mat-label>
+                <mat-select [(ngModel)]="selectedActivity" (selectionChange)="onActivityChange($event.value)">
+                  <mat-select-filter [array]="FilterActivityList" [displayMember]="'activityName'"
+                    (filteredReturn)="budgetHeadList = $event">
+                  </mat-select-filter>
+                  <mat-option value="" disabled>Select Activities</mat-option>
+                  <mat-option *ngFor="let list of budgetHeadList" [value]="list?.activityId">
+                    {{ list?.activityName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>List Of Sub Activities</mat-label>
+                <mat-select [(ngModel)]="selectedSubActivity" (selectionChange)="getExpenditure($event.value)">
+                  <mat-select-filter [array]="FilterSubActivityList" [displayMember]="'subActivityName'"
+                    (filteredReturn)="SubActivityList = $event">
+                  </mat-select-filter>
+                  <mat-option value="" disabled>Select Sub Activities</mat-option>
+                  <mat-option *ngFor="let list of SubActivityList" [value]="list?.subActivityId">
+                    {{ list?.subActivityName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'FINANCE'">
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2"></div>
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2">
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>List Of Activities</mat-label>
+                <mat-select [(ngModel)]="selectedActivity" (selectionChange)="onActivityChange($event.value)">
+                  <mat-select-filter [array]="FilterActivityList" [displayMember]="'activityName'"
+                    (filteredReturn)="budgetHeadList = $event">
+                  </mat-select-filter>
+                  <mat-option value="" disabled>Select Activities</mat-option>
+                  <mat-option *ngFor="let list of budgetHeadList" [value]="list?.activityId">
+                    {{ list?.activityName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>List Of Sub Activities</mat-label>
+                <mat-select [(ngModel)]="selectedSubActivity" (selectionChange)="getExpenditure($event.value)">
+                  <mat-select-filter [array]="FilterSubActivityList" [displayMember]="'subActivityName'"
+                    (filteredReturn)="SubActivityList = $event">
+                  </mat-select-filter>
+                  <mat-option value="" disabled>Select Sub Activities</mat-option>
+                  <mat-option *ngFor="let list of SubActivityList" [value]="list?.subActivityId">
+                    {{ list?.subActivityName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-body">
+          <nav>
+            <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+              <button [ngClass]="{ 'active':activeTab==='nav-ones'}" (click)="onTabChange('nav-ones')"
+                class="nav-link active text-primary fw-600" id="nav-home-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-ones" type="button" role="tab" aria-controls="nav-home" aria-selected="true"> Need
+                Clarification</button>
+              <button [ngClass]="{ 'active':activeTab==='nav-twos'}" (click)="onTabChange('nav-twos')"
+                class="nav-link active text-primary fw-600 " id="nav-home-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-twos" type="button" role="tab" aria-controls="nav-home"
+                aria-selected="true">Rejected </button>
+              <button [ngClass]="{ 'active':activeTab==='nav-threes'}" (click)="onTabChange('nav-threes')"
+                class="nav-link active text-primary fw-600" id="nav-home-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-threes" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                Approved</button>
+
+
+            </div>
+          </nav>
+          <div class="tab-content border" id="nav-tabContent">
+            <div class="tab-pane fade active show mb-3" id="nav-ones" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-ones'}" *ngIf="activeTab==='nav-ones'">
+              <div class="table-container">
+                <table class="table table-bordered nowrap w-100">
+                  <thead class="bg-lime-green">
+                    <tr>
+                      <!-- <th>Edit</th> -->
+                      <th>S.No</th>
+                       <th class="text-center">Add
+                        {{this.loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'SPIU Comment':'Agency Response'}}
+                      </th>
+                        <th>SPIU Comment</th>
+                      <th>Agency Response</th>
+                      <th>Category</th>
+                      <th>Payment Date</th>
+                      <th>Expenditure Amount (INR)</th>
+                      <th>Bill No.</th>
+                      <th>Bill Date</th>
+                      <th>Upload Bill/Invoice</th>
+                    
+                     
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="getExpenditureDataBoth?.length">
+                    <tr *ngFor="let item of getExpenditureDataBoth; let i=index">
+                      <!-- <td class="text-center">
+                                     <button type="button" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}" (click)="openModel('edit', item)">
+                                        <span class="bi bi-pencil"></span>
+                                    </button>
+                                   
+                                </td> -->
+                      <td class="text-start">{{i+1}}</td>
+                      <td class="text-center">
+                        <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED'}"
+                          class="btn btn-default text-lime-green btn-sm" (click)="openRemarks(item)">
+                          <span class="bi bi-pencil"></span>
+                        </button>
+                      </td>
+                      <td *ngIf="item?.spiuComments?.length > 1">
+                        <i class="bx docu-hv-text" style="position: relative;">
+                          {{item?.spiuComments[0]}}..
+                          <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
+                            <p>{{item?.spiuComments}}</p>
+                          </div>
+                        </i>
+                      </td>
+                      <td *ngIf="item?.spiuComments?.length <= 1">
+                        {{item?.spiuComments?.[0]}}
+                      </td>
+                      <td *ngIf="item?.agencyComments?.length > 1">
+                        <i class="bx docu-hv-text" style="position: relative;">
+                          {{item?.agencyComments[0]}}..
+                          <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
+                            <p>{{item?.agencyComments}}</p>
+                          </div>
+                        </i>
+                      </td>
+                      <td *ngIf="item?.agencyComments?.length <= 1">
+                        {{item?.agencyComments?.[0]}}
+                      </td>
+                      <td>{{item?.category}}</td>
+                      <td class="noWrap">{{item?.paymentDate}}</td>
+                      <td class="noWrap">{{item?.expenditureAmount | commaSeperationIndia}}</td>
+                      <td>{{item?.billNo}}</td>
+                      <td class="noWrap">{{item?.billDate}}</td>
+                      <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() !== 'pdf'">
+                        <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
+                          <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')"
+                            rel="noopener noreferrer">
+                            <img src="{{imageUrlDownloadPath}}{{item?.uploadBillUrl?.split('public_html/')?.[1]}}"
+                              alt="Image" class="img-fluid" style="width: 50px; height: 50px;">
+                          </a>
+                        </ng-container>
+                        <ng-container *ngIf="!item?.uploadBillUrl?.split('public_html/')?.[1]">
+                          <span class="text-danger">No File</span>
+                        </ng-container>
+                      </td>
+                      <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() === 'pdf'">
+                        <ng-container>
+                          <a
+                            (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'pdf')">
+                            <i class="fas fa-file-pdf"></i>
+                          </a>
+                        </ng-container>
+                      </td>
+                      <td *ngIf="!item?.uploadBillUrl">
+                        <span class="text-danger">No File</span>
+                      </td>
+                      
+                      
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="getExpenditureDataBoth?.length">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                       <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Total</td>
+                      <td class="noWrap">{{TotalAmount | commaSeperationIndia}}</td>
+                      <td></td>
+                      <td></td>
+                    <td></td>
+
+
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="getExpenditureDataBoth?.length==0">
+                    <tr>
+                      <td colspan="100%" class="text-center">No Data Found</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+            <div class="tab-pane fade active show mb-3" id="nav-twos" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-twos'}" *ngIf="activeTab==='nav-twos'">
+              <div class="table-container">
+                <div class="table-container">
+                  <table class="table table-bordered nowrap w-100">
+                  <thead class="bg-lime-green">
+                    <tr>
+                      <!-- <th>Edit</th> -->
+                      <th>S.No</th>
+                       <th class="text-center">Add
+                        {{this.loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'SPIU Comment':'Agency Response'}}
+                      </th>
+                        <th>SPIU Comment</th>
+                      <th>Agency Response</th>
+                      <th>Category</th>
+                      <th>Payment Date</th>
+                      <th>Expenditure Amount (INR)</th>
+                      <th>Bill No.</th>
+                      <th>Bill Date</th>
+                      <th>Upload Bill/Invoice</th>
+                    
+                     
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="getExpenditureDataBoth?.length">
+                    <tr *ngFor="let item of getExpenditureDataBoth; let i=index">
+                      <!-- <td class="text-center">
+                                     <button type="button" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}" (click)="openModel('edit', item)">
+                                        <span class="bi bi-pencil"></span>
+                                    </button>
+                                   
+                                </td> -->
+                      <td class="text-start">{{i+1}}</td>
+                      <td class="text-center">
+                        <button type="button" [ngClass]="{'disabled':item?.status=='APPROVED'}"
+                          class="btn btn-default text-lime-green btn-sm" (click)="openRemarks(item)">
+                          <span class="bi bi-pencil"></span>
+                        </button>
+                      </td>
+                      <td *ngIf="item?.spiuComments?.length > 1">
+                        <i class="bx docu-hv-text" style="position: relative;">
+                          {{item?.spiuComments[0]}}..
+                          <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
+                            <p>{{item?.spiuComments}}</p>
+                          </div>
+                        </i>
+                      </td>
+                      <td *ngIf="item?.spiuComments?.length <= 1">
+                        {{item?.spiuComments?.[0]}}
+                      </td>
+                      <td *ngIf="item?.agencyComments?.length > 1">
+                        <i class="bx docu-hv-text" style="position: relative;">
+                          {{item?.agencyComments[0]}}..
+                          <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
+                            <p>{{item?.agencyComments}}</p>
+                          </div>
+                        </i>
+                      </td>
+                      <td *ngIf="item?.agencyComments?.length <= 1">
+                        {{item?.agencyComments?.[0]}}
+                      </td>
+                      <td>{{item?.category}}</td>
+                      <td class="noWrap">{{item?.paymentDate}}</td>
+                      <td class="noWrap">{{item?.expenditureAmount | commaSeperationIndia}}</td>
+                      <td>{{item?.billNo}}</td>
+                      <td class="noWrap">{{item?.billDate}}</td>
+                      <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() !== 'pdf'">
+                        <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
+                          <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')"
+                            rel="noopener noreferrer">
+                            <img src="{{imageUrlDownloadPath}}{{item?.uploadBillUrl?.split('public_html/')?.[1]}}"
+                              alt="Image" class="img-fluid" style="width: 50px; height: 50px;">
+                          </a>
+                        </ng-container>
+                        <ng-container *ngIf="!item?.uploadBillUrl?.split('public_html/')?.[1]">
+                          <span class="text-danger">No File</span>
+                        </ng-container>
+                      </td>
+                      <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() === 'pdf'">
+                        <ng-container>
+                          <a
+                            (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'pdf')">
+                            <i class="fas fa-file-pdf"></i>
+                          </a>
+                        </ng-container>
+                      </td>
+                      <td *ngIf="!item?.uploadBillUrl">
+                        <span class="text-danger">No File</span>
+                      </td>
+                      
+                      
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="getExpenditureDataBoth?.length">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                       <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Total</td>
+                      <td class="noWrap">{{TotalAmount | commaSeperationIndia}}</td>
+                      <td></td>
+                      <td></td>
+                    <td></td>
+
+
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="getExpenditureDataBoth?.length==0">
+                    <tr>
+                      <td colspan="100%" class="text-center">No Data Found</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="tab-pane fade active show mb-3" id="nav-threes" role="tabpanel" aria-labelledby="nav-home-tab"
+              [ngClass]="{ 'active':activeTab==='nav-threes'}" *ngIf="activeTab==='nav-threes'">
+              <div class="table-container">
+                 <table class="table table-bordered nowrap w-100">
+                  <thead class="bg-lime-green">
+                    <tr>
+                      <!-- <th>Edit</th> -->
+                      <th>S.No</th>
+                       <th class="text-center">View </th>
+                        <th>SPIU Comment</th>
+                      <th>Agency Response</th>
+                      <th>Category</th>
+                      <th>Payment Date</th>
+                      <th>Expenditure Amount (INR)</th>
+                      <th>Bill No.</th>
+                      <th>Bill Date</th>
+                      <th>Upload Bill/Invoice</th>
+                    
+                     
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="getExpenditureDataBoth?.length">
+                    <tr *ngFor="let item of getExpenditureDataBoth; let i=index">
+                      <!-- <td class="text-center">
+                                     <button type="button" class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':item?.status=='APPROVED'}" (click)="openModel('edit', item)">
+                                        <span class="bi bi-pencil"></span>
+                                    </button>
+                                   
+                                </td> -->
+                      <td class="text-start">{{i+1}}</td>
+                      <td class="text-center">
+                        <button type="button" 
+                          class="btn btn-default text-lime-green btn-sm" (click)="openRemarks(item)">
+                          <span class="bi bi-eye"></span>
+                        </button>
+                      </td>
+                      <td *ngIf="item?.spiuComments?.length > 1">
+                        <i class="bx docu-hv-text" style="position: relative;">
+                          {{item?.spiuComments[0]}}..
+                          <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
+                            <p>{{item?.spiuComments}}</p>
+                          </div>
+                        </i>
+                      </td>
+                      <td *ngIf="item?.spiuComments?.length <= 1">
+                        {{item?.spiuComments?.[0]}}
+                      </td>
+                      <td *ngIf="item?.agencyComments?.length > 1">
+                        <i class="bx docu-hv-text" style="position: relative;">
+                          {{item?.agencyComments[0]}}..
+                          <div class="statusmes-data" style="width: 200px !important;background-color: #ffc107;">
+                            <p>{{item?.agencyComments}}</p>
+                          </div>
+                        </i>
+                      </td>
+                      <td *ngIf="item?.agencyComments?.length <= 1">
+                        {{item?.agencyComments?.[0]}}
+                      </td>
+                      <td>{{item?.category}}</td>
+                      <td class="noWrap">{{item?.paymentDate}}</td>
+                      <td class="noWrap">{{item?.expenditureAmount | commaSeperationIndia}}</td>
+                      <td>{{item?.billNo}}</td>
+                      <td class="noWrap">{{item?.billDate}}</td>
+                      <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() !== 'pdf'">
+                        <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
+                          <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')"
+                            rel="noopener noreferrer">
+                            <img src="{{imageUrlDownloadPath}}{{item?.uploadBillUrl?.split('public_html/')?.[1]}}"
+                              alt="Image" class="img-fluid" style="width: 50px; height: 50px;">
+                          </a>
+                        </ng-container>
+                        <ng-container *ngIf="!item?.uploadBillUrl?.split('public_html/')?.[1]">
+                          <span class="text-danger">No File</span>
+                        </ng-container>
+                      </td>
+                      <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() === 'pdf'">
+                        <ng-container>
+                          <a
+                            (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'pdf')">
+                            <i class="fas fa-file-pdf"></i>
+                          </a>
+                        </ng-container>
+                      </td>
+                      <td *ngIf="!item?.uploadBillUrl">
+                        <span class="text-danger">No File</span>
+                      </td>
+                      
+                      
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="getExpenditureDataBoth?.length">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                       <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Total</td>
+                      <td class="noWrap">{{TotalAmount | commaSeperationIndia}}</td>
+                      <td></td>
+                      <td></td>
+                    <td></td>
+
+
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="getExpenditureDataBoth?.length==0">
+                    <tr>
+                      <td colspan="100%" class="text-center">No Data Found</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- <div class="mb-3 me-3">
+                <button type="button"  style='margin-left: 20px;' [ngClass]="{'disabled':getExpenditureDataBoth?.length==0 ||  !checkExpenditure(getExpenditureDataBoth)}" class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#exampleModalDeleteConfirm">Program Expenditure Verfied </button>
+            </div> -->
+      </div>
+      </div>
+      </section>
+</main>
+<div class="modal fade" id="addRemarksModel" #addRemarksModel tabindex="-1" role="dialog" aria-labelledby="addRemarkslabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRemarkslabel" *ngIf="activeTab!='nav-threes'">
+                    Add {{loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'Remarks':'Response'}}
+                </h5>
+                <h5 class="modal-title" id="addRemarkslabel" *ngIf="activeTab=='nav-threes'">
+                    View Expenditure Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Expenditure Details Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0 text-primary">
+                            <i class="bi bi-info-circle me-2"></i>Expenditure Details
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.category">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Category: </label>
+                                    <span class="info-value"> {{selectedExpenditure?.category}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.paymentDate">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Payment Date: </label>
+                                    <span class="info-value"> {{selectedExpenditure?.paymentDate}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.expenditureAmount !== undefined">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Expenditure Amount: </label>
+                                    <span class="info-value fw-bold text-success"> {{selectedExpenditure?.expenditureAmount}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.billNo">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Bill No: </label>
+                                    <span class="info-value"> {{selectedExpenditure?.billNo}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.billDate">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Bill Date: </label>
+                                    <span class="info-value"> {{selectedExpenditure?.billDate}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.payeeName">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Payee Name: </label>
+                                    <span class="info-value"> {{selectedExpenditure?.payeeName}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.modeOfPayment">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Mode of Payment: </label>
+                                    <span class="badge bg-secondary"> {{selectedExpenditure?.modeOfPayment}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.purpose">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Purpose: </label>
+                                    <span class="info-value"> {{selectedExpenditure?.purpose}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="selectedExpenditure?.status">
+                                <div class="info-item">
+                                    <label class="info-label fw-600">Status: </label>
+                                    <span class="badge bg-warning"> {{selectedExpenditure?.status}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" *ngIf="selectedExpenditure?.spiuComments?.length">
+                                <div class="info-item">
+                                    <label class="info-label">Previous SPIU Comments:</label>
+                                    <div class="comment-box bg-light p-2 rounded">
+                                        <small class="text-muted">
+                                            <ng-container *ngFor="let comment of selectedExpenditure?.spiuComments">
+                                                {{comment}}<br>
+                                            </ng-container>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" *ngIf="selectedExpenditure?.agencyComments?.length">
+                                <div class="info-item">
+                                    <label class="info-label">Previous Agency Response:</label>
+                                    <div class="comment-box bg-light p-2 rounded">
+                                        <small class="text-muted">
+                                            <ng-container *ngFor="let comment of selectedExpenditure?.agencyComments">
+                                                {{comment}}<br>
+                                            </ng-container>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Remarks/Response Form Section -->
+                <div class="card" *ngIf="activeTab!='nav-threes'">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0">
+                            <i class="bi bi-chat-dots me-2"></i>
+                            {{loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'?'Add Remarks':'Add Response'}}
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="RemarkForm">
+                            <div class="row">
+                                <div class="col-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" formControlName="status" name="status" id="status">
+                                            <option value="NEED_CLARIFICATION">NEED CLARIFICATION</option>
+                                            <option value="APPROVED">APPROVED</option>
+                                            <option value="REJECTED">REJECTED</option>
+                                        </select>
+                                        <label for="status">
+                                            <i class="bi bi-check-circle me-2"></i>Status
+                                        </label>
+                                    </div>
+                                    <div *ngIf="fRemark['status'].touched && !fRemark['status'].valid" class="error text-danger">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>Status is required
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="loginsessionDetails?.userRole == 'ADMIN' || loginsessionDetails?.userRole == 'FINANCE'">
+                                    <div class="form-floating mb-3" *ngIf="fRemark['status'].value !== 'APPROVED'">
+                                        <textarea class="form-control" formControlName="spiuComments" name="spiuComments" 
+                                                  id="spiuComments" placeholder="Enter your comments" rows="3" style="height: 100px;"></textarea>
+                                        <label for="spiuComments">
+                                            <i class="bi bi-chat-text me-2"></i>SPIU Comments
+                                        </label>
+                                    </div>
+                                    <div *ngIf="fRemark['spiuComments'].touched && !fRemark['spiuComments'].valid" class="error text-danger">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>SPIU Comments is required
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="loginsessionDetails?.userRole != 'ADMIN' && loginsessionDetails?.userRole != 'FINANCE'">
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control" formControlName="agencyComments" name="agencyComments" 
+                                                  id="agencyComments" placeholder="Enter your response" rows="3" style="height: 100px;"></textarea>
+                                        <label for="agencyComments">
+                                            <i class="bi bi-reply me-2"></i>Agency Response
+                                        </label>
+                                    </div>
+                                    <div *ngIf="fRemark['agencyComments'].touched && !fRemark['agencyComments'].valid" class="error text-danger">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>Agency Response is required
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>{{activeTab=='nav-threes'?'Close':'Cancel'}}
+                </button>
+                <button *ngIf="activeTab!='nav-threes'" type="button" class="btn btn-lime-green" (click)="SubmitRemarks()">
+                    <i class="bi bi-check-circle me-1"></i>Save
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+<div class="modal fade" id="imagePreview" tabindex="-1" aria-labelledby="imagePreview" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header py-2">
+                <h6 class="modal-title" id="addResourceLabel">File Preview</h6>
+                
+                <a href="{{imagePreviewUrl}}" style="margin-left: 491px;" target="_blank" class="btn btn-secondary" *ngIf="imagePreviewUrl">Download</a>
+                
+                <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ng-container *ngIf="imagePreviewUrl && type=='img'">
+                    <img [src]="imagePreviewUrl" alt="Image Preview" class="img-fluid" style="width: 100%; height: auto;">
+                </ng-container>
+                <ng-container *ngIf="imagePreviewUrl && type=='pdf'">
+                     <ngx-doc-viewer style="height:93vh;" [url]="imagePreviewUrl" viewer="google">
+                        </ngx-doc-viewer>
+                </ng-container>
+                <ng-container *ngIf="!imagePreviewUrl">
+                    <span class="text-danger">No Preview Available</span>
+                </ng-container>                
+                
+            </div>
+        </div>
+    </div>
+</div>

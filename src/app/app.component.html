@@ -385,6 +385,7 @@
                             <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure Verification
                           </a></li>
                           <li><a class="dropdown-item" routerLink="/training-Expenditure-verfication" routerLinkActive="active">Training Exp Verification Tracker</a></li>
+                           <li><a class="dropdown-item" routerLink="/Non-training-Expenditure-tracker" routerLinkActive="active">Non Training Exp Verification Tracker </a></li>
                     </ul>
                   </li>
                   <!-- Masters List (Admin) -->
@@ -498,6 +499,7 @@
                       <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Training Expenditure</a></li>
                       <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure </a></li>
                         <li><a class="dropdown-item" routerLink="/training-Expenditure-verfication" routerLinkActive="active">Training Exp Tracker</a></li>
+                        <li><a class="dropdown-item" routerLink="/Non-training-Expenditure-tracker" routerLinkActive="active">Non Training Exp Tracker</a></li>
                     </ul>
                   </li>
                   <!-- Update Outcomes (Agency) -->
@@ -662,6 +664,9 @@
                     <a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active" routerLinkActive="active">Non Training Expenditure Verification</a>
                   </li> 
                     <li *appHasRole="[Role.FINANCE]"><a class="dropdown-item" routerLink="/training-Expenditure-verfication" routerLinkActive="active">Training Exp Verification Tracker</a></li>
+                     <li *appHasRole="[Role.FINANCE]">
+                    <a class="dropdown-item" routerLink="/Non-training-Expenditure-tracker" routerLinkActive="active" routerLinkActive="active">Non Training Exp Verification Tracker</a>
+                  </li> 
                 </ul>
               </li>
               <!-- new tab code ends here -->

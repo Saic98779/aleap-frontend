@@ -84,6 +84,7 @@ import { ViewOutcomesComponent } from './PIA/view-outcomes/view-outcomes.compone
 import { NonTrainingExpendituresComponent } from './PIA/non-training-expenditures/non-training-expenditures.component';
 import { ViewProgramDicComponent } from './PIA/view-program-dic/view-program-dic.component';
 import { TrainingExpenditureVerificatonComponent } from './PIA/training-expenditure-verificaton/training-expenditure-verificaton.component';
+import { NonTrainingExpVerficationTrackerComponent } from './PIA/non-training-exp-verfication-tracker/non-training-exp-verfication-tracker.component';
 const routes: Routes = [
     {
         path: '',
@@ -149,6 +150,12 @@ const routes: Routes = [
      {
         path: 'Non-training-Expenditure',
         component: NonTrainingExpendituresComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
+    },
+     {
+        path: 'Non-training-Expenditure-tracker',
+        component: NonTrainingExpVerficationTrackerComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
     },
