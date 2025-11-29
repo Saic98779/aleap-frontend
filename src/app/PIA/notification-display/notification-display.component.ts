@@ -26,7 +26,7 @@ export class NotificationDisplayComponent implements OnInit {
     }
     setInterval(() => {
       this.getNotifications();
-    }, 10000); // Refresh every 5 minutes
+    }, 100000); // Refresh every 5 minutes
   }
 
 togglePanel() {
@@ -45,8 +45,9 @@ togglePanel() {
       this.panelOpen = false;
     }
   }
-
   getNotifications() {
+    this.notificationsList=[]
+    this.notificationCount = 0;
     // CALL_CENTER
     let url:any= ''
     if(this.userDetails.userRole=='AGENCY_MANAGER' || this.userDetails.userRole=='AGENCY_EXECUTOR'){ 
@@ -68,20 +69,19 @@ togglePanel() {
           }
         }
         else{
-           if (res && res.data?.['messages'].length > 0) {
-          this.notificationsList = res.data['messages'];
-          this.notificationCount = this.notificationsList.length;
-        } else {
-          this.notificationsList = [];
-          this.notificationCount = 0;
-        }
+          if(res && res.data.length > 0) {
+            this.notificationsList = res.data;
+            this.notificationCount = this.notificationsList.length;
+          } else {
+            this.notificationsList = [];
+            this.notificationCount = 0;
+          }
         }
        
       }, (err: any) => {
         console.log(err);
       });
   }
-
   markAllAsRead() {
     
     const recipientIds = this.notificationsList.map(n => n.id);
@@ -98,7 +98,6 @@ togglePanel() {
       });
     
   }
-
 //   openNotificationDetail(notification: any) {
 //     // Add Router to constructor
 //     this.panelOpen = false;
@@ -106,7 +105,6 @@ togglePanel() {
 //     this.commonService.triggerRefresh(); // trigger refresh after navigation
 //   });
 // }
-
 openNotificationDetailIsRead(notification: any) {
    let url= APIS.notificationDisplay.UpdatemarkAsRead+(notification.notificationId?notification.notificationId:notification.id)+'/read?isRead=true';
    this.commonService.updatedata(url, {}).subscribe((res:any)=>{
@@ -141,4 +139,5 @@ openNotificationDetailIsRead(notification: any) {
     console.log(err);
    });
 }
+
 }

@@ -249,6 +249,7 @@ export const APIS = {
         saveRemarksBulk:API_BASE_URL +`/save/remarks/transaction`,
         getExpenditureNonTraining:API_BASE_URL +`/non-training/all/expenditures`,
         saveRemarksNonTraining:API_BASE_URL +`/non-training/save/remarks`,
+        getExpenditurVerification:API_BASE_URL +`/program/expenditure/status?status=`,
     },
     programSummary:{
         getProramData:API_BASE_URL +`/program/summary/`,
@@ -272,6 +273,7 @@ export const APIS = {
         UPLOAD_COLLAGE: API_BASE_URL+`/program/collage/images`,
         GET_AGENCIES: API_BASE_URL+`/agencies`,
         GET_PROGRAMS: API_BASE_URL+`/agency/programs/dropdown`,
+        DELETE_IMAGE: API_BASE_URL+`/program/collage/images?programId=`,
     },
     questionsApis:{
         getAllQuestions: API_BASE_URL + '/all/questions',

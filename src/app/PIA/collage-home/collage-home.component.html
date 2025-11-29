@@ -69,51 +69,59 @@
       style="max-height: 600px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #aaa transparent;"
     >
       <ng-container *ngIf="(filteredImages ?? []).length > 0; else noImages">
-        <div 
-          *ngFor="let image of filteredImages" 
-          class="card shadow-sm border border-light-subtle rounded-1 overflow-hidden p-1" 
-          style="width: 350px; transition: transform 0.3s ease, box-shadow 0.3s ease;"
-          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'"
-          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.05)'"
-        >
-          <img 
-            [src]="getImageSrc(image.fileUrl)" 
-            class="card-img-top"
-            (error)="image.error = true"
-            *ngIf="!image.error"
-            style="height: 190px; width: 100%; object-fit: cover;"
-          />
+  <div 
+    *ngFor="let image of filteredImages" 
+    class="card shadow-sm border border-light-subtle rounded-1 overflow-hidden p-1 position-relative" 
+    style="width: 350px; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+    onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'"
+    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.05)'"
+  >
+    <!-- Delete button positioned at top-right -->
+    <button 
+      (click)="deleteImage(image)"
+      class="btn btn-sm position-absolute"
+      style="top: 8px; right: 8px; z-index: 10; background-color: rgba(220, 53, 69, 0.9); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center;"
+      title="Delete image"
+    >
+      <i class="bi bi-trash" style="font-size: 12px;"></i>
+    </button>
 
-          <div 
-            *ngIf="image.error"
-            class="d-flex flex-column align-items-center justify-content-center bg-light text-muted"
-            style="height: 190px; width: 100%; font-size: 14px;"
-          >
-            <i class="bi bi-image" style="font-size: 2rem;"></i>
-            <span class="mt-1">Image not found</span>
-          </div>
+    <img 
+      [src]="getImageSrc(image.fileUrl)" 
+      class="card-img-top"
+      (error)="image.error = true"
+      *ngIf="!image.error"
+      style="height: 190px; width: 100%; object-fit: cover;"
+    />
 
+    <div 
+      *ngIf="image.error"
+      class="d-flex flex-column align-items-center justify-content-center bg-light text-muted"
+      style="height: 190px; width: 100%; font-size: 14px;"
+    >
+      <i class="bi bi-image" style="font-size: 2rem;"></i>
+      <span class="mt-1">Image not found</span>
+    </div>
 
-
-          <!-- Footer row: name + download -->
-          <div class="d-flex justify-content-between align-items-center px-3 py-2 bg-light border-top">
-            <p 
-              class="text-truncate mb-0 fw-medium text-dark"
-              style="max-width: 200px; font-size: 13.5px;"
-            >
-              {{ getFileName(image.fileUrl) }}
-            </p>
-            <a 
-              (click)="getDownloadUrl(image.fileUrl)" 
-              class="btn btn-sm d-flex align-items-center gap-1"
-              style="background-color: #0d6efd; color: white; font-size: 13px;"
-              download
-            >
-              <i class="bi bi-download"></i> Download
-            </a>
-          </div>
-        </div>
-      </ng-container>
+    <!-- Footer row: name + download -->
+    <div class="d-flex justify-content-between align-items-center px-3 py-2 bg-light border-top">
+      <p 
+        class="text-truncate mb-0 fw-medium text-dark"
+        style="max-width: 200px; font-size: 13.5px;"
+      >
+        {{ getFileName(image.fileUrl) }}
+      </p>
+      <a 
+        (click)="getDownloadUrl(image.fileUrl)" 
+        class="btn btn-sm d-flex align-items-center gap-1"
+        style="background-color: #0d6efd; color: white; font-size: 13px;"
+        download
+      >
+        <i class="bi bi-download"></i> Download
+      </a>
+    </div>
+  </div>
+</ng-container>
 
       <ng-template #noImages>
         <p class="text-muted ps-3">No collage images found.</p>
