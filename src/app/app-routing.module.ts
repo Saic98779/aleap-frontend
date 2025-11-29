@@ -135,10 +135,16 @@ const routes: Routes = [
     //     data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     // },
      {
-        path: 'expenditure-verification',
+        path: 'training-Expenditure-verfication',
         component: TrainingExpenditureVerificatonComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,,Role.FINANCE] }
+    },
+     {
+        path: 'expenditure-verification',
+        component: FinanceExpenditureComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
     },
      {
         path: 'Non-training-Expenditure',
@@ -146,6 +152,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
     },
+   
      {
         path: 'program-monitoring',
         component: ProgramMonitoringNewComponent,
