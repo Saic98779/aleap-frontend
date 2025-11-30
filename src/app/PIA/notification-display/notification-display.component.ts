@@ -110,23 +110,23 @@ openNotificationDetailIsRead(notification: any) {
    this.commonService.updatedata(url, {}).subscribe((res:any)=>{
     console.log('Notification marked as read',res);
     this.getNotifications()
-    if(notification.notificationType=='TICKETS'){
+    if(notification.notificationMessageDto?.[0]?.notificationType=='TICKETS'){
        this.router.navigate(['/help-support']).then(() => {
       this.commonService.triggerRefresh(); // trigger refresh after navigation
     });
 
     }
-    else if(notification.notificationType=='TRAINING_EXPENDITURE'){
+    else if(notification.notificationMessageDto?.[0]?.notificationType=='TRAINING_EXPENDITURE'){
         this.router.navigate(['/expenditure-verification']).then(() => {
       this.commonService.triggerRefresh(); // trigger refresh after navigation
     });
     }
-    else if(notification.notificationType=='NON_TRAINING_EXPENDITURE'){
+    else if(notification.notificationMessageDto?.[0]?.notificationType=='NON_TRAINING_EXPENDITURE'){
         this.router.navigate(['/Non-training-Expenditure']).then(() => {
       this.commonService.triggerRefresh(); // trigger refresh after navigation
     });
     }
-     else if(notification.notificationType=='PROGRAM_RESCHEDULE'){
+     else if(notification.notificationMessageDto?.[0]?.notificationType=='PROGRAM_RESCHEDULE'){
         this.router.navigate(['/reshedule-programs']).then(() => {
       this.commonService.triggerRefresh(); // trigger refresh after navigation
     });

@@ -85,7 +85,7 @@ export class NonTrainingTargetCodeComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if(this.selectedBudgetHead=='1' || this.selectedBudgetHead=='11'){
+                    if(this.selectedBudgetHead=='1' || this.selectedBudgetHead=='73' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='20' || this.selectedBudgetHead=='21' || this.selectedBudgetHead=='22' || this.selectedBudgetHead=='23' || this.selectedBudgetHead=='24' || this.selectedBudgetHead=='25' || this.selectedBudgetHead=='66'){
             this.getPreliminaryDataById()
 
           }
@@ -100,7 +100,7 @@ export class NonTrainingTargetCodeComponent implements OnInit {
 
           
         }, (error) => {
-           if(this.selectedBudgetHead=='1' || this.selectedBudgetHead=='11'){
+           if(this.selectedBudgetHead=='1'  || this.selectedBudgetHead=='73'  || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='20' || this.selectedBudgetHead=='21' || this.selectedBudgetHead=='22' || this.selectedBudgetHead=='23' || this.selectedBudgetHead=='24' || this.selectedBudgetHead=='25' || this.selectedBudgetHead=='66'){
             this.getPreliminaryDataById()
 
           }
@@ -255,7 +255,17 @@ createForm(): FormGroup {
  
   iseditMode = false;
   preliminaryID:any
+  categroryList:any=['Course Content Development','Processing Fee', 'Admin Charges', 'Others']
   openModel(mode: string,item?: any): void {
+      if(this.selectedBudgetHead=='20' || this.selectedBudgetHead=='21' || this.selectedBudgetHead=='22' || this.selectedBudgetHead=='23' ){
+        this.categroryList=['Course Content Development','Processing Fee', 'Admin Charges', 'Others']
+      }
+      else if(this.selectedBudgetHead=='24' ){
+          this.categroryList = ['Man Power Support', 'Prototype / Fabrication', 'IPR Support', 'Others'];
+      }
+       else if(this.selectedBudgetHead=='25' ){
+            this.categroryList = ['Honororium', 'Travel', 'Others'];
+      }
      if (mode === 'add') {
         this.uploadedFilesFinance=null
       this.financialForm.reset();
@@ -425,6 +435,9 @@ createForm(): FormGroup {
    
       }
     }
+    getSubactivities(event:any){
+        return this.SubActivityList?.find((item:any)=>item?.subActivityId==event)?.subActivityName || ''
+      }
   getPreliminaryData:any=[]
   onSubmit(): void {
     this.isSubmitted = true;
@@ -435,7 +448,7 @@ createForm(): FormGroup {
         this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
         const formData = new FormData();
             console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
-             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+             if (this.uploadedFilesFinance?.name && typeof this.uploadedFilesFinance !== 'string') {
               formData.append("files", this.uploadedFilesFinance);
               }
               else{

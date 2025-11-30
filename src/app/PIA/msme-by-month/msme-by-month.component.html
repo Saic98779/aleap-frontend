@@ -148,7 +148,7 @@
                          <ng-container *ngIf="!isAddingRow">
                       <td class="text-center sticky-col-1">
                          <div class="d-flex justify-content-center align-items-center gap-2">
-                           <button class="btn btn-default text-lime-green btn-sm" (click)="editRow()" aria-label="Edit Row">
+                           <button class="btn btn-default text-lime-green btn-sm" (click)="editRow(row)" aria-label="Edit Row">
                           <i class="bi bi-pencil-square fw-bold"></i>
                         </button>
                          <button class="btn btn-default text-lime-green btn-sm" [ngClass]="{'disabled':checkValidation(row)}" (click)="confirmationForPush(row)" aria-label="Push to MoMSME" title="Push to MoMSME">

@@ -194,15 +194,16 @@ closeViewModal() {
        },
      });
     }
-    editRow() {
+    editRow(row:any) {
       this.isAddingRow = true;
-      this.newRow = { ...this.getTableData };
-      if(this.getTableData.currentMonthMoMSMEBenefitedDto && Object.keys(this.getTableData.currentMonthMoMSMEBenefitedDto).length ){
-        this.newRow.currentMonthMoMSMEBenefitedDto = { ...this.getTableData.currentMonthMoMSMEBenefitedDto };
+      this.newRow = { ...this.getTableData[0] };
+      if(this.getTableData[0].currentMonthMoMSMEBenefitedDto && Object.keys(this.getTableData[0].currentMonthMoMSMEBenefitedDto).length ){
+        this.newRow.currentMonthMoMSMEBenefitedDto = { ...this.getTableData[0].currentMonthMoMSMEBenefitedDto };
       }
       else{
         this.newRow.currentMonthMoMSMEBenefitedDto = { total:0, women:0, sc:0, st:0, obc:0 }
       }
+      console.log( this.newRow,'newRow');
       
        // Create a copy of the existing row data
       // this.viewRow(this.getTableData); // Open the view modal with the existing data
