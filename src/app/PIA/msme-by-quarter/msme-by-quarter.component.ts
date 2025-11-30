@@ -120,7 +120,7 @@ export class MsmeByQuarterComponent implements OnInit {
        next: (res: any) => {
 
        
-         if(Object.keys(res.data).length){
+         if(res.data.length>0){
             this.errorMessage=''
             this.getTableData = res.data;
          }
@@ -132,7 +132,7 @@ export class MsmeByQuarterComponent implements OnInit {
        },
        error: (err) => {
         this.errorMessage='Data Not Available'
-         this.getTableData ={}
+         this.getTableData =[]
          this.toastrService.error(err.error.message);
        },
      });

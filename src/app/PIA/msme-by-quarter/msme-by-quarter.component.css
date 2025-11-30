@@ -1,6 +1,6 @@
 
 .table-container {
-  max-height: 350px; 
+  max-height: 500px; 
   overflow: auto; /* Enables both vertical and horizontal scrolling */
   /* border: 1px solid #dee2e6; */
 }
