@@ -384,6 +384,8 @@
                       <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Training Expenditure Verfication</a></li>
                             <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure Verification
                           </a></li>
+                          <li><a class="dropdown-item" routerLink="/training-Expenditure-verfication" routerLinkActive="active">Training Exp Verification Tracker</a></li>
+                           <li><a class="dropdown-item" routerLink="/Non-training-Expenditure-tracker" routerLinkActive="active">Non Training Exp Verification Tracker </a></li>
                     </ul>
                   </li>
                   <!-- Masters List (Admin) -->
@@ -427,6 +429,18 @@
                         <li><a class="dropdown-item" routerLink="/download-excel-pdf" routerLinkActive="active">Download Excel/PDF</a></li>
                     </ul>
                   </li>
+                   <!-- <li *appHasRole="[Role.Admin,Role.SPIU]" class="dropdown-submenu" style="position:relative;">
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
+                      (click)="toggleSubMenu('Modifications', $event)">
+                      <span>Modifications</span>
+                      <span class="bi"
+                        [ngClass]="{'bi-chevron-down': !openSubMenus['Modifications'], 'bi-chevron-up': openSubMenus['Modifications']}"></span>
+                    </a>
+                    <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['Modifications']"
+                      style="position:static; background: #dfebeb;min-width:180px;">
+                      <li><a class="dropdown-item" routerLink="/edit-program-status-view" routerLinkActive="active">Edit Program Status</a></li>
+                    </ul>
+                  </li> -->
                   <!-- Program Creation (Agency) -->
                   <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
@@ -496,6 +510,8 @@
                       style="position:static; background: #dfebeb;min-width:180px;">
                       <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Training Expenditure</a></li>
                       <li><a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active">Non Training Expenditure </a></li>
+                        <li><a class="dropdown-item" routerLink="/training-Expenditure-verfication" routerLinkActive="active">Training Exp Tracker</a></li>
+                        <li><a class="dropdown-item" routerLink="/Non-training-Expenditure-tracker" routerLinkActive="active">Non Training Exp Tracker</a></li>
                     </ul>
                   </li>
                   <!-- Update Outcomes (Agency) -->
@@ -529,6 +545,7 @@
                   </li>
                   </ng-container>
                     <ng-container *ngIf="this.user?.agencyName=='CoI_01' || this.user.agencyId==12">
+
                      <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" >
                     <a class="dropdown-item" routerLink="/non-training-progress-coi" routerLinkActive="active">Non Training Progress</a>
                   </li>
@@ -652,10 +669,15 @@
                    
                    <li *appHasRole="[Role.FINANCE]">
                    <a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Training Expenditure Verfication</a>
+
                   </li> 
                    
                    <li *appHasRole="[Role.FINANCE]">
                     <a class="dropdown-item" routerLink="/Non-training-Expenditure" routerLinkActive="active" routerLinkActive="active">Non Training Expenditure Verification</a>
+                  </li> 
+                    <li *appHasRole="[Role.FINANCE]"><a class="dropdown-item" routerLink="/training-Expenditure-verfication" routerLinkActive="active">Training Exp Verification Tracker</a></li>
+                     <li *appHasRole="[Role.FINANCE]">
+                    <a class="dropdown-item" routerLink="/Non-training-Expenditure-tracker" routerLinkActive="active" routerLinkActive="active">Non Training Exp Verification Tracker</a>
                   </li> 
                 </ul>
               </li>

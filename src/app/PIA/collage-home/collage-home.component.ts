@@ -68,6 +68,8 @@ export class CollageHomeComponent implements OnInit {
           fileob.fileUrl?.match(/\.(jpeg|jpg|png|gif|png)$/i)
         );
         this.filteredImages = [...this.collageImages]; // Default show all
+         this.onAgencyChange(this.selectedAgencyId)
+        
       },
       (err) => {
         console.error('Error fetching collage images:', err);
@@ -85,6 +87,7 @@ export class CollageHomeComponent implements OnInit {
   }
 
   onAgencyChange(event: any): void {
+    this.selectedAgencyId = event;
     const agencyId = +event;
     if (!agencyId) {
       // Reset filter if no agency selected

@@ -20,9 +20,9 @@
                                 <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="GetProgramsByAgency($any($event).value)">
                                 <mat-select-filter [array]="agencyList"  (filteredReturn)="agencyListFiltered = $event">
                                 </mat-select-filter>
-                                <mat-option value="-1" >All Intervention</mat-option>
-                                <mat-option *ngFor="let list of agencyListFiltered" [value]="list.moMSMEActivityId">
-                                {{ list.intervention }}
+                                <mat-option value="All Intervention" >All Intervention</mat-option>
+                                <mat-option *ngFor="let list of agencyListFiltered" [value]="list">
+                                {{ list }}
                                 </mat-option>
                             </mat-select>
                             </mat-form-field>
@@ -59,7 +59,7 @@
 
             <!-- <h6 class="fw-bold mb-3">Quaterly Wise MoMSME Report</h6> -->
             <!--  id=view-physical-table  -->
-            <div class="table-container" style="max-height: 450px !important;">
+            <div class="table-container" style="max-height: 550px !important;">
               <table  class="table table-bordered table-striped nowrap w-100 fsize-10">
                 <thead class="bg-lime-green">
                   <tr>
@@ -112,9 +112,10 @@
                   </tr>
                 </thead>
               
-                  <tbody >
+                  <tbody>
 
-                    <tr *ngFor="let row of getTableData">
+                   <ng-container *ngIf="getTableData && getTableData.length > 0">
+                     <tr *ngFor="let row of getTableData">
                       <td class="text-center sticky-col-1">{{ row.intervention }}</td>
                       <td class="text-center sticky-col-2">{{ row.component }}</td>
                       <td class="text-center sticky-col-2">{{ row.activity }}</td>
@@ -141,6 +142,7 @@
                       <td class="text-center">{{ row.currentQuarterMoMSMEBenefitedDto?.sc ?? 0 }}</td>
                       <td class="text-center">{{ row.currentQuarterMoMSMEBenefitedDto?.obc ?? 0 }}</td>
                     </tr>
+                   </ng-container>
                     <tr *ngIf="errorMessage">
                       <td class="text-center" colspan="22">Data not available</td>
                     </tr>

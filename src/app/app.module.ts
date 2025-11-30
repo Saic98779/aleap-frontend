@@ -122,6 +122,8 @@ import { ClosedTicketsComponent } from './PIA/help-support/pages/closed-tickets/
 import { InprogressTicketsComponent } from './PIA/help-support/pages/inprogress-tickets/inprogress-tickets.component';
 import { ViewProgramDicComponent } from './PIA/view-program-dic/view-program-dic.component';
 import { TrainingExpenditureVerificatonComponent } from './PIA/training-expenditure-verificaton/training-expenditure-verificaton.component';
+import { NonTrainingExpVerficationTrackerComponent } from './PIA/non-training-exp-verfication-tracker/non-training-exp-verfication-tracker.component';
+import { EditProgramStatusViewComponent } from './PIA/edit-program-status-view/edit-program-status-view.component';
 @NgModule({
     imports: [
         MaterialModule,
@@ -247,7 +249,9 @@ import { TrainingExpenditureVerificatonComponent } from './PIA/training-expendit
         ClosedTicketsComponent,
         InprogressTicketsComponent,
         ViewProgramDicComponent,
-        TrainingExpenditureVerificatonComponent
+        TrainingExpenditureVerificatonComponent,
+        NonTrainingExpVerficationTrackerComponent,
+        EditProgramStatusViewComponent
 
     ],
     exports:[MaterialModule,

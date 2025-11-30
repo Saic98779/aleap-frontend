@@ -49,22 +49,23 @@
 
       <!-- begin:: Preliminary survey for selection of potential SHGs -->
       <div class="card budgets mb-3 "
-        *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11' || selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19' || selectedBudgetHead=='74' || selectedBudgetHead=='75'">
+        *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11' || selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19' || selectedBudgetHead=='74' || selectedBudgetHead=='75'  || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66'">
 
         <div class="card-header bg-transparent d-flex justify-content-between">
-          <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='73'">IT Infrastructure Setup</h6>
+           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
+          <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='73'">IT Infrastructure Setup</h6>
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"
             *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='74' || selectedBudgetHead=='75'">
             Staff</h6>
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='12'">Consumables </h6>
-          <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='19'"> Travel and Transport </h6>
+          <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='19'"> Travel and Transport </h6> -->
           <div class="text-end">
             <button type="button" class="btn btn-sm btn-lime-green" (click)="onFinalSubmit()">Save</button>
           </div>
         </div>
         <div class="card-body">
           <div class="row"
-            *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11' || selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19' || selectedBudgetHead=='74' || selectedBudgetHead=='75'">
+            *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11' || selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19' || selectedBudgetHead=='74' || selectedBudgetHead=='75' || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66' ">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
               <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                 <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -116,7 +117,7 @@
               </fieldset>
             </div>
           </div>
-          <div class="card" *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11'">
+          <div class="card" *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11'  || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66'">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
@@ -137,7 +138,8 @@
                     <tr>
                       <th>S.No</th>
                       <th>Date of Purchase</th>
-                      <th>Category</th>
+                      <th *ngIf="selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25'">Purpose of Expenditure</th>
+                      <th *ngIf="!(selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25')">Category</th>
                       <th>Item Details</th>
                       <th>Expenditure (in Rs.)</th>
                       <th>Bill No.</th>
@@ -156,7 +158,7 @@
                   </thead>
                   <tbody>
                     <tr *ngIf="!getPreliminaryData || getPreliminaryData.length === 0">
-                      <td colspan="10" class="text-center text-muted">Data Not available.</td>
+                      <td colspan="16" class="text-center text-muted">Data Not available.</td>
                     </tr>
                     <tr *ngFor="let preliminary of getPreliminaryData; let i = index">
                       <td>{{ i + 1 }}</td>
@@ -449,7 +451,7 @@
             </div>
 
             <!-- Categrory Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='1' || selectedBudgetHead=='11'|| selectedBudgetHead=='73' || selectedBudgetHead=='66'">
               <div class="form-floating mb-3">
                 <select class="form-select" id="itCategory" formControlName="category">
                   <option value="#">Select Category</option>
@@ -462,6 +464,23 @@
                 <label for="itCategory">Category</label>
                 <div *ngIf="isSubmitted && f['category'].invalid" class="invalid-feedback">
                   Category is required
+                </div>
+              </div>
+            </div>
+             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' ">
+              <div class="form-floating mb-3">
+                <select class="form-select" id="itCategory" formControlName="category">
+                  <option value="#">Select Purpose Of Expenditure</option>
+                  <option *ngFor="let val of categroryList" value="{{val}}">{{val}}</option>
+                  <!-- <option value="Spatial Infrastructure">Spatial Infrastructure</option>
+                  <option value="Technology or Equipment">Technology or Equipment</option>
+                  <option value="Raw Material">Raw Material</option>
+                  <option value="Utilities">Utilities</option>
+                  <option value="Contingency">Contingency</option> -->
+                </select>
+                <label for="itCategory">Purpose Of Expenditure</label>
+                <div *ngIf="isSubmitted && f['category'].invalid" class="invalid-feedback">
+                  Purpose Of Expenditure is required
                 </div>
               </div>
             </div>
