@@ -27,12 +27,12 @@ export class MsmeByQuarterComponent implements OnInit {
  
     agencyList: any[] = [];
    agencyListFiltered: any[] = [];
- selectedAgencyId: any;
+ selectedAgencyId: any='All Intervention';
      getAgenciesList() {
-     this._commonService.getDataByUrl(APIS.msmeQueaterly.getlistOfIntervention).subscribe({
+     this._commonService.getDataByUrl(APIS.msmeQueaterly.getUniqueIntervention).subscribe({
        next: (res: any) => {
          this.agencyList = res.data;
-         this.selectedAgencyId=-1
+         this.selectedAgencyId='All Intervention'
          this.selectedQuarter='Q1'
          this.agencyListFiltered = this.agencyList;
          this.getBasedOnQuarterSelection()
@@ -115,7 +115,7 @@ export class MsmeByQuarterComponent implements OnInit {
         return;
       }
       this.getTableData={}
-        let url=APIS.msmeQueaterly.getMSMEByQuarter+'?moMSMEActivityId='+this.selectedAgencyId+'&financialYear='+this.selectedFinancialYear+'&quarter='+this.selectedQuarter
+        let url=APIS.msmeQueaterly.getMSMEByQuarterIntervention+'?intervention='+this.selectedAgencyId+'&financialYear='+this.selectedFinancialYear+'&quarter='+this.selectedQuarter
          this._commonService.getDataByUrl(url).subscribe({
        next: (res: any) => {
 
