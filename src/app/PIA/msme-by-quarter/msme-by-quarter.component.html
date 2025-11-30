@@ -63,9 +63,16 @@
               <table  class="table table-bordered table-striped nowrap w-100 fsize-10">
                 <thead class="bg-lime-green">
                   <tr>
-                    <th class="text-center sticky-col-1" rowspan="4">Intervention</th>
+                    <ng-container *ngIf="selectedAgencyId === 'All Intervention'">
+                      <th class="text-center sticky-col-1" rowspan="4">Intervention</th>
                     <th class="text-center sticky-col-2" rowspan="4">Component</th>
                     <th class="text-center sticky-col-2" rowspan="4">Activity</th>
+                    </ng-container>
+                    <ng-container *ngIf="selectedAgencyId !== 'All Intervention'">
+                      <!-- <th class="text-center sticky-col-1" rowspan="4">Intervention</th> -->
+                    <th class="text-center sticky-col-1" rowspan="4">Component</th>
+                    <th class="text-center sticky-col-2" rowspan="4">Activity</th>
+                    </ng-container>
 
                     
                  
@@ -116,9 +123,16 @@
 
                    <ng-container *ngIf="getTableData && getTableData.length > 0">
                      <tr *ngFor="let row of getTableData">
-                      <td class="text-center sticky-col-1">{{ row.intervention }}</td>
+                      <ng-container *ngIf="selectedAgencyId === 'All Intervention'">
+                        <td class="text-center sticky-col-1">{{ row.intervention }}</td>
                       <td class="text-center sticky-col-2">{{ row.component }}</td>
                       <td class="text-center sticky-col-2">{{ row.activity }}</td>
+                      </ng-container>
+                      <ng-container *ngIf="selectedAgencyId !== 'All Intervention'">
+                        <!-- <td class="text-center sticky-col-1">{{ row.interventionName }}</td> -->
+                      <td class="text-center sticky-col-1">{{ row.component }}</td>
+                      <td class="text-center sticky-col-2">{{ row.activity }}</td>
+                      </ng-container>
                       <!-- Cumulative (1-Apr-2024-Till date) Targets v/s Achievements -->
                       <td class="text-center">{{ row.cumulativeMoMSMEBenefitedDto?.physicalTarget ?? 0 }}</td>
                       <td class="text-center">{{ row.cumulativeMoMSMEBenefitedDto?.physicalAchievement ?? 0 }}</td>
