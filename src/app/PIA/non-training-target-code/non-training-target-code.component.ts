@@ -34,8 +34,11 @@ export class NonTrainingTargetCodeComponent implements OnInit {
      this.travelForm = this.createFormTravel();
         this.contingencyForm = this.createFormContingency();
         this.paymentForm = this.createFormPayment();
+        this.consumablesForm = this.createConsumablesForm();
+        this.transactionForm = this.createTransactionForm();
 
   }
+  
 
   ngOnInit(): void {
      this.getBudgetHeadList()
@@ -85,10 +88,14 @@ export class NonTrainingTargetCodeComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-                    if(this.selectedBudgetHead=='1' || this.selectedBudgetHead=='73' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='20' || this.selectedBudgetHead=='21' || this.selectedBudgetHead=='22' || this.selectedBudgetHead=='23' || this.selectedBudgetHead=='24' || this.selectedBudgetHead=='25' || this.selectedBudgetHead=='66'){
+       if(this.selectedBudgetHead=='1' || this.selectedBudgetHead=='73' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='20' || this.selectedBudgetHead=='21' || this.selectedBudgetHead=='22' || this.selectedBudgetHead=='23' || this.selectedBudgetHead=='24' || this.selectedBudgetHead=='25' || this.selectedBudgetHead=='66'){
             this.getPreliminaryDataById()
 
           }
+           else if (this.selectedBudgetHead == '18') { // Assuming budget head 12 is for consumables
+             this.getConsumablesData();
+              this.getTransactionData();
+    }
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
@@ -100,11 +107,15 @@ export class NonTrainingTargetCodeComponent implements OnInit {
 
           
         }, (error) => {
+
            if(this.selectedBudgetHead=='1'  || this.selectedBudgetHead=='73'  || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='20' || this.selectedBudgetHead=='21' || this.selectedBudgetHead=='22' || this.selectedBudgetHead=='23' || this.selectedBudgetHead=='24' || this.selectedBudgetHead=='25' || this.selectedBudgetHead=='66'){
             this.getPreliminaryDataById()
 
           }
-
+            else if (this.selectedBudgetHead == '18') { // Assuming budget head 12 is for consumables
+             this.getConsumablesData();
+              this.getTransactionData();
+           }
            else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
@@ -1312,8 +1323,489 @@ createFormTravel(): FormGroup {
         this.travelForm.get('checkDate')?.updateValueAndValidity();
       }
     }
-  // end infracture
+      // Add consumables properties
+  consumablesForm!: FormGroup;
+  isEditModeConsumables = false;
+  consumablesID: any;
+  consumablesData: any[] = [];
+  uploadedFileConsumables: any;
 
+       // Add consumables form creation
+  createConsumablesForm(): FormGroup {
+    return this.fb.group({
+      agencyId: [0],
+      subActivityId: [0], 
+      itemName: ['', Validators.required],
+      purchaseDate: ['', Validators.required],
+      purchasedQuantity: [0, [Validators.required, Validators.min(1)]],
+      unitCost: [0, [Validators.required, Validators.min(0.01)]],
+      consumedQuantity: [0, [Validators.required, Validators.min(0)]],
+      availableQuantity: [0, [Validators.required, Validators.min(0)]],
+      totalCost: [0, [Validators.required, Validators.min(0)]],
+      billNo: ['', Validators.required],
+      billDate: ['', Validators.required],
+      modeOfPayment: ['BANK_TRANSFER', Validators.required],
+      payeeName: ['', Validators.required],
+      bankName: ['', Validators.required],
+      ifscCode: ['', [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]],
+      transactionId: [''],
+      checkNo: [''],
+      checkDate: ['']
+    });
+  }
+
+  get fConsumables() {
+    return this.consumablesForm.controls;
+  }
+
+  // Calculate total cost and available quantity
+  onQuantityChange(): void {
+    const purchased = this.consumablesForm.get('purchasedQuantity')?.value || 0;
+    const consumed = this.consumablesForm.get('consumedQuantity')?.value || 0;
+    const unitCost = this.consumablesForm.get('unitCost')?.value || 0;
+
+    const totalCost = purchased * unitCost;
+    const availableQuantity = purchased - consumed;
+
+    this.consumablesForm.patchValue({
+      totalCost: totalCost,
+      availableQuantity: availableQuantity >= 0 ? availableQuantity : 0
+    });
+  }
+
+  // Update the openConsumablesModal method to include modeOfPayment handling
+  openConsumablesModal(mode: string, item?: any): void {
+    if (mode === 'add') {
+      this.isEditModeConsumables = false;
+      this.consumablesForm.reset();
+      this.consumablesForm.patchValue({
+        agencyId: Number(this.selectedAgencyId),
+        subActivityId: Number(this.selectedBudgetHead),
+        modeOfPayment: 'BANK_TRANSFER'
+      });
+      this.uploadedFileConsumables = null;
+    }
+    
+    if (mode === 'edit') {
+      this.isEditModeConsumables = true;
+      this.consumablesID = item?.id;
+      this.uploadedFileConsumables = item?.uploadedFilePath;
+      this.modeOfPaymentConsumables(item?.modeOfPayment);
+      
+      this.consumablesForm.patchValue({
+        agencyId: item?.agencyId || Number(this.selectedAgencyId),
+        subActivityId: item?.subActivityId || Number(this.selectedBudgetHead),
+        itemName: item?.itemName || '',
+        purchaseDate: item?.purchaseDate ? this.convertToISOFormat(item?.purchaseDate) : '',
+        purchasedQuantity: item?.purchasedQuantity || 0,
+        unitCost: item?.unitCost || 0,
+        consumedQuantity: item?.consumedQuantity || 0,
+        availableQuantity: item?.availableQuantity || 0,
+        totalCost: item?.totalCost || 0,
+        billNo: item?.billNo || '',
+        billDate: item?.billDate ? this.convertToISOFormat(item?.billDate) : '',
+        modeOfPayment: item?.modeOfPayment || 'BANK_TRANSFER',
+        payeeName: item?.payeeName || '',
+        bankName: item?.bankName || '',
+        ifscCode: item?.ifscCode || '',
+        transactionId: item?.transactionId || '',
+        checkNo: item?.checkNo || '',
+        checkDate: item?.checkDate ? this.convertToISOFormat(item?.checkDate) : ''
+      });
+    }
+    
+    const modal = new bootstrap.Modal(document.getElementById('addConsumables'));
+    modal.show();
+  }
+
+ 
+
+  // Submit consumables form
+  onSubmitConsumables(): void {
+    this.isSubmitted = true;
+    
+    if (this.consumablesForm.valid) {
+      this.consumablesForm.patchValue({
+        agencyId: Number(this.selectedAgencyId),
+        subActivityId: Number(this.selectedBudgetHead)
+      });
+
+      const formData = new FormData();
+      const dto = {
+        ...this.consumablesForm.value
+      };
+
+      if (this.isEditModeConsumables) {
+        dto.id = this.consumablesID;
+      }
+
+      formData.append('NonTrainingConsumablesBulkDto', JSON.stringify(dto));
+
+      if (this.uploadedFileConsumables && typeof this.uploadedFileConsumables !== 'string') {
+        formData.append('file', this.uploadedFileConsumables);
+      }
+
+      const apiCall = this.isEditModeConsumables 
+        ? this._commonService.update(APIS.nontrainingtargets.code.updateCodeITData, formData, this.consumablesID)
+        : this._commonService.add(APIS.nontrainingtargets.code.saveCodeITData, formData);
+
+      apiCall.subscribe({
+        next: (res: any) => {
+          this.toastrService.success(
+            `Consumable ${this.isEditModeConsumables ? 'updated' : 'saved'} successfully`,
+            'Success!'
+          );
+          this.resetConsumablesForm();
+          this.getConsumablesData();
+          this.getDeatilOfTargets();
+        },
+        error: (error) => {
+          this.toastrService.error(error.message || 'An error occurred', 'Error!');
+          this.resetConsumablesForm();
+        }
+      });
+    }
+  }
+
+  // Get consumables data
+  getConsumablesData(): void {
+    // Update this URL according to your API endpoint for fetching consumables
+    this._commonService.getDataByUrl(APIS.nontrainingtargets.code.getCodeITData+this.selectedBudgetHead)
+      .subscribe({
+        next: (res: any) => {
+          this.consumablesData = res.data || res;
+        },
+        error: (error) => {
+          console.error('Error fetching consumables data:', error);
+        }
+      });
+  }
+
+  // Delete consumables
+  deleteConsumables(id: any): void {
+    this.consumablesID = id;
+    const modal = new bootstrap.Modal(document.getElementById('deleteConsumablesModal'));
+    modal.show();
+  }
+
+  confirmDeleteConsumables(): void {
+    this._commonService.deleteId(APIS.nontrainingtargets.code.deleteCodeITData, this.consumablesID)
+      .subscribe({
+        next: (data: any) => {
+          if (data?.status === 400) {
+            this.toastrService.error(data?.message, 'Error!');
+          } else {
+            this.toastrService.success('Consumable deleted successfully', 'Success!');
+            this.getConsumablesData();
+            this.getDeatilOfTargets();
+          }
+          this.closeDeleteConsumablesModal();
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.closeDeleteConsumablesModal();
+        }
+      });
+  }
+
+  closeDeleteConsumablesModal(): void {
+    const modal = document.getElementById('deleteConsumablesModal');
+    if (modal) {
+      const modalInstance = bootstrap.Modal.getInstance(modal);
+      modalInstance?.hide();
+    }
+    this.consumablesID = '';
+  }
+
+  // Reset consumables form
+  resetConsumablesForm(): void {
+    this.consumablesForm.reset();
+    this.isSubmitted = false;
+    this.uploadedFileConsumables = null;
+    
+    const modal = document.getElementById('addConsumables');
+    if (modal) {
+      const modalInstance = bootstrap.Modal.getInstance(modal);
+      modalInstance?.hide();
+    }
+  }
+
+  // File selection for consumables
+  onConsumablesFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.uploadedFileConsumables = file;
+    }
+  }
+
+  // Remove consumables file
+  removeConsumablesFile(): void {
+    this.uploadedFileConsumables = null;
+    const fileInput = document.getElementById('consumablesFile') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+  // Add this method for consumables mode of payment handling
+
+  // Mode of payment handler for consumables
+  modeOfPaymentConsumables(val: any): void {
+    if (val == 'CASH') {
+      this.consumablesForm.get('bankName')?.setValidators(null);
+      this.consumablesForm.get('transactionId')?.setValidators(null);
+      this.consumablesForm.get('ifscCode')?.setValidators(null);
+      this.consumablesForm.get('checkNo')?.setValidators(null);
+      this.consumablesForm.get('checkDate')?.setValidators(null);
+
+      this.consumablesForm.get('bankName')?.patchValue('');
+      this.consumablesForm.get('transactionId')?.patchValue('');
+      this.consumablesForm.get('ifscCode')?.patchValue('');
+      this.consumablesForm.get('checkNo')?.patchValue('');
+      this.consumablesForm.get('checkDate')?.patchValue('');
+
+      this.consumablesForm.get('bankName')?.clearValidators();
+      this.consumablesForm.get('transactionId')?.clearValidators();
+      this.consumablesForm.get('ifscCode')?.clearValidators();
+      this.consumablesForm.get('checkNo')?.clearValidators();
+      this.consumablesForm.get('checkDate')?.clearValidators();
+
+      this.consumablesForm.get('bankName')?.disable();
+      this.consumablesForm.get('transactionId')?.disable();
+      this.consumablesForm.get('ifscCode')?.disable();
+      this.consumablesForm.get('checkNo')?.disable();
+      this.consumablesForm.get('checkDate')?.disable();
+
+      this.consumablesForm.get('bankName')?.updateValueAndValidity();
+      this.consumablesForm.get('transactionId')?.updateValueAndValidity();
+      this.consumablesForm.get('ifscCode')?.updateValueAndValidity();
+      this.consumablesForm.get('checkNo')?.updateValueAndValidity();
+      this.consumablesForm.get('checkDate')?.updateValueAndValidity();
+    }
+    else if (val == 'BANK_TRANSFER') {
+      this.consumablesForm.get('bankName')?.setValidators([Validators.required]);
+      this.consumablesForm.get('transactionId')?.setValidators(null);
+      this.consumablesForm.get('ifscCode')?.setValidators([Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]);
+      this.consumablesForm.get('checkNo')?.setValidators(null);
+      this.consumablesForm.get('checkDate')?.setValidators(null);
+
+      this.consumablesForm.get('bankName')?.enable();
+      this.consumablesForm.get('transactionId')?.disable();
+      this.consumablesForm.get('ifscCode')?.enable();
+      this.consumablesForm.get('checkNo')?.disable();
+      this.consumablesForm.get('checkDate')?.disable();
+
+      this.consumablesForm.get('bankName')?.patchValue('');
+      this.consumablesForm.get('transactionId')?.patchValue('');
+      this.consumablesForm.get('ifscCode')?.patchValue('');
+      this.consumablesForm.get('checkNo')?.patchValue('');
+      this.consumablesForm.get('checkDate')?.patchValue('');
+
+      this.consumablesForm.get('bankName')?.updateValueAndValidity();
+      this.consumablesForm.get('transactionId')?.updateValueAndValidity();
+      this.consumablesForm.get('ifscCode')?.updateValueAndValidity();
+      this.consumablesForm.get('checkNo')?.updateValueAndValidity();
+      this.consumablesForm.get('checkDate')?.updateValueAndValidity();
+    }
+    else if (val == 'UPI') {
+      this.consumablesForm.get('bankName')?.setValidators(null);
+      this.consumablesForm.get('transactionId')?.setValidators([Validators.required, Validators.pattern(/^[^\s].*/)]);
+      this.consumablesForm.get('ifscCode')?.setValidators(null);
+      this.consumablesForm.get('checkNo')?.setValidators(null);
+      this.consumablesForm.get('checkDate')?.setValidators(null);
+
+      this.consumablesForm.get('bankName')?.disable();
+      this.consumablesForm.get('transactionId')?.enable();
+      this.consumablesForm.get('ifscCode')?.disable();
+      this.consumablesForm.get('checkNo')?.disable();
+      this.consumablesForm.get('checkDate')?.disable();
+
+      this.consumablesForm.get('bankName')?.patchValue('');
+      this.consumablesForm.get('transactionId')?.patchValue('');
+      this.consumablesForm.get('ifscCode')?.patchValue('');
+      this.consumablesForm.get('checkNo')?.patchValue('');
+      this.consumablesForm.get('checkDate')?.patchValue('');
+
+      this.consumablesForm.get('bankName')?.updateValueAndValidity();
+      this.consumablesForm.get('transactionId')?.updateValueAndValidity();
+      this.consumablesForm.get('ifscCode')?.updateValueAndValidity();
+      this.consumablesForm.get('checkNo')?.updateValueAndValidity();
+      this.consumablesForm.get('checkDate')?.updateValueAndValidity();
+    }
+    else if (val == 'CHEQUE') {
+      this.consumablesForm.get('bankName')?.setValidators([Validators.required]);
+      this.consumablesForm.get('transactionId')?.setValidators(null);
+      this.consumablesForm.get('ifscCode')?.setValidators(null);
+      this.consumablesForm.get('checkNo')?.setValidators([Validators.required]);
+      this.consumablesForm.get('checkDate')?.setValidators([Validators.required]);
+
+      this.consumablesForm.get('bankName')?.enable();
+      this.consumablesForm.get('transactionId')?.disable();
+      this.consumablesForm.get('ifscCode')?.disable();
+      this.consumablesForm.get('checkNo')?.enable();
+      this.consumablesForm.get('checkDate')?.enable();
+
+      this.consumablesForm.get('bankName')?.patchValue('');
+      this.consumablesForm.get('transactionId')?.patchValue('');
+      this.consumablesForm.get('ifscCode')?.patchValue('');
+      this.consumablesForm.get('checkNo')?.patchValue('');
+      this.consumablesForm.get('checkDate')?.patchValue('');
+
+      this.consumablesForm.get('bankName')?.updateValueAndValidity();
+      this.consumablesForm.get('transactionId')?.updateValueAndValidity();
+      this.consumablesForm.get('ifscCode')?.updateValueAndValidity();
+      this.consumablesForm.get('checkNo')?.updateValueAndValidity();
+      this.consumablesForm.get('checkDate')?.updateValueAndValidity();
+    }
+  }
+
+ 
+// Add transaction-related properties after consumables properties (around line 1327)
+transactionForm!: FormGroup;
+isEditModeTransaction = false;
+// transactionID: any;
+transactionData: any[] = [];
+selectedBulkItem: any;
+
+// Add transaction form creation method after createConsumablesForm (around line 1351)
+createTransactionForm(): FormGroup {
+  return this.fb.group({
+    dateOfUtilisation: ['', Validators.required],
+    quantityOfUtilisation: [0, [Validators.required, Validators.min(1)]],
+    noOfTraineesUtilised: [0, [Validators.required, Validators.min(1)]],
+    bulkId: [0, [Validators.required]]
+  });
+}
+
+get fTransaction() {
+  return this.transactionForm.controls;
+}
+transactionOfID:any
+// Add transaction modal methods
+openTransactionModal(mode: string, item?: any): void {
+  if (mode === 'add') {
+    this.isEditModeTransaction = false;
+    this.transactionOfID = '';
+    this.transactionForm.reset();
+    this.transactionForm.patchValue({
+      dateOfUtilisation: '',
+      quantityOfUtilisation: 0,
+      noOfTraineesUtilised: 0,
+      bulkId: 0
+    });
+  }
+  
+  if (mode === 'edit') {
+    this.isEditModeTransaction = true;
+    this.transactionOfID = item?.id;
+    this.transactionForm.patchValue({
+       dateOfUtilisation: item?.dateOfUtilisation ? this.convertToISOFormat(moment(item?.dateOfUtilisation).format('DD-MM-YYYY') ) : '',
+      quantityOfUtilisation: item?.quantityOfUtilisation,
+      noOfTraineesUtilised: item?.noOfTraineesUtilised,
+      bulkId: item?.bulkId
+    });
+    this.selectedBulkItem = this.consumablesData?.find(c => c.id == item?.bulkId);
+  }
+  
+  const modal = new bootstrap.Modal(document.getElementById('addTransaction'));
+  modal.show();
+}
+
+// Get selected consumable item name
+getConsumableItemName(bulkId: any): string {
+  const item = this.consumablesData?.find(c => c.id == bulkId);
+  return item?.itemName || '';
+}
+getConsumableData(bulkId: any): string {
+  const item = this.consumablesData?.find(c => c.id == bulkId);
+  return item || '';
+}
+
+// Submit transaction form
+onSubmitTransaction(): void {
+  this.isSubmitted = true;
+  
+  if (this.transactionForm.valid) {
+    const formData = {
+      ...this.transactionForm.value,
+      dateOfUtilisation: this.transactionForm.value.dateOfUtilisation 
+        ? moment(this.transactionForm.value.dateOfUtilisation).format('DD-MM-YYYY') 
+        : null
+    };
+    console.log('Submitting Transaction Form Data:', formData,this.transactionOfID);
+    const apiCall = this.isEditModeTransaction
+      ? this._commonService.update(`${APIS.nontrainingtargets.consumablesTransactions.update}`, formData, this.transactionOfID)
+      : this._commonService.add(APIS.nontrainingtargets.consumablesTransactions.save, formData);
+
+    apiCall.subscribe({
+      next: (res: any) => {
+        this.toastrService.success(
+          this.isEditModeTransaction ? 'Transaction updated successfully!' : 'Transaction added successfully!'
+        );
+        this.getTransactionData();
+        this.resetTransactionForm();
+      },
+      error: (err) => {
+        this.toastrService.error('Error occurred while saving transaction');
+      }
+    });
+  }
+}
+
+// Get transaction data
+getTransactionData(): void {
+  this._commonService.getDataByUrl(`${APIS.nontrainingtargets.consumablesTransactions.getBySubActivity}${this.selectedBudgetHead}`)
+    .subscribe({
+      next: (res: any) => {
+        this.transactionData = res?.data || res || [];
+      },
+      error: (error) => {
+        console.error('Error fetching transaction data:', error);
+      }
+    });
+}
+
+// Delete transaction
+deleteTransaction(id: any): void {
+  this.transactionOfID = id;
+  const modal = new bootstrap.Modal(document.getElementById('deleteTransactionModal'));
+  modal.show();
+}
+
+confirmDeleteTransaction(): void {
+  this._commonService.deleteId(APIS.nontrainingtargets.consumablesTransactions.delete, this.transactionOfID)
+    .subscribe({
+      next: (data: any) => {
+        this.toastrService.success('Transaction deleted successfully!');
+        this.getTransactionData();
+        this.closeDeleteTransactionModal();
+      },
+      error: (err) => {
+        this.toastrService.error('Error occurred while deleting transaction');
+      }
+    });
+}
+
+closeDeleteTransactionModal(): void {
+  const modal = document.getElementById('deleteTransactionModal');
+  if (modal) {
+    const bootstrapModal = bootstrap.Modal.getInstance(modal);
+    if (bootstrapModal) bootstrapModal.hide();
+  }
+  this.transactionOfID = '';
+}
+
+// Reset transaction form
+resetTransactionForm(): void {
+  this.transactionForm.reset();
+  this.isSubmitted = false;
+  this.selectedBulkItem = null;
+  
+  const modal = document.getElementById('addTransaction');
+  if (modal) {
+    const bootstrapModal = bootstrap.Modal.getInstance(modal);
+    if (bootstrapModal) bootstrapModal.hide();
+  }
 }
 
 
+}

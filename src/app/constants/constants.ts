@@ -165,6 +165,7 @@ export const APIS = {
         saveNonTrainingtargetsCandidate: API_BASE_URL + '/save',
         getNonTrainingtargetsCandidate: API_BASE_URL + '/by-subactivity?subActivityId=',
 
+
         tihcl:{
             getCorpusList: API_BASE_URL + '/corpusDebitFinancing',
             getTihclData: API_BASE_URL + '/listing-on-nse/sub-activity/',
@@ -181,6 +182,20 @@ export const APIS = {
             savedataVendor_doc: API_BASE_URL + '/vendors/save',
             deletedataVendor_doc: API_BASE_URL + '/vendors/',
             updatedataVendor_doc: API_BASE_URL + '/vendors/',
+        },
+        code:{
+            getCodeITData: API_BASE_URL + '/non-training/consumables/bulk/sub-activity/',
+            saveCodeITData: API_BASE_URL + '/non-training/consumables/bulk/save',
+            deleteCodeITData: API_BASE_URL + '/non-training/consumables/bulk/delete/',
+            updateCodeITData: API_BASE_URL + '/non-training/consumables/bulk/update/',
+        },
+       
+        consumablesTransactions: {
+            getById: API_BASE_URL + '/non-training/consumables/transactions/',
+            getBySubActivity: API_BASE_URL + '/non-training/consumables/transactions/sub-activity/',
+            save: API_BASE_URL + '/non-training/consumables/transactions/save',
+            update: API_BASE_URL + '/non-training/consumables/transactions/update/',
+            delete: API_BASE_URL + '/non-training/consumables/transactions/delete/',
         },
         updateTechnologyAdoption: API_BASE_URL + '/wehub_sdg/update',
         saveTechnologyAdoption: API_BASE_URL + '/wehub_sdg/save',
