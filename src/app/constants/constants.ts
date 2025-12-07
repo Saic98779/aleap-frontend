@@ -211,7 +211,7 @@ export const APIS = {
         getTrainigTargetsAchievements: API_BASE_URL + '/training/targets-and-achievements/agency/',
         getNonTrainigTargetsAchievements: API_BASE_URL + '/non-training/targets-and-achievements/agency/',
         saveTrainingTargets: API_BASE_URL + '/training-target/save',
-        saveNonTrainingTargets: API_BASE_URL + '/non-training/targets-and-achievements/target/saveachievements/target/save ',
+        saveNonTrainingTargets: API_BASE_URL + '/non-training/targets-and-achievements/target/save',
     },
   
     
