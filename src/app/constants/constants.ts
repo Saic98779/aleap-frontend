@@ -50,6 +50,8 @@ export const APIS = {
         updateOverDue: API_BASE_URL + '/',
         getProgramsListByDistrictDetails: API_BASE_URL + '/agency/programs/district/',
         resheduleData: API_BASE_URL + '/program-reschedule-data/',
+        updateProgramStatus: API_BASE_URL + '/programs/status/update',
+        getProgramStatus: API_BASE_URL + '/program-status',
     },
     resheduleProgram:{
         getResheduleData: API_BASE_URL + '/program-reschedule-data/programs/',
@@ -208,7 +210,11 @@ export const APIS = {
         getNonTrainingProgress: API_BASE_URL + '/progress/monitoring/training-targets',
         getTrainigTargetsAchievements: API_BASE_URL + '/training/targets-and-achievements/agency/',
         getNonTrainigTargetsAchievements: API_BASE_URL + '/non-training/targets-and-achievements/agency/',
+        saveTrainingTargets: API_BASE_URL + '/training-target/save',
+        saveNonTrainingTargets: API_BASE_URL + '/non-training/targets-and-achievements/target/saveachievements/target/save ',
     },
+  
+    
     captureOutcome:{
         getParticipantData: API_BASE_URL + '/getParticipantsByMobileNo/',
         getParticipantDataByMobile: API_BASE_URL + '/participants/search-by-mobile/',

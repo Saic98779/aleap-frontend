@@ -4,10 +4,10 @@
         <div class="card mb-3">
           <div class="card-header bg-transparent ">
             <div class="row align-items-center mb-3">
-              <div class="col-12 col-sm-12 col-md-4 col-lg-6">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                 <h6 class="fw-600 mb-2 mb-sm-2 mb-md-0">Training And Non-Training Targets</h6>
               </div>
-              <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+              <div class="col-12 col-sm-5 col-md-2 col-lg-2">
                 <!-- <label for="Agencies" style="font-weight: 600;">List Of Agencies</label>
                 <select class="form-select" id="Agencies" [(ngModel)]="selectedAgencyId"
                   (change)="GetProgramsByAgency($any($event.target).value)"> -->
@@ -33,7 +33,7 @@
                     (click)="openTargetsModal('add')">Add Target</button>
                 </div>
               </div> -->
-              <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+              <div class="col-12 col-sm-5 col-md-2 col-lg-2">
                 <!-- <label for="Agencies" style="font-weight: 600;">List Of FY</label>
                 <select class="form-select" id="Agencies" [(ngModel)]="selectedFinancialYear"
                 (change)="getBasedOnYearSelection($any($event.target).value)">
@@ -50,6 +50,13 @@
                                 </mat-option>
                             </mat-select>
                             </mat-form-field>
+              </div>
+               <div class="col-12 col-sm-6 col-md-2 col-lg-2 mt-3">
+               
+                <div class="d-grid text-end">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#addTarget" class="btn btn-lime-green"
+                    (click)="openTargetsModal('add')">Add Target</button>
+                </div>
               </div>
             </div>
           </div>
@@ -72,7 +79,9 @@
                  <!-- <button class="btn btn-secondary mb-3" type="button" (click)="goBack()">
               <i class="bi bi-arrow-left"></i> Back
             </button> -->
-            <h6 class="fw-bold mb-3 mt-3">Training Targets : {{getAgencyName(selectedAgencyId)}}</h6>
+               <h6 class="fw-bold mb-3 mt-3">Training Targets : {{getAgencyName(selectedAgencyId)}}</h6>
+              <!-- Add the button to open the modal in the card header -->
+             
             <!--  id=view-physical-table  -->
             <div class="table-container">
               <table  class="table table-bordered table-striped nowrap w-100 fsize-10">
@@ -246,89 +255,7 @@
       </div>
     </section>
   </main>
-  <div class="modal fade" id="addTarget" tabindex="-1" aria-labelledby="addTargetLabel" aria-hidden="true"
-    data-keyboard="false" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header py-2">
-          <h6 class="modal-title" id="addLocationLabel">{{this.editRow?'Edit':'Add'}} Target</h6>
-          <button type="button" class="btn-close me-1" data-bs-dismiss="modal" (click)="closeModalTargets()"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="targetsScreenForm">
-            <div class="form-floating mb-3">
-              <div class="form-floating mb-3">
-                <select class="form-select" formControlName="outcomeId">
-                  <option selected value="">Select Outcome </option>
-                  <option *ngFor="let val of ListOfOutCome" value="{{val?.outcomeTableId}}">
-                    {{val?.outcomeTableDisplayName}}</option>
-                </select>
-                <label>Outcome <span class="c-red"> *</span></label>
-              </div>
-              <div *ngIf="f2['outcomeId'].touched && !f2['outcomeId'].valid" class="error" style="color: red;">Outcome
-                is required</div>
-            </div>
-            <div class="form-floating mb-3">
-              <div class="form-floating mb-3">
-                <select class="form-select" formControlName="financialYear">
-                  <option selected value="">Select FY </option>
-                  <option *ngFor="let val of this.financialYears" value="{{val}}">{{val}}</option>
-                </select>
-                <label>Select Fy <span class="c-red"> *</span></label>
-              </div>
-              <!-- <label for="fySelect">Seelct Fy</label> -->
-            </div>
-            <div class="form-floating mb-3">
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="qone" formControlName="q1" placeholder="">
-                <label for="qone">Apr-Jun(Q1)</label>
-              </div>
-              <div *ngIf="f2['q1'].touched && !f2['q1'].valid && !f2['q1']?.errors?.['pattern']" class="error">Apr-Jun(Q1)
-                is required</div>
-              <div *ngIf="f2['q1'].touched && !f2['q1'].valid && f2['q1']?.errors?.['pattern']" class="error">Apr-Jun(Q1)
-                Should be Greater than Zero</div>
-            </div>
-            <div class="form-floating mb-3">
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="qone" formControlName="q2" placeholder="">
-                <label for="qone">Jul-Sep(Q2)</label>
-              </div>
-              <div *ngIf="f2['q2'].touched && !f2['q2'].valid && !f2['q2']?.errors?.['pattern']" class="error">Jul-Sep(Q2)
-                is required</div>
-              <div *ngIf="f2['q2'].touched && !f2['q2'].valid && f2['q2']?.errors?.['pattern']" class="error">Jul-Sep(Q2)
-                Should be Greater than Zero</div>
-            </div>
-            <div class="form-floating mb-3">
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="qone" formControlName="q3" placeholder="">
-                <label for="qone">Oct-Dec(Q3)</label>
-              </div>
-              <div *ngIf="f2['q3'].touched && !f2['q3'].valid && !f2['q3']?.errors?.['pattern']" class="error">Oct-Dec(Q3)
-                is required</div>
-              <div *ngIf="f2['q3'].touched && !f2['q3'].valid && f2['q3']?.errors?.['pattern']" class="error">Oct-Dec(Q3)
-                Should be Greater than Zero</div>
-            </div>
-            <div class="form-floating mb-3">
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="qone" formControlName="q4" placeholder="">
-                <label for="qone">Jan-Mar(Q4)</label>
-              </div>
-              <div *ngIf="f2['q4'].touched && !f2['q4'].valid && !f2['q4']?.errors?.['pattern']" class="error">Jan-Mar(Q4)
-                is required</div>
-              <div *ngIf="f2['q4'].touched && !f2['q4'].valid && f2['q4']?.errors?.['pattern']" class="error">Jan-Mar(Q4)
-                Should be Greater than Zero</div>
-            </div>
-            <div class="text-end">
-              <button type="button" class="btn btn-lime-green" data-bs-dismiss="modal" aria-label="Close"
-                [ngClass]="{'disabled': targetsScreenForm.invalid}"
-                (click)="submitTarget()">{{this.editRow?'Update':'Save'}}</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
   
   <div class="modal fade" id="exampleModalDeleteProgram" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalDeleteLabel" aria-hidden="true">
@@ -349,3 +276,167 @@
       </div>
     </div>
   </div>
+
+
+
+<!-- Replace the existing modal with this updated version -->
+<div class="modal fade" id="addTarget" tabindex="-1" aria-labelledby="addTargetLabel" aria-hidden="true"
+  data-keyboard="false" data-bs-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addLocationLabel">{{this.editRow?'Edit':'Add'}} {{activeTab === 'nav-twos' ? 'Training' : 'Non Training'}} Target</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" (click)="closeModalTargets()"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="targetsScreenForm">
+          <div class="row">
+            <!-- Activity Selection -->
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-select" formControlName="activityId" (change)="onActivityChange($event)">
+                  <option selected value="">Select Activity</option>
+                  <option *ngFor="let activity of activitiesList" [value]="activity.activityId">
+                    {{activity.activityName}}
+                  </option>
+                </select>
+                <label>Activity <span class="c-red"> *</span></label>
+                <div *ngIf="f2['activityId'].touched && !f2['activityId'].valid" class="error text-danger">
+                  Activity is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Sub Activity Selection -->
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-select" formControlName="subActivityId">
+                  <option selected value="">Select Sub Activity</option>
+                  <option *ngFor="let subActivity of subActivitiesList" [value]="subActivity.subActivityId">
+                    {{subActivity.subActivityName}}
+                  </option>
+                </select>
+                <label>Sub Activity <span class="c-red"> *</span></label>
+                <div *ngIf="f2['subActivityId'].touched && !f2['subActivityId'].valid" class="error text-danger">
+                  Sub Activity is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Financial Year -->
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-select" formControlName="financialYear">
+                  <option selected value="">Select FY</option>
+                  <option *ngFor="let val of this.financialYears" [value]="val">{{val}}</option>
+                </select>
+                <label>Financial Year <span class="c-red"> *</span></label>
+                <div *ngIf="f2['financialYear'].touched && !f2['financialYear'].valid" class="error text-danger">
+                  Financial Year is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quarterly Physical Targets -->
+          <div class="row">
+            <div class="col-12">
+              <h6 class="fw-bold mb-3">Physical Targets</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q1Target" placeholder="Q1 Target" min="0">
+                <label>Q1 (Apr-Jun) Target</label>
+                <div *ngIf="f2['q1Target'].touched && !f2['q1Target'].valid" class="error text-danger">
+                  Q1 Target is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q2Target" placeholder="Q2 Target" min="0">
+                <label>Q2 (Jul-Sep) Target</label>
+                <div *ngIf="f2['q2Target'].touched && !f2['q2Target'].valid" class="error text-danger">
+                  Q2 Target is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q3Target" placeholder="Q3 Target" min="0">
+                <label>Q3 (Oct-Dec) Target</label>
+                <div *ngIf="f2['q3Target'].touched && !f2['q3Target'].valid" class="error text-danger">
+                  Q3 Target is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q4Target" placeholder="Q4 Target" min="0">
+                <label>Q4 (Jan-Mar) Target</label>
+                <div *ngIf="f2['q4Target'].touched && !f2['q4Target'].valid" class="error text-danger">
+                  Q4 Target is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quarterly Financial Targets -->
+          <div class="row">
+            <div class="col-12">
+              <h6 class="fw-bold mb-3">Financial Targets</h6>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q1Budget" placeholder="Q1 Budget" min="0" step="0.01">
+                <label>Q1 (Apr-Jun) Budget</label>
+                <div *ngIf="f2['q1Budget'].touched && !f2['q1Budget'].valid" class="error text-danger">
+                  Q1 Budget is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q2Budget" placeholder="Q2 Budget" min="0" step="0.01">
+                <label>Q2 (Jul-Sep) Budget</label>
+                <div *ngIf="f2['q2Budget'].touched && !f2['q2Budget'].valid" class="error text-danger">
+                  Q2 Budget is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q3Budget" placeholder="Q3 Budget" min="0" step="0.01">
+                <label>Q3 (Oct-Dec) Budget</label>
+                <div *ngIf="f2['q3Budget'].touched && !f2['q3Budget'].valid" class="error text-danger">
+                  Q3 Budget is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" formControlName="q4Budget" placeholder="Q4 Budget" min="0" step="0.01">
+                <label>Q4 (Jan-Mar) Budget</label>
+                <div *ngIf="f2['q4Budget'].touched && !f2['q4Budget'].valid" class="error text-danger">
+                  Q4 Budget is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" (click)="closeModalTargets()">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-lime-green" 
+              [disabled]="targetsScreenForm.invalid"
+              (click)="submitTarget()">
+              {{this.editRow ? 'Update' : 'Save'}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
