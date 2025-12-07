@@ -47,7 +47,9 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      this.formDetails()
    }
      onTabChange(activeTab:any){
+
     this.activeTab = activeTab;
+     this.getActivitiesList()
   }
    activitiesList: any[] = [];
   subActivitiesList: any[] = [];
@@ -156,7 +158,7 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
       
      }
      getDataByAgencyAndYear(agency: any,year:any) {
-       this._commonService.getDataByUrl(APIS.progressMonitoring.getTrainigTargetsAchievements+agency+'?year='+year).subscribe({
+       this._commonService.getDataByUrl(APIS.progressMonitoring.getTrainigTargetsAchievementsNew+year+'&agencyId='+agency).subscribe({
          next: (dataList: any) => {
            if(dataList?.length) {
              console.log(dataList, 'dataList');
@@ -198,7 +200,8 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      }
      tableListNonTraining:any=[]
       getDataByAgencyAndYearNonTraing(agency: any,year:any) {
-       this._commonService.getDataByUrl(APIS.progressMonitoring.getNonTrainigTargetsAchievements+agency+'?year='+year).subscribe({
+
+       this._commonService.getDataByUrl(APIS.progressMonitoring.getNonTrainigTargetsAchievementsNew+year+'&agencyId='+agency).subscribe({
          next: (dataList: any) => {
            if(dataList?.length) {
              console.log(dataList, 'dataList');
@@ -423,9 +426,10 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
 
   getActivitiesList() {
     // Replace with your actual API endpoint for activities
-     this._commonService.getById(APIS.programCreation.getActivityListbyId,this.agencyId?this.agencyId:this.selectedAgencyId).subscribe({
+    let Url = this.activeTab==='nav-twos'? APIS.programCreation.getActivityListbyId:APIS.nontrainingtargets.getBudgetHeadList
+     this._commonService.getById(Url,this.agencyId?this.agencyId:this.selectedAgencyId).subscribe({
       next: (data: any) => {
-        this.activitiesList = data.data;
+        this.activitiesList = this.activeTab==='nav-twos'?data.data:data
       },
       error: (err: any) => {
         this.activitiesList = [];
@@ -446,9 +450,10 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
   }
 
   getSubActivitiesByActivity(activityId: any) {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getSubActivityListByActivity+'/'+activityId}`).subscribe({
+    let Url = this.activeTab==='nav-twos'? APIS.programCreation.getSubActivityListByActivity:APIS.nontrainingtargets.getSubActivityListInTargets
+    this._commonService.getDataByUrl(`${Url+'/'+activityId}`).subscribe({
       next: (data: any) => {
-        this.subActivitiesList = data.data.subActivities;
+        this.subActivitiesList = this.activeTab==='nav-twos'?data.data.subActivities:data;
       },
       error: (err: any) => {
         this.subActivitiesList = [];
