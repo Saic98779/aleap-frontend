@@ -349,4 +349,40 @@
         </div>
           
     </section>
+    <!-- Add this loader overlay at the top of your main section -->
+
+    
+    <!-- PDF Generation Loader Overlay -->
+    <div *ngIf="isGeneratingPDF" class="pdf-loader-overlay">
+        <div class="pdf-loader-container">
+            <div class="text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="mb-3">Generating PDF...</h5>
+                
+                <!-- Progress bar -->
+                <div class="progress mb-3" style="height: 20px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
+                         role="progressbar" 
+                         [style.width.%]="pdfProgressPercentage"
+                         [attr.aria-valuenow]="pdfProgressPercentage" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
+                        {{pdfProgressPercentage}}%
+                    </div>
+                </div>
+                
+                <!-- Progress text -->
+                <!-- <p class="text-muted mb-0">{{pdfProgress}}</p> -->
+                
+                <!-- Additional info -->
+                <!-- <small class="text-muted d-block mt-2">
+                    Please wait while we prepare your PDF...
+                </small> -->
+            </div>
+        </div>
+    </div>
+
+  
 </main>
