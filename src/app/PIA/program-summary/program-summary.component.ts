@@ -17,6 +17,7 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./program-summary.component.css']
 })
 export class ProgramSummaryComponent implements OnInit {
+  Math = Math;
   loginsessionDetails: any;
   agencyId: any;
   programIds:any
@@ -282,6 +283,7 @@ async handleDownloadPDF() {
     
     this.pdfProgress = 'PDF downloaded successfully!';
     this.pdfProgressPercentage = 100;
+      this.getParticipantsByProgramID(this.programIds)
 
     // Brief success message display
     await this.delay(1000);
@@ -356,7 +358,9 @@ private ensureImageLoaded(): Promise<void> {
   });
 }
 
-// Enhanced pagination method with progress updates
+
+// ...existing code...
+
 private async renderParticipantDetailsWithPagination(
   pdf: jsPDF, 
   detailsEl: HTMLElement, 
@@ -396,40 +400,44 @@ private async renderParticipantDetailsWithPagination(
     const endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
     
     // Update progress
-    const pageProgress = 60 + ((pageIndex + 1) / totalPages) * 30; // 60-90% for participant pages
+    const pageProgress = 60 + ((pageIndex + 1) / totalPages) * 30;
     this.pdfProgress = `Processing participant page ${pageIndex + 1} of ${totalPages}...`;
     this.pdfProgressPercentage = Math.round(pageProgress);
     
-    this.paginatedPosts = this.posts.slice(startIndex, endIndex);
-    await this.delay(300);
+    // Set paginated posts with continuous serial numbers
+    this.paginatedPosts = this.posts.slice(startIndex, endIndex).map((post, index) => ({
+      ...post,
+      serialNumber: startIndex + index + 1
+    }));
+    
+    await this.delay(500); // Increased delay for DOM updates
     
     pdf.addPage();
     
     try {
       const detailsCanvas = await html2canvas(detailsEl, { 
-        scale: 2, 
+        scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        logging: false
+        logging: false,
+        width: detailsEl.scrollWidth,
+        height: detailsEl.scrollHeight
       });
       
-      const detailsWidth = pageWidth - 2 * marginX;
-      const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
-      const detailsData = detailsCanvas.toDataURL('image/png');
+      // Always use full page width minus margins - NO SCALING
+      const finalWidth = pageWidth - 2 * marginX;
+      const finalHeight = (finalWidth / detailsCanvas.width) * detailsCanvas.height;
       
+      // Only check if we need to split content, don't scale the width
       const maxHeight = pageHeight - 2 * marginY - 40;
-      let finalHeight = detailsHeight;
-      let finalWidth = detailsWidth;
       
-      if (detailsHeight > maxHeight) {
-        const scaleFactor = maxHeight / detailsHeight;
-        finalHeight = maxHeight;
-        finalWidth = detailsWidth * scaleFactor;
-      }
+      const detailsData = detailsCanvas.toDataURL('image/png', 1.0);
       
-      pdf.addImage(detailsData, 'PNG', marginX, marginY, finalWidth, finalHeight);
+      // Always position at marginX for consistent full width
+      pdf.addImage(detailsData, 'PNG', marginX, marginY, finalWidth, Math.min(finalHeight, maxHeight));
       
+      // Add page footer
       pdf.setFontSize(10);
       pdf.setTextColor(128, 128, 128);
       pdf.text(
@@ -447,6 +455,21 @@ private async renderParticipantDetailsWithPagination(
     }
   }
 }
+
+// ...existing code...
+
+// Update the updatePaginatedPosts method to include serial numbers
+updatePaginatedPosts() {
+  const start = (this.currentPage - 1) * this.pageSize;
+  const end = start + this.pageSize;
+  this.paginatedPosts = this.posts.slice(start, end).map((post, index) => ({
+    ...post,
+    serialNumber: start + index + 1 // Add continuous serial number for regular pagination
+  }));
+}
+
+// ...existing code...
+
 
 // Image event handlers
 onImageLoad(): void {
@@ -522,14 +545,10 @@ onRatingChange(rating: number) {
       }
       
       
-      updatePaginatedPosts() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = start + this.pageSize;
-        this.paginatedPosts = this.posts.slice(start, end);
-      }
       
       nextPage() {
         if (this.currentPage < this.totalPages) {
+  
           this.currentPage++;
           this.updatePaginatedPosts();
         }
