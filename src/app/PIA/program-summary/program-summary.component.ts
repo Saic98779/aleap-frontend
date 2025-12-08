@@ -282,6 +282,7 @@ async handleDownloadPDF() {
     
     this.pdfProgress = 'PDF downloaded successfully!';
     this.pdfProgressPercentage = 100;
+      this.getParticipantsByProgramID(this.programIds)
 
     // Brief success message display
     await this.delay(1000);
@@ -356,97 +357,6 @@ private ensureImageLoaded(): Promise<void> {
   });
 }
 
-// Enhanced pagination method with progress updates
-// private async renderParticipantDetailsWithPagination(
-//   pdf: jsPDF, 
-//   detailsEl: HTMLElement, 
-//   marginX: number, 
-//   marginY: number, 
-//   pageWidth: number, 
-//   pageHeight: number
-// ): Promise<void> {
-//   const recordsPerPage = 80;
-//   const totalRecords = this.posts.length;
-  
-//   if (totalRecords === 0) {
-//     this.pdfProgress = 'No participant data to process...';
-//     pdf.addPage();
-    
-//     try {
-//       const detailsCanvas = await html2canvas(detailsEl, { 
-//         scale: 2, 
-//         useCORS: true,
-//         allowTaint: true,
-//         backgroundColor: '#ffffff'
-//       });
-//       const detailsWidth = pageWidth - 2 * marginX;
-//       const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
-//       const detailsData = detailsCanvas.toDataURL('image/png');
-//       pdf.addImage(detailsData, 'PNG', marginX, marginY, detailsWidth, detailsHeight);
-//     } catch (error) {
-//       console.error('Error rendering empty participant details:', error);
-//     }
-//     return;
-//   }
-
-//   const totalPages = Math.ceil(totalRecords / recordsPerPage);
-  
-//   for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
-//     const startIndex = pageIndex * recordsPerPage;
-//     const endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
-    
-//     // Update progress
-//     const pageProgress = 60 + ((pageIndex + 1) / totalPages) * 30; // 60-90% for participant pages
-//     this.pdfProgress = `Processing participant page ${pageIndex + 1} of ${totalPages}...`;
-//     this.pdfProgressPercentage = Math.round(pageProgress);
-    
-//     this.paginatedPosts = this.posts.slice(startIndex, endIndex);
-//     await this.delay(300);
-    
-//     pdf.addPage();
-    
-//     try {
-//       const detailsCanvas = await html2canvas(detailsEl, { 
-//         scale: 2, 
-//         useCORS: true,
-//         allowTaint: true,
-//         backgroundColor: '#ffffff',
-//         logging: false
-//       });
-      
-//       const detailsWidth = pageWidth - 2 * marginX;
-//       const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
-//       const detailsData = detailsCanvas.toDataURL('image/png');
-      
-//       const maxHeight = pageHeight - 2 * marginY - 40;
-//       let finalHeight = detailsHeight;
-//       let finalWidth = detailsWidth;
-      
-//       if (detailsHeight > maxHeight) {
-//         const scaleFactor = maxHeight / detailsHeight;
-//         finalHeight = maxHeight;
-//         finalWidth = detailsWidth * scaleFactor;
-//       }
-      
-//       pdf.addImage(detailsData, 'PNG', marginX, marginY, finalWidth, finalHeight);
-      
-//       pdf.setFontSize(10);
-//       pdf.setTextColor(128, 128, 128);
-//       pdf.text(
-//         `Page ${pageIndex + 1} of ${totalPages} (Records ${startIndex + 1}-${endIndex} of ${totalRecords})`, 
-//         marginX, 
-//         pageHeight - 15
-//       );
-      
-//     } catch (error) {
-//       console.error(`Error rendering participant details page ${pageIndex + 1}:`, error);
-      
-//       pdf.setFontSize(12);
-//       pdf.setTextColor(255, 0, 0);
-//       pdf.text(`Error rendering participant details for page ${pageIndex + 1}`, marginX, marginY + 50);
-//     }
-//   }
-// }
 
 private async renderParticipantDetailsWithPagination(
   pdf: jsPDF, 
@@ -558,9 +468,6 @@ updatePaginatedPosts() {
   }));
 }
 
-// ...existing code...
-
-// ...existing code...
 
 // Image event handlers
 onImageLoad(): void {
