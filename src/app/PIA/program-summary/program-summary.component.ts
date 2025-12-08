@@ -357,6 +357,97 @@ private ensureImageLoaded(): Promise<void> {
 }
 
 // Enhanced pagination method with progress updates
+// private async renderParticipantDetailsWithPagination(
+//   pdf: jsPDF, 
+//   detailsEl: HTMLElement, 
+//   marginX: number, 
+//   marginY: number, 
+//   pageWidth: number, 
+//   pageHeight: number
+// ): Promise<void> {
+//   const recordsPerPage = 80;
+//   const totalRecords = this.posts.length;
+  
+//   if (totalRecords === 0) {
+//     this.pdfProgress = 'No participant data to process...';
+//     pdf.addPage();
+    
+//     try {
+//       const detailsCanvas = await html2canvas(detailsEl, { 
+//         scale: 2, 
+//         useCORS: true,
+//         allowTaint: true,
+//         backgroundColor: '#ffffff'
+//       });
+//       const detailsWidth = pageWidth - 2 * marginX;
+//       const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
+//       const detailsData = detailsCanvas.toDataURL('image/png');
+//       pdf.addImage(detailsData, 'PNG', marginX, marginY, detailsWidth, detailsHeight);
+//     } catch (error) {
+//       console.error('Error rendering empty participant details:', error);
+//     }
+//     return;
+//   }
+
+//   const totalPages = Math.ceil(totalRecords / recordsPerPage);
+  
+//   for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+//     const startIndex = pageIndex * recordsPerPage;
+//     const endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
+    
+//     // Update progress
+//     const pageProgress = 60 + ((pageIndex + 1) / totalPages) * 30; // 60-90% for participant pages
+//     this.pdfProgress = `Processing participant page ${pageIndex + 1} of ${totalPages}...`;
+//     this.pdfProgressPercentage = Math.round(pageProgress);
+    
+//     this.paginatedPosts = this.posts.slice(startIndex, endIndex);
+//     await this.delay(300);
+    
+//     pdf.addPage();
+    
+//     try {
+//       const detailsCanvas = await html2canvas(detailsEl, { 
+//         scale: 2, 
+//         useCORS: true,
+//         allowTaint: true,
+//         backgroundColor: '#ffffff',
+//         logging: false
+//       });
+      
+//       const detailsWidth = pageWidth - 2 * marginX;
+//       const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
+//       const detailsData = detailsCanvas.toDataURL('image/png');
+      
+//       const maxHeight = pageHeight - 2 * marginY - 40;
+//       let finalHeight = detailsHeight;
+//       let finalWidth = detailsWidth;
+      
+//       if (detailsHeight > maxHeight) {
+//         const scaleFactor = maxHeight / detailsHeight;
+//         finalHeight = maxHeight;
+//         finalWidth = detailsWidth * scaleFactor;
+//       }
+      
+//       pdf.addImage(detailsData, 'PNG', marginX, marginY, finalWidth, finalHeight);
+      
+//       pdf.setFontSize(10);
+//       pdf.setTextColor(128, 128, 128);
+//       pdf.text(
+//         `Page ${pageIndex + 1} of ${totalPages} (Records ${startIndex + 1}-${endIndex} of ${totalRecords})`, 
+//         marginX, 
+//         pageHeight - 15
+//       );
+      
+//     } catch (error) {
+//       console.error(`Error rendering participant details page ${pageIndex + 1}:`, error);
+      
+//       pdf.setFontSize(12);
+//       pdf.setTextColor(255, 0, 0);
+//       pdf.text(`Error rendering participant details for page ${pageIndex + 1}`, marginX, marginY + 50);
+//     }
+//   }
+// }
+
 private async renderParticipantDetailsWithPagination(
   pdf: jsPDF, 
   detailsEl: HTMLElement, 
@@ -379,6 +470,7 @@ private async renderParticipantDetailsWithPagination(
         allowTaint: true,
         backgroundColor: '#ffffff'
       });
+      // Use full page width minus margins for empty table
       const detailsWidth = pageWidth - 2 * marginX;
       const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
       const detailsData = detailsCanvas.toDataURL('image/png');
@@ -400,7 +492,12 @@ private async renderParticipantDetailsWithPagination(
     this.pdfProgress = `Processing participant page ${pageIndex + 1} of ${totalPages}...`;
     this.pdfProgressPercentage = Math.round(pageProgress);
     
-    this.paginatedPosts = this.posts.slice(startIndex, endIndex);
+    // Set paginated posts with continuous serial numbers
+    this.paginatedPosts = this.posts.slice(startIndex, endIndex).map((post, index) => ({
+      ...post,
+      serialNumber: startIndex + index + 1 // Add continuous serial number
+    }));
+    
     await this.delay(300);
     
     pdf.addPage();
@@ -414,20 +511,23 @@ private async renderParticipantDetailsWithPagination(
         logging: false
       });
       
+      // Use full page width minus margins for table
       const detailsWidth = pageWidth - 2 * marginX;
       const detailsHeight = (detailsWidth / detailsCanvas.width) * detailsCanvas.height;
       const detailsData = detailsCanvas.toDataURL('image/png');
       
       const maxHeight = pageHeight - 2 * marginY - 40;
       let finalHeight = detailsHeight;
-      let finalWidth = detailsWidth;
+      let finalWidth = detailsWidth; // Keep full width
       
       if (detailsHeight > maxHeight) {
         const scaleFactor = maxHeight / detailsHeight;
         finalHeight = maxHeight;
+        // Only scale width if height exceeds max height
         finalWidth = detailsWidth * scaleFactor;
       }
       
+      // Position table to use full width (start at margin)
       pdf.addImage(detailsData, 'PNG', marginX, marginY, finalWidth, finalHeight);
       
       pdf.setFontSize(10);
@@ -447,6 +547,20 @@ private async renderParticipantDetailsWithPagination(
     }
   }
 }
+
+// Update the updatePaginatedPosts method to include serial numbers
+updatePaginatedPosts() {
+  const start = (this.currentPage - 1) * this.pageSize;
+  const end = start + this.pageSize;
+  this.paginatedPosts = this.posts.slice(start, end).map((post, index) => ({
+    ...post,
+    serialNumber: start + index + 1 // Add continuous serial number for regular pagination
+  }));
+}
+
+// ...existing code...
+
+// ...existing code...
 
 // Image event handlers
 onImageLoad(): void {
@@ -522,14 +636,10 @@ onRatingChange(rating: number) {
       }
       
       
-      updatePaginatedPosts() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = start + this.pageSize;
-        this.paginatedPosts = this.posts.slice(start, end);
-      }
       
       nextPage() {
         if (this.currentPage < this.totalPages) {
+  
           this.currentPage++;
           this.updatePaginatedPosts();
         }
