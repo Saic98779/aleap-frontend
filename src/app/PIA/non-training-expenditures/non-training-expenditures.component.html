@@ -99,13 +99,14 @@
                                 <th>Payee Name</th>
                                 <th>Mode of Payment</th>
                                  <th>Account Number</th>
-                                <th>Bank Name</th>
-                                <th>IFSC Code</th>
+                                <!-- <th>Bank Name</th>
+                                <th>IFSC Code</th> -->
                                  <th>Transaction Id</th>
                                 <th>Purpose</th>
-                                 <th>Cheque Number</th>
-                                <th>Cheque Date</th>
+                                 <!-- <th>Cheque Number</th>
+                                <th>Cheque Date</th> -->
                                  <th>Status</th>
+                                
                                 <th>Upload Bill/Invoice</th>
                                 <th>SPIU Comment</th>
                                 <th>Agency Response</th>
@@ -129,12 +130,12 @@
                                 <td>{{item?.payeeName}}</td>
                                 <td>{{item?.modeOfPayment}}</td>
                                  <td>{{ item?.accountNumber }}</td>
-                                <td>{{ item?.bankName }}</td>
-                                <td>{{ item?.ifscCode }}</td>
+                                <!-- <td>{{ item?.bankName }}</td>
+                                <td>{{ item?.ifscCode }}</td> -->
                                 <td>{{ item?.transactionId }}</td>
                                 <td>{{item?.purpose}}</td>
-                                <td>{{item?.checkNo }}</td>
-                                <td class="noWrap">{{item?.checkDate }}</td>
+                                <!-- <td>{{item?.checkNo }}</td>
+                                <td class="noWrap">{{item?.checkDate }}</td> -->
                                 <td>{{item?.status }}</td>
                                 <td *ngIf="item?.uploadBillUrl && item?.uploadBillUrl?.split('.').pop() !== 'pdf'">
                                     <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">

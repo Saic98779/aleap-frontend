@@ -73,7 +73,7 @@
                         </div> -->
                     </div>
                     <div class="row mb-3 g-2">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
                                  [class.bg-primary]="StatusData !== 'programsScheduled'"
                                  [class.bg-dark]="StatusData === 'programsScheduled'"
@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                         </div> -->
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
                                  [class.bg-info]="StatusData !== 'programsYetToBegin'"
                                  [class.bg-dark]="StatusData === 'programsYetToBegin'"
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
                                  [class.bg-warning]="StatusData !== 'programsInProcess'"
                                  [class.bg-dark]="StatusData === 'programsInProcess'"
@@ -141,7 +141,7 @@
                                 </div>
                             </div>
                         </div>
-                          <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                          <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
                                  [ngClass]="StatusData === 'programsCompletedDataPending' ? 'bg-dark border-3' : ''"
                                  [style.background-color]="StatusData !== 'programsCompletedDataPending' ? 'chocolate' : ''"
@@ -150,26 +150,26 @@
                                  style="transition: all 0.3s ease; cursor: pointer;">
                                 <div class="card-body p-0 d-flex flex-column justify-content-between">
                                     <label class="mb-2 fw-600 small">Programs Completed - Data Pending</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompletedDataPending || 0}}</p>
+                                    <p class="fw-bold fs-5 mb-0">{{(PrigramSummaryData?.programsCompletedDataPending + PrigramSummaryData?.programsCompleted) || 0}}</p>
                                 </div>
                                 <div *ngIf="StatusData === 'programsCompletedDataPending'" class="position-absolute top-0 end-0 p-2">
                                     <i class="fa fa-check-circle text-success"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                        </div> -->
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                             <div class="card h-100 text-white text-center p-3 cursor-pointer position-relative"
-                                 [class.bg-success]="StatusData !== 'programsCompleted'"
-                                 [class.bg-dark]="StatusData === 'programsCompleted'"
-                                 [class.border-3]="StatusData === 'programsCompleted'"
-                                 [class.border-success]="StatusData === 'programsCompleted'"
-                                 (click)="getProgramsByStatus('programsCompleted')"
+                                 [class.bg-success]="StatusData !== 'programsCompletedAndDataPending'"
+                                 [class.bg-dark]="StatusData === 'programsCompletedAndDataPending'"
+                                 [class.border-3]="StatusData === 'programsCompletedAndDataPending'"
+                                 [class.border-success]="StatusData === 'programsCompletedAndDataPending'"
+                                 (click)="getProgramsByStatus('programsCompletedAndDataPending')"
                                  style="transition: all 0.3s ease; cursor: pointer;">
                                 <div class="card-body p-0 d-flex flex-column justify-content-between">
-                                    <label class="mb-2 fw-600 small">Programs Completed & Data Uploaded</label>
-                                    <p class="fw-bold fs-5 mb-0">{{PrigramSummaryData?.programsCompleted || 0}}</p>
+                                    <label class="mb-2 fw-600 small">Programs Completed</label>
+                                    <p class="fw-bold fs-5 mb-0">{{(PrigramSummaryData?.programsCompletedDataPending + PrigramSummaryData?.programsCompleted) || 0}}</p>
                                 </div>
-                                <div *ngIf="StatusData === 'programsCompleted'" class="position-absolute top-0 end-0 p-2">
+                                <div *ngIf="StatusData === 'programsCompletedAndDataPending'" class="position-absolute top-0 end-0 p-2">
                                     <i class="fa fa-check-circle text-success"></i>
                                 </div>
                             </div>

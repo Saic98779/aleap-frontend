@@ -2,8 +2,8 @@
     <section>
         <div class="container-fluid">
             <div class="card mb-3">
-                <div class="card-header bg-transparent mb-3">
-                    <div class="row align-items-center">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center mb-3">
                         <div class="col-12 col-sm-7 col-md-8 col-lg-6">
                             <h6 class="fw-600 mb-2 mb-sm-0 text-green">Edit View Programs</h6>
                         </div>
@@ -39,288 +39,259 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <!-- Edit Button (right side) -->
+                    <div class="d-flex justify-content-end mb-3">
+                        <button class="btn btn-lime-green" (click)="onEditProgram()" *ngIf="ProgramsDataBasedOnSelection">
+                            Edit
+                        </button>
+                    </div>
                     <!-- Program Details Display -->
                     <div *ngIf="ProgramsDataBasedOnSelection" class="program-details">
-                        <!-- Status Badge -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="text-primary mb-0">Program Details</h5>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <!-- <span class="badge" [ngClass]="{
-                                            'bg-success': ProgramsDataBasedOnSelection.status === 'Completed',
-                                            'bg-warning text-dark': ProgramsDataBasedOnSelection.status === 'In Progress' || ProgramsDataBasedOnSelection.status === 'Program Execution Updated',
-                                            'bg-danger': ProgramsDataBasedOnSelection.status === 'Cancelled',
-                                            'bg-info': ProgramsDataBasedOnSelection.status === 'Scheduled',
-                                            'bg-secondary': !['Completed', 'In Progress', 'Cancelled', 'Scheduled', 'Program Execution Updated'].includes(ProgramsDataBasedOnSelection.status)
-                                        }">
-                                            {{ ProgramsDataBasedOnSelection.status }}
-                                        </span>
-                                        <span *ngIf="ProgramsDataBasedOnSelection.overdue" class="badge bg-danger ms-2">
-                                            <i class="fas fa-exclamation-triangle me-1"></i>Overdue
-                                        </span> -->
-                                    </div>
+                         <div class="card-body p-0 mt-3">
+                            <div class="p-3">
+                              <div class="row">
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Title Of Program</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.programTitle}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="state">
+                                    <div *ngIf="programForm.get('state')?.invalid && programForm.get('state')?.touched" class="text-danger">
+                                      State is required
+                                    </div> -->
+                                  </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Program Information Cards -->
-                        <div class="row g-3 mb-4">
-                            <!-- Basic Program Info -->
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-header bg-primary text-white">
-                                        <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Program Information</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-2">
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Program Title:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.programTitle }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Program Type:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.programType }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Program Status:</label>
-                                                   <span class="badge" [ngClass]="{
-                                            'bg-success': ProgramsDataBasedOnSelection.status === 'Completed',
-                                            'bg-warning text-dark': ProgramsDataBasedOnSelection.status === 'In Progress' || ProgramsDataBasedOnSelection.status === 'Program Execution Updated',
-                                            'bg-danger': ProgramsDataBasedOnSelection.status === 'Cancelled',
-                                            'bg-info': ProgramsDataBasedOnSelection.status === 'Scheduled',
-                                            'bg-secondary': !['Completed', 'In Progress', 'Cancelled', 'Scheduled', 'Program Execution Updated'].includes(ProgramsDataBasedOnSelection.status)
-                                        }">
-                                            {{ ProgramsDataBasedOnSelection.status }}
-                                        </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">KPI:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.kpi }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Start Date</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.startDate}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="district">
+                                    <div *ngIf="programForm.get('district')?.invalid && programForm.get('district')?.touched" class="text-danger">
+                                      District is required
+                                    </div> -->
+                                  </div>
                                 </div>
-                            </div>
-
-                            <!-- Agency & Location Info -->
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-header bg-success text-white">
-                                        <h6 class="mb-0"><i class="fas fa-building me-2"></i>Agency & Location</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-2">
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Agency Name:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.agencyName }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Location:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.programLocationName }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">District:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.district }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Mandal:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.mandal }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">End Date</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.endDate}}</label>
+                                    <!-- <input type="date" class="form-control" formControlName="dateOfMonitoring">
+                                    <div *ngIf="programForm.get('dateOfMonitoring')?.invalid && programForm.get('dateOfMonitoring')?.touched" class="text-danger">
+                                      Date is required
+                                    </div> -->
+                                  </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Activity Information -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-header bg-info text-white">
-                                        <h6 class="mb-0"><i class="fas fa-tasks me-2"></i>Activity Details</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Activity Name:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.activityName }}</p>
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Sub Activity Name:</label>
-                                                    <p class="mb-2">{{ ProgramsDataBasedOnSelection.subActivityName }}</p>
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <!-- <div class="col-md-3">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Activity ID:</label>
-                                                    <p class="mb-2"><span class="badge bg-light text-dark">{{ ProgramsDataBasedOnSelection.activityId }}</span></p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Sub Activity ID:</label>
-                                                    <p class="mb-2"><span class="badge bg-light text-dark">{{ ProgramsDataBasedOnSelection.subActivityId }}</span></p>
-                                                </div>
-                                            </div> -->
-                                      
-                                    </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">In Time</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.startTime}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="agencyName"> -->
+                                  </div>
                                 </div>
-                            </div>
-                              <!-- Schedule Info -->
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-header bg-warning text-dark">
-                                        <h6 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Schedule</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-2">
-                                            <div class="col-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Start Date:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-calendar me-1 text-success"></i>
-                                                        {{ ProgramsDataBasedOnSelection.startDate }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">End Date:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-calendar me-1 text-danger"></i>
-                                                        {{ ProgramsDataBasedOnSelection.endDate }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Start Time:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-clock me-1 text-primary"></i>
-                                                        {{ ProgramsDataBasedOnSelection.startTime }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">End Time:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-clock me-1 text-primary"></i>
-                                                        {{ ProgramsDataBasedOnSelection.endTime }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Out Time</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.endTime}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="programType"> -->
+                                  </div>
                                 </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Schedule & Contact Information -->
-                        <div class="row g-3 mb-4">
-                          
-                            <!-- Contact Info -->
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-header bg-secondary text-white">
-                                        <h6 class="mb-0"><i class="fas fa-user-tie me-2"></i>Contact Information</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-2">
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">SPOC Name:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-user me-1 text-info"></i>
-                                                        {{ ProgramsDataBasedOnSelection.spocName }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Contact Number:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-phone me-1 text-success"></i>
-                                                        <a href="tel:{{ ProgramsDataBasedOnSelection.spocContactNo }}" class="text-decoration-none">
-                                                            {{ ProgramsDataBasedOnSelection.spocContactNo }}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Budget Head</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.programType}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="programName"> -->
+                                  </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Timestamps -->
-                        <!-- <div class="row g-3">
-                            <div class="col-12">
-                                <div class="card border-0 shadow-sm">
-                                    <div class="card-header bg-dark text-white">
-                                        <h6 class="mb-0"><i class="fas fa-history me-2"></i>Timestamps</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Created On:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-plus-circle me-1 text-success"></i>
-                                                        {{ ProgramsDataBasedOnSelection.createdOn }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="info-item">
-                                                    <label class="fw-bold text-muted small">Last Updated:</label>
-                                                    <p class="mb-2">
-                                                        <i class="fas fa-edit me-1 text-warning"></i>
-                                                        {{ ProgramsDataBasedOnSelection.updatedOn }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Status</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.status}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="venueName"> -->
+                                  </div>
                                 </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Type of Activity</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.activityName}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="hostingAgencyName"> -->
+                                  </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                    <div class="mb-3">
+                                      <label class="fs-md fw-600 mb-1 d-block">Sub Activity</label>
+                                      <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.subActivityName}}</label>
+                                      <!-- <input type="text" class="form-control" formControlName="hostingAgencyName"> -->
+                                    </div>
+                                  </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">Name of the SPOC</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.spocName}}</label>
+                                    <!-- <input type="text" class="form-control" formControlName="spocName"> -->
+                                  </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                  <div class="mb-3">
+                                    <label class="fs-md fw-600 mb-1 d-block">SPOC Contact Number</label>
+                                    <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.spocContactNo}}</label>
+                                    <!-- <input type="tel" class="form-control" formControlName="spocContact">
+                                    <div *ngIf="programForm.get('spocContact')?.invalid && programForm.get('spocContact')?.touched" class="text-danger">
+                                      Valid 10-digit number required
+                                    </div> -->
+                                  </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                    <div class="mb-3">
+                                      <label class="fs-md fw-600 mb-1 d-block">Program Location</label>
+                                      <label class="fs-md fw-600">{{ProgramsDataBasedOnSelection?.programLocationName}}</label>
+                                      <!-- <input type="tel" class="form-control" formControlName="spocContact">
+                                      <div *ngIf="programForm.get('spocContact')?.invalid && programForm.get('spocContact')?.touched" class="text-danger">
+                                        Valid 10-digit number required
+                                      </div> -->
+                                    </div>
+                                  </div>
+                               
+                              </div>
                             </div>
-                        </div> -->
-                    </div>
-
-                    <!-- No Data Message -->
-                    <!-- <div *ngIf="!ProgramsDataBasedOnSelection || Object.keys(ProgramsDataBasedOnSelection).length === 0" class="text-center py-5">
-                        <div class="empty-state">
-                            <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">No Program Selected</h5>
-                            <p class="text-muted">Please select an agency and program to view details.</p>
-                        </div>
-                    </div> -->
+                          </div>
+                      
                 </div>
             </div>
         </div>
+        </div>
     </section>
 </main>
+
+
+<!-- Edit Program Modal -->
+<div class="modal fade" id="editProgramModal" tabindex="-1" aria-labelledby="editProgramModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProgramModalLabel">Edit Program Details</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editProgramForm" >
+          <div class="row">
+            <!-- Program Title -->
+            <!-- <div class="col-md-6 mb-3">
+              <label for="programTitle" class="form-label">Program Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="programTitle" formControlName="programTitle">
+              <div *ngIf="editFormControls['programTitle'].errors && editFormControls['programTitle'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['programTitle'].errors?.['required']">Program title is required</div>
+                <div *ngIf="editFormControls['programTitle'].errors?.['pattern']">Only letters and spaces are allowed</div>
+              </div>
+            </div> -->
+
+            <!-- Start Date -->
+            <div class="col-md-6 mb-3">
+              <label for="startDate" class="form-label">Start Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="startDate" formControlName="startDate">
+              <div *ngIf="editFormControls['startDate'].errors && editFormControls['startDate'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['startDate'].errors?.['required']">Start date is required</div>
+                <!-- <div *ngIf="editFormControls['startDate'].errors?.['pastDate']">Start date cannot be in the past</div> -->
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="col-md-6 mb-3">
+              <label for="endDate" class="form-label">End Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="endDate" formControlName="endDate">
+              <div *ngIf="editFormControls['endDate'].errors && editFormControls['endDate'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['endDate'].errors?.['required']">End date is required</div>
+                <div *ngIf="editFormControls['endDate'].errors?.['invalidEndDate']">End date must be after start date</div>
+              </div>
+            </div>
+
+            <!-- Start Time -->
+            <!-- <div class="col-md-6 mb-3">
+              <label for="startTime" class="form-label">Start Time <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" id="startTime" formControlName="startTime">
+              <div *ngIf="editFormControls['startTime'].errors && editFormControls['startTime'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['startTime'].errors?.['required']">Start time is required</div>
+              </div>
+            </div> -->
+<!--           
+            <div class="col-md-6 mb-3">
+              <label for="endTime" class="form-label">End Time <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" id="endTime" formControlName="endTime">
+              <div *ngIf="editFormControls['endTime'].errors && editFormControls['endTime'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['endTime'].errors?.['required']">End time is required</div>
+              </div>
+            </div> 
+            <div class="col-md-6 mb-3">
+              <label for="spocName" class="form-label">SPOC Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="spocName" formControlName="spocName">
+              <div *ngIf="editFormControls['spocName'].errors && editFormControls['spocName'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['spocName'].errors?.['required']">SPOC name is required</div>
+                <div *ngIf="editFormControls['spocName'].errors?.['pattern']">Only letters and spaces are allowed</div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="spocContactNo" class="form-label">SPOC Contact <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="spocContactNo" formControlName="spocContactNo">
+              <div *ngIf="editFormControls['spocContactNo'].errors && editFormControls['spocContactNo'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['spocContactNo'].errors?.['required']">Contact number is required</div>
+                <div *ngIf="editFormControls['spocContactNo'].errors?.['pattern']">Enter valid 10-digit mobile number</div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="locationId" class="form-label">Location ID <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="locationId" formControlName="locationId">
+              <div *ngIf="editFormControls['locationId'].errors && editFormControls['locationId'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['locationId'].errors?.['required']">Location ID is required</div>
+              </div>
+            </div> -->
+            <!-- Status -->
+            <div class="col-md-6 mb-3">
+              <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+              <select class="form-select" id="status" formControlName="status">
+                <option value="">Select Status</option>
+                <ng-container *ngFor="let val of ProgramStatusDropdown; let idx = index">
+                     <option  [value]="val" *ngIf="getStatus(idx, ProgramStatusDropdown, editProgramForm.get('status')?.value)">
+                    {{val}}
+                </option>
+                </ng-container>
+               
+                <!-- <option value="Program Execution Updated">Program Execution Updated</option>
+                <option value="Program Scheduled">Program Scheduled</option>
+                <option value="Program Completed">Program Completed</option>
+                <option value="Program Cancelled">Program Cancelled</option> -->
+              </select>
+              <div *ngIf="editFormControls['status'].errors && editFormControls['status'].touched" class="text-danger mt-1">
+                <div *ngIf="editFormControls['status'].errors?.['required']">Status is required</div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        <button type="button" class="btn btn-lime-green" (click)="ShowConfirmSession()" [disabled]="editProgramForm.invalid" >
+          Update Program
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModalDeleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalDeleteConfirmLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalDeleteConfirmLabel">Update Program</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Are you sure want to submit all Attendance Participants Details in current program?? -->
+                Are you sure you want to update Status for the current program? You cannot Revert any more once submitted!”
+          
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-lime-green" (click)="onSubmitEdit()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -358,9 +358,12 @@ private ensureImageLoaded(): Promise<void> {
   });
 }
 
+<<<<<<< HEAD
 
 // ...existing code...
 
+=======
+>>>>>>> 2401e8b24262e092761b31c513f3bbe14fdad2cc
 private async renderParticipantDetailsWithPagination(
   pdf: jsPDF, 
   detailsEl: HTMLElement, 
@@ -369,7 +372,11 @@ private async renderParticipantDetailsWithPagination(
   pageWidth: number, 
   pageHeight: number
 ): Promise<void> {
+<<<<<<< HEAD
   const recordsPerPage = 80;
+=======
+  const recordsPerPage = 60;
+>>>>>>> 2401e8b24262e092761b31c513f3bbe14fdad2cc
   const totalRecords = this.posts.length;
   
   if (totalRecords === 0) {
@@ -415,6 +422,13 @@ private async renderParticipantDetailsWithPagination(
     pdf.addPage();
     
     try {
+<<<<<<< HEAD
+=======
+      // Increase font size for table rendering by temporarily modifying the DOM
+      const originalFontSize = detailsEl.style.fontSize;
+      detailsEl.style.fontSize = '16px'; // Set desired font size
+      
+>>>>>>> 2401e8b24262e092761b31c513f3bbe14fdad2cc
       const detailsCanvas = await html2canvas(detailsEl, { 
         scale: 2,
         useCORS: true,
@@ -424,6 +438,12 @@ private async renderParticipantDetailsWithPagination(
         width: detailsEl.scrollWidth,
         height: detailsEl.scrollHeight
       });
+<<<<<<< HEAD
+=======
+
+      // Restore original font size
+      detailsEl.style.fontSize = originalFontSize;
+>>>>>>> 2401e8b24262e092761b31c513f3bbe14fdad2cc
       
       // Always use full page width minus margins - NO SCALING
       const finalWidth = pageWidth - 2 * marginX;
@@ -438,7 +458,11 @@ private async renderParticipantDetailsWithPagination(
       pdf.addImage(detailsData, 'PNG', marginX, marginY, finalWidth, Math.min(finalHeight, maxHeight));
       
       // Add page footer
+<<<<<<< HEAD
       pdf.setFontSize(10);
+=======
+      pdf.setFontSize(10); // Increase footer font size as well
+>>>>>>> 2401e8b24262e092761b31c513f3bbe14fdad2cc
       pdf.setTextColor(128, 128, 128);
       pdf.text(
         `Page ${pageIndex + 1} of ${totalPages} (Records ${startIndex + 1}-${endIndex} of ${totalRecords})`, 
@@ -449,7 +473,11 @@ private async renderParticipantDetailsWithPagination(
     } catch (error) {
       console.error(`Error rendering participant details page ${pageIndex + 1}:`, error);
       
+<<<<<<< HEAD
       pdf.setFontSize(12);
+=======
+      pdf.setFontSize(14); // Increase error font size
+>>>>>>> 2401e8b24262e092761b31c513f3bbe14fdad2cc
       pdf.setTextColor(255, 0, 0);
       pdf.text(`Error rendering participant details for page ${pageIndex + 1}`, marginX, marginY + 50);
     }

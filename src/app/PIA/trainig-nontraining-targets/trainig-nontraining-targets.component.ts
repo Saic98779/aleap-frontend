@@ -42,12 +42,20 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      this.generateFinancialYears() 
      
      this.GetOutComes()
+     this.getActivitiesList()
      
      this.formDetails()
    }
      onTabChange(activeTab:any){
+
     this.activeTab = activeTab;
+     this.getActivitiesList()
   }
+   activitiesList: any[] = [];
+  subActivitiesList: any[] = [];
+  selectedTargetType: string = 'training'; // 'training' or 'non-training'
+
+  
  
    selectedAgencyId: any;
    FinanCialYear: any;
@@ -123,17 +131,17 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      return this.targetsScreenForm.controls;
    }
  
-   formDetails() {
-       this.targetsScreenForm = new FormGroup({
-         "outcomeId": new FormControl("", [Validators.required]),
-         "financialYear": new FormControl(this.selectedFinancialYear, [Validators.required]),
-         "q1":new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
-         "q2": new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
-         "q3": new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
-         "q4": new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
-       }
-     );
-   }
+  //  formDetails() {
+  //      this.targetsScreenForm = new FormGroup({
+  //        "outcomeId": new FormControl("", [Validators.required]),
+  //        "financialYear": new FormControl(this.selectedFinancialYear, [Validators.required]),
+  //        "q1":new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
+  //        "q2": new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
+  //        "q3": new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
+  //        "q4": new FormControl("",[Validators.required,Validators.pattern(/^[1-9]\d*$/)]),
+  //      }
+  //    );
+  //  }
    tableheaderList:any
    getBasedOnYearSelection(val:any){
      this.getDataByAgencyAndYear(this.selectedAgencyId,val)
@@ -141,7 +149,8 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
    }
      GetProgramsByAgency(value: any) {
        this.tableList=[]
-       this.tableheaderList =[]
+       this.tableheaderList =[] 
+       this.getActivitiesList()
        this.getDataByAgencyAndYear(value,this.selectedFinancialYear)
        this.getDataByAgencyAndYearNonTraing(value,this.selectedFinancialYear)
        // Destroy existing DataTable if it exists
@@ -149,7 +158,7 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
       
      }
      getDataByAgencyAndYear(agency: any,year:any) {
-       this._commonService.getDataByUrl(APIS.progressMonitoring.getTrainigTargetsAchievements+agency+'?year='+year).subscribe({
+       this._commonService.getDataByUrl(APIS.progressMonitoring.getTrainigTargetsAchievementsNew+year+'&agencyId='+agency).subscribe({
          next: (dataList: any) => {
            if(dataList?.length) {
              console.log(dataList, 'dataList');
@@ -191,7 +200,8 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      }
      tableListNonTraining:any=[]
       getDataByAgencyAndYearNonTraing(agency: any,year:any) {
-       this._commonService.getDataByUrl(APIS.progressMonitoring.getNonTrainigTargetsAchievements+agency+'?year='+year).subscribe({
+
+       this._commonService.getDataByUrl(APIS.progressMonitoring.getNonTrainigTargetsAchievementsNew+year+'&agencyId='+agency).subscribe({
          next: (dataList: any) => {
            if(dataList?.length) {
              console.log(dataList, 'dataList');
@@ -247,23 +257,23 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      }
      editRow:boolean = false;
      physicalTargetId:any=''
-     openTargetsModal(type:any,item?:any) {
-       this.editRow= type === 'edit' ? true : false;
-       this.targetsScreenForm.reset();
+    //  openTargetsModal(type:any,item?:any) {
+    //    this.editRow= type === 'edit' ? true : false;
+    //    this.targetsScreenForm.reset();
        
-       this.physicalTargetId=''
-       if(this.editRow){
-         this.physicalTargetId = item.physicalTargetId;
-         this.targetsScreenForm.patchValue({...item});
-       }
-       else{
-         this.targetsScreenForm.patchValue({financialYear:this.selectedFinancialYear,})
-       }
+    //    this.physicalTargetId=''
+    //    if(this.editRow){
+    //      this.physicalTargetId = item.physicalTargetId;
+    //      this.targetsScreenForm.patchValue({...item});
+    //    }
+    //    else{
+    //      this.targetsScreenForm.patchValue({financialYear:this.selectedFinancialYear,})
+    //    }
        
-       const modal1 = new bootstrap.Modal(document.getElementById('addTarget'));
-       modal1.show();
+    //    const modal1 = new bootstrap.Modal(document.getElementById('addTarget'));
+    //    modal1.show();
  
-     }
+    //  }
  
      closeModalTargets(): void {
        
@@ -308,49 +318,49 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
        }, 0);
      }
  
-     submitTarget(){
-       console.log(this.targetsScreenForm.value, 'targetsScreenForm');
-       let payload: any = { ...this.targetsScreenForm.value };
-       payload['outcomeId'] = Number(this.targetsScreenForm.value.outcomeId);
-       payload['agencyId'] = this.selectedAgencyId;
-       if(this.editRow){
-         this._commonService
-         .update(APIS.physicalTagets.updateTargets, payload,this.physicalTargetId)
-         .subscribe({
-           next: (data) => {
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-             this.toastrService.success('Physical Targets updated Successfully', "Success!");
-             this.targetsScreenForm.reset();
-             this.GetProgramsByAgency(this.selectedAgencyId);
-           },
-           error: (err) => {
-             console.log(err, 'err');
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-             this.toastrService.error(err, "Physical Targets Creation Error!");
-             new Error(err);
-           },
-         });
-       }
-       else{
-         this._commonService
-         .add(APIS.physicalTagets.saveTargets, payload)
-         .subscribe({
-           next: (data) => {
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-             this.toastrService.success('Physical Targets Added Successfully', "Success!");
-             this.targetsScreenForm.reset();
-             this.GetProgramsByAgency(this.selectedAgencyId);
-           },
-           error: (err) => {
-             console.log(err, 'err');
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-             this.toastrService.error(err, "Physical Targets Creation Error!");
-             new Error(err);
-           },
-         });
-       }
+    //  submitTarget(){
+    //    console.log(this.targetsScreenForm.value, 'targetsScreenForm');
+    //    let payload: any = { ...this.targetsScreenForm.value };
+    //    payload['outcomeId'] = Number(this.targetsScreenForm.value.outcomeId);
+    //    payload['agencyId'] = this.selectedAgencyId;
+    //    if(this.editRow){
+    //      this._commonService
+    //      .update(APIS.physicalTagets.updateTargets, payload,this.physicalTargetId)
+    //      .subscribe({
+    //        next: (data) => {
+    //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    //          this.toastrService.success('Physical Targets updated Successfully', "Success!");
+    //          this.targetsScreenForm.reset();
+    //          this.GetProgramsByAgency(this.selectedAgencyId);
+    //        },
+    //        error: (err) => {
+    //          console.log(err, 'err');
+    //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    //          this.toastrService.error(err, "Physical Targets Creation Error!");
+    //          new Error(err);
+    //        },
+    //      });
+    //    }
+    //    else{
+    //      this._commonService
+    //      .add(APIS.physicalTagets.saveTargets, payload)
+    //      .subscribe({
+    //        next: (data) => {
+    //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    //          this.toastrService.success('Physical Targets Added Successfully', "Success!");
+    //          this.targetsScreenForm.reset();
+    //          this.GetProgramsByAgency(this.selectedAgencyId);
+    //        },
+    //        error: (err) => {
+    //          console.log(err, 'err');
+    //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    //          this.toastrService.error(err, "Physical Targets Creation Error!");
+    //          new Error(err);
+    //        },
+    //      });
+    //    }
        
-     }
+    //  }
       // delete Expenditure
       deletePhysicalId:any ={}
       deleteExpenditure(item: any) {
@@ -398,5 +408,166 @@ export class TrainigNontrainingTargetsComponent implements OnInit {
      }
      this.GetProgramsByAgency(this.selectedAgencyId);
       } 
+       formDetails() {
+    this.targetsScreenForm = new FormGroup({
+      "activityId": new FormControl("", [Validators.required]),
+      "subActivityId": new FormControl("", [Validators.required]),
+      "financialYear": new FormControl(this.selectedFinancialYear, [Validators.required]),
+      "q1Target": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q2Target": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q3Target": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q4Target": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q1Budget": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q2Budget": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q3Budget": new FormControl("", [Validators.required, Validators.min(0)]),
+      "q4Budget": new FormControl("", [Validators.required, Validators.min(0)])
+    });
+  }
+
+  getActivitiesList() {
+    // Replace with your actual API endpoint for activities
+    let Url = this.activeTab==='nav-twos'? APIS.programCreation.getActivityListbyId:APIS.nontrainingtargets.getBudgetHeadList
+     this._commonService.getById(Url,this.agencyId?this.agencyId:this.selectedAgencyId).subscribe({
+      next: (data: any) => {
+        this.activitiesList = this.activeTab==='nav-twos'?data.data:data
+      },
+      error: (err: any) => {
+        this.activitiesList = [];
+      }
+    })
+  }
+  
+
+  onActivityChange(event: any) {
+    const activityId = event.target.value;
+    if (activityId) {
+      this.getSubActivitiesByActivity(activityId);
+    } else {
+      this.subActivitiesList = [];
+    }
+    // Reset sub activity selection
+    this.targetsScreenForm.patchValue({ subActivityId: "" });
+  }
+
+  getSubActivitiesByActivity(activityId: any) {
+    let Url = this.activeTab==='nav-twos'? APIS.programCreation.getSubActivityListByActivity:APIS.nontrainingtargets.getSubActivityListInTargets
+    this._commonService.getDataByUrl(`${Url+'/'+activityId}`).subscribe({
+      next: (data: any) => {
+        this.subActivitiesList = this.activeTab==='nav-twos'?data.data.subActivities:data;
+      },
+      error: (err: any) => {
+        this.subActivitiesList = [];
+      }
+    })
+    // // Replace with your actual API endpoint for sub-activities
+    // this._commonService.getDataByUrl(`${APIS.masterList.subActivitiesList}/${activityId}`).subscribe((res: any) => {
+    //   this.subActivitiesList = res.data || [];
+    // }, (error) => {
+    //   console.error('Error fetching sub-activities:', error);
+    //   this.subActivitiesList = [];
+    // });
+  }
+
+
+  openTargetsModal(type: any, item?: any) {
+    this.editRow = type === 'edit';
+    this.selectedTargetType = this.activeTab === 'nav-twos' ? 'training' : 'non-training';
+    
+    this.targetsScreenForm.reset();
+    
+    if (this.editRow && item) {
+      this.physicalTargetId = item.physicalTargetId;
+      this.targetsScreenForm.patchValue({
+        activityId: item.activityId,
+        subActivityId: item.subActivityId,
+        financialYear: item.financialYear,
+        q1Target: item.q1Target,
+        q2Target: item.q2Target,
+        q3Target: item.q3Target,
+        q4Target: item.q4Target,
+        q1Budget: item.q1Budget,
+        q2Budget: item.q2Budget,
+        q3Budget: item.q3Budget,
+        q4Budget: item.q4Budget
+      });
+      
+      // Load sub-activities for the selected activity
+      if (item.activityId) {
+        this.getSubActivitiesByActivity(item.activityId);
+      }
+    } else {
+      this.targetsScreenForm.patchValue({
+        financialYear: this.selectedFinancialYear
+      });
+    }
+    
+    const modal1 = new bootstrap.Modal(document.getElementById('addTarget'));
+    modal1.show();
+  }
+
+  submitTarget() {
+    if (this.targetsScreenForm.invalid) {
+      this.targetsScreenForm.markAllAsTouched();
+      return;
+    }
+
+    console.log(this.targetsScreenForm.value, 'targetsScreenForm');
+    
+    let payload: any = {
+      agencyId: this.selectedAgencyId,
+      subActivityId: Number(this.targetsScreenForm.value.subActivityId),
+      financialYear: this.targetsScreenForm.value.financialYear,
+      q1Target: Number(this.targetsScreenForm.value.q1Target),
+      q2Target: Number(this.targetsScreenForm.value.q2Target),
+      q3Target: Number(this.targetsScreenForm.value.q3Target),
+      q4Target: Number(this.targetsScreenForm.value.q4Target),
+      q1Budget: Number(this.targetsScreenForm.value.q1Budget),
+      q2Budget: Number(this.targetsScreenForm.value.q2Budget),
+      q3Budget: Number(this.targetsScreenForm.value.q3Budget),
+      q4Budget: Number(this.targetsScreenForm.value.q4Budget)
+    };
+
+    // Determine API endpoint based on target type
+    const apiEndpoint = this.selectedTargetType === 'training' 
+      ? APIS.progressMonitoring.saveTrainingTargets 
+      : APIS.progressMonitoring.saveNonTrainingTargets;
+
+    if (this.editRow) {
+      this._commonService.update(apiEndpoint, payload, this.physicalTargetId).subscribe({
+        next: (data) => {
+          this.handleSubmitSuccess(`${this.selectedTargetType === 'training' ? 'Training' : 'Non-Training'} Targets updated Successfully`);
+        },
+        error: (err) => {
+          this.handleSubmitError(err);
+        }
+      });
+    } else {
+      this._commonService.add(apiEndpoint, payload).subscribe({
+        next: (data) => {
+          this.handleSubmitSuccess(`${this.selectedTargetType === 'training' ? 'Training' : 'Non-Training'} Targets Added Successfully`);
+        },
+        error: (err) => {
+          this.handleSubmitError(err);
+        }
+      });
+    }
+  }
+
+  private handleSubmitSuccess(message: string) {
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    this.toastrService.success(message, "Success!");
+    this.targetsScreenForm.reset();
+    this.GetProgramsByAgency(this.selectedAgencyId);
+    this.closeModalTargets();
+  }
+
+  private handleSubmitError(err: any) {
+    console.log(err, 'err');
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    this.toastrService.error(err?.error?.message || err, "Target Creation Error!");
+  }
  }
+
+ // ...existing code...
+
  

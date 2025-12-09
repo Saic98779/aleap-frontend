@@ -50,6 +50,8 @@ export const APIS = {
         updateOverDue: API_BASE_URL + '/',
         getProgramsListByDistrictDetails: API_BASE_URL + '/agency/programs/district/',
         resheduleData: API_BASE_URL + '/program-reschedule-data/',
+        updateProgramStatus: API_BASE_URL + '/programs/status/update',
+        getProgramStatus: API_BASE_URL + '/program-status',
     },
     resheduleProgram:{
         getResheduleData: API_BASE_URL + '/program-reschedule-data/programs/',
@@ -139,6 +141,7 @@ export const APIS = {
     nontrainingtargets:{
         getBudgetHeadList: API_BASE_URL + '/progress/monitoring/get/activities/',
         getSubActivityList: API_BASE_URL + '/non-training/getAll/subActivities/',
+        getSubActivityListInTargets: API_BASE_URL + '/non-training/getAll/subActivities',
         getResourceList: API_BASE_URL + '/non-training/resources/non-training-activity?nonTrainingActivityId=',
         getSelectedOrganization: API_BASE_URL + '/selected-organizations',
         getTravelList: API_BASE_URL + '/api/travel/',
@@ -165,6 +168,7 @@ export const APIS = {
         saveNonTrainingtargetsCandidate: API_BASE_URL + '/save',
         getNonTrainingtargetsCandidate: API_BASE_URL + '/by-subactivity?subActivityId=',
 
+
         tihcl:{
             getCorpusList: API_BASE_URL + '/corpusDebitFinancing',
             getTihclData: API_BASE_URL + '/listing-on-nse/sub-activity/',
@@ -182,6 +186,20 @@ export const APIS = {
             deletedataVendor_doc: API_BASE_URL + '/vendors/',
             updatedataVendor_doc: API_BASE_URL + '/vendors/',
         },
+        code:{
+            getCodeITData: API_BASE_URL + '/non-training/consumables/bulk/sub-activity/',
+            saveCodeITData: API_BASE_URL + '/non-training/consumables/bulk/save',
+            deleteCodeITData: API_BASE_URL + '/non-training/consumables/bulk/delete/',
+            updateCodeITData: API_BASE_URL + '/non-training/consumables/bulk/update/',
+        },
+       
+        consumablesTransactions: {
+            getById: API_BASE_URL + '/non-training/consumables/transactions/',
+            getBySubActivity: API_BASE_URL + '/non-training/consumables/transactions/sub-activity/',
+            save: API_BASE_URL + '/non-training/consumables/transactions/save',
+            update: API_BASE_URL + '/non-training/consumables/transactions/update/',
+            delete: API_BASE_URL + '/non-training/consumables/transactions/delete/',
+        },
         updateTechnologyAdoption: API_BASE_URL + '/wehub_sdg/update',
         saveTechnologyAdoption: API_BASE_URL + '/wehub_sdg/save',
         getTechnologyAdoption: API_BASE_URL + '/wehub_sdg/sub-activity/',
@@ -192,8 +210,14 @@ export const APIS = {
         getTrainigAndNonTraining: API_BASE_URL + '/progress/monitoring/non-training-targets',
         getNonTrainingProgress: API_BASE_URL + '/progress/monitoring/training-targets',
         getTrainigTargetsAchievements: API_BASE_URL + '/training/targets-and-achievements/agency/',
+        getTrainigTargetsAchievementsNew: API_BASE_URL + '/training/targets/by-agency?year=',
         getNonTrainigTargetsAchievements: API_BASE_URL + '/non-training/targets-and-achievements/agency/',
+        getNonTrainigTargetsAchievementsNew: API_BASE_URL + '/non-training/targets/by-agency?year=',
+        saveTrainingTargets: API_BASE_URL + '/training-target/save',
+        saveNonTrainingTargets: API_BASE_URL + '/non-training/target/save',
     },
+  
+    
     captureOutcome:{
         getParticipantData: API_BASE_URL + '/getParticipantsByMobileNo/',
         getParticipantDataByMobile: API_BASE_URL + '/participants/search-by-mobile/',

@@ -64,6 +64,7 @@
                                         <th>Program Name</th>
                                         <th>Amount (INR)</th>
                                         <th>Bill No.</th>
+                                        <th>Purpose</th>
                                         <th>Upload Bill/Invoice</th>
                                         
                                         
@@ -108,6 +109,7 @@
                                         <td>{{item.programName}}</td>
                                         <td>{{(item?.cost?item?.cost:item?.allocatedCost) | commaSeperationIndia}}</td>
                                         <td>{{item?.billNo}}</td>
+                                         <td>{{item?.purpose}}</td>
                                            <td *ngIf="item?.uploadBillUrl?.split('.')[1]!='pdf'">
                                                  <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
                                                        <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')" rel="noopener noreferrer">
@@ -143,7 +145,7 @@
                                         <td></td>
                                         <td>Total</td>
                                         <td>{{TotalAmount | commaSeperationIndia}}</td>
-                                        
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         
@@ -179,6 +181,7 @@
                                         <th>Program Name</th>
                                         <th>Amount (INR)</th>
                                         <th>Bill No.</th>
+                                        <th>Purpose</th>
                                         <th>Upload Bill/Invoice</th>
                                         
                                         
@@ -223,6 +226,7 @@
                                         <td>{{item.programName}}</td>
                                         <td>{{(item?.cost?item?.cost:item?.allocatedCost) | commaSeperationIndia}}</td>
                                         <td>{{item?.billNo}}</td>
+                                         <td>{{item?.purpose}}</td>
                                            <td *ngIf="item?.uploadBillUrl?.split('.')[1]!='pdf'">
                                                  <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
                                                        <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')" rel="noopener noreferrer">
@@ -258,7 +262,7 @@
                                         <td></td>
                                         <td>Total</td>
                                         <td>{{TotalAmount | commaSeperationIndia}}</td>
-                                        
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         
@@ -295,6 +299,7 @@
                                         <th>Program Name</th>
                                         <th>Amount (INR)</th>
                                         <th>Bill No.</th>
+                                        <th>Purpose</th>
                                         <th>Upload Bill/Invoice</th>
                                         
                                         
@@ -337,6 +342,7 @@
                                         <td>{{item.programName}}</td>
                                         <td>{{(item?.cost?item?.cost:item?.allocatedCost) | commaSeperationIndia}}</td>
                                         <td>{{item?.billNo}}</td>
+                                         <td>{{item?.purpose}}</td>
                                            <td *ngIf="item?.uploadBillUrl?.split('.')[1]!='pdf'">
                                                  <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
                                                        <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')" rel="noopener noreferrer">
@@ -371,7 +377,7 @@
                                         <td></td>
                                         <td>Total</td>
                                         <td>{{TotalAmount | commaSeperationIndia}}</td>
-                                        
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         
