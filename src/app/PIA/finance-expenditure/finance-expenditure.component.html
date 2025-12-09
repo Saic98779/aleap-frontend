@@ -81,10 +81,11 @@
                                         <th>Bill No.</th>
                                         <th>Bill Date</th>
                                         <th>Payee Name</th>
-                                        <th>Bank</th>
-                                        <th>IFSC Code</th>
+                                        <!-- <th>Bank</th>
+                                        <th>IFSC Code</th> -->
                                         <th>Mode of Payment</th>
                                         <th>Status</th>
+                                        <th>Purpose</th>
                                         <th>Upload Bill/Invoice</th>
                                          <th>SPIU Comment</th>
                                         <th>Agency Response</th>
@@ -106,10 +107,11 @@
                                         <td>{{item?.billNo}}</td>
                                         <td>{{item?.billDate}}</td>
                                         <td>{{item?.payeeName}}</td>
-                                        <td>{{item?.bankName}}</td>
-                                        <td>{{item?.ifscCode}}</td>
+                                        <!-- <td>{{item?.bankName}}</td>
+                                        <td>{{item?.ifscCode}}</td> -->
                                         <td>{{item?.modeOfPayment}}</td>
                                         <td>{{item?.status}}</td>
+                                        <td>{{item?.purpose}}</td>
                                            <td *ngIf="item?.uploadBillUrl?.split('.')[1]!='pdf'">
                                                  <ng-container *ngIf="item?.uploadBillUrl?.split('public_html/')?.[1]">
                                                        <a (click)="showImagePreview(imageUrlDownloadPath,item?.uploadBillUrl?.split('public_html/')?.[1],'img')" rel="noopener noreferrer">
