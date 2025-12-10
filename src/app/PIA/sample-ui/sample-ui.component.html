@@ -1,0 +1,465 @@
+<div class="container-fluid mt-3">
+  <div class="card mb-3">
+    <div class="card-header bg-transparent">
+      <div class="row align-items-center mb-3">
+        <div class="col-12">
+          <h6 class="fw-600 mb-2">Unit Management System</h6>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <!-- District DDL -->
+        <div class="col-md-3 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>District</mat-label>
+            <mat-select [(ngModel)]="selectedDistrict" (selectionChange)="onDistrictChange()" [disabled]="isLoadingDistricts">
+              <mat-select-filter [array]="districts" [displayMember]="'districtName'" (filteredReturn)="onDistrictsFiltered($event)">
+              </mat-select-filter>
+              <mat-option value="">Select District</mat-option>
+              <mat-option *ngFor="let district of districtsFiltered" [value]="district.districtName">
+                {{ district.districtName }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="isLoadingDistricts">Loading districts...</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Mandal DDL -->
+        <div class="col-md-3 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Mandal</mat-label>
+            <mat-select [(ngModel)]="selectedMandal" (selectionChange)="onMandalChange()" [disabled]="!selectedDistrict || isLoadingMandals">
+              <mat-select-filter [array]="mandals" [displayMember]="'mandalName'" (filteredReturn)="onMandalsFiltered($event)">
+              </mat-select-filter>
+              <mat-option value="">Select Mandal</mat-option>
+              <mat-option *ngFor="let mandal of mandalsFiltered" [value]="mandal.mandalId">
+                {{ mandal.mandalName }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="isLoadingMandals">Loading mandals...</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Village DDL (Searchable) -->
+        <div class="col-md-3 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Village </mat-label>
+            <mat-select [(ngModel)]="selectedVillage" (selectionChange)="onVillageChange()" [disabled]="!selectedMandal || isLoadingVillages">
+              <mat-select-filter [array]="villages" [displayMember]="'villageName'" (filteredReturn)="onVillagesFiltered($event)">
+              </mat-select-filter>
+              <mat-option value="">Select Village</mat-option>
+              <mat-option *ngFor="let village of villagesFiltered" [value]="village.villageName">
+                {{ village.villageName }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="isLoadingVillages">Loading villages...</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Units Searchable DDL -->
+        <div class="col-md-3 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Units</mat-label>
+            <mat-select [(ngModel)]="selectedUnit" (selectionChange)="onUnitChange($event.value)" [disabled]="!selectedVillage || isLoadingUnits">
+              <mat-select-filter [array]="units" [displayMember]="'unitName'" (filteredReturn)="onUnitsFiltered($event)">
+              </mat-select-filter>
+              <mat-option value="">Select Unit</mat-option>
+              <mat-option *ngFor="let unit of unitsFiltered" [value]="unit">
+                {{ unit.unitName }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="isLoadingUnits">Loading units...</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+     
+    <!-- Unit Details Section -->
+    <div class="row mt-4" *ngIf="unitDetails">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Unit Details</h5>
+                </div>
+                <div class="card-body">
+                     <ul class="nav nav-tabs mb-3" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="basicInfo-tab" data-bs-toggle="tab" href="#basicInfo" role="tab">Basic Information</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="addressInfo-tab" data-bs-toggle="tab" href="#addressInfo" role="tab">Address & Location</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="businessInfo-tab" data-bs-toggle="tab" href="#businessInfo" role="tab">Business Details</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="additionalInfo-tab" data-bs-toggle="tab" href="#additionalInfo" role="tab">Additional Information</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                    
+                        <!-- Basic Information Tab -->
+                        <div class="tab-pane fade show active" id="basicInfo" role="tabpanel">
+                            <div class="row">
+                                <!-- Unit Details Section -->
+                                <div class="col-12 mb-4">
+                                    <h6 class="fw-bold text-primary mb-3">Unit Details</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Unit Name:</label>
+                                            <div>{{ unitDetails.unitName || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Unit Holder/Owner Name:</label>
+                                            <div>{{ unitDetails.unitHolderOrOwnerName || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Category:</label>
+                                            <div>{{ unitDetails.category || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Department:</label>
+                                            <div>{{ unitDetails.departmentName || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Current Status:</label>
+                                            <div>{{ unitDetails.currentStatus || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Unique Number:</label>
+                                            <div>{{ unitDetails.uniqueNo || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Personal Details Section -->
+                                <div class="col-12 mb-4">
+                                    <h6 class="fw-bold text-primary mb-3">Personal Details</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Full Name:</label>
+                                            <div>{{ unitDetails.firstMiddleLastName || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Date of Birth:</label>
+                                            <div>{{ unitDetails.dateOfBirth || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Gender:</label>
+                                            <div>{{ unitDetails.gender || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Caste:</label>
+                                            <div>{{ unitDetails.caste || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Nationality:</label>
+                                            <div>{{ unitDetails.nationality || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Qualification:</label>
+                                            <div>{{ unitDetails.qualification || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Identity Documents Section -->
+                                <div class="col-12">
+                                    <h6 class="fw-bold text-primary mb-3">Identity Documents</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Aadhar Number:</label>
+                                            <div>{{ unitDetails.aadharNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">PAN:</label>
+                                            <div>{{ unitDetails.pan || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Passport Number:</label>
+                                            <div>{{ unitDetails.passportNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">DIN:</label>
+                                            <div>{{ unitDetails.din || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address & Location Tab -->
+                        <div class="tab-pane fade" id="addressInfo" role="tabpanel">
+                            <div class="row">
+                                <!-- Unit Address Section -->
+                                <div class="col-12 mb-4">
+                                    <h6 class="fw-bold text-primary mb-3">Unit Address</h6>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label fw-bold">Complete Address:</label>
+                                            <div>{{ unitDetails.unitAddress || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Door Number:</label>
+                                            <div>{{ unitDetails.doorNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Floor Number:</label>
+                                            <div>{{ unitDetails.floorNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Street:</label>
+                                            <div>{{ unitDetails.street || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Locality:</label>
+                                            <div>{{ unitDetails.locality || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Village:</label>
+                                            <div>{{ unitDetails.village || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Ward:</label>
+                                            <div>{{ unitDetails.ward || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Mandal:</label>
+                                            <div>{{ unitDetails.mandal || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">District:</label>
+                                            <div>{{ unitDetails.district || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Pin Code:</label>
+                                            <div>{{ unitDetails.pinCode || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Latitude:</label>
+                                            <div>{{ unitDetails.latitude || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Longitude:</label>
+                                            <div>{{ unitDetails.longitude || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Communication Address Section -->
+                                <div class="col-12">
+                                    <h6 class="fw-bold text-primary mb-3">Communication Address</h6>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label fw-bold">Communication Address:</label>
+                                            <div>{{ unitDetails.communicationAddress || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Door Number:</label>
+                                            <div>{{ unitDetails.commDoorNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Building Name:</label>
+                                            <div>{{ unitDetails.commNameOfTheBuilding || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Street:</label>
+                                            <div>{{ unitDetails.commStreet || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Locality:</label>
+                                            <div>{{ unitDetails.commLocality || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Landmark:</label>
+                                            <div>{{ unitDetails.commLandmark || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Village:</label>
+                                            <div>{{ unitDetails.commVillage || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Mandal:</label>
+                                            <div>{{ unitDetails.commMandal || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">District:</label>
+                                            <div>{{ unitDetails.commDistrict || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Pin Code:</label>
+                                            <div>{{ unitDetails.commPinCode || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business Details Tab -->
+                        <div class="tab-pane fade" id="businessInfo" role="tabpanel">
+                            <div class="row">
+                                <!-- Registration Details Section -->
+                                <div class="col-12 mb-4">
+                                    <h6 class="fw-bold text-primary mb-3">Registration Details</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Registration Number:</label>
+                                            <div>{{ unitDetails.registrationNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Registration Under:</label>
+                                            <div>{{ unitDetails.registrationUnder || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Date of Registration:</label>
+                                            <div>{{ unitDetails.dateOfRegistration || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Incorporation Date:</label>
+                                            <div>{{ unitDetails.incorporationDate  || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Commence Date:</label>
+                                            <div>{{ unitDetails.commenceDate  || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">GST Registration No:</label>
+                                            <div>{{ unitDetails.gstRegNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Udyam Registration No:</label>
+                                            <div>{{ unitDetails.udyamRegistrationNo || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Udyam Aadhar Registration No:</label>
+                                            <div>{{ unitDetails.udyamAadharRegistrationNo || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Business Information Section -->
+                                <div class="col-12 mb-4">
+                                    <h6 class="fw-bold text-primary mb-3">Business Information</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Enterprise Type:</label>
+                                            <div>{{ unitDetails.enterpriseType || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Organization Type:</label>
+                                            <div>{{ unitDetails.orgnType || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Nature of Business:</label>
+                                            <div>{{ unitDetails.natureOfBusiness || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">NIC Code:</label>
+                                            <div>{{ unitDetails.nicCode || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label fw-bold">Product Description:</label>
+                                            <div>{{ unitDetails.productDesc || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Financial Details Section -->
+                                <div class="col-12 mb-4">
+                                    <h6 class="fw-bold text-primary mb-3">Financial Details</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Unit Cost/Investment:</label>
+                                            <div>₹ {{ unitDetails.unitCostOrInvestment || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Working Capital:</label>
+                                            <div>₹ {{ unitDetails.workingCapital || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Net Turnover (Rupees):</label>
+                                            <div>₹ {{ unitDetails.netTurnoverRupees || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Load KVA:</label>
+                                            <div>{{ unitDetails.loadKva || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Employee Details Section -->
+                                <div class="col-12">
+                                    <h6 class="fw-bold text-primary mb-3">Employee Details</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Total Male Employees:</label>
+                                            <div>{{ unitDetails.maleEmpsTotal || 'N/A' }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Total Female Employees:</label>
+                                            <div>{{ unitDetails.femaleEmpsTotal || 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information Tab (Editable) -->
+                        <div class="tab-pane fade" id="additionalInfo" role="tabpanel">
+                            <div class="row mb-3">
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label fw-bold">1. What are your top 5 products?</label>
+                                    <div class="row">
+                                        <div class="col-md-2 mb-2" *ngFor="let product of topProducts; let i = index">
+                                            <input type="text" class="form-control" [(ngModel)]="topProducts[i]" placeholder="Product {{i+1}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label fw-bold">2. Are you exporting out of India?</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="exporting" [(ngModel)]="isExporting" [value]="true" id="exportYes">
+                                            <label class="form-check-label" for="exportYes">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="exporting" [(ngModel)]="isExporting" [value]="false" id="exportNo">
+                                            <label class="form-check-label" for="exportNo">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label fw-bold">3. What additional support do you need?</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" [(ngModel)]="supportNeeded.marketing" id="supportMarketing">
+                                            <label class="form-check-label" for="supportMarketing">Marketing</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" [(ngModel)]="supportNeeded.rawMaterials" id="supportRawMaterials">
+                                            <label class="form-check-label" for="supportRawMaterials">Raw Materials</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" [(ngModel)]="supportNeeded.finance" id="supportFinance">
+                                            <label class="form-check-label" for="supportFinance">Finance</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right mt-3">
+                                    <!-- (click)="updateAdditionalInfo()" -->
+                                    <button mat-raised-button color="accent" class="btn btn-primary" >
+                                        <mat-icon>save</mat-icon>
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
