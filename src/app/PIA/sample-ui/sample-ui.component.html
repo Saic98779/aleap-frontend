@@ -76,11 +76,11 @@
 
      
     <!-- Unit Details Section -->
-    <div class="row mt-4" *ngIf="unitDetails">
+    <div class="row mt-3" *ngIf="unitDetails">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Unit Details</h5>
+                    <h6>Unit Details</h6>
                 </div>
                 <div class="card-body">
                      <ul class="nav nav-tabs mb-3" role="tablist">
@@ -101,32 +101,32 @@
                     
                         <!-- Basic Information Tab -->
                         <div class="tab-pane fade show active" id="basicInfo" role="tabpanel">
-                            <div class="row">
+                            <div class="row fs-14">
                                 <!-- Unit Details Section -->
                                 <div class="col-12 mb-4">
                                     <h6 class="fw-bold text-primary mb-3">Unit Details</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Unit Name:</label>
                                             <div>{{ unitDetails.unitName || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Unit Holder/Owner Name:</label>
                                             <div>{{ unitDetails.unitHolderOrOwnerName || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Category:</label>
                                             <div>{{ unitDetails.category || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Department:</label>
                                             <div>{{ unitDetails.departmentName || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Current Status:</label>
                                             <div>{{ unitDetails.currentStatus || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Unique Number:</label>
                                             <div>{{ unitDetails.uniqueNo || 'N/A' }}</div>
                                         </div>
@@ -137,27 +137,27 @@
                                 <div class="col-12 mb-4">
                                     <h6 class="fw-bold text-primary mb-3">Personal Details</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Full Name:</label>
                                             <div>{{ unitDetails.firstMiddleLastName || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Date of Birth:</label>
                                             <div>{{ unitDetails.dateOfBirth || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Gender:</label>
                                             <div>{{ unitDetails.gender || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Caste:</label>
                                             <div>{{ unitDetails.caste || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Nationality:</label>
                                             <div>{{ unitDetails.nationality || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Qualification:</label>
                                             <div>{{ unitDetails.qualification || 'N/A' }}</div>
                                         </div>
@@ -168,19 +168,19 @@
                                 <div class="col-12">
                                     <h6 class="fw-bold text-primary mb-3">Identity Documents</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Aadhar Number:</label>
                                             <div>{{ unitDetails.aadharNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">PAN:</label>
                                             <div>{{ unitDetails.pan || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Passport Number:</label>
                                             <div>{{ unitDetails.passportNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">DIN:</label>
                                             <div>{{ unitDetails.din || 'N/A' }}</div>
                                         </div>
@@ -191,7 +191,7 @@
 
                         <!-- Address & Location Tab -->
                         <div class="tab-pane fade" id="addressInfo" role="tabpanel">
-                            <div class="row">
+                            <div class="row fs-14">
                                 <!-- Unit Address Section -->
                                 <div class="col-12 mb-4">
                                     <h6 class="fw-bold text-primary mb-3">Unit Address</h6>
@@ -200,39 +200,39 @@
                                             <label class="form-label fw-bold">Complete Address:</label>
                                             <div>{{ unitDetails.unitAddress || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Door Number:</label>
                                             <div>{{ unitDetails.doorNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Floor Number:</label>
                                             <div>{{ unitDetails.floorNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Street:</label>
                                             <div>{{ unitDetails.street || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Locality:</label>
                                             <div>{{ unitDetails.locality || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Village:</label>
                                             <div>{{ unitDetails.village || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Ward:</label>
                                             <div>{{ unitDetails.ward || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Mandal:</label>
                                             <div>{{ unitDetails.mandal || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">District:</label>
                                             <div>{{ unitDetails.district || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Pin Code:</label>
                                             <div>{{ unitDetails.pinCode || 'N/A' }}</div>
                                         </div>
@@ -255,39 +255,39 @@
                                             <label class="form-label fw-bold">Communication Address:</label>
                                             <div>{{ unitDetails.communicationAddress || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Door Number:</label>
                                             <div>{{ unitDetails.commDoorNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Building Name:</label>
                                             <div>{{ unitDetails.commNameOfTheBuilding || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Street:</label>
                                             <div>{{ unitDetails.commStreet || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Locality:</label>
                                             <div>{{ unitDetails.commLocality || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Landmark:</label>
                                             <div>{{ unitDetails.commLandmark || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Village:</label>
                                             <div>{{ unitDetails.commVillage || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Mandal:</label>
                                             <div>{{ unitDetails.commMandal || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">District:</label>
                                             <div>{{ unitDetails.commDistrict || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Pin Code:</label>
                                             <div>{{ unitDetails.commPinCode || 'N/A' }}</div>
                                         </div>
@@ -303,35 +303,35 @@
                                 <div class="col-12 mb-4">
                                     <h6 class="fw-bold text-primary mb-3">Registration Details</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Registration Number:</label>
                                             <div>{{ unitDetails.registrationNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Registration Under:</label>
                                             <div>{{ unitDetails.registrationUnder || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Date of Registration:</label>
                                             <div>{{ unitDetails.dateOfRegistration || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Incorporation Date:</label>
                                             <div>{{ unitDetails.incorporationDate  || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Commence Date:</label>
                                             <div>{{ unitDetails.commenceDate  || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">GST Registration No:</label>
                                             <div>{{ unitDetails.gstRegNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Udyam Registration No:</label>
                                             <div>{{ unitDetails.udyamRegistrationNo || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Udyam Aadhar Registration No:</label>
                                             <div>{{ unitDetails.udyamAadharRegistrationNo || 'N/A' }}</div>
                                         </div>
@@ -342,19 +342,19 @@
                                 <div class="col-12 mb-4">
                                     <h6 class="fw-bold text-primary mb-3">Business Information</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Enterprise Type:</label>
                                             <div>{{ unitDetails.enterpriseType || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Organization Type:</label>
                                             <div>{{ unitDetails.orgnType || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Nature of Business:</label>
                                             <div>{{ unitDetails.natureOfBusiness || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">NIC Code:</label>
                                             <div>{{ unitDetails.nicCode || 'N/A' }}</div>
                                         </div>
@@ -369,19 +369,19 @@
                                 <div class="col-12 mb-4">
                                     <h6 class="fw-bold text-primary mb-3">Financial Details</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Unit Cost/Investment:</label>
                                             <div>₹ {{ unitDetails.unitCostOrInvestment || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Working Capital:</label>
                                             <div>₹ {{ unitDetails.workingCapital || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Net Turnover (Rupees):</label>
                                             <div>₹ {{ unitDetails.netTurnoverRupees || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Load KVA:</label>
                                             <div>{{ unitDetails.loadKva || 'N/A' }}</div>
                                         </div>
@@ -392,11 +392,11 @@
                                 <div class="col-12">
                                     <h6 class="fw-bold text-primary mb-3">Employee Details</h6>
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Total Male Employees:</label>
                                             <div>{{ unitDetails.maleEmpsTotal || 'N/A' }}</div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                                             <label class="form-label fw-bold">Total Female Employees:</label>
                                             <div>{{ unitDetails.femaleEmpsTotal || 'N/A' }}</div>
                                         </div>
