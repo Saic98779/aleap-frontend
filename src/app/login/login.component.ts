@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
                             this.router.navigateByUrl('/participant-details');
                         }
                          else if(res?.data.userRole === Role.DEVELOPER) {
-                            if(res.data.userId=='sample@gmail.com'){
+                              if(res.data.userId=='sample@gmail.com'){
                                 this.router.navigateByUrl('/sample-screen-ui');
                                 return;
                             }
