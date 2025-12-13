@@ -297,7 +297,7 @@ const routes: Routes = [
         path: 'global-dashboard',
         component: GlobalDashboardComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin,Role.SPIU] }
+        // data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin,Role.SPIU,Role.DIC,Role.FINANCE] }
     },
     {
         path: 'notification-viewer-update',
