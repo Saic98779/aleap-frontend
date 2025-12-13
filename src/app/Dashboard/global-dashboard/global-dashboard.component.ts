@@ -24,7 +24,28 @@ export class GlobalDashboardComponent implements OnInit {
 
 
   setDashboardUrl(): void {
-    switch (this.loginsessionDetails.agencyName) {      
+    console.log('Agency Name:', this.loginsessionDetails.agencyName, 'User Role:', this.loginsessionDetails.userRole,this.loginsessionDetails);
+    if(this.loginsessionDetails.userRole!=='AGENCY_MANAGER' && this.loginsessionDetails.userRole!=='AGENCY_EXECUTOR' && this.loginsessionDetails.userRole!=='CALL_CENTER'){
+      if(this.loginsessionDetails.userRole === 'ADMIN' || this.loginsessionDetails.userRole === 'FINANCE' || this.loginsessionDetails.userRole === 'SPIU'){
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'https://lookerstudio.google.com/embed/reporting/609011ae-c72d-4c66-805f-2468db0fd392/page/8ewJF?cache=' + this.cacheBuster
+        );
+      }
+      else if(this.loginsessionDetails.userRole === 'DIC'){
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'https://lookerstudio.google.com/embed/reporting/5cf1dd6a-18ad-454c-a9cf-bfd20c88c853/page/68eiF?cache=' + this.cacheBuster
+        );
+      }
+      else{
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'https://lookerstudio.google.com/embed/reporting/609011ae-c72d-4c66-805f-2468db0fd392/page/8ewJF?cache=' + this.cacheBuster
+        );
+      }
+      //  https://lookerstudio.google.com/embed/reporting/5cf1dd6a-18ad-454c-a9cf-bfd20c88c853/page/68eiF
+
+    }
+    else{
+        switch (this.loginsessionDetails.agencyName) {      
       case 'ALEAP':
         //https://lookerstudio.google.com/embed/reporting/e52e2113-3d3a-4941-a7f3-57d9971064c4/page/rwZEF
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -131,6 +152,11 @@ export class GlobalDashboardComponent implements OnInit {
           'https://lookerstudio.google.com/embed/reporting/609011ae-c72d-4c66-805f-2468db0fd392/page/8ewJF?cache=' + this.cacheBuster
         );
     }
+
+     
+    }
+
+  
   }
   // this.url = this.sanitizer
   //   .bypassSecurityTrustResourceUrl('https://lookerstudio.google.com/embed/reporting/fcab1a0e-f906-4487-85fa-8097553cbc4b/pages/p_iqwy179urd?cache=' + this.cacheBuster);

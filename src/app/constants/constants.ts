@@ -112,7 +112,21 @@ export const APIS = {
         editProfile: API_BASE_URL + '/login/user/update',
         getUserById: API_BASE_URL + '/login/user',        
     },
+   // new api's
+  unitDetails: {
+    getUnitDetails: 'api/units',
+    updateUnitDetails: 'api/units',
+    getAdditionalInfo: 'api/units/additional-info/',
+    updateAdditionalInfo: 'api/units/additional-info/',
+  },
+  // end new api's
     masterList: {
+        // new api's
+         districtList: 'api/master/districts',
+    mandalList: 'api/master/mandals',
+    villageList: 'api/master/villages',
+    unitsList: 'api/master/units',
+    // end new api's
         changePassword:API_BASE_URL+'/login/change-password',
         agencyList: API_BASE_URL + '/agencies',
         getUserBasedOnAgency:API_BASE_URL+'/new/program/monitoring-dropdown/',

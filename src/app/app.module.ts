@@ -124,6 +124,7 @@ import { ViewProgramDicComponent } from './PIA/view-program-dic/view-program-dic
 import { TrainingExpenditureVerificatonComponent } from './PIA/training-expenditure-verificaton/training-expenditure-verificaton.component';
 import { NonTrainingExpVerficationTrackerComponent } from './PIA/non-training-exp-verfication-tracker/non-training-exp-verfication-tracker.component';
 import { EditProgramStatusViewComponent } from './PIA/edit-program-status-view/edit-program-status-view.component';
+import { SampleUiComponent } from './PIA/sample-ui/sample-ui.component';
 @NgModule({
     imports: [
         MaterialModule,
@@ -251,7 +252,8 @@ import { EditProgramStatusViewComponent } from './PIA/edit-program-status-view/e
         ViewProgramDicComponent,
         TrainingExpenditureVerificatonComponent,
         NonTrainingExpVerficationTrackerComponent,
-        EditProgramStatusViewComponent
+        EditProgramStatusViewComponent,
+        SampleUiComponent
 
     ],
     exports:[MaterialModule,

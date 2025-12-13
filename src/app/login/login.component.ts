@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.userValue) {
@@ -26,18 +27,19 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+       
         this.loginForm = this.formBuilder.group({
             username: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
     }
-
+  
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
 
     onSubmit() {
         this.submitted = true;
-
+        
         // stop here if form is invalid
         if (this.loginForm.invalid) {
             return;
@@ -69,6 +71,10 @@ export class LoginComponent implements OnInit {
                             this.router.navigateByUrl('/participant-details');
                         }
                          else if(res?.data.userRole === Role.DEVELOPER) {
+                              if(res.data.userId=='sample@gmail.com'){
+                                this.router.navigateByUrl('/sample-screen-ui');
+                                return;
+                            }
                             this.router.navigateByUrl('/help-support');
                         }
                           else if(res?.data.userRole === Role.DIC) {
