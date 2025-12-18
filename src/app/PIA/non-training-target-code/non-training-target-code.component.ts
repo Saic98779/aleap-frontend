@@ -1474,6 +1474,10 @@ createFormTravel(): FormGroup {
       .subscribe({
         next: (res: any) => {
           this.consumablesData = res.data || res;
+           this.financialTargetAchievement=0
+            this.consumablesData?.map((item:any)=>{
+              this.financialTargetAchievement+=Number(item?.totalCost)
+            })
         },
         error: (error) => {
           console.error('Error fetching consumables data:', error);
