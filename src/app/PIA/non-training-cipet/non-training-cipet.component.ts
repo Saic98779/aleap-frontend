@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonServiceService } from '@app/_services/common-service.service';
 import { APIS } from '@app/constants/constants';
@@ -10,6 +10,8 @@ import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt';
 import { MonthlyRangeComponent } from '../monthly-range/monthly-range.component';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-non-training-cipet',
@@ -24,22 +26,292 @@ export class NonTrainingCipetComponent implements OnInit {
   loginsessionDetails: any;
   selectedAgencyId: any;
   @ViewChild(MonthlyRangeComponent) monthlyRange!: MonthlyRangeComponent;
- constructor(private fb: FormBuilder, private toastrService: ToastrService,
-      private _commonService: CommonServiceService,
-      private router: Router,) {
-   this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
-     this.selectedAgencyId = this.loginsessionDetails.agencyId;
+  constructor(
+    private fb: FormBuilder, 
+    private toastrService: ToastrService,
+    private _commonService: CommonServiceService,
+    private router: Router,
+  ) {
+    this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
+    this.selectedAgencyId = this.loginsessionDetails.agencyId;
     this.financialForm = this.createForm();
-     this.travelForm = this.createFormTravel();
-        this.contingencyForm = this.createFormContingency();
-        this.paymentForm = this.createFormPayment();
-
+    this.travelForm = this.createFormTravel();
+    this.contingencyForm = this.createFormContingency();
+    this.paymentForm = this.createFormPayment();
+    this.OrganisationForm = this.createFormOrganization(); // Initialize organization form
   }
 
   ngOnInit(): void {
-     this.getBudgetHeadList()
-    
+    this.getBudgetHeadList();
+    this.getOrganizationData();
+    this.getAllDistricts();
+    this.getAllSectors();
+    this.visitForm = this.createFormVisit(); // Add this line
+  this.assignResourceDropdownSettings(); // Add this line
   }
+
+
+ 
+
+ 
+ 
+  OragnizationType: any = 'MSME'; 
+  OrganisationForm!: FormGroup;
+  // Organization related properties
+  OrganizationData: any = [];
+  allDistricts: any = [];
+  allSectors: any = [];
+  MandalList: any = [];
+  dropdownListOrg: any = [];
+  dropdownList1: any = [];
+  selectedItems: any[] = [];
+  
+  // Dropdown settings
+  dropdownSettingsOrg: IDropdownSettings = {};
+  dropdownSettings: IDropdownSettings = {};
+
+ 
+
+  // Organization Form Creation
+  createFormOrganization(): FormGroup {
+    return this.fb.group({
+      "organizationCategory": new FormControl("Micro", [Validators.required]),
+      "organizationType": new FormControl("MSME", [Validators.required]),
+      "udyamregistrationNo": new FormControl(""),
+      "organizationName": new FormControl("", [Validators.required, Validators.pattern(/^[^\s].*/)]),
+      "udyamYesOrNo": new FormControl("No", [Validators.required]),
+      "dateOfRegistration": new FormControl(""),
+      "incorporationDate": new FormControl(""),
+      "dateOfIssue": new FormControl(""),
+      "validupto": new FormControl(""),
+      "stateId": new FormControl("Telangana", [Validators.required]),
+      "distId": new FormControl("", [Validators.required]),
+      "sectorIds": new FormControl([], [Validators.required]),
+      "mandal": new FormControl("", [Validators.required]),
+      "town": new FormControl("", [Validators.required]),
+      "streetNo": new FormControl(""),
+      "houseNo": new FormControl(""),
+      "latitude": new FormControl("", [Validators.pattern(/^[0-9.]{1,50}$/)]),
+      "longitude": new FormControl("", [Validators.pattern(/^[0-9.]{1,50}$/)]),
+      "contactNo": new FormControl("", [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]),
+      "email": new FormControl("", [Validators.email]),
+      "website": new FormControl(""),
+      "ownerName": new FormControl("", [Validators.required, Validators.pattern(/^[^\s].*/)]),
+      "ownerContactNo": new FormControl("", [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]),
+      "ownerEmail": new FormControl("", [Validators.email]),
+      "ownerAddress": new FormControl("")
+    });
+  }
+
+  get fOrg() {
+    return this.OrganisationForm.controls;
+  }
+
+  // Get All Districts
+  getAllDistricts() {
+    this.allDistricts = [];
+    this._commonService.getDataByUrl(APIS.masterList.getDistricts).subscribe({
+      next: (data: any) => {
+        this.allDistricts = data.data;
+      },
+      error: (err: any) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Get All Sectors
+  getAllSectors() {
+    this.allSectors = [];
+    this._commonService.getDataByUrl(APIS.masterList.getSectors).subscribe({
+      next: (data: any) => {
+        this.allSectors = data.data;
+        this.assignFluidData1();
+      },
+      error: (err: any) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Get Organization Data
+  getOrganizationData() {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId+'?organizationType=MSME').subscribe({
+      next: (res: any) => {
+        this.OrganizationData = res.data || [];
+        this.assignFluidDataOrg();
+      },
+      error: (err) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Get Mandal by District
+  GetMandalByDistrict(event: any) {
+    this.MandalList = [];
+    this._commonService.getDataByUrl(APIS.masterList.getMandal + event.target.value).subscribe({
+      next: (data: any) => {
+        this.MandalList = data.data;
+      },
+      error: (err: any) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Dropdown Settings for Organization
+  assignFluidDataOrg() {
+    this.dropdownSettingsOrg = {
+      singleSelection: true,
+      idField: 'organizationId',
+      textField: 'organizationName',
+      itemsShowLimit: 1,
+      allowSearchFilter: true,
+      clearSearchFilter: true,
+      maxHeight: 197,
+      searchPlaceholderText: "Search Organization",
+      noDataAvailablePlaceholderText: "Data Not Available",
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+    this.dropdownListOrg = this.OrganizationData;
+  }
+
+  onItemSelectOrg(item: any) {
+    console.log('Item selected:', item);
+  }
+
+  onItemDeSelectOrg(item: any) {
+    console.log('Item deselected:', item);
+  }
+
+  // Dropdown Settings for Sectors
+  assignFluidData1() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'sectorId',
+      textField: 'sectorName',
+      itemsShowLimit: 1,
+      enableCheckAll: true,
+      selectAllText: "Select All",
+      unSelectAllText: "Clear All",
+      allowSearchFilter: true,
+      clearSearchFilter: true,
+      maxHeight: 197,
+      searchPlaceholderText: "Search Sector",
+      noDataAvailablePlaceholderText: "Data Not Available",
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+    this.dropdownList1 = this.allSectors;
+  }
+
+  onItemSelect(item: any) {
+    console.log('Item selected:', item);
+  }
+
+  onSelectAll(items: any[]) {
+    console.log('All items selected:', items);
+  }
+
+  onItemDeSelect(item: any) {
+    console.log('Item deselected:', item);
+  }
+
+  onDeSelectAll(items: any[]) {
+    console.log('All items deselected');
+  }
+
+  // Change Udyam Registration
+  chnageUdyam(event: any) {
+    if (event.target.value == 'Yes') {
+      this.fOrg['udyamregistrationNo'].addValidators(Validators.required);
+      this.fOrg['dateOfRegistration'].addValidators(Validators.required);
+    } else {
+      this.fOrg['udyamregistrationNo'].setValidators(null);
+      this.fOrg['dateOfRegistration'].setValidators(null);
+      this.fOrg['udyamregistrationNo'].patchValue('');
+      this.fOrg['dateOfRegistration'].patchValue('');
+    }
+    this.fOrg['udyamregistrationNo'].updateValueAndValidity();
+    this.fOrg['dateOfRegistration'].updateValueAndValidity();
+  }
+
+  // Submit Organization Form
+  SubmitformOrganization() {
+    console.log(this.OrganisationForm.value);
+
+    if (!this.OrganisationForm.valid) {
+      this.toastrService.warning('Please fill all required fields', "Validation Error!");
+      return;
+    }
+
+    // Process sector IDs
+    if (this.OrganisationForm.value['sectorIds'].length) {
+      this.OrganisationForm.value['sectorIds'] = this.OrganisationForm.value['sectorIds'].map((item: any) => {
+        return Number(item.sectorId);
+      });
+    } else {
+      this.OrganisationForm.value['sectorIds'] = [];
+    }
+
+    // Format dates
+    const payload = {
+      ...this.OrganisationForm.value,
+      dateOfRegistration: this.OrganisationForm.value.dateOfRegistration ? 
+        moment(this.OrganisationForm.value.dateOfRegistration).format('DD-MM-YYYY') : null,
+      incorporationDate: this.OrganisationForm.value.incorporationDate ? 
+        moment(this.OrganisationForm.value.incorporationDate).format('DD-MM-YYYY') : null,
+      dateOfIssue: this.OrganisationForm.value.dateOfIssue ? 
+        moment(this.OrganisationForm.value.dateOfIssue).format('DD-MM-YYYY') : null,
+      validupto: this.OrganisationForm.value.validupto ? 
+        moment(this.OrganisationForm.value.validupto).format('DD-MM-YYYY') : null
+    };
+
+    this._commonService.add(APIS.participantdata.saveOrgnization, payload).subscribe({
+      next: (data: any) => {
+        this.toastrService.success('MSME Organization Data Added Successfully', "Success!");
+        this.OrganisationForm.reset();
+        this.OrganisationForm.patchValue({
+          organizationType: 'MSME',
+          organizationCategory: 'Micro',
+          udyamYesOrNo: 'No',
+          stateId: 'Telangana'
+        });
+        this.getOrganizationData();
+        
+        // Close the modal
+        const modalElement = document.getElementById('addOrganisation');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement);
+          if (modal) {
+            modal.hide();
+          }
+        }
+      },
+      error: (err) => {
+        this.toastrService.error(err.message, "Error!");
+      }
+    });
+  }
+
+  // Open Organization Modal
+  openOrganizationModal() {
+    this.OrganisationForm.reset();
+    this.OrganisationForm.patchValue({
+      organizationType: 'MSME',
+      organizationCategory: 'Micro',
+      udyamYesOrNo: 'No',
+      stateId: 'Telangana'
+    });
+    
+    const modal = new bootstrap.Modal(document.getElementById('addOrganisation'));
+    modal.show();
+  }
+
     budgetHeadList: any;
     getBudgetHeadList() {
         this._commonService.getDataByUrl(APIS.nontrainingtargets.getBudgetHeadList+this.selectedAgencyId).subscribe((res: any) => {
@@ -83,34 +355,44 @@ export class NonTrainingCipetComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if( this.selectedBudgetHead=='6' || this.selectedBudgetHead=='11'){
+          if( this.selectedBudgetHead=='6' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91'){
+
             this.getResourceList()
             this.getContingencyDataById()
             this.getPaymentsDataById()
+             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91') {
+            this.getVisitDetailsList();
+             this.getPreliminaryDataById()
+            }
 
           }
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
-          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+          else if(this.selectedBudgetHead=='12'  || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
              this.getPreliminaryDataById()
             
           }
 
           
         }, (error) => {
-                    if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
-                 this.getPreliminaryDataById()
+          if( this.selectedBudgetHead=='6' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91'){
 
-          }
-
-           else if(this.selectedBudgetHead=='19'){
-            this.getTravelDataBySubActive()
-          }
-          else if(this.selectedBudgetHead=='26'){
             this.getResourceList()
             this.getContingencyDataById()
             this.getPaymentsDataById()
+             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91') {
+            this.getVisitDetailsList();
+             this.getPreliminaryDataById()
+            }
+
+          }
+          else if(this.selectedBudgetHead=='19'){
+            this.getTravelDataBySubActive()
+          }
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+             this.getPreliminaryDataById()
+            
           }
           // this.toastrService.error(error.message);
         });
@@ -154,10 +436,12 @@ getSubactivities(event:any){
         });
       }
         resourceList:any=[]
+        arrayResourceList:any=[]
    getResourceList(){
         this.resourceList=[]
           this._commonService.getDataByUrl(APIS.nontrainingtargets.getResourceList+this.selectedBudgetHead).subscribe((res: any) => {
               this.resourceList=res.data;
+              this.arrayResourceList=res.data;
              
           
           }, (error) => {
@@ -394,7 +678,7 @@ createForm(): FormGroup {
 +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
   const formData = new FormData();
             console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
-             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+             if (this.uploadedFilesFinance?.name && typeof this.uploadedFilesFinance !== 'string') {
               formData.append("files", this.uploadedFilesFinance);
               }
               else{
@@ -1179,6 +1463,328 @@ createFormTravel(): FormGroup {
     }
   // end infracture
 
+
+
+  // visit details code
+  // ...existing code...
+
+// Add Visit Details properties after OrganizationData
+visitForm!: FormGroup;
+visitDetailsList: any = [];
+iseditModeVisit = false;
+visitDetailsID: any;
+dropdownSettingsResource: IDropdownSettings = {};
+dropdownListResource: any = [];
+selectedOrganization: any = null;
+copyFromOrganization = false;
+
+
+// Add Visit Form Creation after createFormOrganization
+createFormVisit(): FormGroup {
+  return this.fb.group({
+    organizationId: [0, Validators.required],
+    subActivityId: [Number(this.selectedBudgetHead), Validators.required],
+    dateOfVisit: ['', Validators.required],
+    timeOfVisit: ['', Validators.required],
+    nonTrainingResourceIds: [[], Validators.required],
+    state: ['Telangana', Validators.required],
+    district: ['', Validators.required],
+    mandal: ['', Validators.required],
+    town: ['', Validators.required],
+    streetNo: [''],
+    houseNo: [''],
+    latitude: ['', Validators.pattern(/^-?\d+\.?\d*$/)],
+    longitude: ['', Validators.pattern(/^-?\d+\.?\d*$/)],
+    contactNo: ['', [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]],
+    email: ['', [Validators.required, Validators.email]],
+    withInHyderabad: [true, Validators.required]
+  });
+}
+
+get fVisit() {
+  return this.visitForm.controls;
+}
+
+// Resource Dropdown Settings
+assignResourceDropdownSettings() {
+  this.dropdownSettingsResource = {
+    singleSelection: false,
+    idField: 'resourceId',
+    textField: 'name',
+    itemsShowLimit: 2,
+    enableCheckAll: true,
+    selectAllText: "Select All Resources",
+    unSelectAllText: "Clear All",
+    allowSearchFilter: true,
+    clearSearchFilter: true,
+    maxHeight: 197,
+    searchPlaceholderText: "Search Resource",
+    noDataAvailablePlaceholderText: "No Resources Available",
+    closeDropDownOnSelection: false,
+    showSelectedItemsAtTop: false,
+    defaultOpen: false,
+  };
+  this.dropdownListResource = this.resourceList;
+}
+
+// Handle resource selection
+onItemSelectResource(item: any) {
+  console.log('Resource selected:', item);
+}
+
+onItemDeSelectResource(item: any) {
+  console.log('Resource deselected:', item);
+}
+
+// Handle organization selection
+onOrganizationSelect(item: any) {
+  console.log('Organization selected:', item);
+  if (item && Object.keys(item)?.length > 0) {
+    this.selectedOrganization = item;
+    this.fVisit['organizationId'].setValue(this.selectedOrganization.organizationId);
+    
+    if (this.copyFromOrganization) {
+      this.copyOrganizationAddress();
+    }
+  }
+}
+
+// Copy address from organization
+copyOrganizationAddress() {
+  if (this.selectedOrganization) {
+    // Fetch organization details
+    this._commonService.getDataByUrl(APIS.masterList.getOrganizationByOrgId+`${this.selectedOrganization.organizationId}`).subscribe({
+      next: (res: any) => {
+        const orgData = res.data;
+
+        this.visitForm.patchValue({
+          state: orgData.stateId || 'Telangana',
+          district: orgData.distId || '',
+          mandal: orgData.mandal || '',
+          town: orgData.town || '',
+          streetNo: orgData.streetNo || '',
+          houseNo: orgData.houseNo || '',
+          latitude: orgData.latitude || '',
+          longitude: orgData.longitude || '',
+          contactNo: orgData.contactNo || '',
+          email: orgData.email || ''
+        });
+        
+        // Load mandals for the district
+        if (orgData.distId) {
+          this.GetMandalByDistrict({ target: { value: orgData.distId } });
+        }
+      },
+      error: (err) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+}
+
+// Handle copy address checkbox
+onCopyAddressChange(event: any,organization:any) {
+  console.log('Copy address checkbox changed:', event.target.checked, this.selectedOrganization,organization);
+  this.copyFromOrganization = event.target.checked;
+  if (this.copyFromOrganization && this.selectedOrganization) {
+    this.copyOrganizationAddress();
+  }
+  
+}
+
+// Open Visit Modal
+openVisitModal(mode: string, item?: any): void {
+  this.dropdownListResource = this.resourceList;
+  
+  if (mode === 'add') {
+    this.selectedItems=[]
+    this.iseditModeVisit = false;
+    this.visitForm.reset();
+    this.visitForm.patchValue({
+      subActivityId: Number(this.selectedBudgetHead),
+      state: 'Telangana',
+      withInHyderabad: true
+    });
+    this.selectedOrganization = null;
+    this.copyFromOrganization = false;
+  }
+  
+  if (mode === 'edit') {
+    this.visitDetailsID = item?.visitDetailsId;
+    this.iseditModeVisit = true;
+    
+    // Set selected organization
+    this.selectedOrganization = this.OrganizationData.find((org: any) => 
+      org.organizationId === item?.organizationId
+    );
+    // Set selectedItems array for ng-multiselect-dropdown
+    this.selectedItems = this.selectedOrganization ? [this.selectedOrganization] : [];
+    
+    // Convert resource IDs to objects for multiselect
+    const selectedResources = item?.resourceNames?.map((name: any) => 
+      this.resourceList.find((r: any) => r.name === name)
+    ).filter((r: any) => r !== undefined) || [];
+    console.log('Selected Resources for Edit:', selectedResources);
+    this.visitForm.patchValue({
+      organizationId: item?.organizationId || 0,
+      subActivityId: item?.subActivityId || Number(this.selectedBudgetHead),
+      dateOfVisit: item?.dateOfVisit ? this.convertToISOFormat(item.dateOfVisit) : '',
+      timeOfVisit: item?.timeOfVisit || '',
+      nonTrainingResourceIds: selectedResources,
+      state: item?.state || 'Telangana',
+      district: item?.district || '',
+      mandal: item?.mandal || '',
+      town: item?.town || '',
+      streetNo: item?.streetNo || '',
+      houseNo: item?.houseNo || '',
+      latitude: item?.latitude || '',
+      longitude: item?.longitude || '',
+      contactNo: item?.contactNo || '',
+      email: item?.email || '',
+      withInHyderabad: item?.withInHyderabad ?? true
+    });
+    
+    // Load mandals
+    if (item?.district) {
+      this.GetMandalByDistrict({ target: { value: item.district } });
+    }
+  }
+  
+  const modal = new bootstrap.Modal(document.getElementById('addVisitDetails'));
+  modal.show();
+}
+
+// Get Visit Details
+getVisitDetailsList() {
+  this.visitDetailsList = [];
+  this._commonService.getDataByUrl(APIS.nontrainingtargets.citd.getVisitDetailsBySubActivity+`${this.selectedBudgetHead}`).subscribe({
+    next: (res: any) => {
+      this.visitDetailsList = res.data || [];
+    },
+    error: (err) => {
+      this.toastrService.error(err.message);
+    }
+  });
+}
+
+// Submit Visit Form
+onSubmitVisit(): void {
+  this.isSubmitted = true;
+  console.log(this.visitForm.value)
+  if (this.visitForm.valid) {
+    // Extract resource IDs
+    const resourceIds = this.visitForm.value.nonTrainingResourceIds.map((r: any) => r.resourceId);
+    
+    const payload = {
+      ...this.visitForm.value,
+      nonTrainingResourceIds: resourceIds,
+      dateOfVisit: this.visitForm.value.dateOfVisit ? 
+        moment(this.visitForm.value.dateOfVisit).format('YYYY-MM-DD') : null
+    };
+    
+    if (this.iseditModeVisit) {
+      // Update
+      this._commonService.update(APIS.nontrainingtargets.citd.updateVisitDetails, payload, this.visitDetailsID).subscribe({
+        next: (res: any) => {
+          this.toastrService.success('Visit Details Updated Successfully', 'Success!');
+          this.getVisitDetailsList();
+          this.updateOrganization(payload)
+          this.closeVisitModal();
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.isSubmitted = false;
+        }
+      });
+
+    } else {
+      // Save
+      this._commonService.add(APIS.nontrainingtargets.citd.saveVisitDetails, payload).subscribe({
+        next: (res: any) => {
+           this.updateOrganization(payload)
+          this.toastrService.success('Visit Details Added Successfully', 'Success!');
+          this.getVisitDetailsList();
+          this.closeVisitModal();
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.isSubmitted = false;
+        }
+      });
+    }
+  } else {
+    this.toastrService.warning('Please fill all required fields', 'Validation Error!');
+  }
+}
+updateOrganization(payload: any) {
+  let payloadOrg = {
+    organizationId: payload.organizationId || 0,
+    stateId: payload.state || "",
+    distId: payload.district || "",
+    mandal: payload.mandal || "",
+    town: payload.town || "",
+    streetNo: payload.streetNo || "",
+    houseNo: payload.houseNo || "",
+    latitude: payload.latitude || 0,
+    longitude: payload.longitude || 0,
+    contactNo: payload.contactNo || 0,
+    email: payload.email || "",
+  };
+   this._commonService.update(APIS.masterList.updateOrganization, payloadOrg, payload.organizationId).subscribe({
+        next: (res: any) => {
+         
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.isSubmitted = false;
+        }
+      });
+}
+// Delete Visit Details
+deleteVisitID: any;
+deleteVisitDetails(id: any): void {
+  this.deleteVisitID = id;
+  const modal = new bootstrap.Modal(document.getElementById('exampleModalDeleteVisit'));
+  modal.show();
+}
+
+confirmDeleteVisit(id: any) {
+  this._commonService.deleteId(APIS.nontrainingtargets.citd.deleteVisitDetails, id).subscribe({
+    next: (data: any) => {
+      this.toastrService.success('Visit Details Deleted Successfully', 'Success!');
+      this.getVisitDetailsList();
+      this.closeDeleteVisitModal();
+    },
+    error: (err) => {
+      this.toastrService.error(err.message, 'Error!');
+    }
+  });
+}
+
+closeVisitModal(): void {
+  const modal = document.getElementById('addVisitDetails');
+  if (modal) {
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+  this.isSubmitted = false;
+  this.visitForm.reset();
+}
+
+closeDeleteVisitModal(): void {
+  const modal = document.getElementById('exampleModalDeleteVisit');
+  if (modal) {
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+  this.deleteVisitID = '';
+}
+
+// ...existing code...
 }
 
 

@@ -50,7 +50,7 @@
       <!-- begin:: Preliminary survey for selection of potential SHGs  selectedBudgetHead=='2'  || selectedBudgetHead=='10' || selectedBudgetHead=='10' || selectedBudgetHead=='8'   || selectedBudgetHead=='11' selectedBudgetHead=='93'
 || selectedBudgetHead=='11'-->
       <div class="card budgets mb-3 "
-        *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='4' || selectedBudgetHead=='12' || selectedBudgetHead=='90'   ">
+        *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' ||  selectedBudgetHead=='10' || selectedBudgetHead=='8'  || selectedBudgetHead=='4' || selectedBudgetHead=='12' || selectedBudgetHead=='90'   ">
 
         <div class="card-header bg-transparent">
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
@@ -65,7 +65,7 @@
         <div class="card-body">
           <!-- || selectedBudgetHead=='13' || selectedBudgetHead=='93'|| selectedBudgetHead=='8' selectedBudgetHead=='2'  -->
           <div class="row"
-            *ngIf="selectedBudgetHead=='6'|| selectedBudgetHead=='4'   || selectedBudgetHead=='12' || selectedBudgetHead=='90'   ">
+            *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' || selectedBudgetHead=='10' || selectedBudgetHead=='8'  || selectedBudgetHead=='4'   || selectedBudgetHead=='12' || selectedBudgetHead=='90'   ">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
               <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                 <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -206,8 +206,200 @@
 
 
 
-          <!-- selectedBudgetHead=='13' || selectedBudgetHead=='93' -->
-          <div class="card" *ngIf="selectedBudgetHead=='90'">
+         
+
+          <!--  || selectedBudgetHead=='11' -->
+          <div class="card" *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' || selectedBudgetHead=='10' || selectedBudgetHead=='8' ">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col-8 col-sm-8 col-md-8 col-lg-8">
+                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='6'">Expenditure</h6>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4">
+                  <div class="text-end">
+                    <button *ngIf="selectedBudgetHead=='6'" type="button" class="btn btn-sm btn-lime-green me-2" (click)="openModelPayment('add')">Add
+                      Payment</button>
+                    <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelContingency('add')"><span
+                        class="bi bi-plus-lg"></span> Add Resource</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body mb-3">
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Resource Details</h6>
+              <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
+                <thead class="bg-lime-green">
+                  <tr>
+                    <th>S.No</th>
+                    <th>Name of the Resource</th>
+                    <th>Designation</th>
+                    <th>Relevant Experience (Years)</th>
+                    <th>Educational Qualifications</th>
+                    <th>Date of Joining</th>
+                    <th>Remuneration (in Rs.)</th>
+                    <th>Bank Name / IFSC Code</th>
+                    <th class="text-center">Edit / Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!getContingencyData || getContingencyData.length === 0">
+                    <td colspan="9" class="text-center text-muted">Data Not available.</td>
+                  </tr>
+                  <tr *ngFor="let preliminary of getContingencyData; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ preliminary?.name }}</td>
+                    <td>{{ preliminary?.designation }}</td>
+                    <td>{{ preliminary?.relevantExperience }}</td>
+                    <td>{{ preliminary?.educationalQualification }}</td>
+                    <td>{{ preliminary?.dateOfJoining }}</td>
+                    <td>{{ preliminary?.monthlySal | commaSeperationIndia }}</td>
+                    <td>
+                      {{ preliminary?.bankName }}<br />
+                      {{ preliminary?.ifscCode }}
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-default text-lime-green btn-sm"
+                        (click)="openModelContingency('edit',preliminary)">
+                        <span class="bi bi-pencil"></span>
+                      </button>
+                      <button type="button" class="btn btn-default text-danger btn-sm"
+                        (click)="deletePreliminary(preliminary?.id)">
+                        <span class="bi bi-trash"></span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-body mb-3" *ngIf="selectedBudgetHead=='6'">
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Payment Details</h6>
+              <table id="view-Payments" class="table table-bordered nowrap w-100 trainingTable">
+                <thead class="bg-lime-green">
+                  <tr>
+                    <th>S.No</th>
+                    <th>Amount (in Rs.)</th>
+                    <th>Payment For Month</th>
+                    <th>Date of Payment</th>
+                    <th>Resource Name</th>
+                    <th>View Bill Invoice</th>
+                    <th class="text-center">Edit / Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!getPaymentsData || getPaymentsData.length === 0">
+                    <td colspan="10" class="text-center text-muted">No Payment data available.</td>
+                  </tr>
+                  <tr *ngFor="let payment of getPaymentsData; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ payment?.amount | commaSeperationIndia }}</td>
+                    <td>{{ payment?.paymentForMonth }}</td>
+                    <td>{{ payment?.dateOfPayment }}</td>
+                    <td>{{ payment?.resourceName }}</td>
+                    <td class="text-center">
+                      <a *ngIf="payment?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(payment.uploadBillUrl)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-default text-lime-green btn-sm"
+                        (click)="openModelPayment('edit', payment)">
+                        <span class="bi bi-pencil"></span>
+                      </button>
+                      <button type="button" class="btn btn-default text-danger btn-sm"
+                        (click)="deletePayment(payment?.nonTrainingResourceExpenditureId)">
+                        <span class="bi bi-trash"></span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Add this table section before the modals, after the existing tables -->
+
+<!-- Visit Details Table -->
+<div class="card" *ngIf="selectedBudgetHead=='2' || selectedBudgetHead=='13' || selectedBudgetHead=='10' || selectedBudgetHead=='8' ">
+  <div class="card-header bg-transparent">
+   
+    <div class="row align-items-center">
+                <div class="col-8 col-sm-8 col-md-8 col-lg-8">
+                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" >Visit Details</h6>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4">
+                  <div class="text-end">
+                       <button  type="button" class="btn btn-sm btn-lime-green me-2" (click)="openOrganizationModal()">
+                        Add MSME Organization
+                      </button>
+                      <button type="button" class="btn btn-sm btn-lime-green" (click)="openVisitModal('add')">
+                       <span class="bi bi-plus-lg"></span> Add Visit
+                      </button>
+                  </div>
+                </div>
+              </div>
+  </div>
+  <div class="card-body">
+    <table id="view-VisitDetails" class="table table-bordered nowrap w-100 trainingTable">
+      <thead class="bg-lime-green">
+        <tr>
+          <th>S.No</th>
+          <th>Organization</th>
+          <th>Date of Visit</th>
+          <th>Time of Visit</th>
+          <th>Resources</th>
+          <th>Location</th>
+          <th>Contact No</th>
+          <th>Email</th>
+          <th>Within Hyderabad</th>
+          <th class="text-center">Edit / Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!visitDetailsList || visitDetailsList.length === 0">
+          <td colspan="10" class="text-center text-muted">No visit details available.</td>
+        </tr>
+        <tr *ngFor="let visit of visitDetailsList; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ visit?.organizationName || 'N/A' }}</td>
+          <td>{{ visit?.dateOfVisit }}</td>
+          <td>{{ visit?.timeOfVisit }}</td>
+          <td>
+            <span *ngIf="visit?.resourceNames && visit?.resourceNames.length > 0">
+              {{ visit.resourceNames.join(', ') }}
+            </span>
+            <span *ngIf="!visit?.resourceNames || visit?.resourceNames.length === 0">N/A</span>
+          </td>
+          <td>
+            {{ visit?.town }}, {{ visit?.mandal }}<br/>
+            {{ visit?.district }}, {{ visit?.state }}
+          </td>
+          <td>{{ visit?.contactNo }}</td>
+          <td>{{ visit?.email }}</td>
+          <td>
+            <span class="badge" [ngClass]="visit?.withInHyderabad ? 'bg-success' : 'bg-secondary'">
+              {{ visit?.withInHyderabad ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default text-lime-green btn-sm"
+              (click)="openVisitModal('edit', visit)">
+              <span class="bi bi-pencil"></span>
+            </button>
+            <button type="button" class="btn btn-default text-danger btn-sm"
+              (click)="deleteVisitDetails(visit?.visitDetailsId)">
+              <span class="bi bi-trash"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ...existing code... -->
+           <!-- selectedBudgetHead=='13' || selectedBudgetHead=='93' -->
+          <div class="card" *ngIf="selectedBudgetHead=='90' || selectedBudgetHead=='2' || selectedBudgetHead=='13'  || selectedBudgetHead=='8' ">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
@@ -280,116 +472,6 @@
                       </button>
                       <button type="button" class="btn btn-default text-danger btn-sm"
                         (click)="deletePreliminary(preliminary?.id)">
-                        <span class="bi bi-trash"></span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!--  || selectedBudgetHead=='11' -->
-          <div class="card" *ngIf="selectedBudgetHead=='6'">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col-8 col-sm-8 col-md-8 col-lg-8">
-                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Expenditure</h6>
-                </div>
-                <div class="col-4 col-sm-4 col-md-4 col-lg-4">
-                  <div class="text-end">
-                    <button type="button" class="btn btn-sm btn-lime-green me-2" (click)="openModelPayment('add')">Add
-                      Payment</button>
-                    <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelContingency('add')"><span
-                        class="bi bi-plus-lg"></span> Add Resource</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body mb-3">
-              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Resource Details</h6>
-              <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
-                <thead class="bg-lime-green">
-                  <tr>
-                    <th>S.No</th>
-                    <th>Name of the Employee</th>
-                    <th>Designation</th>
-                    <th>Relevant Experience (Years)</th>
-                    <th>Educational Qualifications</th>
-                    <th>Date of Joining</th>
-                    <th>Remuneration (in Rs.)</th>
-                    <th>Bank Name / IFSC Code</th>
-                    <th class="text-center">Edit / Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="!getContingencyData || getContingencyData.length === 0">
-                    <td colspan="9" class="text-center text-muted">Data Not available.</td>
-                  </tr>
-                  <tr *ngFor="let preliminary of getContingencyData; let i = index">
-                    <td>{{ i + 1 }}</td>
-                    <td>{{ preliminary?.name }}</td>
-                    <td>{{ preliminary?.designation }}</td>
-                    <td>{{ preliminary?.relevantExperience }}</td>
-                    <td>{{ preliminary?.educationalQualification }}</td>
-                    <td>{{ preliminary?.dateOfJoining }}</td>
-                    <td>{{ preliminary?.monthlySal | commaSeperationIndia }}</td>
-                    <td>
-                      {{ preliminary?.bankName }}<br />
-                      {{ preliminary?.ifscCode }}
-                    </td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-default text-lime-green btn-sm"
-                        (click)="openModelContingency('edit',preliminary)">
-                        <span class="bi bi-pencil"></span>
-                      </button>
-                      <button type="button" class="btn btn-default text-danger btn-sm"
-                        (click)="deletePreliminary(preliminary?.id)">
-                        <span class="bi bi-trash"></span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-body mb-3">
-              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Payment Details</h6>
-              <table id="view-Payments" class="table table-bordered nowrap w-100 trainingTable">
-                <thead class="bg-lime-green">
-                  <tr>
-                    <th>S.No</th>
-                    <th>Amount (in Rs.)</th>
-                    <th>Payment For Month</th>
-                    <th>Date of Payment</th>
-                    <th>Resource Name</th>
-                    <th>View Bill Invoice</th>
-                    <th class="text-center">Edit / Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="!getPaymentsData || getPaymentsData.length === 0">
-                    <td colspan="10" class="text-center text-muted">No Payment data available.</td>
-                  </tr>
-                  <tr *ngFor="let payment of getPaymentsData; let i = index">
-                    <td>{{ i + 1 }}</td>
-                    <td>{{ payment?.amount | commaSeperationIndia }}</td>
-                    <td>{{ payment?.paymentForMonth }}</td>
-                    <td>{{ payment?.dateOfPayment }}</td>
-                    <td>{{ payment?.resourceName }}</td>
-                    <td class="text-center">
-                      <a *ngIf="payment?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
-                        (click)="showFileViewer(payment.uploadBillUrl)">
-                        <span class="bi bi-eye"></span>
-                      </a>
-                      <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
-                    </td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-default text-lime-green btn-sm"
-                        (click)="openModelPayment('edit', payment)">
-                        <span class="bi bi-pencil"></span>
-                      </button>
-                      <button type="button" class="btn btn-default text-danger btn-sm"
-                        (click)="deletePayment(payment?.nonTrainingResourceExpenditureId)">
                         <span class="bi bi-trash"></span>
                       </button>
                     </td>
@@ -680,8 +762,8 @@
               <div class="form-floating mb-3">
 
                 <input type="text" class="form-control" id="employeeName" formControlName="name"
-                  [class.is-invalid]="isSubmitted && fContingency['name'].invalid" placeholder="Enter employee name">
-                <label for="employeeName">Name Of The Employee</label>
+                  [class.is-invalid]="isSubmitted && fContingency['name'].invalid" placeholder="Enter Resource name">
+                <label for="employeeName">Name Of The Resource</label>
                 <div *ngIf="isSubmitted && fContingency['name'].invalid" class="invalid-feedback">
                   <span *ngIf="fContingency['name'].errors?.['required']">Name is required</span>
                   <span *ngIf="fContingency['name'].errors?.['minlength']">Name must be at least 2 characters</span>
@@ -1351,3 +1433,576 @@
   </div>
 </div>
 <!-- end--Delete travel -->
+
+
+
+<!-- oraganization code -->
+<!-- Add Organization Modal -->
+<div class="modal fade" id="addOrganisation" tabindex="-1" aria-labelledby="addOrganisationLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <form [formGroup]="OrganisationForm">
+      <div class="modal-content">
+        <div class="modal-header py-2" >
+          <h6 class="modal-title" id="addOrganisationLabel">Add Organisation</h6>
+          <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+          <!-- Type of Organisation - Hidden, always MSME -->
+          <input type="hidden" formControlName="organizationType" value="MSME">
+
+          <!-- First Row: Category, Organization Name, Sector, Udyam Registration -->
+          <div class="row mb-3">
+            <!-- Category -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <label class="fw-600 fs-md mb-2">Category <span class="text-danger">*</span></label>
+              <div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="organizationCategory" 
+                         id="Micro" value="Micro" formControlName="organizationCategory">
+                  <label class="form-check-label fs-md" for="Micro">Micro</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="organizationCategory" 
+                         id="Small" value="Small" formControlName="organizationCategory">
+                  <label class="form-check-label fs-md" for="Small">Small</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="organizationCategory" 
+                         id="Medium" value="Medium" formControlName="organizationCategory">
+                  <label class="form-check-label fs-md" for="Medium">Medium</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Organization Name -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="organizationName" 
+                       formControlName="organizationName" placeholder="Organization Name">
+                <label for="organizationName">Organization Name <span class="text-danger">*</span></label>
+              </div>
+              <div *ngIf="fOrg['organizationName'].touched && fOrg['organizationName'].invalid" 
+                   class="text-danger small mt-1">
+                Organization Name is required
+              </div>
+            </div>
+
+            <!-- Sectors -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <label class="fw-600 fs-md mb-2">Select sector <span class="text-danger">*</span></label>
+              <ng-multiselect-dropdown
+                [placeholder]="'Select sector*'"
+                [settings]="dropdownSettings"
+                [data]="dropdownList1"
+                formControlName="sectorIds"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                (onDeSelect)="onItemDeSelect($event)"
+                (onDeSelectAll)="onDeSelectAll($event)">
+              </ng-multiselect-dropdown>
+              <div *ngIf="fOrg['sectorIds'].touched && fOrg['sectorIds'].invalid" 
+                   class="text-danger small mt-1">
+                At least one sector is required
+              </div>
+            </div>
+
+            <!-- Udyam Registration Number -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <label class="fw-600 fs-md mb-2">Udyam Registration Number <span class="text-danger">*</span></label>
+              <div class="mb-2">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="udyamYesOrNo" 
+                         id="udyamYes" value="Yes" formControlName="udyamYesOrNo"
+                         (change)="chnageUdyam($event)">
+                  <label class="form-check-label fs-md" for="udyamYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="udyamYesOrNo" 
+                         id="udyamNo" value="No" formControlName="udyamYesOrNo"
+                         (change)="chnageUdyam($event)">
+                  <label class="form-check-label fs-md" for="udyamNo">No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Udyam Details (Conditional) -->
+          <div class="row mb-3" *ngIf="fOrg['udyamYesOrNo'].value === 'Yes'">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="udyamregistrationNo" 
+                       formControlName="udyamregistrationNo" placeholder="Udyam Registration No">
+                <label for="udyamregistrationNo">Udyam Registration No <span class="text-danger">*</span></label>
+              </div>
+              <div *ngIf="fOrg['udyamregistrationNo'].touched && fOrg['udyamregistrationNo'].invalid" 
+                   class="text-danger small mt-1">
+                Udyam Registration No is required
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-floating">
+                <input type="date" class="form-control" id="dateOfRegistration" 
+                       formControlName="dateOfRegistration" placeholder="Date of Registration">
+                <label for="dateOfRegistration">Date of Registration <span class="text-danger">*</span></label>
+              </div>
+              <div *ngIf="fOrg['dateOfRegistration'].touched && fOrg['dateOfRegistration'].invalid" 
+                   class="text-danger small mt-1">
+                Date of Registration is required
+              </div>
+            </div>
+
+            <!-- <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-floating">
+                <input type="date" class="form-control" id="dateOfIssue" 
+                       formControlName="dateOfIssue" placeholder="Date of Issue">
+                <label for="dateOfIssue">Date of Issue</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-floating">
+                <input type="date" class="form-control" id="validupto" 
+                       formControlName="validupto" placeholder="Valid Upto">
+                <label for="validupto">Valid Upto</label>
+              </div>
+            </div> -->
+          </div>
+
+          <!-- Address Section -->
+          <div class="card shadow-sm p-3 mb-3" style="border: 1px solid #e0e0e0;">
+            <h6 class="fw-600 mb-3" style="color: #6c757d;">Address</h6>
+            <div class="row">
+              <!-- State -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="stateId" 
+                         formControlName="stateId" placeholder="State" readonly>
+                  <label for="stateId">State <span class="text-danger">*</span></label>
+                </div>
+              </div>
+
+              <!-- District -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <select class="form-select" id="distId" formControlName="distId"
+                          (change)="GetMandalByDistrict($event)">
+                    <option value="" disabled>Select District</option>
+                    <option *ngFor="let dist of allDistricts" [value]="dist.districtId">
+                      {{dist.districtName}}
+                    </option>
+                  </select>
+                  <label for="distId">District <span class="text-danger">*</span></label>
+                </div>
+                <div *ngIf="fOrg['distId'].touched && fOrg['distId'].invalid" 
+                     class="text-danger small mt-1">
+                  District is required
+                </div>
+              </div>
+
+              <!-- Mandal -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <select class="form-select" id="mandal" formControlName="mandal">
+                    <option value="" disabled>Select Mandal</option>
+                    <option *ngFor="let mandal of MandalList" [value]="mandal.mandalId">
+                      {{mandal.mandalName}}
+                    </option>
+                  </select>
+                  <label for="mandal">Mandal <span class="text-danger">*</span></label>
+                </div>
+                <div *ngIf="fOrg['mandal'].touched && fOrg['mandal'].invalid" 
+                     class="text-danger small mt-1">
+                  Mandal is required
+                </div>
+              </div>
+
+              <!-- Town/Village -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="town" 
+                         formControlName="town" placeholder="Town/Village">
+                  <label for="town">Town/Village <span class="text-danger">*</span></label>
+                </div>
+                <div *ngIf="fOrg['town'].touched && fOrg['town'].invalid" 
+                     class="text-danger small mt-1">
+                  Town/Village is required
+                </div>
+              </div>
+
+              <!-- Street No -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="streetNo" 
+                         formControlName="streetNo" placeholder="Street No.">
+                  <label for="streetNo">Street No.</label>
+                </div>
+              </div>
+
+              <!-- House No -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="houseNo" 
+                         formControlName="houseNo" placeholder="House No.">
+                  <label for="houseNo">House No.</label>
+                </div>
+              </div>
+
+              <!-- Geo Location Longitude -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="longitude" 
+                         formControlName="longitude" placeholder="Geo Location Longitude">
+                  <label for="longitude">Geo Location Longitude</label>
+                </div>
+              </div>
+
+              <!-- Geo Location Latitude -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="latitude" 
+                         formControlName="latitude" placeholder="Geo Location Latitude">
+                  <label for="latitude">Geo Location Latitude</label>
+                </div>
+              </div>
+
+              <!-- Contact No -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="contactNo" 
+                         formControlName="contactNo" placeholder="Contact No">
+                  <label for="contactNo">Contact No <span class="text-danger">*</span></label>
+                </div>
+                <div *ngIf="fOrg['contactNo'].touched && fOrg['contactNo'].invalid" 
+                     class="text-danger small mt-1">
+                  Valid 10-digit mobile number required
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="email" 
+                         formControlName="email" placeholder="Email">
+                  <label for="email">Email</label>
+                </div>
+                <div *ngIf="fOrg['email'].touched && fOrg['email'].invalid" 
+                     class="text-danger small mt-1">
+                  Valid email required
+                </div>
+              </div>
+
+              <!-- Website -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="website" 
+                         formControlName="website" placeholder="Website">
+                  <label for="website">Website</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Director Details Section -->
+          <div class="card shadow-sm p-3 mb-3" style="border: 1px solid #e0e0e0;">
+            <h6 class="fw-600 mb-3" style="color: #6c757d;">Director Details</h6>
+            <div class="row">
+              <!-- Name -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="ownerName" 
+                         formControlName="ownerName" placeholder="Name">
+                  <label for="ownerName">Name <span class="text-danger">*</span></label>
+                </div>
+                <div *ngIf="fOrg['ownerName'].touched && fOrg['ownerName'].invalid" 
+                     class="text-danger small mt-1">
+                  Owner Name is required
+                </div>
+              </div>
+
+              <!-- Contact -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="ownerContactNo" 
+                         formControlName="ownerContactNo" placeholder="Contact">
+                  <label for="ownerContactNo">Contact <span class="text-danger">*</span></label>
+                </div>
+                <div *ngIf="fOrg['ownerContactNo'].touched && fOrg['ownerContactNo'].invalid" 
+                     class="text-danger small mt-1">
+                  Valid 10-digit mobile number required
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="ownerEmail" 
+                         formControlName="ownerEmail" placeholder="Email">
+                  <label for="ownerEmail">Email</label>
+                </div>
+                <div *ngIf="fOrg['ownerEmail'].touched && fOrg['ownerEmail'].invalid" 
+                     class="text-danger small mt-1">
+                  Valid email required
+                </div>
+              </div>
+
+              <!-- Address -->
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" id="ownerAddress" 
+                            formControlName="ownerAddress" placeholder="Address" 
+                            style="height: 56px;"></textarea>
+                  <label for="ownerAddress">Address</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-lime-green" 
+                    [disabled]="!OrganisationForm.valid" 
+                    [ngClass]="{'disabled': OrganisationForm.invalid}" 
+                    (click)="SubmitformOrganization()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- visit details  -->
+
+
+<!-- ...existing code... -->
+
+<!-- Add Visit Details Modal -->
+<div class="modal fade" id="addVisitDetails" tabindex="-1" aria-labelledby="addVisitDetailsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addVisitDetailsLabel">{{iseditModeVisit ? 'Update' : 'Add'}} Visit Details</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="visitForm" (ngSubmit)="onSubmitVisit()">
+          <div class="row">
+            <!-- Organization -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Organization <span class="text-danger">*</span></label>
+              <ng-multiselect-dropdown
+                [settings]="dropdownSettingsOrg"
+                [data]="dropdownListOrg"
+                [(ngModel)]="selectedItems"
+                [ngModelOptions]="{standalone: true}"
+                (onSelect)="onOrganizationSelect($event)"
+                (onDeSelect)="onItemDeSelectOrg($event)">
+              </ng-multiselect-dropdown>
+            </div>
+
+            <!-- Copy Address Checkbox -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" 
+                  [(ngModel)]="copyFromOrganization"
+                  [ngModelOptions]="{standalone: true}"
+                  (change)="onCopyAddressChange($event,selectedItems)" id="copyAddress">
+                <label class="form-check-label" for="copyAddress">
+                  Copy Address from Organization
+                </label>
+              </div>
+            </div>
+
+            <!-- Date of Visit -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Date of Visit <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" formControlName="dateOfVisit"
+                [class.is-invalid]="isSubmitted && fVisit['dateOfVisit'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['dateOfVisit'].errors?.['required']">
+                Date of Visit is required
+              </div>
+            </div>
+
+            <!-- Time of Visit -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Time of Visit <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" formControlName="timeOfVisit"
+                [class.is-invalid]="isSubmitted && fVisit['timeOfVisit'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['timeOfVisit'].errors?.['required']">
+                Time of Visit is required
+              </div>
+            </div>
+
+            <!-- Resources -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Select Resources <span class="text-danger">*</span></label>
+              <ng-multiselect-dropdown
+                [settings]="dropdownSettingsResource"
+                [data]="dropdownListResource"
+                formControlName="nonTrainingResourceIds"
+                (onSelect)="onItemSelectResource($event)"
+                (onDeSelect)="onItemDeSelectResource($event)">
+              </ng-multiselect-dropdown>
+              <div class="text-danger small" *ngIf="isSubmitted && fVisit['nonTrainingResourceIds'].errors?.['required']">
+                At least one resource is required
+              </div>
+            </div>
+
+            <!-- Within Hyderabad -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Within Hyderabad <span class="text-danger">*</span></label>
+              <div class="d-flex gap-3 mt-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" formControlName="withInHyderabad" 
+                    [value]="true" id="withinHydYes">
+                  <label class="form-check-label" for="withinHydYes">Yes</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" formControlName="withInHyderabad" 
+                    [value]="false" id="withinHydNo">
+                  <label class="form-check-label" for="withinHydNo">No</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- State -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">State <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="state" readonly>
+            </div>
+
+            <!-- District -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">District <span class="text-danger">*</span></label>
+              <select class="form-select" formControlName="district" 
+                (change)="GetMandalByDistrict($event)"
+                [class.is-invalid]="isSubmitted && fVisit['district'].errors">
+                <option value="">Select District</option>
+                <option *ngFor="let dist of allDistricts" [value]="dist.districtId">
+                  {{dist.districtName}}
+                </option>
+              </select>
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['district'].errors?.['required']">
+                District is required
+              </div>
+            </div>
+
+            <!-- Mandal -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Mandal <span class="text-danger">*</span></label>
+              <select class="form-select" formControlName="mandal"
+                [class.is-invalid]="isSubmitted && fVisit['mandal'].errors">
+                <option value="">Select Mandal</option>
+                <option *ngFor="let mandal of MandalList" [value]="mandal.mandalName">
+                  {{mandal.mandalName}}
+                </option>
+              </select>
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['mandal'].errors?.['required']">
+                Mandal is required
+              </div>
+            </div>
+
+            <!-- Town -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Town <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="town"
+                [class.is-invalid]="isSubmitted && fVisit['town'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['town'].errors?.['required']">
+                Town is required
+              </div>
+            </div>
+
+            <!-- Street No -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Street No</label>
+              <input type="text" class="form-control" formControlName="streetNo">
+            </div>
+
+            <!-- House No -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">House No</label>
+              <input type="text" class="form-control" formControlName="houseNo">
+            </div>
+
+            <!-- Latitude -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Latitude</label>
+              <input type="text" class="form-control" formControlName="latitude"
+                [class.is-invalid]="isSubmitted && fVisit['latitude'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['pattern']">
+                Invalid latitude format
+              </div>
+            </div>
+
+            <!-- Longitude -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Longitude</label>
+              <input type="text" class="form-control" formControlName="longitude"
+                [class.is-invalid]="isSubmitted && fVisit['longitude'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['pattern']">
+                Invalid longitude format
+              </div>
+            </div>
+
+            <!-- Contact No -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Contact No <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="contactNo" maxlength="10"
+                [class.is-invalid]="isSubmitted && fVisit['contactNo'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['contactNo'].errors?.['required']">
+                Contact number is required
+              </div>
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['contactNo'].errors?.['pattern']">
+                Invalid contact number
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <label class="form-label">Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" formControlName="email"
+                [class.is-invalid]="isSubmitted && fVisit['email'].errors">
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['email'].errors?.['required']">
+                Email is required
+              </div>
+              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['email'].errors?.['email']">
+                Invalid email format
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-lime-green">{{iseditModeVisit ? 'Update' : 'Add'}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Visit Details Modal -->
+<div class="modal fade" id="exampleModalDeleteVisit" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Visit Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this visit record?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-lime-green" (click)="confirmDeleteVisit(deleteVisitID)">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ...existing code... -->
