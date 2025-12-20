@@ -369,7 +369,7 @@ export class NonTrainingCipetComponent implements OnInit {
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
-          else if(this.selectedBudgetHead=='12'  || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91'  || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
              this.getPreliminaryDataById()
             
           }
@@ -390,7 +390,7 @@ export class NonTrainingCipetComponent implements OnInit {
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
-          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
              this.getPreliminaryDataById()
             
           }
@@ -520,7 +520,7 @@ createForm(): FormGroup {
       nonTrainingSubActivityId: [0, ],
        nonTrainingActivityId: [0, ],
       paymentDate: ['', Validators.required],
-      // category: ['', Validators.required],
+      category: ['', ],
       expenditureAmount: [0, [Validators.required, Validators.min(0)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
@@ -557,7 +557,7 @@ createForm(): FormGroup {
         agencyId: item?.agencyId || 0,
         nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
         paymentDate: item?.paymentDate ? this.convertToISOFormat(item?.paymentDate) : '',
-        // category: item?.category ? item?.category : '',
+        category: item?.category ? item?.category : '',
         expenditureAmount: item?.expenditureAmount || 0,
         billNo: item?.billNo || '',
         billDate: item?.billDate ? this.convertToISOFormat(item?.billDate) : '',
@@ -1491,10 +1491,10 @@ createFormVisit(): FormGroup {
     district: ['', Validators.required],
     mandal: ['', Validators.required],
     town: ['', Validators.required],
-    streetNo: [''],
-    houseNo: [''],
-    latitude: ['', Validators.pattern(/^-?\d+\.?\d*$/)],
-    longitude: ['', Validators.pattern(/^-?\d+\.?\d*$/)],
+    streetNo: ['',Validators.required],
+    houseNo: ['', Validators.required],
+    latitude: ['', [Validators.required,Validators.pattern(/^-?\d+\.?\d*$/)]],
+    longitude: ['', [Validators.required,Validators.pattern(/^-?\d+\.?\d*$/)]],
     contactNo: ['', [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]],
     email: ['', [Validators.required, Validators.email]],
     withInHyderabad: [true, Validators.required]

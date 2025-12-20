@@ -50,13 +50,13 @@
       <!-- begin:: Preliminary survey for selection of potential SHGs  selectedBudgetHead=='2'  || selectedBudgetHead=='10' || selectedBudgetHead=='10' || selectedBudgetHead=='8'   || selectedBudgetHead=='11' selectedBudgetHead=='93'
 || selectedBudgetHead=='11'-->
       <div class="card budgets mb-3 "
-        *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' ||  selectedBudgetHead=='10' || selectedBudgetHead=='8'  || selectedBudgetHead=='4' || selectedBudgetHead=='12' || selectedBudgetHead=='90'   ">
+        *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' ||  selectedBudgetHead=='10' || selectedBudgetHead=='8'  || selectedBudgetHead=='4' || selectedBudgetHead=='12' || selectedBudgetHead=='92' || selectedBudgetHead=='91'  || selectedBudgetHead=='90'   ">
 
         <div class="card-header bg-transparent">
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
           <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='1'" >IT Infrastructure Setup</h6>
-                        <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17'" >Staff</h6>
-                         <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"  *ngIf="selectedBudgetHead=='12'" >Consumables </h6> -->
+                        <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='92' || selectedBudgetHead=='91' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17'" >Staff</h6>
+                         <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"  *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='92' || selectedBudgetHead=='91'" >Consumables </h6> -->
           <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"  *ngIf="selectedBudgetHead=='19'" >   Travel and Transport </h6> -->
           <div class="text-end">
             <button type="button" class="btn btn-sm btn-lime-green" (click)="onFinalSubmit()">Save</button>
@@ -65,7 +65,7 @@
         <div class="card-body">
           <!-- || selectedBudgetHead=='13' || selectedBudgetHead=='93'|| selectedBudgetHead=='8' selectedBudgetHead=='2'  -->
           <div class="row"
-            *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' || selectedBudgetHead=='10' || selectedBudgetHead=='8'  || selectedBudgetHead=='4'   || selectedBudgetHead=='12' || selectedBudgetHead=='90'   ">
+            *ngIf="selectedBudgetHead=='6' || selectedBudgetHead=='2' || selectedBudgetHead=='13' || selectedBudgetHead=='10' || selectedBudgetHead=='8'  || selectedBudgetHead=='4'   || selectedBudgetHead=='12' || selectedBudgetHead=='92' || selectedBudgetHead=='91' || selectedBudgetHead=='90'   ">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
               <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                 <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -122,7 +122,7 @@
 
 
 
-          <div class="card" *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='4'">
+          <div class="card" *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='92' || selectedBudgetHead=='91' || selectedBudgetHead=='4'">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
@@ -141,7 +141,7 @@
                 <thead class="bg-lime-green">
                   <tr>
                     <th>S.No</th>
-                    <!-- <th>Name of the Agency</th> -->
+                   
                     <th>Date of Expenditure</th>
                     <th>Expenditure Amount</th>
                     <th>Bill No.</th>
@@ -152,7 +152,9 @@
                     <th>Bank Name</th>
                     <th>IFSC Code</th>
                     <th>Transaction Id</th>
+                     <th *ngIf="selectedBudgetHead=='91' || selectedBudgetHead=='92'" >Category</th>
                     <th>Purpose</th>
+
                     <th>Bill Invoice</th>
                     <th class="text-center">Edit / Delete</th>
                   </tr>
@@ -163,7 +165,7 @@
                   </tr>
                   <tr *ngFor="let preliminary of getPreliminaryData; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <!-- <td>{{ preliminary?.category }}</td> -->
+                   
                     <td>{{ preliminary?.paymentDate }}</td>
                     <td>{{ preliminary?.expenditureAmount | commaSeperationIndia}}</td>
                     <td>{{ preliminary?.billNo }}</td>
@@ -174,6 +176,7 @@
                     <td>{{ preliminary?.bankName }}</td>
                     <td>{{ preliminary?.ifscCode }}</td>
                     <td>{{ preliminary?.transactionId }}</td>
+                     <td *ngIf="selectedBudgetHead=='91' || selectedBudgetHead=='92'">{{ preliminary?.category }}</td>
                     <td>{{ preliminary?.purpose }}</td>
                     <!-- <td class="text-center">
                                       <a href="#" class="btn btn-default text-primary btn-sm" *ngIf="preliminary?.uploadBillUrl">
@@ -532,22 +535,20 @@
             </div>
 
             <!-- Categrory Date -->
-            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='91' || selectedBudgetHead=='92'">
                                <div class="form-floating mb-3">
                                     <select class="form-select" id="itCategory" formControlName="category" >
                                         <option value="#">Select Category</option>
-                                        <option value="Spatial Infrastructure">Spatial Infrastructure</option>
-                                        <option value="Technology or Equipment">Technology or Equipment</option>
-                                        <option value="Raw Material">Raw Material</option>
-                                        <option value="Utilities">Utilities</option>
-                                        <option value="Contingency">Contingency</option>
+                                        <option value="Binding & Printing">Binding & Printing</option>
+                                        <option value="Milestone payment to 3rd party">Milestone payment to 3rd party</option>
+                                        <option value="Validation Payment">Validation Payment</option>
                                     </select>
                                     <label for="itCategory">Category</label>
                                        <div *ngIf="isSubmitted && f['category'].invalid" class="invalid-feedback">
                                         Category is required
                                          </div>
                                 </div>
-                            </div> -->
+                            </div>
             <!-- item -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
@@ -1813,7 +1814,7 @@
                   [ngModelOptions]="{standalone: true}"
                   (change)="onCopyAddressChange($event,selectedItems)" id="copyAddress">
                 <label class="form-check-label" for="copyAddress">
-                  Copy Address from Organization
+                  Same As Organization Address
                 </label>
               </div>
             </div>
@@ -1919,21 +1920,30 @@
 
             <!-- Street No -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Street No</label>
+              <label class="form-label">Street No<span class="text-danger">*</span></label>
               <input type="text" class="form-control" formControlName="streetNo">
+               <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['streetNo'].errors?.['required']">
+                Street No is required
+              </div>
             </div>
 
             <!-- House No -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">House No</label>
+              <label class="form-label">House No<span class="text-danger">*</span></label>
               <input type="text" class="form-control" formControlName="houseNo">
+               <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['houseNo'].errors?.['required']">
+                House No is required
+              </div>
             </div>
 
             <!-- Latitude -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Latitude</label>
+              <label class="form-label">Latitude<span class="text-danger">*</span></label>
               <input type="text" class="form-control" formControlName="latitude"
                 [class.is-invalid]="isSubmitted && fVisit['latitude'].errors">
+                 <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['required']">
+                Latitude is required
+              </div>
               <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['pattern']">
                 Invalid latitude format
               </div>
@@ -1941,9 +1951,12 @@
 
             <!-- Longitude -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Longitude</label>
+              <label class="form-label">Longitude<span class="text-danger">*</span></label>
               <input type="text" class="form-control" formControlName="longitude"
                 [class.is-invalid]="isSubmitted && fVisit['longitude'].errors">
+                 <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['required']">
+                Longitude is required
+              </div>
               <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['pattern']">
                 Invalid longitude format
               </div>
