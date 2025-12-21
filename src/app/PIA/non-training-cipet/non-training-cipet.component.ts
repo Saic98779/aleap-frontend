@@ -356,12 +356,13 @@ export class NonTrainingCipetComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if( this.selectedBudgetHead=='6'  || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91'){
+          if( this.selectedBudgetHead=='6'  || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' ){
 
             this.getResourceList()
             this.getContingencyDataById()
             this.getPaymentsDataById()
-             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91') {
+            
+             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91' || this.selectedBudgetHead=='10') {
             this.getVisitDetailsList();
              this.getPreliminaryDataById()
             }
@@ -377,13 +378,15 @@ export class NonTrainingCipetComponent implements OnInit {
 
           
         }, (error) => {
-          if( this.selectedBudgetHead=='6' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91'){
+           if( this.selectedBudgetHead=='6'  || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' ){
 
             this.getResourceList()
             this.getContingencyDataById()
             this.getPaymentsDataById()
-             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91') {
-            this.getVisitDetailsList();
+           
+             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91' || this.selectedBudgetHead=='10') {
+            
+              this.getVisitDetailsList()
              this.getPreliminaryDataById()
             }
 
@@ -1577,7 +1580,7 @@ copyOrganizationAddress() {
         }
       },
       error: (err) => {
-        this.toastrService.error(err.message);
+        this.toastrService.error(err);
       }
     });
   }
@@ -1663,7 +1666,8 @@ getVisitDetailsList() {
       this.visitDetailsList = res.data || [];
     },
     error: (err) => {
-      this.toastrService.error(err.message);
+      console.log(err)
+      this.toastrService.error(err);
     }
   });
 }
@@ -1684,15 +1688,15 @@ onSubmitVisit(): void {
     const payload = {
       ...this.visitForm.value,
       nonTrainingResourceIds: resourceIds,
-      district: this.allDistricts.find((d:any) => {if(d.districtId == this.visitForm.value.district){
-        return d.districtName
-      }}
-    )?.districtName || '',
-      mandal:  this.MandalList.find((m:any) => {
-      if(m.mandalId == this.visitForm.value.mandal){
-        return m.mandalName
-      }
-    })?.mandalName || '',
+    //   district: this.allDistricts.find((d:any) => {if(d.districtId == this.visitForm.value.district){
+    //     return d.districtName
+    //   }}
+    // )?.districtName || '',
+    //   mandal:  this.MandalList.find((m:any) => {
+    //   if(m.mandalId == this.visitForm.value.mandal){
+    //     return m.mandalName
+    //   }
+    // })?.mandalName || '',
       dateOfVisit: this.visitForm.value.dateOfVisit ? 
         moment(this.visitForm.value.dateOfVisit).format('YYYY-MM-DD') : null
     };
@@ -1737,16 +1741,16 @@ updateOrganization(payload: any) {
     stateId: payload.state || "",
     // distId: payload.district || "",
     // mandal: payload.mandal || "",
-     distId: this.allDistricts.find((d:any) => {if(d.districtName == payload.district){
-        return d.districtId
-      }}
-    )?.districtId || '',
+    //  distId: this.allDistricts.find((d:any) => {if(d.districtName == payload.district){
+    //     return d.districtId
+    //   }}
+    // )?.districtId || '',
 
-    mandal:  this.MandalList.find((m:any) => {
-      if(m.mandalName == payload.mandal){
-        return m.mandalId
-      }
-    })?.mandalId || '',
+    // mandal:  this.MandalList.find((m:any) => {
+    //   if(m.mandalName == payload.mandal){
+    //     return m.mandalId
+    //   }
+    // })?.mandalId || '',
     // distId: this.allDistricts.find((d:any) => d.districtName == this.visitForm.value.district)?.districtId || '',
     // mandal: this.MandalList.find((m:any) => m.mandalName == this.visitForm.value.mandal)?.mandalId || '',
 
