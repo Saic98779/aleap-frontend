@@ -12,6 +12,7 @@ import 'datatables.net-responsive-dt';
 import { MonthlyRangeComponent } from '../monthly-range/monthly-range.component';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { state } from '@angular/animations';
+import { distinct } from 'rxjs';
 
 @Component({
   selector: 'app-non-training-cipet',
@@ -355,7 +356,7 @@ export class NonTrainingCipetComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if( this.selectedBudgetHead=='6' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91'){
+          if( this.selectedBudgetHead=='6'  || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91'){
 
             this.getResourceList()
             this.getContingencyDataById()
@@ -369,7 +370,7 @@ export class NonTrainingCipetComponent implements OnInit {
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
-          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91'  || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91'  || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
              this.getPreliminaryDataById()
             
           }
@@ -390,7 +391,7 @@ export class NonTrainingCipetComponent implements OnInit {
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
-          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
              this.getPreliminaryDataById()
             
           }
@@ -1673,11 +1674,25 @@ onSubmitVisit(): void {
   console.log(this.visitForm.value)
   if (this.visitForm.valid) {
     // Extract resource IDs
+   
     const resourceIds = this.visitForm.value.nonTrainingResourceIds.map((r: any) => r.resourceId);
-    
+   console.log('Resource IDs to submit:', resourceIds,this.MandalList.find((m:any) => {
+      if(m.mandalId == this.visitForm.value.mandal){
+        return m.mandalName
+      }
+    })?.mandalName || '');
     const payload = {
       ...this.visitForm.value,
       nonTrainingResourceIds: resourceIds,
+      district: this.allDistricts.find((d:any) => {if(d.districtId == this.visitForm.value.district){
+        return d.districtName
+      }}
+    )?.districtName || '',
+      mandal:  this.MandalList.find((m:any) => {
+      if(m.mandalId == this.visitForm.value.mandal){
+        return m.mandalName
+      }
+    })?.mandalName || '',
       dateOfVisit: this.visitForm.value.dateOfVisit ? 
         moment(this.visitForm.value.dateOfVisit).format('YYYY-MM-DD') : null
     };
@@ -1720,8 +1735,21 @@ updateOrganization(payload: any) {
   let payloadOrg = {
     organizationId: payload.organizationId || 0,
     stateId: payload.state || "",
-    distId: payload.district || "",
-    mandal: payload.mandal || "",
+    // distId: payload.district || "",
+    // mandal: payload.mandal || "",
+     distId: this.allDistricts.find((d:any) => {if(d.districtName == payload.district){
+        return d.districtId
+      }}
+    )?.districtId || '',
+
+    mandal:  this.MandalList.find((m:any) => {
+      if(m.mandalName == payload.mandal){
+        return m.mandalId
+      }
+    })?.mandalId || '',
+    // distId: this.allDistricts.find((d:any) => d.districtName == this.visitForm.value.district)?.districtId || '',
+    // mandal: this.MandalList.find((m:any) => m.mandalName == this.visitForm.value.mandal)?.mandalId || '',
+
     town: payload.town || "",
     streetNo: payload.streetNo || "",
     houseNo: payload.houseNo || "",
