@@ -1308,11 +1308,21 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="file" class="form-control" formControlName="uploadBillUrl"
-                  (change)="onFileSelectedPayment($event)">
-                <label for="uploadBill">Upload Bill Invoice</label>
+               <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                       <div class="form-floating mb-3">
+                <!-- <input type="file" id="files" class="form-control" [disabled]="uploadedFilesFinance"
+                  (change)="onFileSelected($event)"> -->
+                   <input type="file" id="paymentFile" class="form-control"  (change)="onFileSelectedPayment($event)"
+                   [disabled]="uploadedFilesPayment">
+                <label for="uploadBill" for="files">Upload Bill Invoice</label>
+              </div>
+              <div *ngIf="uploadedFilesPayment" class="mt-2">
+                <span
+                  class="me-2">{{  this.uploadedFilesPayment.name?uploadedFilesPayment.name:uploadedFilesPayment.split('/').pop() }}</span>
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="removeFilePayment()">
+                    <span class="bi bi-trash"></span>
+                  </button>
+
               </div>
             </div>
 
@@ -1920,11 +1930,21 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="file" class="form-control" formControlName="uploadBillUrl"
-                  (change)="onFileSelectedPayment($event)">
-                <label for="uploadBill">Upload Bill Invoice</label>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                          <div class="form-floating mb-3">
+                <!-- <input type="file" id="files" class="form-control" [disabled]="uploadedFilesFinance"
+                  (change)="onFileSelected($event)"> -->
+                   <input type="file" id="paymentFile" class="form-control"  (change)="onFileSelectedPayment($event)"
+                   [disabled]="uploadedFilesPayment">
+                <label for="uploadBill" for="files">Upload Bill Invoice</label>
+              </div>
+              <div *ngIf="uploadedFilesPayment" class="mt-2">
+                <span
+                  class="me-2">{{  this.uploadedFilesPayment.name?uploadedFilesPayment.name:uploadedFilesPayment.split('/').pop() }}</span>
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="removeFilePayment()">
+                    <span class="bi bi-trash"></span>
+                  </button>
+
               </div>
             </div>
 

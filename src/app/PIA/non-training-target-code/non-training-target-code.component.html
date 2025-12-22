@@ -48,10 +48,11 @@
       </div>
 
       <!-- begin:: Preliminary survey for selection of potential SHGs -->
-      <div class="card budgets mb-3 "*ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11' || selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19' || selectedBudgetHead=='74' || selectedBudgetHead=='75'  || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66' || selectedBudgetHead=='18' ">
+      <div class="card budgets mb-3 "
+        *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11' || selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19' || selectedBudgetHead=='74' || selectedBudgetHead=='75'  || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66' || selectedBudgetHead=='18' ">
 
         <div class="card-header bg-transparent d-flex justify-content-between">
-           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
+          <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
           <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='73'">IT Infrastructure Setup</h6>
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"
             *ngIf="selectedBudgetHead=='12' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='74' || selectedBudgetHead=='75'">
@@ -116,7 +117,8 @@
               </fieldset>
             </div>
           </div>
-          <div class="card" *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11'  || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66'">
+          <div class="card"
+            *ngIf="selectedBudgetHead=='73' || selectedBudgetHead=='11'  || selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' || selectedBudgetHead=='66'">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
@@ -137,8 +139,12 @@
                     <tr>
                       <th>S.No</th>
                       <th>Date of Purchase</th>
-                      <th *ngIf="selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25'">Purpose of Expenditure</th>
-                      <th *ngIf="!(selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25')">Category</th>
+                      <th
+                        *ngIf="selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25'">
+                        Purpose of Expenditure</th>
+                      <th
+                        *ngIf="!(selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25')">
+                        Category</th>
                       <th>Item Details</th>
                       <th>Expenditure (in Rs.)</th>
                       <th>Bill No.</th>
@@ -402,149 +408,149 @@
           </div>
           <!-- ...existing code... -->
 
-<!-- Add this section after the existing budget head cards, around line 100 -->
-      <div class="card" *ngIf="selectedBudgetHead=='18'">
-        <div class="card-header bg-transparent">
-          <div class="row align-items-center">
-            <div class="col-8 col-sm-8 col-md-9 col-lg-10">
-              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Consumables Management</h6>
+          <!-- Add this section after the existing budget head cards, around line 100 -->
+          <div class="card" *ngIf="selectedBudgetHead=='18'">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col-8 col-sm-8 col-md-9 col-lg-10">
+                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Consumables Management</h6>
+                </div>
+                <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                  <div class="text-end">
+                    <button type="button" class="btn btn-sm btn-lime-green" (click)="openConsumablesModal('add')">
+                      <span class="bi bi-plus-lg"></span> Add Consumable
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
-              <div class="text-end">
-                <button type="button" class="btn btn-sm btn-lime-green" (click)="openConsumablesModal('add')">
-                  <span class="bi bi-plus-lg"></span> Add Consumable
-                </button>
+            <div class="card-body">
+              <div class="table-scroll-container">
+                <table id="view-consumables" class="table table-bordered nowrap w-100 trainingTable">
+                  <!-- Update the table headers -->
+
+                  <thead class="bg-lime-green">
+                    <tr>
+                      <th>S.No</th>
+                      <th>Item Name</th>
+                      <th>Purchase Date</th>
+                      <th>Purchased Quantity</th>
+                      <th>Unit Cost (₹)</th>
+                      <th>Total Cost (₹)</th>
+                      <th>Consumed Quantity</th>
+                      <th>Available Quantity</th>
+                      <th>Bill No.</th>
+                      <th>Bill Date</th>
+                      <th>Mode Of Payment</th>
+                      <th>Payee Name</th>
+                      <th>Bank Name</th>
+                      <th>IFSC Code</th>
+                      <th>Transaction ID</th>
+                      <th>Cheque No</th>
+                      <th>Cheque Date</th>
+                      <th>Bill Invoice</th>
+                      <th class="text-center">Edit / Delete</th>
+                    </tr>
+                  </thead>
+
+
+
+                  <tbody>
+                    <tr *ngIf="!consumablesData || consumablesData.length === 0">
+                      <td colspan="19" class="text-center text-muted">No consumables data available.</td>
+                    </tr>
+                    <tr *ngFor="let consumable of consumablesData; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ consumable?.itemName }}</td>
+                      <td>{{ consumable?.purchaseDate }}</td>
+                      <td>{{ consumable?.purchasedQuantity }}</td>
+                      <td>{{ consumable?.unitCost | commaSeperationIndia }}</td>
+                      <td>{{ consumable?.totalCost | commaSeperationIndia }}</td>
+                      <td>{{ consumable?.consumedQuantity }}</td>
+                      <td>{{ consumable?.availableQuantity }}</td>
+                      <td>{{ consumable?.billNo }}</td>
+                      <td>{{ consumable?.billDate }}</td>
+                      <td>{{ consumable?.modeOfPayment }}</td>
+                      <td>{{ consumable?.payeeName }}</td>
+                      <td>{{ consumable?.bankName }}</td>
+                      <td>{{ consumable?.ifscCode }}</td>
+                      <td>{{ consumable?.transactionId }}</td>
+                      <td>{{ consumable?.checkNo }}</td>
+                      <td>{{ consumable?.checkDate }}</td>
+                      <td class="text-center">
+                        <a *ngIf="consumable?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                          (click)="showFileViewer(consumable.uploadBillUrl)">
+                          <span class="bi bi-eye"></span>
+                        </a>
+                        <span *ngIf="!consumable?.uploadBillUrl" class="text-muted">No file</span>
+                      </td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-default text-lime-green btn-sm"
+                          (click)="openConsumablesModal('edit', consumable)">
+                          <span class="bi bi-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-default text-danger btn-sm"
+                          (click)="deleteConsumables(consumable?.id)">
+                          <span class="bi bi-trash"></span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-        </div>
-        <div class="card-body">
-          <div class="table-scroll-container">
-            <table id="view-consumables" class="table table-bordered nowrap w-100 trainingTable">
-              <!-- Update the table headers -->
-
-              <thead class="bg-lime-green">
-                <tr>
-                  <th>S.No</th>
-                  <th>Item Name</th>
-                  <th>Purchase Date</th>
-                  <th>Purchased Quantity</th>
-                  <th>Unit Cost (₹)</th>
-                  <th>Total Cost (₹)</th>
-                  <th>Consumed Quantity</th>
-                  <th>Available Quantity</th>
-                  <th>Bill No.</th>
-                  <th>Bill Date</th>
-                  <th>Mode Of Payment</th>
-                  <th>Payee Name</th>
-                  <th>Bank Name</th>
-                  <th>IFSC Code</th>
-                  <th>Transaction ID</th>
-                  <th>Cheque No</th>
-                  <th>Cheque Date</th>
-                  <th>Bill Invoice</th>
-                  <th class="text-center">Edit / Delete</th>
-                </tr>
-              </thead>
-
-
-              
-              <tbody>
-                  <tr *ngIf="!consumablesData || consumablesData.length === 0">
-                  <td colspan="19" class="text-center text-muted">No consumables data available.</td>
-                </tr>
-                <tr *ngFor="let consumable of consumablesData; let i = index">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ consumable?.itemName }}</td>
-                  <td>{{ consumable?.purchaseDate }}</td>
-                  <td>{{ consumable?.purchasedQuantity }}</td>
-                  <td>{{ consumable?.unitCost | commaSeperationIndia }}</td>
-                  <td>{{ consumable?.totalCost | commaSeperationIndia }}</td>
-                  <td>{{ consumable?.consumedQuantity }}</td>
-                  <td>{{ consumable?.availableQuantity }}</td>
-                  <td>{{ consumable?.billNo }}</td>
-                  <td>{{ consumable?.billDate }}</td>
-                  <td>{{ consumable?.modeOfPayment }}</td>
-                  <td>{{ consumable?.payeeName }}</td>
-                  <td>{{ consumable?.bankName }}</td>
-                  <td>{{ consumable?.ifscCode }}</td>
-                  <td>{{ consumable?.transactionId }}</td>
-                  <td>{{ consumable?.checkNo }}</td>
-                  <td>{{ consumable?.checkDate }}</td>
-                  <td class="text-center">
-                    <a *ngIf="consumable?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
-                      (click)="showFileViewer(consumable.uploadBillUrl)">
-                      <span class="bi bi-eye"></span>
-                    </a>
-                    <span *ngIf="!consumable?.uploadBillUrl" class="text-muted">No file</span>
-                  </td>
-                  <td class="text-center">
-                    <button type="button" class="btn btn-default text-lime-green btn-sm"
-                      (click)="openConsumablesModal('edit', consumable)">
-                      <span class="bi bi-pencil"></span>
-                    </button>
-                    <button type="button" class="btn btn-default text-danger btn-sm"
-                      (click)="deleteConsumables(consumable?.id)">
-                      <span class="bi bi-trash"></span>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- Add Transaction Details section after the consumables table (around line 495) -->
+          <div class="card-body mt-3" *ngIf="selectedBudgetHead=='18'">
+            <div class="row align-items-center mb-3">
+              <div class="col-8 col-sm-8 col-md-9 col-lg-10">
+                <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Transaction Details</h6>
+              </div>
+              <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                <div class="text-end">
+                  <button type="button" class="btn btn-sm btn-lime-green" (click)="openTransactionModal('add')">
+                    <span class="bi bi-plus-lg"></span> Add Transaction
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="table-scroll-container">
+              <table id="view-transactions" class="table table-bordered nowrap w-100 trainingTable">
+                <thead class="bg-lime-green">
+                  <tr>
+                    <th>S.No</th>
+                    <th>Item Name</th>
+                    <th>Date of Utilisation</th>
+                    <th>Quantity of Utilisation</th>
+                    <th>No. of Trainees Utilised</th>
+                    <th class="text-center">Edit / Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!transactionData || transactionData.length === 0">
+                    <td colspan="6" class="text-center text-muted">No transaction data available.</td>
+                  </tr>
+                  <tr *ngFor="let transaction of transactionData; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ getConsumableItemName(transaction?.bulkId) }}</td>
+                    <td>{{ transaction?.dateOfUtilisation }}</td>
+                    <td>{{ transaction?.quantityOfUtilisation }}</td>
+                    <td>{{ transaction?.noOfTraineesUtilised }}</td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-default text-lime-green btn-sm"
+                        (click)="openTransactionModal('edit', transaction)">
+                        <span class="bi bi-pencil"></span>
+                      </button>
+                      <button type="button" class="btn btn-default text-danger btn-sm"
+                        (click)="deleteTransaction(transaction?.id)">
+                        <span class="bi bi-trash"></span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </div>
-      <!-- Add Transaction Details section after the consumables table (around line 495) -->
-<div class="card-body mt-3" *ngIf="selectedBudgetHead=='18'">
-  <div class="row align-items-center mb-3">
-    <div class="col-8 col-sm-8 col-md-9 col-lg-10">
-      <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Transaction Details</h6>
-    </div>
-    <div class="col-4 col-sm-4 col-md-3 col-lg-2">
-      <div class="text-end">
-        <button type="button" class="btn btn-sm btn-lime-green" (click)="openTransactionModal('add')">
-          <span class="bi bi-plus-lg"></span> Add Transaction
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="table-scroll-container">
-    <table id="view-transactions" class="table table-bordered nowrap w-100 trainingTable">
-      <thead class="bg-lime-green">
-        <tr>
-          <th>S.No</th>
-          <th>Item Name</th>
-          <th>Date of Utilisation</th>
-          <th>Quantity of Utilisation</th>
-          <th>No. of Trainees Utilised</th>
-          <th class="text-center">Edit / Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="!transactionData || transactionData.length === 0">
-          <td colspan="6" class="text-center text-muted">No transaction data available.</td>
-        </tr>
-        <tr *ngFor="let transaction of transactionData; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ getConsumableItemName(transaction?.bulkId) }}</td>
-          <td>{{ transaction?.dateOfUtilisation }}</td>
-          <td>{{ transaction?.quantityOfUtilisation }}</td>
-          <td>{{ transaction?.noOfTraineesUtilised }}</td>
-          <td class="text-center">
-            <button type="button" class="btn btn-default text-lime-green btn-sm"
-              (click)="openTransactionModal('edit', transaction)">
-              <span class="bi bi-pencil"></span>
-            </button>
-            <button type="button" class="btn btn-default text-danger btn-sm"
-              (click)="deleteTransaction(transaction?.id)">
-              <span class="bi bi-trash"></span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 
 
 
@@ -595,7 +601,8 @@
             </div>
 
             <!-- Categrory Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='1' || selectedBudgetHead=='11'|| selectedBudgetHead=='73' || selectedBudgetHead=='66'">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4"
+              *ngIf="selectedBudgetHead=='1' || selectedBudgetHead=='11'|| selectedBudgetHead=='73' || selectedBudgetHead=='66'">
               <div class="form-floating mb-3">
                 <select class="form-select" id="itCategory" formControlName="category">
                   <option value="#">Select Category</option>
@@ -611,7 +618,8 @@
                 </div>
               </div>
             </div>
-             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' ">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4"
+              *ngIf="selectedBudgetHead=='20' || selectedBudgetHead=='21' || selectedBudgetHead=='22' || selectedBudgetHead=='23' || selectedBudgetHead=='24' || selectedBudgetHead=='25' ">
               <div class="form-floating mb-3">
                 <select class="form-select" id="itCategory" formControlName="category">
                   <option value="#">Select Purpose Of Expenditure</option>
@@ -1264,11 +1272,33 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- Update the file upload section in addPayment modal -->
+
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="file" class="form-control" formControlName="uploadBillUrl"
                   (change)="onFileSelectedPayment($event)">
                 <label for="uploadBill">Upload Bill Invoice</label>
+              </div>
+            </div> -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                           <div class="form-floating mb-3">
+                <!-- <input type="file" id="files" class="form-control" [disabled]="uploadedFilesFinance"
+                  (change)="onFileSelected($event)"> -->
+                   <input type="file" id="paymentFile" class="form-control"  (change)="onFileSelectedPayment($event)"
+                   [disabled]="uploadedFilesPayment">
+                <label for="uploadBill" for="files">Upload Bill Invoice</label>
+              </div>
+              <!-- <label for="uploadBillUrl" class="form-label">Upload Bill</label>
+              <input type="file" class="form-control" id="paymentFile" (change)="onFileSelectedPayment($event)"
+                accept=".pdf,.jpg,.jpeg,.png"> -->
+              <div *ngIf="uploadedFilesPayment" class="mt-2">
+                <span
+                  class="me-2">{{  this.uploadedFilesPayment.name?uploadedFilesPayment.name:uploadedFilesPayment.split('/').pop() }}</span>
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="removeFilePayment()">
+                    <span class="bi bi-trash"></span>
+                </button>
+
               </div>
             </div>
 
@@ -1613,13 +1643,12 @@
       <div class="modal-body">
         <form [formGroup]="consumablesForm" (ngSubmit)="onSubmitConsumables()">
           <div class="row">
-            
+
             <!-- Item Name -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" formControlName="itemName" 
-                       [class.is-invalid]="isSubmitted && fConsumables['itemName'].invalid"
-                       placeholder="Item name">
+                <input type="text" class="form-control" formControlName="itemName"
+                  [class.is-invalid]="isSubmitted && fConsumables['itemName'].invalid" placeholder="Item name">
                 <label for="itemName">Item Name</label>
                 <div *ngIf="isSubmitted && fConsumables['itemName'].invalid" class="invalid-feedback">
                   Item name is required
@@ -1631,7 +1660,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="date" class="form-control" formControlName="purchaseDate" appDisableFutureDates
-                       [class.is-invalid]="isSubmitted && fConsumables['purchaseDate'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['purchaseDate'].invalid">
                 <label for="purchaseDate">Purchase Date</label>
                 <div *ngIf="isSubmitted && fConsumables['purchaseDate'].invalid" class="invalid-feedback">
                   Purchase date is required
@@ -1642,9 +1671,9 @@
             <!-- Purchased Quantity -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" formControlName="purchasedQuantity" 
-                       [class.is-invalid]="isSubmitted && fConsumables['purchasedQuantity'].invalid"
-                       min="1" step="1" (input)="onQuantityChange()">
+                <input type="number" class="form-control" formControlName="purchasedQuantity"
+                  [class.is-invalid]="isSubmitted && fConsumables['purchasedQuantity'].invalid" min="1" step="1"
+                  (input)="onQuantityChange()">
                 <label for="purchasedQuantity">Purchased Quantity</label>
                 <div *ngIf="isSubmitted && fConsumables['purchasedQuantity'].invalid" class="invalid-feedback">
                   Purchased quantity is required and must be at least 1
@@ -1655,9 +1684,9 @@
             <!-- Unit Cost -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" formControlName="unitCost" 
-                       [class.is-invalid]="isSubmitted && fConsumables['unitCost'].invalid"
-                       min="0.01" step="0.01" (input)="onQuantityChange()">
+                <input type="number" class="form-control" formControlName="unitCost"
+                  [class.is-invalid]="isSubmitted && fConsumables['unitCost'].invalid" min="0.01" step="0.01"
+                  (input)="onQuantityChange()">
                 <label for="unitCost">Unit Cost (₹)</label>
                 <div *ngIf="isSubmitted && fConsumables['unitCost'].invalid" class="invalid-feedback">
                   Unit cost is required and must be greater than 0
@@ -1676,9 +1705,9 @@
             <!-- Consumed Quantity -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" formControlName="consumedQuantity" 
-                       [class.is-invalid]="isSubmitted && fConsumables['consumedQuantity'].invalid"
-                       min="0" step="1" (input)="onQuantityChange()">
+                <input type="number" class="form-control" formControlName="consumedQuantity"
+                  [class.is-invalid]="isSubmitted && fConsumables['consumedQuantity'].invalid" min="0" step="1"
+                  (input)="onQuantityChange()">
                 <label for="consumedQuantity">Consumed Quantity</label>
                 <div *ngIf="isSubmitted && fConsumables['consumedQuantity'].invalid" class="invalid-feedback">
                   Consumed quantity is required
@@ -1698,7 +1727,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" formControlName="billNo"
-                       [class.is-invalid]="isSubmitted && fConsumables['billNo'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['billNo'].invalid">
                 <label for="billNo">Bill No.</label>
                 <div *ngIf="isSubmitted && fConsumables['billNo'].invalid" class="invalid-feedback">
                   Bill number is required
@@ -1710,7 +1739,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="date" class="form-control" formControlName="billDate" appDisableFutureDates
-                       [class.is-invalid]="isSubmitted && fConsumables['billDate'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['billDate'].invalid">
                 <label for="billDate">Bill Date</label>
                 <div *ngIf="isSubmitted && fConsumables['billDate'].invalid" class="invalid-feedback">
                   Bill date is required
@@ -1724,8 +1753,8 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <select class="form-select" formControlName="modeOfPayment"
-                        (change)="modeOfPaymentConsumables($any($event.target).value)"
-                        [class.is-invalid]="isSubmitted && fConsumables['modeOfPayment'].invalid">
+                  (change)="modeOfPaymentConsumables($any($event.target).value)"
+                  [class.is-invalid]="isSubmitted && fConsumables['modeOfPayment'].invalid">
                   <option value="BANK_TRANSFER">Bank Transfer</option>
                   <option value="CASH">Cash</option>
                   <option value="UPI">UPI</option>
@@ -1742,7 +1771,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" formControlName="payeeName"
-                       [class.is-invalid]="isSubmitted && fConsumables['payeeName'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['payeeName'].invalid">
                 <label for="payeeName">Payee Name</label>
                 <div *ngIf="isSubmitted && fConsumables['payeeName'].invalid" class="invalid-feedback">
                   Payee name is required
@@ -1751,11 +1780,11 @@
             </div>
 
             <!-- Bank Name -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4" 
-                 *ngIf="fConsumables['modeOfPayment']?.value === 'BANK_TRANSFER' || fConsumables['modeOfPayment']?.value === 'CHEQUE'">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4"
+              *ngIf="fConsumables['modeOfPayment']?.value === 'BANK_TRANSFER' || fConsumables['modeOfPayment']?.value === 'CHEQUE'">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" formControlName="bankName"
-                       [class.is-invalid]="isSubmitted && fConsumables['bankName'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['bankName'].invalid">
                 <label for="bankName">Bank Name</label>
                 <div *ngIf="isSubmitted && fConsumables['bankName'].invalid" class="invalid-feedback">
                   Bank name is required
@@ -1764,10 +1793,11 @@
             </div>
 
             <!-- IFSC Code -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="fConsumables['modeOfPayment']?.value === 'BANK_TRANSFER'">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4"
+              *ngIf="fConsumables['modeOfPayment']?.value === 'BANK_TRANSFER'">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" formControlName="ifscCode"
-                       [class.is-invalid]="isSubmitted && fConsumables['ifscCode'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['ifscCode'].invalid">
                 <label for="ifscCode">IFSC Code</label>
                 <div *ngIf="isSubmitted && fConsumables['ifscCode'].invalid" class="invalid-feedback">
                   Invalid IFSC format. Correct format: AAAA0BBBBBB (4 Capital letters, then 0, then 6 letters/numbers)
@@ -1779,7 +1809,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="fConsumables['modeOfPayment']?.value === 'UPI'">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" formControlName="transactionId"
-                       [class.is-invalid]="isSubmitted && fConsumables['transactionId'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['transactionId'].invalid">
                 <label for="transactionId">Transaction ID</label>
                 <div *ngIf="isSubmitted && fConsumables['transactionId'].invalid" class="invalid-feedback">
                   Transaction ID is required
@@ -1791,7 +1821,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="fConsumables['modeOfPayment']?.value === 'CHEQUE'">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" formControlName="checkNo"
-                       [class.is-invalid]="isSubmitted && fConsumables['checkNo'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['checkNo'].invalid">
                 <label for="checkNo">Cheque No</label>
                 <div *ngIf="isSubmitted && fConsumables['checkNo'].invalid" class="invalid-feedback">
                   Cheque number is required
@@ -1803,7 +1833,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="fConsumables['modeOfPayment']?.value === 'CHEQUE'">
               <div class="form-floating mb-3">
                 <input type="date" class="form-control" formControlName="checkDate" appDisableFutureDates
-                       [class.is-invalid]="isSubmitted && fConsumables['checkDate'].invalid">
+                  [class.is-invalid]="isSubmitted && fConsumables['checkDate'].invalid">
                 <label for="checkDate">Cheque Date</label>
                 <div *ngIf="isSubmitted && fConsumables['checkDate'].invalid" class="invalid-feedback">
                   Cheque date is required
@@ -1814,15 +1844,15 @@
             <!-- Upload File -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="file" id="consumablesFile" class="form-control" 
-                       [disabled]="uploadedFileConsumables"
-                       (change)="onConsumablesFileSelected($event)">
+                <input type="file" id="consumablesFile" class="form-control" [disabled]="uploadedFileConsumables"
+                  (change)="onConsumablesFileSelected($event)">
                 <label for="consumablesFile">Upload Bill Invoice</label>
               </div>
 
               <div *ngIf="uploadedFileConsumables" class="mt-2">
                 <div class="d-flex align-items-center mb-1">
-                  <span class="me-2">{{uploadedFileConsumables.name ? uploadedFileConsumables.name : uploadedFileConsumables.split('/').pop()}}</span>
+                  <span
+                    class="me-2">{{uploadedFileConsumables.name ? uploadedFileConsumables.name : uploadedFileConsumables.split('/').pop()}}</span>
                   <button type="button" (click)="removeConsumablesFile()" class="btn btn-sm btn-lime-green">
                     <span class="bi bi-trash"></span>
                   </button>
@@ -1843,8 +1873,8 @@
 </div>
 
 <!-- Delete Consumables Modal -->
-<div class="modal fade" id="deleteConsumablesModal" tabindex="-1" role="dialog" 
-     aria-labelledby="deleteConsumablesModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteConsumablesModal" tabindex="-1" role="dialog"
+  aria-labelledby="deleteConsumablesModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1855,10 +1885,9 @@
         Are you sure you want to delete this consumable record?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" 
-                (click)="closeDeleteConsumablesModal()">Close</button>
-        <button type="button" class="btn btn-lime-green" 
-                (click)="confirmDeleteConsumables()">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="closeDeleteConsumablesModal()">Close</button>
+        <button type="button" class="btn btn-lime-green" (click)="confirmDeleteConsumables()">Confirm</button>
       </div>
     </div>
   </div>
@@ -1880,11 +1909,9 @@
             <!-- Item Name (Bulk ID) -->
             <div class="col-12 col-sm-6 col-md-6">
               <div class="form-floating mb-3">
-                <select class="form-select" formControlName="bulkId" 
+                <select class="form-select" formControlName="bulkId"
                   [class.is-invalid]="isSubmitted && fTransaction['bulkId'].invalid"
-
-                  (change)="selectedBulkItem = getConsumableData($any($event.target).value)"
-                 >
+                  (change)="selectedBulkItem = getConsumableData($any($event.target).value)">
                   <option value="0">Select Item</option>
                   <option *ngFor="let item of consumablesData" [value]="item.id">
                     {{ item.itemName }}
@@ -1900,7 +1927,7 @@
             <!-- Date of Utilisation -->
             <div class="col-12 col-sm-6 col-md-6">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" formControlName="dateOfUtilisation" 
+                <input type="date" class="form-control" formControlName="dateOfUtilisation"
                   [class.is-invalid]="isSubmitted && fTransaction['dateOfUtilisation'].invalid">
                 <label for="dateOfUtilisation">Date of Utilisation</label>
                 <div *ngIf="isSubmitted && fTransaction['dateOfUtilisation'].invalid" class="invalid-feedback">
@@ -1946,7 +1973,8 @@
           </div>
 
           <div class="text-end mt-3">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" (click)="resetTransactionForm()">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal"
+              (click)="resetTransactionForm()">
               Close
             </button>
             <button type="submit" class="btn btn-lime-green" [disabled]="isSubmitted && transactionForm.invalid">
@@ -1960,7 +1988,8 @@
 </div>
 
 <!-- Delete Transaction Modal -->
-<div class="modal fade" id="deleteTransactionModal" tabindex="-1" role="dialog" aria-labelledby="deleteTransactionModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteTransactionModal" tabindex="-1" role="dialog"
+  aria-labelledby="deleteTransactionModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1971,7 +2000,8 @@
         Are you sure you want to delete this transaction record?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeDeleteTransactionModal()">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="closeDeleteTransactionModal()">Close</button>
         <button type="button" class="btn btn-lime-green" (click)="confirmDeleteTransaction()">Delete</button>
       </div>
     </div>
