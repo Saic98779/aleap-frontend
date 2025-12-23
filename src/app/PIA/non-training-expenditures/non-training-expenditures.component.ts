@@ -1455,7 +1455,7 @@ export class NonTrainingExpendituresComponent implements OnInit {
        nonTrainingActivityId: [0, ],
       paymentDate: ['', Validators.required],
       category: ['', ],
-      expenditureAmount: [0, [Validators.required, Validators.min(0)]],
+      expenditureAmount: [0, [Validators.required, Validators.min(0),Validators.max(5000000)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
       payeeName: ['', Validators.required],

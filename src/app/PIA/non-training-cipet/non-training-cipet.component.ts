@@ -525,7 +525,7 @@ createForm(): FormGroup {
        nonTrainingActivityId: [0, ],
       paymentDate: ['', Validators.required],
       category: ['', ],
-      expenditureAmount: [0, [Validators.required, Validators.min(0)]],
+      expenditureAmount: [0, [Validators.required, Validators.min(0),Validators.max(5000000)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
       payeeName: ['', Validators.required],
@@ -830,7 +830,7 @@ removeFile(): void {
       relevantExperience: [0, [Validators.required, Validators.min(0), Validators.max(50)]],
       educationalQualification: ['', Validators.required],
       dateOfJoining: ['', Validators.required],
-      monthlySal: [0, [Validators.required, Validators.min(0)]],
+      monthlySal: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       bankName: ['', Validators.required],
       ifscCode: ['', [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]],
       accountNo: ['', [Validators.required]]
@@ -1181,7 +1181,7 @@ removeFilePayment(): void {
   }
     createFormPayment(): FormGroup {
     return this.fb.group({
-      amount: [0, [Validators.required, Validators.min(0), Validators.max(10000000)]],
+      amount: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       paymentForMonth: ['08-2025',],
       dateOfPayment: ['', Validators.required],
       resourceId: [0, [Validators.required,]],
@@ -1359,7 +1359,7 @@ createFormTravel(): FormGroup {
       modeOfTravel: ['', Validators.required],
       destination: ['', Validators.required],
       noOfPersonsTraveled:  [0, [Validators.required, Validators.min(0)]],
-      amount: [0, [Validators.required, Validators.min(0)]],
+      amount: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
       payeeName: ['', Validators.required],
