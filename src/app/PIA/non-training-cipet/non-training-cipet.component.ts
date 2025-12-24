@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonServiceService } from '@app/_services/common-service.service';
 import { APIS } from '@app/constants/constants';
@@ -10,6 +10,9 @@ import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt';
 import { MonthlyRangeComponent } from '../monthly-range/monthly-range.component';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { state } from '@angular/animations';
+import { distinct } from 'rxjs';
 
 @Component({
   selector: 'app-non-training-cipet',
@@ -24,22 +27,292 @@ export class NonTrainingCipetComponent implements OnInit {
   loginsessionDetails: any;
   selectedAgencyId: any;
   @ViewChild(MonthlyRangeComponent) monthlyRange!: MonthlyRangeComponent;
- constructor(private fb: FormBuilder, private toastrService: ToastrService,
-      private _commonService: CommonServiceService,
-      private router: Router,) {
-   this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
-     this.selectedAgencyId = this.loginsessionDetails.agencyId;
+  constructor(
+    private fb: FormBuilder, 
+    private toastrService: ToastrService,
+    private _commonService: CommonServiceService,
+    private router: Router,
+  ) {
+    this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
+    this.selectedAgencyId = this.loginsessionDetails.agencyId;
     this.financialForm = this.createForm();
-     this.travelForm = this.createFormTravel();
-        this.contingencyForm = this.createFormContingency();
-        this.paymentForm = this.createFormPayment();
-
+    this.travelForm = this.createFormTravel();
+    this.contingencyForm = this.createFormContingency();
+    this.paymentForm = this.createFormPayment();
+    this.OrganisationForm = this.createFormOrganization(); // Initialize organization form
   }
 
   ngOnInit(): void {
-     this.getBudgetHeadList()
-    
+    this.getBudgetHeadList();
+    this.getOrganizationData();
+    this.getAllDistricts();
+    this.getAllSectors();
+    this.visitForm = this.createFormVisit(); // Add this line
+  this.assignResourceDropdownSettings(); // Add this line
   }
+
+
+ 
+
+ 
+ 
+  OragnizationType: any = 'MSME'; 
+  OrganisationForm!: FormGroup;
+  // Organization related properties
+  OrganizationData: any = [];
+  allDistricts: any = [];
+  allSectors: any = [];
+  MandalList: any = [];
+  dropdownListOrg: any = [];
+  dropdownList1: any = [];
+  selectedItems: any[] = [];
+  
+  // Dropdown settings
+  dropdownSettingsOrg: IDropdownSettings = {};
+  dropdownSettings: IDropdownSettings = {};
+
+ 
+
+  // Organization Form Creation
+  createFormOrganization(): FormGroup {
+    return this.fb.group({
+      "organizationCategory": new FormControl("Micro", [Validators.required]),
+      "organizationType": new FormControl("MSME", [Validators.required]),
+      "udyamregistrationNo": new FormControl(""),
+      "organizationName": new FormControl("", [Validators.required, Validators.pattern(/^[^\s].*/)]),
+      "udyamYesOrNo": new FormControl("No", [Validators.required]),
+      "dateOfRegistration": new FormControl(""),
+      "incorporationDate": new FormControl(""),
+      "dateOfIssue": new FormControl(""),
+      "validupto": new FormControl(""),
+      "stateId": new FormControl("Telangana", [Validators.required]),
+      "distId": new FormControl("", [Validators.required]),
+      "sectorIds": new FormControl([], [Validators.required]),
+      "mandal": new FormControl("", [Validators.required]),
+      "town": new FormControl("", [Validators.required]),
+      "streetNo": new FormControl(""),
+      "houseNo": new FormControl(""),
+      "latitude": new FormControl("", [Validators.pattern(/^[0-9.]{1,50}$/)]),
+      "longitude": new FormControl("", [Validators.pattern(/^[0-9.]{1,50}$/)]),
+      "contactNo": new FormControl("", [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]),
+      "email": new FormControl("", [Validators.email]),
+      "website": new FormControl(""),
+      "ownerName": new FormControl("", [Validators.required, Validators.pattern(/^[^\s].*/)]),
+      "ownerContactNo": new FormControl("", [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]),
+      "ownerEmail": new FormControl("", [Validators.email]),
+      "ownerAddress": new FormControl("")
+    });
+  }
+
+  get fOrg() {
+    return this.OrganisationForm.controls;
+  }
+
+  // Get All Districts
+  getAllDistricts() {
+    this.allDistricts = [];
+    this._commonService.getDataByUrl(APIS.masterList.getDistricts).subscribe({
+      next: (data: any) => {
+        this.allDistricts = data.data;
+      },
+      error: (err: any) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Get All Sectors
+  getAllSectors() {
+    this.allSectors = [];
+    this._commonService.getDataByUrl(APIS.masterList.getSectors).subscribe({
+      next: (data: any) => {
+        this.allSectors = data.data;
+        this.assignFluidData1();
+      },
+      error: (err: any) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Get Organization Data
+  getOrganizationData() {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId+'?organizationType=MSME').subscribe({
+      next: (res: any) => {
+        this.OrganizationData = res.data || [];
+        this.assignFluidDataOrg();
+      },
+      error: (err) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Get Mandal by District
+  GetMandalByDistrict(event: any) {
+    this.MandalList = [];
+    this._commonService.getDataByUrl(APIS.masterList.getMandal + event.target.value).subscribe({
+      next: (data: any) => {
+        this.MandalList = data.data;
+      },
+      error: (err: any) => {
+        this.toastrService.error(err.message);
+      }
+    });
+  }
+
+  // Dropdown Settings for Organization
+  assignFluidDataOrg() {
+    this.dropdownSettingsOrg = {
+      singleSelection: true,
+      idField: 'organizationId',
+      textField: 'organizationName',
+      itemsShowLimit: 1,
+      allowSearchFilter: true,
+      clearSearchFilter: true,
+      maxHeight: 197,
+      searchPlaceholderText: "Search Organization",
+      noDataAvailablePlaceholderText: "Data Not Available",
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+    this.dropdownListOrg = this.OrganizationData;
+  }
+
+  onItemSelectOrg(item: any) {
+    console.log('Item selected:', item);
+  }
+
+  onItemDeSelectOrg(item: any) {
+    console.log('Item deselected:', item);
+  }
+
+  // Dropdown Settings for Sectors
+  assignFluidData1() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'sectorId',
+      textField: 'sectorName',
+      itemsShowLimit: 1,
+      enableCheckAll: true,
+      selectAllText: "Select All",
+      unSelectAllText: "Clear All",
+      allowSearchFilter: true,
+      clearSearchFilter: true,
+      maxHeight: 197,
+      searchPlaceholderText: "Search Sector",
+      noDataAvailablePlaceholderText: "Data Not Available",
+      closeDropDownOnSelection: false,
+      showSelectedItemsAtTop: false,
+      defaultOpen: false,
+    };
+    this.dropdownList1 = this.allSectors;
+  }
+
+  onItemSelect(item: any) {
+    console.log('Item selected:', item);
+  }
+
+  onSelectAll(items: any[]) {
+    console.log('All items selected:', items);
+  }
+
+  onItemDeSelect(item: any) {
+    console.log('Item deselected:', item);
+  }
+
+  onDeSelectAll(items: any[]) {
+    console.log('All items deselected');
+  }
+
+  // Change Udyam Registration
+  chnageUdyam(event: any) {
+    if (event.target.value == 'Yes') {
+      this.fOrg['udyamregistrationNo'].addValidators(Validators.required);
+      this.fOrg['dateOfRegistration'].addValidators(Validators.required);
+    } else {
+      this.fOrg['udyamregistrationNo'].setValidators(null);
+      this.fOrg['dateOfRegistration'].setValidators(null);
+      this.fOrg['udyamregistrationNo'].patchValue('');
+      this.fOrg['dateOfRegistration'].patchValue('');
+    }
+    this.fOrg['udyamregistrationNo'].updateValueAndValidity();
+    this.fOrg['dateOfRegistration'].updateValueAndValidity();
+  }
+
+  // Submit Organization Form
+  SubmitformOrganization() {
+    console.log(this.OrganisationForm.value);
+
+    if (!this.OrganisationForm.valid) {
+      this.toastrService.warning('Please fill all required fields', "Validation Error!");
+      return;
+    }
+
+    // Process sector IDs
+    if (this.OrganisationForm.value['sectorIds'].length) {
+      this.OrganisationForm.value['sectorIds'] = this.OrganisationForm.value['sectorIds'].map((item: any) => {
+        return Number(item.sectorId);
+      });
+    } else {
+      this.OrganisationForm.value['sectorIds'] = [];
+    }
+
+    // Format dates
+    const payload = {
+      ...this.OrganisationForm.value,
+      dateOfRegistration: this.OrganisationForm.value.dateOfRegistration ? 
+        moment(this.OrganisationForm.value.dateOfRegistration).format('DD-MM-YYYY') : null,
+      incorporationDate: this.OrganisationForm.value.incorporationDate ? 
+        moment(this.OrganisationForm.value.incorporationDate).format('DD-MM-YYYY') : null,
+      dateOfIssue: this.OrganisationForm.value.dateOfIssue ? 
+        moment(this.OrganisationForm.value.dateOfIssue).format('DD-MM-YYYY') : null,
+      validupto: this.OrganisationForm.value.validupto ? 
+        moment(this.OrganisationForm.value.validupto).format('DD-MM-YYYY') : null
+    };
+
+    this._commonService.add(APIS.participantdata.saveOrgnization, payload).subscribe({
+      next: (data: any) => {
+        this.toastrService.success('MSME Organization Data Added Successfully', "Success!");
+        this.OrganisationForm.reset();
+        this.OrganisationForm.patchValue({
+          organizationType: 'MSME',
+          organizationCategory: 'Micro',
+          udyamYesOrNo: 'No',
+          stateId: 'Telangana'
+        });
+        this.getOrganizationData();
+        
+        // Close the modal
+        const modalElement = document.getElementById('addOrganisation');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement);
+          if (modal) {
+            modal.hide();
+          }
+        }
+      },
+      error: (err) => {
+        this.toastrService.error(err.message, "Error!");
+      }
+    });
+  }
+
+  // Open Organization Modal
+  openOrganizationModal() {
+    this.OrganisationForm.reset();
+    this.OrganisationForm.patchValue({
+      organizationType: 'MSME',
+      organizationCategory: 'Micro',
+      udyamYesOrNo: 'No',
+      stateId: 'Telangana'
+    });
+    
+    const modal = new bootstrap.Modal(document.getElementById('addOrganisation'));
+    modal.show();
+  }
+
     budgetHeadList: any;
     getBudgetHeadList() {
         this._commonService.getDataByUrl(APIS.nontrainingtargets.getBudgetHeadList+this.selectedAgencyId).subscribe((res: any) => {
@@ -83,34 +356,47 @@ export class NonTrainingCipetComponent implements OnInit {
           this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
           this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
           console.log('TargetDetails:', this.TargetDetails);
-          if( this.selectedBudgetHead=='6' || this.selectedBudgetHead=='11'){
+          if( this.selectedBudgetHead=='6'  || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' ){
+
             this.getResourceList()
             this.getContingencyDataById()
             this.getPaymentsDataById()
+            
+             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91' || this.selectedBudgetHead=='10') {
+            this.getVisitDetailsList();
+             this.getPreliminaryDataById()
+            }
 
           }
           else if(this.selectedBudgetHead=='19'){
             this.getTravelDataBySubActive()
           }
-          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91'  || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
              this.getPreliminaryDataById()
             
           }
 
           
         }, (error) => {
-                    if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
-                 this.getPreliminaryDataById()
+           if( this.selectedBudgetHead=='6'  || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' ){
 
-          }
-
-           else if(this.selectedBudgetHead=='19'){
-            this.getTravelDataBySubActive()
-          }
-          else if(this.selectedBudgetHead=='26'){
             this.getResourceList()
             this.getContingencyDataById()
             this.getPaymentsDataById()
+           
+             if (this.selectedBudgetHead == '2' || this.selectedBudgetHead == '8' || this.selectedBudgetHead == '91' || this.selectedBudgetHead=='10') {
+            
+              this.getVisitDetailsList()
+             this.getPreliminaryDataById()
+            }
+
+          }
+          else if(this.selectedBudgetHead=='19'){
+            this.getTravelDataBySubActive()
+          }
+          else if(this.selectedBudgetHead=='12' || this.selectedBudgetHead=='11' || this.selectedBudgetHead=='92' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='13' || this.selectedBudgetHead=='90' || this.selectedBudgetHead=='10' || this.selectedBudgetHead=='2' || this.selectedBudgetHead=='8' || this.selectedBudgetHead=='91' || this.selectedBudgetHead=='93' || this.selectedBudgetHead=='4'){
+             this.getPreliminaryDataById()
+            
           }
           // this.toastrService.error(error.message);
         });
@@ -154,10 +440,12 @@ getSubactivities(event:any){
         });
       }
         resourceList:any=[]
+        arrayResourceList:any=[]
    getResourceList(){
         this.resourceList=[]
           this._commonService.getDataByUrl(APIS.nontrainingtargets.getResourceList+this.selectedBudgetHead).subscribe((res: any) => {
               this.resourceList=res.data;
+              this.arrayResourceList=res.data;
              
           
           }, (error) => {
@@ -236,8 +524,8 @@ createForm(): FormGroup {
       nonTrainingSubActivityId: [0, ],
        nonTrainingActivityId: [0, ],
       paymentDate: ['', Validators.required],
-      // category: ['', Validators.required],
-      expenditureAmount: [0, [Validators.required, Validators.min(0)]],
+      category: ['', ],
+      expenditureAmount: [0, [Validators.required, Validators.min(0),Validators.max(5000000)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
       payeeName: ['', Validators.required],
@@ -273,7 +561,7 @@ createForm(): FormGroup {
         agencyId: item?.agencyId || 0,
         nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
         paymentDate: item?.paymentDate ? this.convertToISOFormat(item?.paymentDate) : '',
-        // category: item?.category ? item?.category : '',
+        category: item?.category ? item?.category : '',
         expenditureAmount: item?.expenditureAmount || 0,
         billNo: item?.billNo || '',
         billDate: item?.billDate ? this.convertToISOFormat(item?.billDate) : '',
@@ -384,6 +672,7 @@ createForm(): FormGroup {
         this.financialForm.get('ifscCode')?.updateValueAndValidity();
       }
     }
+    
   getPreliminaryData:any=[]
   onSubmit(): void {
     this.isSubmitted = true;
@@ -394,7 +683,7 @@ createForm(): FormGroup {
 +        this.f['nonTrainingActivityId'].setValue(Number(this.selectedActivity));
   const formData = new FormData();
             console.log('this.uploadedFilesFinance:', this.uploadedFilesFinance,Object(this.uploadedFilesFinance).length>0,typeof this.uploadedFilesFinance);
-             if (this.uploadedFilesFinance.name && typeof this.uploadedFilesFinance !== 'string') {
+             if (this.uploadedFilesFinance?.name && typeof this.uploadedFilesFinance !== 'string') {
               formData.append("files", this.uploadedFilesFinance);
               }
               else{
@@ -541,7 +830,7 @@ removeFile(): void {
       relevantExperience: [0, [Validators.required, Validators.min(0), Validators.max(50)]],
       educationalQualification: ['', Validators.required],
       dateOfJoining: ['', Validators.required],
-      monthlySal: [0, [Validators.required, Validators.min(0)]],
+      monthlySal: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       bankName: ['', Validators.required],
       ifscCode: ['', [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]],
       accountNo: ['', [Validators.required]]
@@ -695,31 +984,77 @@ resetForm(): void {
 // paymenr 
   iseditModePayment = false;
   paymentID:any
-  openModelPayment(mode: string,item?: any): void {
+  // openModelPayment(mode: string,item?: any): void {
+  //   this.paymentID=''
+  //   if (mode === 'add') {
+  //     this.iseditModePayment = false;
+  //     this.paymentForm.reset();
+  //     this.isSubmitted = false;
+  //     this.paymentForMonth = ''; // Clear the payment month for add mode
+  //      setTimeout(() => {
+  //      this.monthlyRange.setValue('08-2025');
+  //     }, 0);
+  //   }
+  //   if (mode === 'edit') {
+
+  //     this.paymentID=item?.nonTrainingResourceExpenditureId
+  //     this.iseditModePayment = true;
+  //     // Set the paymentForMonth value from response - this will trigger the monthly-range component update
+  //     this.paymentForMonth = item?.paymentForMonth || '';
+      
+  //     // Use setTimeout to ensure the monthly-range component is available
+  //     setTimeout(() => {
+  //       if (this.monthlyRange && item?.paymentForMonth) {
+  //         this.monthlyRange.setValue(item.paymentForMonth);
+  //       }
+  //     }, 0);
+      
+  //     this.paymentForm.patchValue({
+  //       amount: item?.amount || 0,
+  //       paymentForMonth: item?.paymentForMonth || '',
+  //       dateOfPayment: item?.dateOfPayment ? this.convertToISOFormat(item?.dateOfPayment) : '',
+  //       resourceId: item?.resourceId || 0,
+  //       bankName: item?.bankName || '',
+  //       ifscCode: item?.ifscCode || '',
+  //       accountNo: item?.accountNo || '',
+  //       uploadBillUrl: item?.uploadBillUrl || ''
+       
+  //     });
+  //   }
+  //   this.onResourceChange(item?.resourceId,this.resourceList)
+  //   const modal1 = new bootstrap.Modal(document.getElementById('addPayment'));
+  //   modal1.show();
+  // }
+  // ...existing code...
+
+// Update the uploadedFilesPayment property (add this near uploadedFilesFinance around line 668)
+uploadedFilesPayment: any;
+
+// Update openModelPayment method
+openModelPayment(mode: string,item?: any): void {
     this.paymentID=''
     if (mode === 'add') {
       this.iseditModePayment = false;
       this.paymentForm.reset();
       this.isSubmitted = false;
-      this.paymentForMonth = ''; // Clear the payment month for add mode
+      this.uploadedFilesPayment = null; // Add this line
+      this.paymentForMonth = ''; 
        setTimeout(() => {
        this.monthlyRange.setValue('08-2025');
       }, 0);
     }
     if (mode === 'edit') {
-
       this.paymentID=item?.nonTrainingResourceExpenditureId
       this.iseditModePayment = true;
-      // Set the paymentForMonth value from response - this will trigger the monthly-range component update
+      this.uploadedFilesPayment = item?.uploadBillUrl; // Add this line
       this.paymentForMonth = item?.paymentForMonth || '';
       
-      // Use setTimeout to ensure the monthly-range component is available
       setTimeout(() => {
         if (this.monthlyRange && item?.paymentForMonth) {
           this.monthlyRange.setValue(item.paymentForMonth);
         }
       }, 0);
-      
+       
       this.paymentForm.patchValue({
         amount: item?.amount || 0,
         paymentForMonth: item?.paymentForMonth || '',
@@ -728,14 +1063,110 @@ resetForm(): void {
         bankName: item?.bankName || '',
         ifscCode: item?.ifscCode || '',
         accountNo: item?.accountNo || '',
-        uploadBillUrl: item?.uploadBillUrl || ''
-       
+        uploadBillUrl: '' // Change this line
       });
     }
+      setTimeout(() => {
+       const fileInput = document.getElementById('paymentFile') as HTMLInputElement;
+         if (fileInput) {
+          fileInput.value = '';
+          } 
+     }, 100);
     this.onResourceChange(item?.resourceId,this.resourceList)
     const modal1 = new bootstrap.Modal(document.getElementById('addPayment'));
     modal1.show();
   }
+// Update onSubmitPayment method
+onSubmitPayment(): void {
+    this.isSubmitted = true;
+    console.log(this.paymentForm.value);
+    if (this.paymentForm.valid) {
+      
+       if(this.iseditModePayment){
+        const formData = new FormData();
+        
+        if (this.uploadedFilesPayment?.name && typeof this.uploadedFilesPayment !== 'string') {
+          formData.append("files", this.uploadedFilesPayment);
+        } else {
+          this.paymentForm.patchValue({uploadBillUrl: this.uploadedFilesPayment});
+        }
+
+        formData.append("expenditureDto", JSON.stringify({
+          nonTrainingResourceExpenditureId: this.paymentID,
+          amount: this.paymentForm.value.amount,
+          paymentForMonth: this.paymentForm.value.paymentForMonth,
+          dateOfPayment: this.paymentForm.value.dateOfPayment,
+          uploadBillUrl: this.paymentForm.value.uploadBillUrl,
+          resourceId: Number(this.paymentForm.value.resourceId)
+        }));
+
+        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment, formData, this.paymentID).subscribe((res: any) => {
+          this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
+          this.isSubmitted = false;
+          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+          modal1.hide();
+          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        }, (error) => {
+          this.isSubmitted = false;
+          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+          modal1.hide();
+          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+          this.toastrService.error(error.message,"Non Training Progress Data Error!");
+        });
+    }
+    else{
+      const formData = new FormData();
+      formData.append("expenditureDto", JSON.stringify({
+        nonTrainingResourceExpenditureId: 0,
+        amount: this.paymentForm.value.amount,
+        paymentForMonth: this.paymentForm.value.paymentForMonth,
+        dateOfPayment: this.paymentForm.value.dateOfPayment,
+        resourceId: Number(this.paymentForm.value.resourceId)
+      }));
+
+      if (this.uploadedFilesPayment) {
+        formData.append("file", this.uploadedFilesPayment);
+      }
+      
+      this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment, formData).subscribe((res: any) => {
+        this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
+        this.isSubmitted = false;
+        const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+        modal1.hide();
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+      }, (error) => {
+        this.isSubmitted = false;
+        const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+        modal1.hide();
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        this.toastrService.error(error.message);
+      });
+    }
+   
+      setTimeout(() => {
+           this.getDeatilOfTargets()
+        }, 200);
+    }
+  }
+
+// Update onFileSelectedPayment method
+onFileSelectedPayment(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+       this.uploadedFilesPayment = file;
+    }
+  }
+
+// Add removeFilePayment method (add after onFileSelectedPayment)
+removeFilePayment(): void {
+    this.uploadedFilesPayment = null;
+    const fileInput = document.getElementById('paymentFile') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
+// ...existing code...
   onResourceChange(event:any,list:any){
     console.log('Selected Resource ID:', list);
     const selectedResource = list.find((item: any) => item.resourceId == event);
@@ -750,7 +1181,7 @@ resetForm(): void {
   }
     createFormPayment(): FormGroup {
     return this.fb.group({
-      amount: [0, [Validators.required, Validators.min(0), Validators.max(10000000)]],
+      amount: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       paymentForMonth: ['08-2025',],
       dateOfPayment: ['', Validators.required],
       resourceId: [0, [Validators.required,]],
@@ -771,78 +1202,79 @@ resetForm(): void {
     });
    this.paymentForMonth= event.value ? moment(event.value).format('MM-YYYY') : '';
   }
-   onSubmitPayment(): void {
-    this.isSubmitted = true;
-    console.log(this.paymentForm.value);
-    if (this.paymentForm.valid) {
+  //  onSubmitPayment(): void {
+  //   this.isSubmitted = true;
+  //   console.log(this.paymentForm.value);
+  //   if (this.paymentForm.valid) {
       
-       if(this.iseditModePayment){
-        const formData: any = {
-        nonTrainingResourceExpenditureId: 0, // Generated by backend
-        amount: this.paymentForm.value.amount,
-        paymentForMonth: this.paymentForm.value.paymentForMonth,
-        dateOfPayment: this.paymentForm.value.dateOfPayment,
-        uploadBillUrl: this.paymentForm.value.uploadBillUrl,
-        resourceId: Number(this.paymentForm.value.resourceId)
-      };
-        this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment,{...formData},this.paymentID).subscribe((res: any) => {
-          this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
+  //      if(this.iseditModePayment){
+  //       const formData: any = {
+  //       nonTrainingResourceExpenditureId: 0, // Generated by backend
+  //       amount: this.paymentForm.value.amount,
+  //       paymentForMonth: this.paymentForm.value.paymentForMonth,
+  //       dateOfPayment: this.paymentForm.value.dateOfPayment,
+  //       uploadBillUrl: this.paymentForm.value.uploadBillUrl,
+  //       resourceId: Number(this.paymentForm.value.resourceId)
+  //     };
+  //       this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment,{...formData},this.paymentID).subscribe((res: any) => {
+  //         this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
           
-          console.log('Preliminary Data:', this.getContingencyData);
+  //         console.log('Preliminary Data:', this.getContingencyData);
           
-          this.isSubmitted = false;
-          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-          modal1.hide();
-           document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //         this.isSubmitted = false;
+  //         const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //         modal1.hide();
+  //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
         
-        }, (error) => {
-          //  this.resetForm();
-          this.isSubmitted = false;
-          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-          modal1.hide();
-           document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-          this.toastrService.error(error.message,"Non Training Progress Data Error!");
-        });
-    }
-    else{
-      console.log('Form Submitted:', this.contingencyForm.value);
-      const formData = new FormData();
-          formData.append("expenditureDto", JSON.stringify({
-          nonTrainingResourceExpenditureId: 0, // Generated by backend
-        amount: this.paymentForm.value.amount,
-        paymentForMonth: this.paymentForm.value.paymentForMonth,
-        dateOfPayment: this.paymentForm.value.dateOfPayment,
-        resourceId: Number(this.paymentForm.value.resourceId)}));
+  //       }, (error) => {
+  //         //  this.resetForm();
+  //         this.isSubmitted = false;
+  //         const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //         modal1.hide();
+  //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //         this.toastrService.error(error.message,"Non Training Progress Data Error!");
+  //       });
+  //   }
+  //   else{
+  //     console.log('Form Submitted:', this.contingencyForm.value);
+  //     const formData = new FormData();
+  //         formData.append("expenditureDto", JSON.stringify({
+  //         nonTrainingResourceExpenditureId: 0, // Generated by backend
+  //       amount: this.paymentForm.value.amount,
+  //       paymentForMonth: this.paymentForm.value.paymentForMonth,
+  //       dateOfPayment: this.paymentForm.value.dateOfPayment,
+  //       resourceId: Number(this.paymentForm.value.resourceId)}));
 
-          if (this.travelForm.value.billInvoicePath) {
-            formData.append("file", this.uploadedFiles);
-            }
-        this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment,formData).subscribe((res: any) => {
-          this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
-          this.isSubmitted = false;
-          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-          modal1.hide();
-           document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //         if (this.paymentForm.value.uploadBillUrl) {
+  //           formData.append("file", this.uploadedFiles);
+  //           }
+  //       this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment,formData).subscribe((res: any) => {
+  //         this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
+  //         this.isSubmitted = false;
+  //         const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //         modal1.hide();
+  //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
          
         
-        }, (error) => {
+  //       }, (error) => {
        
-          this.isSubmitted = false;
-          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-          modal1.hide();
-           document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-          this.toastrService.error(error.message);
-        });
-    }
+  //         this.isSubmitted = false;
+  //         const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //         modal1.hide();
+  //          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //         this.toastrService.error(error.message);
+  //       });
+  //   }
    
-      this.getDeatilOfTargets()
-      // console.log('Form Data:', formData);
-      // Call your API service here
-      // this.paymentService.createPayment(formData).subscribe(...);
+  //     this.getDeatilOfTargets()
+  //     // console.log('Form Data:', formData);
+  //     // Call your API service here
+  //     // this.paymentService.createPayment(formData).subscribe(...);
       
     
-    }
-  }
+  //   }
+  // }
+
   deletePayment(id:any):void{
     this.deleteContingencyID=id
      document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
@@ -927,7 +1359,7 @@ createFormTravel(): FormGroup {
       modeOfTravel: ['', Validators.required],
       destination: ['', Validators.required],
       noOfPersonsTraveled:  [0, [Validators.required, Validators.min(0)]],
-      amount: [0, [Validators.required, Validators.min(0)]],
+      amount: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
       payeeName: ['', Validators.required],
@@ -1097,18 +1529,18 @@ createFormTravel(): FormGroup {
       });
     }
   }
-  onFileSelectedPayment(event: any): void {
-    this.uploadedFiles = null;
-    const file = event.target.files[0];
-    if (file) {
-       this.uploadedFiles = file;
-      // Handle file upload logic here
-      // You might want to upload the file and then set the URL
-      this.paymentForm.patchValue({
-        uploadBillUrl: file.name // This would be the uploaded file URL
-      });
-    }
-  }
+  // onFileSelectedPayment(event: any): void {
+  //   this.uploadedFiles = null;
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //      this.uploadedFiles = file;
+  //     // Handle file upload logic here
+  //     // You might want to upload the file and then set the URL
+  //     this.paymentForm.patchValue({
+  //       uploadBillUrl: file.name // This would be the uploaded file URL
+  //     });
+  //   }
+  // }
    modeOfPayment(val:any){
       if(val=='CASH'){
         this.travelForm.get('bank')?.setValidators(null);
@@ -1179,6 +1611,356 @@ createFormTravel(): FormGroup {
     }
   // end infracture
 
+
+
+  // visit details code
+  // ...existing code...
+
+// Add Visit Details properties after OrganizationData
+visitForm!: FormGroup;
+visitDetailsList: any = [];
+iseditModeVisit = false;
+visitDetailsID: any;
+dropdownSettingsResource: IDropdownSettings = {};
+dropdownListResource: any = [];
+selectedOrganization: any = null;
+copyFromOrganization = false;
+
+
+// Add Visit Form Creation after createFormOrganization
+createFormVisit(): FormGroup {
+  return this.fb.group({
+    organizationId: [0, Validators.required],
+    subActivityId: [Number(this.selectedBudgetHead), Validators.required],
+    dateOfVisit: ['', Validators.required],
+    timeOfVisit: ['', Validators.required],
+    nonTrainingResourceIds: [[], Validators.required],
+    state: ['Telangana', Validators.required],
+    district: ['', Validators.required],
+    mandal: ['', Validators.required],
+    town: ['', Validators.required],
+    streetNo: ['',Validators.required],
+    houseNo: ['', Validators.required],
+    latitude: ['', [Validators.required,Validators.pattern(/^-?\d+\.?\d*$/)]],
+    longitude: ['', [Validators.required,Validators.pattern(/^-?\d+\.?\d*$/)]],
+    contactNo: ['', [Validators.required, Validators.pattern(/^[6789]\d{9}$/)]],
+    email: ['', [Validators.required, Validators.email]],
+    withInHyderabad: [true, Validators.required]
+  });
+}
+
+get fVisit() {
+  return this.visitForm.controls;
+}
+
+// Resource Dropdown Settings
+assignResourceDropdownSettings() {
+  this.dropdownSettingsResource = {
+    singleSelection: false,
+    idField: 'resourceId',
+    textField: 'name',
+    itemsShowLimit: 2,
+    enableCheckAll: true,
+    selectAllText: "Select All Resources",
+    unSelectAllText: "Clear All",
+    allowSearchFilter: true,
+    clearSearchFilter: true,
+    maxHeight: 197,
+    searchPlaceholderText: "Search Resource",
+    noDataAvailablePlaceholderText: "No Resources Available",
+    closeDropDownOnSelection: false,
+    showSelectedItemsAtTop: false,
+    defaultOpen: false,
+  };
+  this.dropdownListResource = this.resourceList;
+}
+
+// Handle resource selection
+onItemSelectResource(item: any) {
+  console.log('Resource selected:', item);
+}
+
+onItemDeSelectResource(item: any) {
+  console.log('Resource deselected:', item);
+}
+
+// Handle organization selection
+onOrganizationSelect(item: any) {
+  console.log('Organization selected:', item);
+  if (item && Object.keys(item)?.length > 0) {
+    this.selectedOrganization = item;
+    this.fVisit['organizationId'].setValue(this.selectedOrganization.organizationId);
+    
+    if (this.copyFromOrganization) {
+      this.copyOrganizationAddress();
+    }
+  }
+}
+
+// Copy address from organization
+copyOrganizationAddress() {
+  if (this.selectedOrganization) {
+    // Fetch organization details
+    this._commonService.getDataByUrl(APIS.masterList.getOrganizationByOrgId+`${this.selectedOrganization.organizationId}`).subscribe({
+      next: (res: any) => {
+        const orgData = res.data;
+
+        this.visitForm.patchValue({
+          state: orgData.stateId || 'Telangana',
+          district: orgData.distId || '',
+          mandal: orgData.mandal || '',
+          town: orgData.town || '',
+          streetNo: orgData.streetNo || '',
+          houseNo: orgData.houseNo || '',
+          latitude: orgData.latitude || '',
+          longitude: orgData.longitude || '',
+          contactNo: orgData.contactNo || '',
+          email: orgData.email || ''
+        });
+        
+        // Load mandals for the district
+        if (orgData.distId) {
+          this.GetMandalByDistrict({ target: { value: orgData.distId } });
+        }
+      },
+      error: (err) => {
+        this.toastrService.error(err);
+      }
+    });
+  }
+}
+
+// Handle copy address checkbox
+onCopyAddressChange(event: any,organization:any) {
+  console.log('Copy address checkbox changed:', event.target.checked, this.selectedOrganization,organization);
+  this.copyFromOrganization = event.target.checked;
+  if (this.copyFromOrganization && this.selectedOrganization) {
+    this.copyOrganizationAddress();
+  }
+  
+}
+
+// Open Visit Modal
+openVisitModal(mode: string, item?: any): void {
+  this.dropdownListResource = this.resourceList;
+  
+  if (mode === 'add') {
+    this.selectedItems=[]
+    this.iseditModeVisit = false;
+    this.visitForm.reset();
+    this.visitForm.patchValue({
+      subActivityId: Number(this.selectedBudgetHead),
+      state: 'Telangana',
+      withInHyderabad: true
+    });
+    this.selectedOrganization = null;
+    this.copyFromOrganization = false;
+  }
+  
+  if (mode === 'edit') {
+    this.visitDetailsID = item?.visitDetailsId;
+    this.iseditModeVisit = true;
+    
+    // Set selected organization
+    this.selectedOrganization = this.OrganizationData.find((org: any) => 
+      org.organizationId === item?.organizationId
+    );
+    // Set selectedItems array for ng-multiselect-dropdown
+    this.selectedItems = this.selectedOrganization ? [this.selectedOrganization] : [];
+    
+    // Convert resource IDs to objects for multiselect
+    const selectedResources = item?.resourceNames?.map((name: any) => 
+      this.resourceList.find((r: any) => r.name === name)
+    ).filter((r: any) => r !== undefined) || [];
+    console.log('Selected Resources for Edit:', selectedResources);
+    this.visitForm.patchValue({
+      organizationId: item?.organizationId || 0,
+      subActivityId: item?.subActivityId || Number(this.selectedBudgetHead),
+      dateOfVisit: item?.dateOfVisit ? this.convertToISOFormat(item.dateOfVisit) : '',
+      timeOfVisit: item?.timeOfVisit || '',
+      nonTrainingResourceIds: selectedResources,
+      state: item?.state || 'Telangana',
+      district: item?.district || '',
+      mandal: item?.mandal || '',
+      town: item?.town || '',
+      streetNo: item?.streetNo || '',
+      houseNo: item?.houseNo || '',
+      latitude: item?.latitude || '',
+      longitude: item?.longitude || '',
+      contactNo: item?.contactNo || '',
+      email: item?.email || '',
+      withInHyderabad: item?.withInHyderabad ?? true
+    });
+    
+    // Load mandals
+    if (item?.district) {
+      this.GetMandalByDistrict({ target: { value: item.district } });
+    }
+  }
+  
+  const modal = new bootstrap.Modal(document.getElementById('addVisitDetails'));
+  modal.show();
+}
+
+// Get Visit Details
+getVisitDetailsList() {
+  this.visitDetailsList = [];
+  this._commonService.getDataByUrl(APIS.nontrainingtargets.citd.getVisitDetailsBySubActivity+`${this.selectedBudgetHead}`).subscribe({
+    next: (res: any) => {
+      this.visitDetailsList = res.data || [];
+    },
+    error: (err) => {
+      console.log(err)
+      this.toastrService.error(err);
+    }
+  });
+}
+
+// Submit Visit Form
+onSubmitVisit(): void {
+  this.isSubmitted = true;
+  console.log(this.visitForm.value)
+  if (this.visitForm.valid) {
+    // Extract resource IDs
+   
+    const resourceIds = this.visitForm.value.nonTrainingResourceIds.map((r: any) => r.resourceId);
+   console.log('Resource IDs to submit:', resourceIds,this.MandalList.find((m:any) => {
+      if(m.mandalId == this.visitForm.value.mandal){
+        return m.mandalName
+      }
+    })?.mandalName || '');
+    const payload = {
+      ...this.visitForm.value,
+      nonTrainingResourceIds: resourceIds,
+    //   district: this.allDistricts.find((d:any) => {if(d.districtId == this.visitForm.value.district){
+    //     return d.districtName
+    //   }}
+    // )?.districtName || '',
+    //   mandal:  this.MandalList.find((m:any) => {
+    //   if(m.mandalId == this.visitForm.value.mandal){
+    //     return m.mandalName
+    //   }
+    // })?.mandalName || '',
+      dateOfVisit: this.visitForm.value.dateOfVisit ? 
+        moment(this.visitForm.value.dateOfVisit).format('YYYY-MM-DD') : null
+    };
+    
+    if (this.iseditModeVisit) {
+      // Update
+      this._commonService.update(APIS.nontrainingtargets.citd.updateVisitDetails, payload, this.visitDetailsID).subscribe({
+        next: (res: any) => {
+          this.toastrService.success('Visit Details Updated Successfully', 'Success!');
+          this.getVisitDetailsList();
+          this.updateOrganization(payload)
+          this.closeVisitModal();
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.isSubmitted = false;
+        }
+      });
+
+    } else {
+      // Save
+      this._commonService.add(APIS.nontrainingtargets.citd.saveVisitDetails, payload).subscribe({
+        next: (res: any) => {
+           this.updateOrganization(payload)
+          this.toastrService.success('Visit Details Added Successfully', 'Success!');
+          this.getVisitDetailsList();
+          this.closeVisitModal();
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.isSubmitted = false;
+        }
+      });
+    }
+  } else {
+    this.toastrService.warning('Please fill all required fields', 'Validation Error!');
+  }
+}
+updateOrganization(payload: any) {
+  let payloadOrg = {
+    organizationId: payload.organizationId || 0,
+    stateId: payload.state || "",
+    // distId: payload.district || "",
+    // mandal: payload.mandal || "",
+    //  distId: this.allDistricts.find((d:any) => {if(d.districtName == payload.district){
+    //     return d.districtId
+    //   }}
+    // )?.districtId || '',
+
+    // mandal:  this.MandalList.find((m:any) => {
+    //   if(m.mandalName == payload.mandal){
+    //     return m.mandalId
+    //   }
+    // })?.mandalId || '',
+    // distId: this.allDistricts.find((d:any) => d.districtName == this.visitForm.value.district)?.districtId || '',
+    // mandal: this.MandalList.find((m:any) => m.mandalName == this.visitForm.value.mandal)?.mandalId || '',
+
+    town: payload.town || "",
+    streetNo: payload.streetNo || "",
+    houseNo: payload.houseNo || "",
+    latitude: payload.latitude || 0,
+    longitude: payload.longitude || 0,
+    contactNo: payload.contactNo || 0,
+    email: payload.email || "",
+  };
+   this._commonService.update(APIS.masterList.updateOrganization, payloadOrg, payload.organizationId).subscribe({
+        next: (res: any) => {
+         
+        },
+        error: (err) => {
+          this.toastrService.error(err.message, 'Error!');
+          this.isSubmitted = false;
+        }
+      });
+}
+// Delete Visit Details
+deleteVisitID: any;
+deleteVisitDetails(id: any): void {
+  this.deleteVisitID = id;
+  const modal = new bootstrap.Modal(document.getElementById('exampleModalDeleteVisit'));
+  modal.show();
+}
+
+confirmDeleteVisit(id: any) {
+  this._commonService.deleteId(APIS.nontrainingtargets.citd.deleteVisitDetails, id).subscribe({
+    next: (data: any) => {
+      this.toastrService.success('Visit Details Deleted Successfully', 'Success!');
+      this.getVisitDetailsList();
+      this.closeDeleteVisitModal();
+    },
+    error: (err) => {
+      this.toastrService.error(err.message, 'Error!');
+    }
+  });
+}
+
+closeVisitModal(): void {
+  const modal = document.getElementById('addVisitDetails');
+  if (modal) {
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+  this.isSubmitted = false;
+  this.visitForm.reset();
+}
+
+closeDeleteVisitModal(): void {
+  const modal = document.getElementById('exampleModalDeleteVisit');
+  if (modal) {
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+  this.deleteVisitID = '';
+}
+
+// ...existing code...
 }
 
 

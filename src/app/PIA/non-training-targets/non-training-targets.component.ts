@@ -188,7 +188,7 @@ export class NonTrainingTargetsComponent implements OnInit {
       nonTrainingActivityId: [0, ],
       category: ['',],
       paymentDate: ['', Validators.required],
-      expenditureAmount: [0, [Validators.required, Validators.min(0)]],
+      expenditureAmount: [0, [Validators.required, Validators.min(0) ,Validators.max(5000000)]],
       billNo: ['', Validators.required],
       billDate: ['', Validators.required],
       payeeName: ['', Validators.required],
@@ -483,18 +483,25 @@ getPreliminaryData:any=[]
 removeFile(): void {
      this.uploadedFilesFinance=null   
    }
- onFileSelectedPayment(event: any): void {
-    this.uploadedFiles = null;
-    const file = event.target.files[0];
-    if (file) {
-       this.uploadedFiles = file;
-      // Handle file upload logic here
-      // You might want to upload the file and then set the URL
-      this.paymentForm.patchValue({
-        uploadBillUrl: file.name // This would be the uploaded file URL
-      });
+   removeFilePayment(): void {
+    this.uploadedFilesPayment = null;
+    const fileInput = document.getElementById('paymentFile') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
+//  onFileSelectedPayment(event: any): void {
+//     this.uploadedFiles = null;
+//     const file = event.target.files[0];
+//     if (file) {
+//        this.uploadedFiles = file;
+//       // Handle file upload logic here
+//       // You might want to upload the file and then set the URL
+//       this.paymentForm.patchValue({
+//         uploadBillUrl: file.name // This would be the uploaded file URL
+//       });
+//     }
+//   }
   resetForm(): void {
      const modalElement = document.getElementById('addSurvey');
           const modal1 = modalElement ? bootstrap.Modal.getInstance(modalElement) : null;
@@ -520,7 +527,7 @@ removeFile(): void {
       relevantExperience: [0, [Validators.required, Validators.min(0), Validators.max(50)]],
       educationalQualification: ['', Validators.required],
       dateOfJoining: ['', Validators.required],
-      monthlySal: [0, [Validators.required, Validators.min(0)]],
+      monthlySal: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       bankName: ['', Validators.required],
       ifscCode: ['', [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]],
       accountNo: ['', [Validators.required]]
@@ -753,52 +760,134 @@ removeFile(): void {
 // paymenr 
   iseditModePayment = false;
   paymentID:any
+ uploadedFilesPayment: any;
+  
+  // Update openModelPayment method
   openModelPayment(mode: string,item?: any): void {
-    this.paymentID=''
-    if (mode === 'add') {
-      this.iseditModePayment = false;
-      this.paymentForm.reset();
-      this.isSubmitted = false;
-      this.paymentForMonth = null; // Clear the payment month for add mode
-       setTimeout(() => {
-            if (this.monthlyRange) {
-                this.monthlyRange.clearValue();
-            }
-        }, 100);
+      this.paymentID=''
+      if (mode === 'add') {
+        this.iseditModePayment = false;
+        this.paymentForm.reset();
+        this.isSubmitted = false;
+        this.uploadedFilesPayment = null; // Add this line
+        this.paymentForMonth = ''; 
+         setTimeout(() => {
+         this.monthlyRange.setValue('08-2025');
+        }, 0);
+      }
+      if (mode === 'edit') {
+        this.paymentID=item?.nonTrainingResourceExpenditureId
+        this.iseditModePayment = true;
+        this.uploadedFilesPayment = item?.uploadBillUrl; // Add this line
+        this.paymentForMonth = item?.paymentForMonth || '';
+        
+        setTimeout(() => {
+          if (this.monthlyRange && item?.paymentForMonth) {
+            this.monthlyRange.setValue(item.paymentForMonth);
+          }
+        }, 0);
+         
+        this.paymentForm.patchValue({
+          amount: item?.amount || 0,
+          paymentForMonth: item?.paymentForMonth || '',
+          dateOfPayment: item?.dateOfPayment ? this.convertToISOFormat(item?.dateOfPayment) : '',
+          resourceId: item?.resourceId || 0,
+          bankName: item?.bankName || '',
+          ifscCode: item?.ifscCode || '',
+          accountNo: item?.accountNo || '',
+          uploadBillUrl: '' // Change this line
+        });
+      }
+        setTimeout(() => {
+       const fileInput = document.getElementById('paymentFile') as HTMLInputElement;
+         if (fileInput) {
+          fileInput.value = '';
+          } 
+     }, 100);
+      this.onResourceChange(item?.resourceId,this.resourceList)
+      const modal1 = new bootstrap.Modal(document.getElementById('addPayment'));
+      modal1.show();
     }
-    if (mode === 'edit') {
-
-      this.paymentID=item?.nonTrainingResourceExpenditureId
-      this.iseditModePayment = true;
-      // Set the paymentForMonth value from response - this will trigger the monthly-range component update
-      this.paymentForMonth = item?.paymentForMonth || '';
-      
-      // Use setTimeout to ensure the monthly-range component is available
-    setTimeout(() => {
-            if (this.monthlyRange) {
-                if (item?.paymentForMonth) {
-                    this.monthlyRange.setValue(item.paymentForMonth);
-                } else {
-                    this.monthlyRange.clearValue();
-                }
-            }
-        }, 100);
-      
-      this.paymentForm.patchValue({
-        amount: item?.amount || 0,
-        paymentForMonth: item?.paymentForMonth || '',
-        dateOfPayment: item?.dateOfPayment ? this.convertToISOFormat(item?.dateOfPayment) : '',
-        resourceId: item?.resourceId || 0,
-        bankName: item?.bankName || '',
-        ifscCode: item?.ifscCode || '',
-        accountNo: item?.accountNo || ''
-       
-      });
+  // Update onSubmitPayment method
+  onSubmitPayment(): void {
+      this.isSubmitted = true;
+      console.log(this.paymentForm.value);
+      if (this.paymentForm.valid) {
+        
+         if(this.iseditModePayment){
+          const formData = new FormData();
+          
+          if (this.uploadedFilesPayment?.name && typeof this.uploadedFilesPayment !== 'string') {
+            formData.append("files", this.uploadedFilesPayment);
+          } else {
+            this.paymentForm.patchValue({uploadBillUrl: this.uploadedFilesPayment});
+          }
+  
+          formData.append("expenditureDto", JSON.stringify({
+            nonTrainingResourceExpenditureId: this.paymentID,
+            amount: this.paymentForm.value.amount,
+            paymentForMonth: this.paymentForm.value.paymentForMonth,
+            dateOfPayment: this.paymentForm.value.dateOfPayment,
+            uploadBillUrl: this.paymentForm.value.uploadBillUrl,
+            resourceId: Number(this.paymentForm.value.resourceId)
+          }));
+  
+          this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment, formData, this.paymentID).subscribe((res: any) => {
+            this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
+            this.isSubmitted = false;
+            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+            modal1.hide();
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+          }, (error) => {
+            this.isSubmitted = false;
+            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+            modal1.hide();
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            this.toastrService.error(error.message,"Non Training Progress Data Error!");
+          });
+      }
+      else{
+        const formData = new FormData();
+        formData.append("expenditureDto", JSON.stringify({
+          nonTrainingResourceExpenditureId: 0,
+          amount: this.paymentForm.value.amount,
+          paymentForMonth: this.paymentForm.value.paymentForMonth,
+          dateOfPayment: this.paymentForm.value.dateOfPayment,
+          resourceId: Number(this.paymentForm.value.resourceId)
+        }));
+  
+        if (this.uploadedFilesPayment) {
+          formData.append("file", this.uploadedFilesPayment);
+        }
+        
+        this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment, formData).subscribe((res: any) => {
+          this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
+          this.isSubmitted = false;
+          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+          modal1.hide();
+          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        }, (error) => {
+          this.isSubmitted = false;
+          const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+          modal1.hide();
+          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+          this.toastrService.error(error.message);
+        });
+      }
+     
+        setTimeout(() => {
+             this.getDeatilOfTargets()
+          }, 200);
+      }
     }
-    this.onResourceChange(item?.resourceId,this.resourceList)
-    const modal1 = new bootstrap.Modal(document.getElementById('addPayment'));
-    modal1.show();
-  }
+  
+  // Update onFileSelectedPayment method
+  onFileSelectedPayment(event: any): void {
+      const file = event.target.files[0];
+      if (file) {
+         this.uploadedFilesPayment = file;
+      }
+    }
   onResourceChange(event:any,list:any){
     console.log('Selected Resource ID:', list);
     const selectedResource = list.find((item: any) => item.resourceId == event);
@@ -813,7 +902,7 @@ removeFile(): void {
   }
     createFormPayment(): FormGroup {
     return this.fb.group({
-      amount: [0, [Validators.required, Validators.min(0), Validators.max(10000000)]],
+      amount: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
       paymentForMonth: ['',],
       dateOfPayment: ['', Validators.required],
       resourceId: [0, [Validators.required,]],
@@ -837,80 +926,80 @@ removeFile(): void {
         this.monthlyRange.setValue( this.paymentForMonth);
       }, 0);
   }
-  onSubmitPayment(): void {
-      this.isSubmitted = true;
-      console.log(this.paymentForm.value);
-      if (this.paymentForm.valid) {
+  // onSubmitPayment(): void {
+  //     this.isSubmitted = true;
+  //     console.log(this.paymentForm.value);
+  //     if (this.paymentForm.valid) {
         
-         if(this.iseditModePayment){
-          const formData: any = {
-          nonTrainingResourceExpenditureId: 0, // Generated by backend
-          amount: this.paymentForm.value.amount,
-          paymentForMonth: this.paymentForm.value.paymentForMonth,
-          dateOfPayment: this.paymentForm.value.dateOfPayment,
-          uploadBillUrl: this.paymentForm.value.uploadBillUrl,
-          resourceId: Number(this.paymentForm.value.resourceId)
-        };
-          this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment,{...formData},this.paymentID).subscribe((res: any) => {
-            this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
+  //        if(this.iseditModePayment){
+  //         const formData: any = {
+  //         nonTrainingResourceExpenditureId: 0, // Generated by backend
+  //         amount: this.paymentForm.value.amount,
+  //         paymentForMonth: this.paymentForm.value.paymentForMonth,
+  //         dateOfPayment: this.paymentForm.value.dateOfPayment,
+  //         uploadBillUrl: this.paymentForm.value.uploadBillUrl,
+  //         resourceId: Number(this.paymentForm.value.resourceId)
+  //       };
+  //         this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment,{...formData},this.paymentID).subscribe((res: any) => {
+  //           this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
             
-            console.log('Preliminary Data:', this.getContingencyData);
+  //           console.log('Preliminary Data:', this.getContingencyData);
             
-            this.isSubmitted = false;
-            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-            modal1.hide();
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //           this.isSubmitted = false;
+  //           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //           modal1.hide();
+  //            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
           
-          }, (error) => {
-            //  this.resetForm();
-            this.isSubmitted = false;
-            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-            modal1.hide();
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-            this.toastrService.error(error.message,"Non Training Progress Data Error!");
-          });
-      }
-      else{
-        console.log('Form Submitted:', this.contingencyForm.value);
-        const formData = new FormData();
-            formData.append("expenditureDto", JSON.stringify({
-            nonTrainingResourceExpenditureId: 0, // Generated by backend
-          amount: this.paymentForm.value.amount,
-          paymentForMonth: this.paymentForm.value.paymentForMonth,
-          dateOfPayment: this.paymentForm.value.dateOfPayment,
-          resourceId: Number(this.paymentForm.value.resourceId)}));
+  //         }, (error) => {
+  //           //  this.resetForm();
+  //           this.isSubmitted = false;
+  //           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //           modal1.hide();
+  //            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //           this.toastrService.error(error.message,"Non Training Progress Data Error!");
+  //         });
+  //     }
+  //     else{
+  //       console.log('Form Submitted:', this.contingencyForm.value);
+  //       const formData = new FormData();
+  //           formData.append("expenditureDto", JSON.stringify({
+  //           nonTrainingResourceExpenditureId: 0, // Generated by backend
+  //         amount: this.paymentForm.value.amount,
+  //         paymentForMonth: this.paymentForm.value.paymentForMonth,
+  //         dateOfPayment: this.paymentForm.value.dateOfPayment,
+  //         resourceId: Number(this.paymentForm.value.resourceId)}));
   
-            if (this.paymentForm.value.uploadBillUrl) {
-              formData.append("file", this.uploadedFiles);
-              }
-          this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment,formData).subscribe((res: any) => {
-            this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
-            this.isSubmitted = false;
-            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-            modal1.hide();
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //           if (this.paymentForm.value.uploadBillUrl) {
+  //             formData.append("file", this.uploadedFiles);
+  //             }
+  //         this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment,formData).subscribe((res: any) => {
+  //           this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
+  //           this.isSubmitted = false;
+  //           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //           modal1.hide();
+  //            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
            
           
-          }, (error) => {
+  //         }, (error) => {
          
-            this.isSubmitted = false;
-            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
-            modal1.hide();
-             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-            this.toastrService.error(error.message);
-          });
-      }
-     setTimeout(() => {
-        this.getDeatilOfTargets()
-     }, 500);
+  //           this.isSubmitted = false;
+  //           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
+  //           modal1.hide();
+  //            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  //           this.toastrService.error(error.message);
+  //         });
+  //     }
+  //    setTimeout(() => {
+  //       this.getDeatilOfTargets()
+  //    }, 500);
       
-        // console.log('Form Data:', formData);
-        // Call your API service here
-        // this.paymentService.createPayment(formData).subscribe(...);
+  //       // console.log('Form Data:', formData);
+  //       // Call your API service here
+  //       // this.paymentService.createPayment(formData).subscribe(...);
         
       
-      }
-    }
+  //     }
+  //   }
   deletePayment(id:any):void{
     this.deleteContingencyID=id
      document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());

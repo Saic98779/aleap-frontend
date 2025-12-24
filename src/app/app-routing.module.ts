@@ -87,6 +87,7 @@ import { TrainingExpenditureVerificatonComponent } from './PIA/training-expendit
 import { NonTrainingExpVerficationTrackerComponent } from './PIA/non-training-exp-verfication-tracker/non-training-exp-verfication-tracker.component';
 import { EditProgramStatusViewComponent } from './PIA/edit-program-status-view/edit-program-status-view.component';
 import { SampleUiComponent } from './PIA/sample-ui/sample-ui.component';
+import { ProgressReportDownloadComponent } from './PIA/progress-report-download/progress-report-download.component';
 const routes: Routes = [
     {
         path: '',
@@ -562,6 +563,12 @@ const routes: Routes = [
         component: SampleUiComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.DEVELOPER] }
+    },
+     {
+        path: 'progress-report-download',
+        component: ProgressReportDownloadComponent,
+        canActivate: [AuthGuard],
+       
     },
      {
         path: 'view-participants-incomplete-programs',

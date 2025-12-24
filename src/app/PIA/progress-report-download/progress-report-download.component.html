@@ -1,0 +1,228 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <div class="card mb-3">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col-12">
+              <h6 class="fw-600 mb-0 text-green">Progress Report </h6>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <form [formGroup]="reportForm">
+            <div class="row mb-3">
+              <!-- Agency Dropdown -->
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Select Agencies</mat-label>
+                  <mat-select formControlName="agencyIds" multiple>
+                    <mat-select-filter 
+                      [array]="agencyList" 
+                      [displayMember]="'agencyName'"
+                      (filteredReturn)="agencyListFiltered = $event">
+                    </mat-select-filter>
+                    <mat-option *ngFor="let list of agencyListFiltered" [value]="list.agencyId">
+                      {{ list.agencyName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="f['agencyIds'].touched && f['agencyIds'].invalid" class="text-danger small">
+                  Please select at least one agency
+                </div>
+              </div>
+
+           
+            </div>
+
+            <!-- Report Type Radio Buttons -->
+            <div class="row mb-3">
+              <div class="col-12">
+                <label class="fw-bold mb-2">Report Type <span class="text-danger">*</span></label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="reportType" 
+                      id="reportTypeTarget" 
+                      value="TARGET"
+                      (change)="onReportTypeChange('TARGET')"
+                      [checked]="f['reportType'].value === 'TARGET'">
+                    <label class="form-check-label" for="reportTypeTarget">
+                      Target
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="reportType" 
+                      id="reportTypeAchievement" 
+                      value="ACHIEVEMENT"
+                      (change)="onReportTypeChange('ACHIEVEMENT')"
+                      [checked]="f['reportType'].value === 'ACHIEVEMENT'">
+                    <label class="form-check-label" for="reportTypeAchievement">
+                      Achievement
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="reportType" 
+                      id="reportTypeBoth" 
+                      value="TARGET_AND_ACHIEVEMENT"
+                      (change)="onReportTypeChange('TARGET_AND_ACHIEVEMENT')"
+                      [checked]="f['reportType'].value === 'TARGET_AND_ACHIEVEMENT'">
+                    <label class="form-check-label" for="reportTypeBoth">
+                      Both
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Date Type Radio Buttons (Show only for Achievement or Both) -->
+            <!-- <div class="row mb-3" *ngIf="f['reportType'].value === 'ACHIEVEMENT' || f['reportType'].value === 'BOTH'">
+              <div class="col-12">
+                <label class="fw-bold mb-2">Date Selection Type <span class="text-danger">*</span></label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="dateType" 
+                      id="dateTypeFinancial" 
+                      value="FINANCIAL_YEAR"
+                      (change)="onDateTypeChange('FINANCIAL_YEAR')"
+                      [checked]="f['dateType'].value === 'FINANCIAL_YEAR'">
+                    <label class="form-check-label" for="dateTypeFinancial">
+                      Financial Year
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="dateType" 
+                      id="dateTypeDateRange" 
+                      value="DATE_RANGE"
+                      (change)="onDateTypeChange('DATE_RANGE')"
+                      [checked]="f['dateType'].value === 'DATE_RANGE'">
+                    <label class="form-check-label" for="dateTypeDateRange">
+                      Date Range
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Date Range Picker (Show only when Achievement + Date Range selected) -->
+            <div class="row mb-3" >
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngIf="f['reportType'].value === 'ACHIEVEMENT'">
+                <mat-form-field appearance="outline" class="w-100 ">
+                  <mat-label>Select Date Range</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start date" [(ngModel)]="dateRange.start" [ngModelOptions]="{standalone: true}" (dateChange)="onDateRangeChange()">
+                    <input matEndDate placeholder="End date" [(ngModel)]="dateRange.end" [ngModelOptions]="{standalone: true}" (dateChange)="onDateRangeChange()">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+                 <!-- Financial Year -->
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="f['reportType'].value != 'ACHIEVEMENT'">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Financial Year</mat-label>
+                  <mat-select formControlName="financialYear">
+                    <mat-select-filter 
+                      [array]="financialYears" 
+                      (filteredReturn)="financialYRFiltered = $event">
+                    </mat-select-filter>
+                    <mat-option *ngFor="let list of financialYRFiltered" [value]="list">
+                      {{ list }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="f['financialYear'].touched && f['financialYear'].invalid" class="text-danger small">
+                  Please select financial year
+                </div>
+              </div>
+            </div>
+
+            <!-- Training Type Radio Buttons -->
+            <div class="row mb-3 mt-6">
+              <div class="col-12 mt-3">
+                <label class="fw-bold mb-2">Training Type <span class="text-danger">*</span></label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="trainingType" 
+                      id="trainingTypeTraining" 
+                      value="TRAINING"
+                      formControlName="trainingType">
+                    <label class="form-check-label" for="trainingTypeTraining">
+                      Training
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="trainingType" 
+                      id="trainingTypeNonTraining" 
+                      value="NON_TRAINING"
+                      formControlName="trainingType">
+                    <label class="form-check-label" for="trainingTypeNonTraining">
+                      Non Training
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="trainingType" 
+                      id="trainingTypeBoth" 
+                      value="TRAINING_AND_NON_TRAINING"
+                      formControlName="trainingType">
+                    <label class="form-check-label" for="trainingTypeBoth">
+                      Both
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Download Buttons -->
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex gap-2">
+                  <button 
+                    type="button" 
+                    class="btn btn-lime-green" 
+                    (click)="downloadReport('excel')"
+                    [disabled]="reportForm.invalid">
+                    <i class="bi bi-file-earmark-excel me-2"></i>
+                    Download Excel
+                  </button>
+                  <!-- <button 
+                    type="button" 
+                    class="btn btn-danger" 
+                    (click)="downloadReport('pdf')"
+                    [disabled]="reportForm.invalid">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>
+                    Download PDF
+                  </button> -->
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

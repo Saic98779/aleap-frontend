@@ -735,7 +735,9 @@
                   [class.is-invalid]="isSubmitted && f['expenditureAmount'].invalid">
                 <label for="expenditureAmount">Amount</label>
                 <div *ngIf="isSubmitted && f['expenditureAmount'].invalid" class="invalid-feedback">
-                  Valid amount is required
+                  <span *ngIf="f['expenditureAmount'].errors?.['required']">Expenditure amount is required</span>
+                  <span *ngIf="f['expenditureAmount'].errors?.['min']">Amount must be greater than 0</span>
+                   <span *ngIf="f['expenditureAmount'].errors?.['max']">Amount cannot exceed ₹50,00,000</span>
                 </div>
               </div>
             </div>
@@ -1016,6 +1018,7 @@
                 <div *ngIf="isSubmitted && fContingency['monthlySal'].invalid" class="invalid-feedback">
                   <span *ngIf="fContingency['monthlySal'].errors?.['required']">Salary is required</span>
                   <span *ngIf="fContingency['monthlySal'].errors?.['min']">Salary cannot be negative</span>
+                   <span *ngIf="fContingency['monthlySal'].errors?.['max']">Salary cannot exceed ₹50,00,000</span>
                 </div>
               </div>
             </div>
@@ -1308,11 +1311,21 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="file" class="form-control" formControlName="uploadBillUrl"
-                  (change)="onFileSelectedPayment($event)">
-                <label for="uploadBill">Upload Bill Invoice</label>
+               <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                       <div class="form-floating mb-3">
+                <!-- <input type="file" id="files" class="form-control" [disabled]="uploadedFilesFinance"
+                  (change)="onFileSelected($event)"> -->
+                   <input type="file" id="paymentFile" class="form-control"  (change)="onFileSelectedPayment($event)"
+                   [disabled]="uploadedFilesPayment">
+                <label for="uploadBill" for="files">Upload Bill Invoice</label>
+              </div>
+              <div *ngIf="uploadedFilesPayment" class="mt-2">
+                <span
+                  class="me-2">{{  this.uploadedFilesPayment.name?uploadedFilesPayment.name:uploadedFilesPayment.split('/').pop() }}</span>
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="removeFilePayment()">
+                    <span class="bi bi-trash"></span>
+                  </button>
+
               </div>
             </div>
 
@@ -1454,9 +1467,11 @@
                 <input type="number" class="form-control" formControlName="amount"
                   [class.is-invalid]="isSubmitted && fTravel['amount'].invalid">
                 <label for="amount">Amount</label>
-                <div *ngIf="isSubmitted && fTravel['amount'].invalid" class="invalid-feedback">
-                  Valid amount is required
-                </div>
+               <div *ngIf="isSubmitted && fTravel['amount'].invalid" class="invalid-feedback">
+             <span *ngIf="fTravel['amount'].errors?.['required']">Amount is required</span>
+             <span *ngIf="fTravel['amount'].errors?.['min']">Amount must be positive</span>
+             <span *ngIf="fTravel['amount'].errors?.['max']">Cash payments cannot exceed ₹50,00,000</span>
+             </div>
               </div>
             </div>
 
@@ -1883,10 +1898,10 @@
                   step="0.01"
                   [attr.aria-describedby]="isSubmitted && fPayment['amount'].invalid ? 'amountError' : null">
                 <label for="amount">Amount (₹)</label>
-                <div *ngIf="isSubmitted && fPayment['amount'].invalid" class="invalid-feedback" id="amountError">
+               <div *ngIf="isSubmitted && fPayment['amount'].invalid" class="invalid-feedback" id="amountError">
                   <span *ngIf="fPayment['amount'].errors?.['required']">Amount is required</span>
                   <span *ngIf="fPayment['amount'].errors?.['min']">Amount must be positive</span>
-                  <span *ngIf="fPayment['amount'].errors?.['max']">Amount is too large</span>
+                  <span *ngIf="fPayment['amount'].errors?.['max']">Amount can not be exceed ₹50,00,000 </span>
                 </div>
               </div>
             </div>
@@ -1920,11 +1935,21 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="file" class="form-control" formControlName="uploadBillUrl"
-                  (change)="onFileSelectedPayment($event)">
-                <label for="uploadBill">Upload Bill Invoice</label>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                          <div class="form-floating mb-3">
+                <!-- <input type="file" id="files" class="form-control" [disabled]="uploadedFilesFinance"
+                  (change)="onFileSelected($event)"> -->
+                   <input type="file" id="paymentFile" class="form-control"  (change)="onFileSelectedPayment($event)"
+                   [disabled]="uploadedFilesPayment">
+                <label for="uploadBill" for="files">Upload Bill Invoice</label>
+              </div>
+              <div *ngIf="uploadedFilesPayment" class="mt-2">
+                <span
+                  class="me-2">{{  this.uploadedFilesPayment.name?uploadedFilesPayment.name:uploadedFilesPayment.split('/').pop() }}</span>
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="removeFilePayment()">
+                    <span class="bi bi-trash"></span>
+                  </button>
+
               </div>
             </div>
 

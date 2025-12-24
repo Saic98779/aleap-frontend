@@ -549,7 +549,7 @@
                 </form>
                 <div style="float: left;" class="text-danger mb-2">
                     <strong>Note:</strong> Please upload files in .jpg, .jpeg, ,.png or .pdf format only.
-                    <br> Maximum file size: 500kb
+                    <br> Maximum file size: 1MB
                 </div>
                 <div class="text-end mt-3" >
                     <button type="button" class="btn btn-lime-green" data-bs-dismiss="modal" [ngClass]="{'disabled': PrePostExpenditureForm.invalid || fileErrors}" (click)="ExpenditureSubmit()">{{isEdit?'Update':'Add'}} Expenditure</button>
@@ -835,8 +835,13 @@ aria-hidden="true">
                 <input type="number" class="form-control" formControlName="expenditureAmount"
                   [class.is-invalid]="isSubmitted && f['expenditureAmount'].invalid">
                 <label for="expenditureAmount">Amount</label>
-                <div *ngIf="isSubmitted && f['expenditureAmount'].invalid" class="invalid-feedback">
+                <!-- <div *ngIf="isSubmitted && f['expenditureAmount'].invalid" class="invalid-feedback">
                   Valid amount is required
+                </div> -->
+                 <div *ngIf="isSubmitted && f['expenditureAmount'].errors" class="invalid-feedback">
+                  <span *ngIf="f['expenditureAmount'].errors?.['required']">Amount is required</span>
+                  <span *ngIf="f['expenditureAmount'].errors?.['min']">Amount must be greater than 0</span>
+                  <span *ngIf="f['expenditureAmount'].errors?.['max']">Amount cannot exceed ₹50,00,000</span>
                 </div>
               </div>
             </div>
