@@ -104,6 +104,24 @@ export class NonTrainingTargetsComponent implements OnInit {
 
           
         }, (error) => {
+            if(this.selectedBudgetHead=='68' || this.selectedBudgetHead=='69' || this.selectedBudgetHead=='71' || this.selectedBudgetHead=='128'){
+            this.getPreliminaryDataById()
+            if(this.selectedBudgetHead=='69'){
+               this.loadVendorData()
+            }
+
+          }
+          else if(this.selectedBudgetHead=='72'){
+            this.getResourceList()
+            this.getContingencyDataById()
+            this.getPaymentsDataById()
+          }
+          else{
+            this.getResourceList()
+            this.getContingencyDataById()
+            this.getPaymentsDataById()
+            this.getPreliminaryDataById()
+          }
           // this.toastrService.error(error.message);
         });
       }

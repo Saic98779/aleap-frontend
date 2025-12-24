@@ -128,6 +128,21 @@ export class NonTrainingNimsmeComponent implements OnInit {
 
           
         }, (error) => {
+              if (
+            this.selectedBudgetHead == '77' ||
+            this.selectedBudgetHead == '78' ||
+            this.selectedBudgetHead == '79' ||
+            this.selectedBudgetHead == '80' ||
+            this.selectedBudgetHead == '81'
+            ) {
+               this.loadVendorData()
+               this.loadMediaDeatilsData()
+            this.getPreliminaryDataById();
+            }else{
+               this.getContingencyDataById()
+            this.getPaymentsDataById()
+              this.getResourceList()
+            }
           //           if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='27' || this.selectedBudgetHead=='28'){
           //        this.getPreliminaryDataById()
 

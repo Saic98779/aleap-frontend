@@ -143,7 +143,7 @@
                   <tr *ngFor="let vendor of getVendorData; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ vendor.vendorCompanyName }}</td>
-                    <td>{{ vendor.dateOfOrder | date:'dd-MM-yyyy' }}</td>
+                    <td>{{ vendor.dateOfOrder  }}</td>
                     <td>{{ vendor.orderDetails }}</td>
                     <!-- <td>
                       <a *ngIf="vendor.orderUpload" [href]="vendor.orderUpload" target="_blank"

@@ -97,6 +97,9 @@ export class NonTrainingTihclComponent implements OnInit {
              if(this.selectedBudgetHead=='67'){
              this.getDataFianance()
            }
+           else{
+              this.getListingOnNSE()
+           }
             // this.toastrService.error(error.message);
          });
        }
