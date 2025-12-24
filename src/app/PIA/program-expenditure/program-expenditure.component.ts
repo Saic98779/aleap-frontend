@@ -460,7 +460,7 @@ export class ProgramExpenditureComponent implements OnInit {
     //   this.sessionForm.patchValue({ uploaFiles: file });
     // }
     const input = event.target as HTMLInputElement;
-    const maxSize = 500 * 1024; // 50KB
+   const maxSize = 1 * 1024 * 1024; // 1MB
     let urlsList: any = [];
 
     if (input.files) {
@@ -475,7 +475,7 @@ export class ProgramExpenditureComponent implements OnInit {
         // this.toastrService.error('Invalid file type selected. Only images, and pdf files are allowed.', 'File Upload Error');
       }
       else if (fileSize > maxSize) {
-        this.fileErrors = `File size exceeds the maximum limit of 500KB.`;
+        this.fileErrors = `File size exceeds the maximum limit of 1MB.`;
         return;
     }
       for (let i = 0; i < validFiles.length; i++) {
