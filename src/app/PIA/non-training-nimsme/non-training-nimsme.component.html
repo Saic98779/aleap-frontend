@@ -48,7 +48,7 @@
       </div>
 
       <div class="card budgets mb-3 "
-        *ngIf="selectedActivity=='20' || selectedActivity=='21' || selectedActivity=='22'|| selectedActivity=='106'">
+        *ngIf="selectedActivity=='20' || selectedActivity=='21' || selectedActivity=='22'|| selectedActivity=='106' || selectedActivity=='108'">
 
         <div class="card-header bg-transparent d-flex justify-content-between">
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
@@ -61,7 +61,7 @@
         <div class="card-body">
           <!-- selectedBudgetHead=='83' -->
           <div class="row"
-            *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78' || selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81' || selectedBudgetHead=='82' || selectedBudgetHead=='84'  || selectedBudgetHead=='19'">
+            *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78' || selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='142' || selectedBudgetHead=='143' || selectedBudgetHead=='81' || selectedBudgetHead=='82' || selectedBudgetHead=='84'  || selectedBudgetHead=='19'">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
               <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                 <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -184,11 +184,11 @@
           </div>
 
           <!-- Vendor Management Section for Budget Heads 79, 80, 81 -->
-          <div class="card" *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
+          <div class="card" *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81' || selectedBudgetHead=='142' || selectedBudgetHead=='143'">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
-                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Vendor Management</h6>
+                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Vendor Details</h6>
                 </div>
                 <div class="col-4 col-sm-4 col-md-3 col-lg-2">
                   <div class="text-end">
@@ -244,7 +244,7 @@
           </div>
           <!-- Expenditure Section for selectedBudgetHead===89 -->
           <div class="card"
-            *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78' || selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
+            *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78' || selectedBudgetHead=='79' || selectedBudgetHead=='80'  || selectedBudgetHead=='142' || selectedBudgetHead=='143' || selectedBudgetHead=='81'">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
@@ -265,7 +265,7 @@
                     <tr>
                       <th>S.No</th>
                       <th *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78'">Date of Payment</th>
-                      <th *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
+                      <th *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81' || selectedBudgetHead=='142' || selectedBudgetHead=='143'">
                         Vendor Company Name</th>
                       <th>Expenditure Amount</th>
                       <th>Bill No.</th>
@@ -290,7 +290,7 @@
                       <td>{{ i + 1 }}</td>
                       <td *ngIf="selectedBudgetHead=='77' || selectedBudgetHead=='78'" class="noWrap">
                         {{ preliminary?.paymentDate }}</td>
-                      <td *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
+                      <td *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81' || selectedBudgetHead=='142' || selectedBudgetHead=='143'">
                         {{ preliminary?.category }}</td>
                       <td>{{ preliminary?.expenditureAmount | commaSeperationIndia }}</td>
                       <td>{{ preliminary?.billNo }}</td>
@@ -1224,7 +1224,7 @@
             </div>
             <!-- Vendor Dropdown -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4"
-              *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='81'">
+              *ngIf="selectedBudgetHead=='79' || selectedBudgetHead=='80' || selectedBudgetHead=='142' || selectedBudgetHead=='143' || selectedBudgetHead=='81'">
               <div class="form-floating mb-3">
                 <select class="form-select" formControlName="category"
                   [class.is-invalid]="isSubmitted && f['vendorId'].invalid">

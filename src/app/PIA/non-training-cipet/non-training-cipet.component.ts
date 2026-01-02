@@ -824,17 +824,37 @@ removeFile(): void {
   ];
    contingencyForm!: FormGroup;
      createFormContingency(): FormGroup {
-    return this.fb.group({
+      if(this.selectedAgencyId=='6' || this.selectedAgencyId==6){
+         return this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       designation: ['', Validators.required],
       relevantExperience: [0, [Validators.required, Validators.min(0), Validators.max(50)]],
       educationalQualification: ['', Validators.required],
-      dateOfJoining: ['', Validators.required],
-      monthlySal: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
+      dateOfJoining: [null, ],
+      // [Validators.required, Validators.min(0), Validators.max(5000000)]
+      monthlySal: [0, ],
       bankName: ['', Validators.required],
-      ifscCode: ['', [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]],
-      accountNo: ['', [Validators.required]]
+      // [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]
+      ifscCode: ['', ],
+      accountNo: ['', ]
     });
+      }
+      else{
+         return this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      designation: ['', Validators.required],
+      relevantExperience: [0,],
+      // educationalQualification: ['', Validators.required],
+      dateOfJoining: [null, ],
+      // [Validators.required, Validators.min(0), Validators.max(5000000)]
+      monthlySal: [0, ],
+      bankName: ['', Validators.required],
+      // [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]
+      ifscCode: ['', ],
+      accountNo: ['', ]
+    });
+      }
+   
   }
 
   get fContingency() {

@@ -153,7 +153,7 @@
                     <th>IFSC Code</th>
                     <th>Transaction Id</th>
                      <th *ngIf="selectedBudgetHead=='91' || selectedBudgetHead=='92'" >Category</th>
-                    <th>Purpose</th>
+                    <th>Item Details</th>
 
                     <th>Bill Invoice</th>
                     <th class="text-center">Edit / Delete</th>
@@ -223,24 +223,24 @@
                     <button *ngIf="selectedBudgetHead=='6'" type="button" class="btn btn-sm btn-lime-green me-2" (click)="openModelPayment('add')">Add
                       Payment</button>
                     <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelContingency('add')"><span
-                        class="bi bi-plus-lg"></span> Add Resource</button>
+                        class="bi bi-plus-lg"></span> Add Staff Details</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="card-body mb-3">
-              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Resource Details</h6>
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Staff Details</h6>
               <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
                 <thead class="bg-lime-green">
                   <tr>
                     <th>S.No</th>
-                    <th>Name of the Resource</th>
+                    <th>Name of the Staff</th>
                     <th>Designation</th>
-                    <th>Relevant Experience (Years)</th>
-                    <th>Educational Qualifications</th>
-                    <th>Date of Joining</th>
-                    <th>Remuneration (in Rs.)</th>
-                    <th>Bank Name / IFSC Code</th>
+                    <th *ngIf="selectedAgencyId==6 || selectedAgencyId=='6'">Relevant Experience (Years)</th>
+                    <th *ngIf="selectedAgencyId==6 || selectedAgencyId=='6'">Educational Qualification</th>
+                    <!-- <th>Date of Joining</th>
+                    <th>Remuneration (in Rs.)</th> -->
+                    <th>Name Of the Organization</th>
                     <th class="text-center">Edit / Delete</th>
                   </tr>
                 </thead>
@@ -252,13 +252,12 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ preliminary?.name }}</td>
                     <td>{{ preliminary?.designation }}</td>
-                    <td>{{ preliminary?.relevantExperience }}</td>
-                    <td>{{ preliminary?.educationalQualification }}</td>
-                    <td>{{ preliminary?.dateOfJoining }}</td>
-                    <td>{{ preliminary?.monthlySal | commaSeperationIndia }}</td>
+                    <td *ngIf="selectedAgencyId==6 || selectedAgencyId=='6'">{{ preliminary?.relevantExperience }}</td>
+                    <td *ngIf="selectedAgencyId==6 || selectedAgencyId=='6'">{{ preliminary?.educationalQualification }}</td>
+                    <!-- <td>{{ preliminary?.dateOfJoining }}</td>
+                    <td>{{ preliminary?.monthlySal | commaSeperationIndia }}</td> -->
                     <td>
-                      {{ preliminary?.bankName }}<br />
-                      {{ preliminary?.ifscCode }}
+                      {{ preliminary?.bankName }}
                     </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-default text-lime-green btn-sm"
@@ -283,7 +282,7 @@
                     <th>Amount (in Rs.)</th>
                     <th>Payment For Month</th>
                     <th>Date of Payment</th>
-                    <th>Resource Name</th>
+                    <th>Staff  Name</th>
                     <th>View Bill Invoice</th>
                     <th class="text-center">Edit / Delete</th>
                   </tr>
@@ -347,7 +346,7 @@
       <thead class="bg-lime-green">
         <tr>
           <th>S.No</th>
-          <th>Organization</th>
+          <th>Name Of The MSME</th>
           <th>Date of Visit</th>
           <th>Time of Visit</th>
           <th>Resources</th>
@@ -757,7 +756,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Resource</h6>
+        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Staff Details</h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -768,8 +767,8 @@
               <div class="form-floating mb-3">
 
                 <input type="text" class="form-control" id="employeeName" formControlName="name"
-                  [class.is-invalid]="isSubmitted && fContingency['name'].invalid" placeholder="Enter Resource name">
-                <label for="employeeName">Name Of The Resource</label>
+                  [class.is-invalid]="isSubmitted && fContingency['name'].invalid" placeholder="Enter Staff name">
+                <label for="employeeName">Name Of The Staff</label>
                 <div *ngIf="isSubmitted && fContingency['name'].invalid" class="invalid-feedback">
                   <span *ngIf="fContingency['name'].errors?.['required']">Name is required</span>
                   <span *ngIf="fContingency['name'].errors?.['minlength']">Name must be at least 2 characters</span>
@@ -795,7 +794,7 @@
             </div>
 
             <!-- Date of Joining -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="date" class="form-control" id="dateOfJoining" formControlName="dateOfJoining"
                   [class.is-invalid]="isSubmitted && fContingency['dateOfJoining'].invalid"
@@ -805,10 +804,10 @@
                   Date of joining is required
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Relevant Experience -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="this.selectedAgencyId=='6' || this.selectedAgencyId==6">
               <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="relevantExperience" formControlName="relevantExperience"
                   [class.is-invalid]="isSubmitted && fContingency['relevantExperience'].invalid" min="0" max="50"
@@ -824,21 +823,21 @@
             </div>
 
             <!-- Educational Qualification -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="this.selectedAgencyId=='6' || this.selectedAgencyId==6">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="educationalQualification"
                   formControlName="educationalQualification"
                   [class.is-invalid]="isSubmitted && fContingency['educationalQualification'].invalid"
-                  placeholder="Educational qualification">
-                <label for="educationalQualification">Educational Qualification</label>
+                  placeholder="Educational Qualification">
+                <label for="educationalQualification"> Educational Qualification</label>
                 <div *ngIf="isSubmitted && fContingency['educationalQualification'].invalid" class="invalid-feedback">
-                  Educational qualification is required
+                   Educational Qualification is required
                 </div>
               </div>
             </div>
 
             <!-- Monthly Salary -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="monthlySal" formControlName="monthlySal"
                   [class.is-invalid]="isSubmitted && fContingency['monthlySal'].invalid" min="0" step="0.01"
@@ -851,22 +850,22 @@
                 </div>
                 
               </div>
-            </div>
+            </div> -->
 
             <!-- Bank Name -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="bankName" formControlName="bankName"
                   [class.is-invalid]="isSubmitted && fContingency['bankName'].invalid" placeholder="Bank name">
-                <label for="bankName">Bank Name</label>
+                <label for="bankName">Organization Name</label>
                 <div *ngIf="isSubmitted && fContingency['bankName'].invalid" class="invalid-feedback">
-                  Bank name is required
+                  Oraganization name is required
                 </div>
               </div>
             </div>
 
             <!-- IFSC Code -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="ifscCode" formControlName="ifscCode"
                   [class.is-invalid]="isSubmitted && fContingency['ifscCode'].invalid" placeholder="IFSC code"
@@ -879,10 +878,10 @@
                     AAAA0BBBBBB (4 Captial letters, then 0, then 6 letters/numbers)</span>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Account Number -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="accountNo" formControlName="accountNo"
                   [class.is-invalid]="isSubmitted && fContingency['accountNo'].invalid" placeholder="Account number"
@@ -897,7 +896,7 @@
                     digits</span>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="text-end mt-3">
@@ -1012,7 +1011,7 @@
               <th>Amount (in Rs.)</th>
               <th>Payment For Month</th>
               <th>Date of Payment</th>
-              <th>Resource Name</th>
+              <th>Name Of The Staff</th>
             </tr>
           </thead>
           <tbody>
@@ -1053,16 +1052,16 @@
               <div class="form-floating mb-3">
                 <select class="form-select events-expenditure" id="resourceId" formControlName="resourceId"
                   (change)="onResourceChange($any($event.target).value,resourceList)">
-                  <option value="">Select Resource ID</option>
+                  <option value="">Select Staff Name</option>
                   <option *ngFor="let item of resourceList" value="{{item?.resourceId}}">{{item?.name}}</option>
                   <!-- <option value="#">Select Budget Head</option>
                         <option value="1">Preliminary survey for selection of potential SHGs</option>
                         <option value="2">Dashboard / Central Management System</option>
                         <option value="5">Contingency fund</option> -->
                 </select>
-                <label for="resourceId">Resource ID</label>
+                <label for="resourceId">Name Of The Staff</label>
                 <div *ngIf="isSubmitted && fPayment['resourceId'].invalid" class="invalid-feedback" id="resourceError">
-                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Resource ID is required</span>
+                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Name Of The Staff is required</span>
 
                 </div>
               </div>
@@ -1511,11 +1510,11 @@
               <div class="form-floating">
                 <input type="text" class="form-control" id="organizationName" 
                        formControlName="organizationName" placeholder="Organization Name">
-                <label for="organizationName">Organization Name <span class="text-danger">*</span></label>
+                <label for="organizationName">Name Of The MSME <span class="text-danger">*</span></label>
               </div>
               <div *ngIf="fOrg['organizationName'].touched && fOrg['organizationName'].invalid" 
                    class="text-danger small mt-1">
-                Organization Name is required
+                Name Of The MSME is required
               </div>
             </div>
 
@@ -1871,7 +1870,7 @@
 
             <!-- Resources -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Select Resources <span class="text-danger">*</span></label>
+              <label class="form-label">Select Staff Name <span class="text-danger">*</span></label>
               <ng-multiselect-dropdown
                 [settings]="dropdownSettingsResource"
                 [data]="dropdownListResource"
@@ -1880,7 +1879,7 @@
                 (onDeSelect)="onItemDeSelectResource($event)">
               </ng-multiselect-dropdown>
               <div class="text-danger small" *ngIf="isSubmitted && fVisit['nonTrainingResourceIds'].errors?.['required']">
-                At least one resource is required
+                At least one staff name is required
               </div>
             </div>
 
