@@ -43,6 +43,28 @@
                  <label for="budgethead">Sub Activity</label>
                </div>
              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="selectedBudgetHead=='70'">
+               <div class="form-floating mb-3 mb-sm-3 mb-md-0">
+                 <select class="form-select events-expenditure" id="typeOfHandId" [(ngModel)]="typeOfHand"
+                   (change)="OnChangeTypeOfHand($any($event.target).value)">
+                   <!-- <option value="#">Select Budget Head</option> -->
+                   <!-- <option *ngFor="let item of SubActivityList" value="{{item?.subActivityId}}">
+                     {{item?.subActivityName}}</option> -->
+                     <option value="counselling">Counselling</option>
+                     <option value="businessplan">Business Plan</option>
+                     <option value="sectoradvisory">Advisory</option>
+                     <option value="marketstudy">Market Study</option>
+
+                    
+                   <!-- <option value="1">Preliminary survey for selection of potential SHGs</option>
+                                        <option value="2">Dashboard / Central Management System</option> -->
+                   <!-- <option value="3">Handholding support</option>
+                                        <option value="4">Raw material support</option> -->
+                   <!-- <option value="5">Contingency fund</option> -->
+                 </select>
+                 <label for="typeOfHandId">Sub Activity</label>
+               </div>
+             </div>
            </div>
          </div>
        </div>
@@ -50,7 +72,7 @@
        <!-- begin:: Preliminary survey for selection of potential SHGs -->
        <!-- selectedBudgetHead=='71' || selectedBudgetHead=='68' -->
        <div class="card budgets mb-3 "
-         *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128'">
+         *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70'">
 
          <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
 
@@ -59,6 +81,7 @@
              System</h6>
            <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='72'">Human Resource </h6>
            <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='128'">Miscellaneous </h6>
+           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='70'">Mentoring & Business Facilitation Services--{{typeOfHand}} </h6>
            <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"  *ngIf="selectedBudgetHead=='71'" >Raw material support </h6> -->
            <div class="text-end">
              <button type="button" class="btn btn-sm btn-lime-green" (click)="onFinalSubmit()">Save</button>
@@ -67,7 +90,7 @@
          </div>
          <div class="card-body">
            <!-- || selectedBudgetHead=='71' || selectedBudgetHead=='68' -->
-           <div class="row" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' ">
+           <div class="row" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' ">
              <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                  <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -870,6 +893,10 @@
          </div>
        </div>
        <!-- end:: Contingency fund -->
+        <div class="card budgets mb-3" *ngIf="selectedBudgetHead=='70'">
+          <app-hand-holding-aleap [activityId]="selectedActivity" [subActivityId]="selectedBudgetHead" [handHoldingType]="typeOfHand" (handHoldingDataChange)="getDeatilOfTargets()"></app-hand-holding-aleap>
+
+        </div>
 
      </div>
    </section>

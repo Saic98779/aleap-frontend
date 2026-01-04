@@ -23,6 +23,7 @@ export class NonTrainingTargetsComponent implements OnInit {
    isSubmitted = false;
   loginsessionDetails: any;
   selectedAgencyId: any;
+  typeOfHand: any='counselling';
   @ViewChild(MonthlyRangeComponent) monthlyRange!: MonthlyRangeComponent;
  constructor(private fb: FormBuilder, private toastrService: ToastrService,
       private _commonService: CommonServiceService,
@@ -71,6 +72,16 @@ export class NonTrainingTargetsComponent implements OnInit {
   onBudgetHeadChange(event: any) {
     this.selectedBudgetHead = event;
     console.log('Selected Budget Head:', this.selectedBudgetHead);
+    if(this.selectedActivity!='3'){
+       this.getDeatilOfTargets()
+    }
+    else{
+        this.OnChangeTypeOfHand(this.typeOfHand)
+    }
+   
+  }
+  OnChangeTypeOfHand(event: any) {
+    this.typeOfHand = event;
     this.getDeatilOfTargets()
   }
  TargetDetails: any;

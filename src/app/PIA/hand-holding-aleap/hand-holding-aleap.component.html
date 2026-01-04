@@ -1,0 +1,484 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <div class="card mb-3">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col-8 col-sm-8 col-md-9 col-lg-10">
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{handHoldingTypeOptions[handHoldingType]}} Details</h6>
+            </div>
+            <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+              <div class="text-end d-flex gap-2 justify-content-end">
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="openModal('add')">
+                  <span class="bi bi-plus-lg"></span> Add
+                </button>
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="openParticipantModal()">
+                  <span class="bi bi-plus-lg"></span> Add Participant
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-scroll-container">
+            <table class="table table-bordered nowrap w-100 trainingTable">
+              <thead class="bg-lime-green">
+                <tr>
+                  <th>S.No</th>
+                  <!-- <th>Type</th> -->
+                  <th>Counselled By</th>
+                  <th>Organization</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th *ngIf="handHoldingType=='counselling'">Subject Delivered</th>
+                  <th *ngIf="handHoldingType=='counselling'">Original Idea</th>
+                  <th *ngIf="handHoldingType=='counselling'">Final Idea</th>
+                   <th *ngIf="handHoldingType=='businessplan'">Submitted Bank Name</th>
+                    <th *ngIf="handHoldingType=='businessplan'">Branch Name</th>
+                     <th *ngIf="handHoldingType=='businessplan'">Remarks from Bank</th>
+                     <th *ngIf="handHoldingType=='sectoradvisory'">Advise Details</th>
+                  <th *ngIf="handHoldingType=='businessplan'">Prepared Plan</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!handHoldingList || handHoldingList.length === 0">
+                  <td colspan="10" class="text-center text-muted">Data Not available.</td>
+                </tr>
+                <tr *ngFor="let item of handHoldingList; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  
+                  <!-- <td>{{ item?.handHoldingType }}</td> -->
+                  <td>{{ item?.counselledBy }}</td>
+                  <td>{{ item?.organizationName }}</td>
+                  <td>{{ item?.counsellingDate }}</td>
+                  <td>{{ item?.counsellingTime }}</td>
+                  <td *ngIf="handHoldingType=='counselling'"> {{ item?.subjectDelivered }}</td>
+                  <td *ngIf="handHoldingType=='counselling'">{{ item?.originalIdea }}</td>
+                  <td *ngIf="handHoldingType=='counselling'">{{ item?.finalIdea }}</td>
+                  <td *ngIf="handHoldingType=='businessplan'"> {{ item?.bankName }}</td>
+                  <td *ngIf="handHoldingType=='businessplan'">{{ item?.branchName }}</td>
+                  <td *ngIf="handHoldingType=='businessplan'">{{ item?.bankRemarks }}</td>
+                  <td *ngIf="handHoldingType=='sectoradvisory'">{{ item?.adviseDetails }}</td>
+                   <td class="text-center" *ngIf="handHoldingType=='businessplan'">
+                      <a *ngIf="item?.planFileUploadPath" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(item?.planFileUploadPath)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!item?.planFileUploadPath" class="text-muted">No file</span>
+                    </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-default text-lime-green btn-sm me-1"
+                      (click)="openModal('edit', item)">
+                      <span class="bi bi-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-default text-danger btn-sm"
+                      (click)="deleteHandHolding(item)">
+                      <span class="bi bi-trash"></span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="addHandHolding" tabindex="-1" aria-labelledby="addHandHoldingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addHandHoldingLabel">{{ isEditMode ? 'Update' : 'Add' }} Hand Holding</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="handHoldingForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+             <!-- Organization -->
+             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <!-- <label class="form-label">Organization <span class="text-danger">*</span></label> -->
+              <ng-multiselect-dropdown
+                [settings]="dropdownSettingsOrg"
+                [data]="dropdownListOrg"
+                [placeholder]="'Select Organization'"
+                formControlName="organizationId"
+                (onSelect)="onOrganizationSelect($event)"
+                (onDeSelect)="onItemDeSelectOrg($event)">
+              </ng-multiselect-dropdown>
+              <!-- [ngModelOptions]="{standalone: true}" -->
+            </div>
+             <!-- Counselled By -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="counselledBy" formControlName="counselledBy"
+                  [class.is-invalid]="isSubmitted && f['counselledBy'].invalid" placeholder="Counselled By">
+                <label for="counselledBy">Counselled By *</label>
+                <div *ngIf="isSubmitted && f['counselledBy'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['counselledBy'].errors?.['required']">Counsellor name is required</span>
+                  <span *ngIf="f['counselledBy'].errors?.['minlength']">Minimum 3 characters required</span>
+                </div>
+              </div>
+            </div>
+             <!-- Participants (Multi-select) -->
+                <!-- Resources -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <!-- <label class="form-label">Select Participants <span class="text-danger">*</span></label> -->
+              <ng-multiselect-dropdown
+                [settings]="dropdownSettingsResource"
+                [data]="dropdownListResource"
+                [placeholder]="'Select Participants'"
+                formControlName="participantIds"
+                (onSelect)="onItemSelectResource($event)"
+                (onDeSelect)="onItemDeSelectResource($event)">
+              </ng-multiselect-dropdown>
+              <div class="text-danger small" *ngIf="isSubmitted && f['participantIds'].errors?.['required']">
+                At least one resource is required
+              </div>
+            </div>
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <select class="form-select" id="participantIds" formControlName="participantIds" multiple
+                  [class.is-invalid]="isSubmitted && f['participantIds'].invalid">
+                  <option *ngFor="let participant of participantList" [value]="participant.id">
+                    {{ participant.name }}
+                  </option>
+                </select>
+                <label for="participantIds">Participants * (Hold Ctrl to select multiple)</label>
+                <div *ngIf="isSubmitted && f['participantIds'].invalid" class="invalid-feedback">
+                  At least one participant is required
+                </div>
+              </div>
+            </div> -->
+             <!-- Counselling Date -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="counsellingDate" formControlName="counsellingDate"
+                  [class.is-invalid]="isSubmitted && f['counsellingDate'].invalid" placeholder="Counselling Date">
+                <label for="counsellingDate">Counselling Date *</label>
+                <div *ngIf="isSubmitted && f['counsellingDate'].invalid" class="invalid-feedback">
+                  Date is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Counselling Time -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <input type="time" class="form-control" id="counsellingTime" formControlName="counsellingTime"
+                  [class.is-invalid]="isSubmitted && f['counsellingTime'].invalid" placeholder="Counselling Time">
+                <label for="counsellingTime">Counselling Time *</label>
+                <div *ngIf="isSubmitted && f['counsellingTime'].invalid" class="invalid-feedback">
+                  Time is required
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="handHoldingType=='counselling'">
+                <!-- Subject Delivered -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="subjectDelivered" formControlName="subjectDelivered"
+                  [class.is-invalid]="isSubmitted && f['subjectDelivered'].invalid" placeholder="Subject Delivered"
+                  rows="2" style="height: auto;"></textarea>
+                <label for="subjectDelivered">Subject Delivered *</label>
+                <div *ngIf="isSubmitted && f['subjectDelivered'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['subjectDelivered'].errors?.['required']">Subject is required</span>
+                  <span *ngIf="f['subjectDelivered'].errors?.['minlength']">Minimum 3 characters required</span>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Original Idea -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="originalIdea" formControlName="originalIdea"
+                  [class.is-invalid]="isSubmitted && f['originalIdea'].invalid" placeholder="Original Idea"
+                  rows="2" style="height: auto;"></textarea>
+                <label for="originalIdea">Original Idea *</label>
+                <div *ngIf="isSubmitted && f['originalIdea'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['originalIdea'].errors?.['required']">Original idea is required</span>
+                  <span *ngIf="f['originalIdea'].errors?.['minlength']">Minimum 5 characters required</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Final Idea -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="finalIdea" formControlName="finalIdea"
+                  [class.is-invalid]="isSubmitted && f['finalIdea'].invalid" placeholder="Final Idea"
+                  rows="2" style="height: auto;"></textarea>
+                <label for="finalIdea">Final Idea *</label>
+                <div *ngIf="isSubmitted && f['finalIdea'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['finalIdea'].errors?.['required']">Final idea is required</span>
+                  <span *ngIf="f['finalIdea'].errors?.['minlength']">Minimum 5 characters required</span>
+                </div>
+              </div>
+            </div>
+            </ng-container>
+
+           <ng-container *ngIf="handHoldingType=='businessplan'">
+             <!-- Bank Name -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="bankName" formControlName="bankName"
+                        [class.is-invalid]="isSubmitted && f['bankName'].invalid" placeholder="Bank Name">
+                    <label for="bankName">Bank Name *</label>
+                    <div *ngIf="isSubmitted && f['bankName'].invalid" class="invalid-feedback">
+                        <span *ngIf="f['bankName'].errors?.['required']">Bank name is required</span>
+                        <span *ngIf="f['bankName'].errors?.['minlength']">Minimum 3 characters required</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branch Name -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="branchName" formControlName="branchName"
+                        [class.is-invalid]="isSubmitted && f['branchName'].invalid" placeholder="Branch Name">
+                    <label for="branchName">Branch Name *</label>
+                    <div *ngIf="isSubmitted && f['branchName'].invalid" class="invalid-feedback">
+                        <span *ngIf="f['branchName'].errors?.['required']">Branch name is required</span>
+                        <span *ngIf="f['branchName'].errors?.['minlength']">Minimum 3 characters required</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bank Remarks -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="bankRemarks" formControlName="bankRemarks"
+                        [class.is-invalid]="isSubmitted && f['bankRemarks'].invalid" placeholder="Bank Remarks"
+                        rows="2" style="height: auto;"></textarea>
+                    <label for="bankRemarks">Remarks from Bank *</label>
+                    <div *ngIf="isSubmitted && f['bankRemarks'].invalid" class="invalid-feedback">
+                        <span *ngIf="f['bankRemarks'].errors?.['required']">Bank remarks is required</span>
+                        <span *ngIf="f['bankRemarks'].errors?.['minlength']">Minimum 5 characters required</span>
+                    </div>
+                </div>
+            </div>
+           </ng-container>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="handHoldingType=='sectoradvisory'">
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="adviseDetails" formControlName="adviseDetails"
+                        [class.is-invalid]="isSubmitted && f['adviseDetails'].invalid" placeholder="Bank Remarks"
+                        rows="2" style="height: auto;"></textarea>
+                    <label for="adviseDetails">Advise Details *</label>
+                    <div *ngIf="isSubmitted && f['adviseDetails'].invalid" class="invalid-feedback">
+                        <span *ngIf="f['adviseDetails'].errors?.['required']">Advise Details is required</span>
+                        <span *ngIf="f['adviseDetails'].errors?.['minlength']">Minimum 5 characters required</span>
+                    </div>
+                </div>
+            </div>
+           
+
+            <!-- File Upload -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " *ngIf="handHoldingType=='businessplan'">
+              <div class="form-floating mb-3">
+                <input type="file" id="fileInput" class="form-control" (change)="onFileSelected($event, 'file')"
+                  [disabled]="uploadedFilesHandHolding">
+                <label for="fileInput">Upload File</label>
+              </div>
+              <div *ngIf="uploadedFilesHandHolding" class="mt-2">
+                <!-- <span class="me-2">{{ uploadedFile.name }}</span> -->
+                <span
+                     class="me-2">{{  this.uploadedFilesHandHolding.name?uploadedFilesHandHolding.name:uploadedFilesHandHolding.split('/').pop() }}</span>
+                <button type="button" (click)="removeFile('file')" class="btn btn-sm btn-lime-green">
+                  <span class="bi bi-trash"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Image1 Upload -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <input type="file" id="image1Input" class="form-control" (change)="onFileSelected($event, 'image1')"
+                  [disabled]="uploadedImage1">
+                <label for="image1Input">Upload Image 1</label>
+              </div>
+              <div *ngIf="uploadedImage1" class="mt-2">
+                <span class="me-2">{{ uploadedImage1.name }}</span>
+                <!-- <span
+                     class="me-2">{{  this.uploadedFilesHandHolding.name?uploadedFilesHandHolding.name:uploadedFilesHandHolding.split('/').pop() }}</span> -->
+                <button type="button" (click)="removeFile('image1')" class="btn btn-sm btn-lime-green">
+                  <span class="bi bi-trash"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Image2 Upload -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <input type="file" id="image2Input" class="form-control" (change)="onFileSelected($event, 'image2')"
+                  [disabled]="uploadedImage2">
+                <label for="image2Input">Upload Image 2</label>
+              </div>
+              <div *ngIf="uploadedImage2" class="mt-2">
+                <span class="me-2">{{ uploadedImage2.name }}</span>
+                <button type="button" (click)="removeFile('image2')" class="btn btn-sm btn-lime-green">
+                  <span class="bi bi-trash"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Image3 Upload -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <input type="file" id="image3Input" class="form-control" (change)="onFileSelected($event, 'image3')"
+                  [disabled]="uploadedImage3">
+                <label for="image3Input">Upload Image 3</label>
+              </div>
+              <div *ngIf="uploadedImage3" class="mt-2">
+                <span class="me-2">{{ uploadedImage3.name }}</span>
+                <button type="button" (click)="removeFile('image3')" class="btn btn-sm btn-lime-green">
+                  <span class="bi bi-trash"></span>
+                </button>
+              </div>
+            </div>
+
+
+            <!-- Hand Holding Type -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <select class="form-select" id="handHoldingType" formControlName="handHoldingType"
+                  [class.is-invalid]="isSubmitted && f['handHoldingType'].invalid">
+                  <option value="">Select Type</option>
+                  <option *ngFor="let type of handHoldingTypes" [value]="type.value">
+                    {{ type.label }}
+                  </option>
+                </select>
+                <label for="handHoldingType">Hand Holding Type *</label>
+                <div *ngIf="isSubmitted && f['handHoldingType'].invalid" class="invalid-feedback">
+                  Type is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Handholding Support ID -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="handholdingSupportId"
+                  formControlName="handholdingSupportId"
+                  [class.is-invalid]="isSubmitted && f['handholdingSupportId'].invalid"
+                  placeholder="Handholding Support ID">
+                <label for="handholdingSupportId">Handholding Support ID *</label>
+                <div *ngIf="isSubmitted && f['handholdingSupportId'].invalid" class="invalid-feedback">
+                  Valid Support ID is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Non Training Activity ID -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="nonTrainingActivityId"
+                  formControlName="nonTrainingActivityId"
+                  [class.is-invalid]="isSubmitted && f['nonTrainingActivityId'].invalid"
+                  placeholder="Non Training Activity ID">
+                <label for="nonTrainingActivityId">Non Training Activity ID *</label>
+                <div *ngIf="isSubmitted && f['nonTrainingActivityId'].invalid" class="invalid-feedback">
+                  Valid Activity ID is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Non Training Sub Activity ID -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 " hidden>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="nonTrainingSubActivityId"
+                  formControlName="nonTrainingSubActivityId"
+                  [class.is-invalid]="isSubmitted && f['nonTrainingSubActivityId'].invalid"
+                  placeholder="Non Training Sub Activity ID">
+                <label for="nonTrainingSubActivityId">Non Training Sub Activity ID *</label>
+                <div *ngIf="isSubmitted && f['nonTrainingSubActivityId'].invalid" class="invalid-feedback">
+                  Valid Sub Activity ID is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" aria-label="Close"
+              (click)="resetForm()">Close</button>
+            <button type="submit" class="btn btn-lime-green">{{ isEditMode ? 'Update' : 'Add' }}</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this record?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-lime-green" (click)="confirmDelete()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Participant Modal - Add this before closing </attachment> tag -->
+<div class="modal fade" id="addParticipantModal" tabindex="-1" aria-labelledby="addParticipantModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addParticipantModalLabel">Add Participant</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close" (click)="resetParticipantForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="participantForm">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="participantName" 
+                  formControlName="participantName" placeholder="Participant Name"
+                  [class.is-invalid]="participantSubmitted && pf['participantName'].invalid">
+                <label for="participantName">Participant Name <span class="text-danger">*</span></label>
+                <div *ngIf="participantSubmitted && pf['participantName'].invalid" class="invalid-feedback">
+                  <span *ngIf="pf['participantName'].errors?.['required']">Participant name is required</span>
+                  <span *ngIf="pf['participantName'].errors?.['pattern']">Only alphabets and spaces allowed</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="participantMobile" 
+                  formControlName="mobileNo" placeholder="Mobile Number"
+                  [class.is-invalid]="participantSubmitted && pf['mobileNo'].invalid">
+                <label for="participantMobile">Mobile Number <span class="text-danger">*</span></label>
+                <div *ngIf="participantSubmitted && pf['mobileNo'].invalid" class="invalid-feedback">
+                  <span *ngIf="pf['mobileNo'].errors?.['required']">Mobile number is required</span>
+                  <span *ngIf="pf['mobileNo'].errors?.['pattern']">Mobile number must start with 6/7/8/9 and be 10 digits</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" (click)="resetParticipantForm()">Cancel</button>
+            <button type="button" class="btn btn-lime-green" (click)="saveParticipant()">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

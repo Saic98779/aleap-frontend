@@ -87,6 +87,7 @@ export const APIS = {
         saveOrgnization: API_BASE_URL + '/organization/save',
         getOrgnizationData: API_BASE_URL + '/organization/list',
         getOrgnizationDataOnlyId: API_BASE_URL + '/organization-names',
+        getParticipantsList: API_BASE_URL + '/agency/participants-dropdown/9',
         getOrganizationDetailsById: API_BASE_URL + '/organization-names?organizationType=MSME',
         getParticipantList: API_BASE_URL + '/participants',
         getParticipantListByAgency: API_BASE_URL + '/agency/participants/',
@@ -185,7 +186,9 @@ export const APIS = {
         saveNonTrainingtargetsCandidate: API_BASE_URL + '/save',
         getNonTrainingtargetsCandidate: API_BASE_URL + '/by-subactivity?subActivityId=',
 
-
+        aleap:{
+            getHandHoldingData: API_BASE_URL + '/unified-handholding/get',
+        },
         tihcl:{
             getCorpusList: API_BASE_URL + '/corpusDebitFinancing',
             getTihclData: API_BASE_URL + '/listing-on-nse/sub-activity/',
