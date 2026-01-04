@@ -240,6 +240,11 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     this.loading = true;
     if(this.programId) {
       maindata['programId'] = Number(this.programId)
+      console.log(this.ProgramupdatingData,'ProgramupdatingData',maindata);
+      if(this.ProgramupdatingData.status){
+         maindata['status'] = this.ProgramupdatingData.status;
+      }
+      
       this._commonService.add(APIS.programCreation.updateProgram, maindata).subscribe({
         next: (data) => {      
           this.loading = false;    
@@ -371,11 +376,13 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     return `${year}-${month}-${day}`; // Convert to yyyy-MM-dd format
   }
   isedit:boolean = false
+  ProgramupdatingData:any
   getProgramDetailsById(programId: string) {
     this.isedit=true
     this._commonService.getById(APIS.programCreation.getSingleProgramsList, programId).subscribe({
       next: (data: any) => {
         const program = data.data;
+        this.ProgramupdatingData = data.data;
         this.programCreationMain.patchValue({
           activityId: program.activityId,
           subActivityId: program.subActivityId,
