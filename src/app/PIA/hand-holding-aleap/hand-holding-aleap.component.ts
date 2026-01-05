@@ -48,25 +48,32 @@ export class HandHoldingAleapComponent implements OnInit {
   ) {
     this.formDetailsforParticipant();
     this.handHoldingForm = this.fb.group({
-      subjectDelivered: ['', ],
-      originalIdea: ['', ],
-      finalIdea: ['', ],
-      handholdingSupportId: [null, ],
-      organizationId: [1, Validators.required],
-      counselledBy: ['', Validators.required],
-      participantIds: [[], Validators.required],
-      nonTrainingActivityId: [null, ],
-      nonTrainingSubActivityId: [null, ],
-      handHoldingType: ['', ],
-      counsellingDate: ['', Validators.required],
-      counsellingTime: ['', Validators.required],
-      bankName: [''],
-      branchName: [''],
-      bankRemarks: [''],
-      adviseDetails: [''],
-      // planFileUploadPath: ['']
-
-    });
+    subjectDelivered: [''],
+    originalIdea: [''],
+    finalIdea: [''],
+    handholdingSupportId: [null],
+    organizationId: [1, Validators.required],
+    counselledBy: [''],
+    participantIds: [[]],
+    nonTrainingActivityId: [null],
+    nonTrainingSubActivityId: [null],
+    handHoldingType: [''],
+    counsellingDate: [''],
+    counsellingTime: [''],
+    bankName: [''],
+    branchName: [''],
+    bankRemarks: [''],
+    adviseDetails: [''],
+    details: [''],
+    applicationNo: [''],
+    applicationDate: [''],
+    time: [''],
+    status: [''],
+    sanctionDate: [''],
+    sanctionedAmount: [''],
+    sanctionDetails: [''],
+    govtSchemeDetails: ['']
+  });
     console.log('Activity ID:', this.activityId);
     console.log('Sub Activity ID:', this.subActivityId);
     console.log('Hand Holding Type:', this.handHoldingType);
@@ -100,46 +107,152 @@ export class HandHoldingAleapComponent implements OnInit {
       this.loadHandHoldingData();
     }
   }
-
- 
-addFieldsDynamically(){
+ addFieldsDynamically(){
+  // Clear all validators
   this.handHoldingForm.get('subjectDelivered')?.clearValidators();
   this.handHoldingForm.get('originalIdea')?.clearValidators();
   this.handHoldingForm.get('finalIdea')?.clearValidators();
   this.handHoldingForm.get('bankName')?.clearValidators();
   this.handHoldingForm.get('branchName')?.clearValidators();
   this.handHoldingForm.get('bankRemarks')?.clearValidators();
-   this.handHoldingForm.get('adviseDetails')?.clearValidators();
-    this.handHoldingForm.get('subjectDelivered')?.patchValue('');
-    this.handHoldingForm.get('originalIdea')?.patchValue('');
-    this.handHoldingForm.get('finalIdea')?.patchValue('');
-    this.handHoldingForm.get('bankName')?.patchValue('');
-    this.handHoldingForm.get('branchName')?.patchValue('');
-    this.handHoldingForm.get('bankRemarks')?.patchValue('');
-      this.handHoldingForm.get('adviseDetails')?.patchValue('');
+  this.handHoldingForm.get('adviseDetails')?.clearValidators();
+  this.handHoldingForm.get('details')?.clearValidators();
+  this.handHoldingForm.get('counselledBy')?.clearValidators();
+  this.handHoldingForm.get('participantIds')?.clearValidators();
+  this.handHoldingForm.get('counsellingDate')?.clearValidators();
+  this.handHoldingForm.get('counsellingTime')?.clearValidators();
+  this.handHoldingForm.get('applicationNo')?.clearValidators();
+  this.handHoldingForm.get('applicationDate')?.clearValidators();
+  this.handHoldingForm.get('time')?.clearValidators();
+  this.handHoldingForm.get('status')?.clearValidators();
+  this.handHoldingForm.get('sanctionDate')?.clearValidators();
+  this.handHoldingForm.get('sanctionedAmount')?.clearValidators();
+  this.handHoldingForm.get('sanctionDetails')?.clearValidators();
+  this.handHoldingForm.get('govtSchemeDetails')?.clearValidators();
+  
+  // Clear all values
+  this.handHoldingForm.get('subjectDelivered')?.patchValue('');
+  this.handHoldingForm.get('originalIdea')?.patchValue('');
+  this.handHoldingForm.get('finalIdea')?.patchValue('');
+  this.handHoldingForm.get('bankName')?.patchValue('');
+  this.handHoldingForm.get('branchName')?.patchValue('');
+  this.handHoldingForm.get('bankRemarks')?.patchValue('');
+  this.handHoldingForm.get('adviseDetails')?.patchValue('');
+  this.handHoldingForm.get('details')?.patchValue('');
+  this.handHoldingForm.get('applicationNo')?.patchValue('');
+  this.handHoldingForm.get('applicationDate')?.patchValue('');
+  this.handHoldingForm.get('time')?.patchValue('');
+  this.handHoldingForm.get('status')?.patchValue('');
+  this.handHoldingForm.get('sanctionDate')?.patchValue('');
+  this.handHoldingForm.get('sanctionedAmount')?.patchValue('');
+  this.handHoldingForm.get('sanctionDetails')?.patchValue('');
+  this.handHoldingForm.get('govtSchemeDetails')?.patchValue('');
+  
+  // Set validators based on type
   if(this.handHoldingType=='counselling'){
-     this.handHoldingForm.get('subjectDelivered')?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.handHoldingForm.get('originalIdea')?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.handHoldingForm.get('originalIdea')?.updateValueAndValidity();
-      this.handHoldingForm.get('finalIdea')?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.handHoldingForm.get('finalIdea')?.updateValueAndValidity();
+    this.handHoldingForm.get('counselledBy')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('participantIds')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingDate')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingTime')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('subjectDelivered')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.handHoldingForm.get('originalIdea')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.handHoldingForm.get('finalIdea')?.setValidators([Validators.required, Validators.minLength(3)]);
   }
   else if(this.handHoldingType=='businessplan'){
+    this.handHoldingForm.get('counselledBy')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('participantIds')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingDate')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingTime')?.setValidators([Validators.required]);
     this.handHoldingForm.get('bankName')?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.handHoldingForm.get('branchName')?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.handHoldingForm.get('bankRemarks')?.setValidators([Validators.required, Validators.minLength(5)]);
+    this.handHoldingForm.get('branchName')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.handHoldingForm.get('bankRemarks')?.setValidators([Validators.required, Validators.minLength(5)]);
   }
   else if(this.handHoldingType=='sectoradvisory'){
-      this.handHoldingForm.get('adviseDetails')?.setValidators([Validators.required, Validators.minLength(5)]);
+    this.handHoldingForm.get('counselledBy')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('participantIds')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingDate')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingTime')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('adviseDetails')?.setValidators([Validators.required, Validators.minLength(5)]);
   }
-   this.handHoldingForm.get('adviseDetails')?.updateValueAndValidity();
-   this.handHoldingForm.get('subjectDelivered')?.updateValueAndValidity();
-    this.handHoldingForm.get('originalIdea')?.updateValueAndValidity();
-    this.handHoldingForm.get('finalIdea')?.updateValueAndValidity();
-    this.handHoldingForm.get('bankName')?.updateValueAndValidity();
-    this.handHoldingForm.get('branchName')?.updateValueAndValidity();
-    this.handHoldingForm.get('bankRemarks')?.updateValueAndValidity();
+  else if(this.handHoldingType=='formalisationcompliance'){
+    this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(5)]);
+  }
+  else if(this.handHoldingType=='marketstudy'){
+    this.handHoldingForm.get('counselledBy')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('participantIds')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingDate')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('counsellingTime')?.setValidators([Validators.required]);
+  }
+  else if(this.handHoldingType=='govtschemeapplication'){
+    this.handHoldingForm.get('applicationNo')?.setValidators([Validators.required, Validators.minLength(3)]);
+    this.handHoldingForm.get('applicationDate')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('time')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('status')?.setValidators([Validators.required]);
+    this.handHoldingForm.get('govtSchemeDetails')?.setValidators([Validators.required, Validators.minLength(10)]);
+  }
+  
+  // Update validity for all fields
+  Object.keys(this.handHoldingForm.controls).forEach(key => {
+    this.handHoldingForm.get(key)?.updateValueAndValidity();
+  });
+
+  // Add dynamic validators for government schemes based on status
+  if(this.handHoldingType=='govtschemeapplication'){
+    this.handHoldingForm.get('status')?.valueChanges.subscribe(status => {
+      if(status === 'APPROVED'){
+        this.handHoldingForm.get('sanctionDate')?.setValidators([Validators.required]);
+        this.handHoldingForm.get('sanctionedAmount')?.setValidators([Validators.required, Validators.min(1)]);
+        this.handHoldingForm.get('sanctionDetails')?.setValidators([Validators.required, Validators.minLength(5)]);
+      } else {
+        this.handHoldingForm.get('sanctionDate')?.clearValidators();
+        this.handHoldingForm.get('sanctionedAmount')?.clearValidators();
+        this.handHoldingForm.get('sanctionDetails')?.clearValidators();
+      }
+      this.handHoldingForm.get('sanctionDate')?.updateValueAndValidity();
+      this.handHoldingForm.get('sanctionedAmount')?.updateValueAndValidity();
+      this.handHoldingForm.get('sanctionDetails')?.updateValueAndValidity();
+    });
+  }
 }
+ 
+// addFieldsDynamically(){
+//   this.handHoldingForm.get('subjectDelivered')?.clearValidators();
+//   this.handHoldingForm.get('originalIdea')?.clearValidators();
+//   this.handHoldingForm.get('finalIdea')?.clearValidators();
+//   this.handHoldingForm.get('bankName')?.clearValidators();
+//   this.handHoldingForm.get('branchName')?.clearValidators();
+//   this.handHoldingForm.get('bankRemarks')?.clearValidators();
+//    this.handHoldingForm.get('adviseDetails')?.clearValidators();
+//     this.handHoldingForm.get('subjectDelivered')?.patchValue('');
+//     this.handHoldingForm.get('originalIdea')?.patchValue('');
+//     this.handHoldingForm.get('finalIdea')?.patchValue('');
+//     this.handHoldingForm.get('bankName')?.patchValue('');
+//     this.handHoldingForm.get('branchName')?.patchValue('');
+//     this.handHoldingForm.get('bankRemarks')?.patchValue('');
+//       this.handHoldingForm.get('adviseDetails')?.patchValue('');
+//   if(this.handHoldingType=='counselling'){
+//      this.handHoldingForm.get('subjectDelivered')?.setValidators([Validators.required, Validators.minLength(3)]);
+//       this.handHoldingForm.get('originalIdea')?.setValidators([Validators.required, Validators.minLength(3)]);
+//       this.handHoldingForm.get('originalIdea')?.updateValueAndValidity();
+//       this.handHoldingForm.get('finalIdea')?.setValidators([Validators.required, Validators.minLength(3)]);
+//       this.handHoldingForm.get('finalIdea')?.updateValueAndValidity();
+//   }
+//   else if(this.handHoldingType=='businessplan'){
+//     this.handHoldingForm.get('bankName')?.setValidators([Validators.required, Validators.minLength(3)]);
+//       this.handHoldingForm.get('branchName')?.setValidators([Validators.required, Validators.minLength(3)]);
+//       this.handHoldingForm.get('bankRemarks')?.setValidators([Validators.required, Validators.minLength(5)]);
+//   }
+//   else if(this.handHoldingType=='sectoradvisory'){
+//       this.handHoldingForm.get('adviseDetails')?.setValidators([Validators.required, Validators.minLength(5)]);
+//   }
+//    this.handHoldingForm.get('adviseDetails')?.updateValueAndValidity();
+//    this.handHoldingForm.get('subjectDelivered')?.updateValueAndValidity();
+//     this.handHoldingForm.get('originalIdea')?.updateValueAndValidity();
+//     this.handHoldingForm.get('finalIdea')?.updateValueAndValidity();
+//     this.handHoldingForm.get('bankName')?.updateValueAndValidity();
+//     this.handHoldingForm.get('branchName')?.updateValueAndValidity();
+//     this.handHoldingForm.get('bankRemarks')?.updateValueAndValidity();
+// }
 
   get f() {
     return this.handHoldingForm.controls;
@@ -186,7 +299,7 @@ addFieldsDynamically(){
       allowSearchFilter: true,
       clearSearchFilter: true,
       maxHeight: 197,
-      searchPlaceholderText: "Search Organization",
+      searchPlaceholderText: "Search SHG/StartUp",
       noDataAvailablePlaceholderText: "Data Not Available",
       closeDropDownOnSelection: false,
       showSelectedItemsAtTop: false,
@@ -289,53 +402,157 @@ convertToISOFormat(date: string): string {
   }
  
 }
-  openModal(mode: string, item?: any): void {
-    this.isEditMode = mode === 'edit';
-    this.isSubmitted = false;
+  // openModal(mode: string, item?: any): void {
+  //   this.isEditMode = mode === 'edit';
+  //   this.isSubmitted = false;
     
-    this.uploadedFilesHandHolding=null
-    if (this.isEditMode && item) {
-      //  this.formDetails()
-      if(this.handHoldingType=='counselling' ){
-         this.editingId = item.counselletingId || null;
-      }
-      else if(this.handHoldingType=='businessplan'){
-          this.editingId = item.businessPlanId || null;
-          this.uploadedFilesHandHolding=item?.planFileUploadPath
-      }
-      else if(this.handHoldingType=='sectoradvisory'){
-          this.editingId = item.sectorAdvisoryId || null;
-      }
-      else if(this.handHoldingType=='marketstudy'){
-          this.editingId = item.marketStudyId || null;
-      }
-      else{
-         this.editingId = item.counselletingId || null;
-      }
+  //   this.uploadedFilesHandHolding=null
+  //  if (this.isEditMode && item) {
+  //     if(this.handHoldingType=='counselling' ){
+  //       this.editingId = item.counselletingId || null;
+  //     }
+  //     else if(this.handHoldingType=='businessplan'){
+  //       this.editingId = item.businessPlanId || null;
+  //       this.uploadedFilesHandHolding=item?.planFileUploadPath
+  //     }
+  //     else if(this.handHoldingType=='sectoradvisory'){
+  //       this.editingId = item.sectorAdvisoryId || null;
+  //     }
+  //     else if(this.handHoldingType=='marketstudy'){
+  //       this.editingId = item.marketStudyId || null;
+  //     }
+  //     else if(this.handHoldingType=='formalisationcompliance'){
+  //       this.editingId = item.formalisationComplianceId || null;
+  //       this.uploadedFilesHandHolding=item?.documentPath
+  //     }
+  //     else{
+  //       this.editingId = item.counselletingId || null;
+  //     }
      
-      // Convert resource IDs to objects for multiselect
-      this.addFieldsDynamically()
-      this.handHoldingForm.patchValue(item);
-       const selectedResources = item?.participantNames?.map((name: any) => 
-      this.participantList.find((r: any) => r.participantName === name)
-    ).filter((r: any) => r !== undefined) || [];
-    console.log('Selected Resources for Edit:', selectedResources,this.OrganizationData.find(org => org.organizationId == item.organizationId),item.organizationId,this.OrganizationData);
+  //     this.addFieldsDynamically()
+  //     this.handHoldingForm.patchValue(item);
+      
+  //     // Only process participants for non-formalisation types
+  //     if(this.handHoldingType !== 'formalisationcompliance') {
+  //       const selectedResources = item?.participantNames?.map((name: any) => 
+  //         this.participantList.find((r: any) => r.participantName === name)
+  //       ).filter((r: any) => r !== undefined) || [];
+        
+  //       this.handHoldingForm.patchValue({
+  //         counsellingDate: item?.counsellingDate ? this.convertToISOFormat(item.counsellingDate) : null,
+  //         participantIds: selectedResources,
+  //         organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+  //       });
+  //     } else {
+  //       // For formalisation compliance, only set organization
+  //       this.handHoldingForm.patchValue({
+  //         organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+  //       });
+  //     }
+  //   } else {
+  //     this.resetForm();
+  //   }
+  //    setTimeout(() => {
+  //      const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  //      if (fileInput) {
+  //        fileInput.value = '';
+  //      }
+  //    }, 100);
+  //     setTimeout(() => {
+  //      const fileInput = document.getElementById('image1Input') as HTMLInputElement;
+  //      const fileInput2 = document.getElementById('image2Input') as HTMLInputElement;
+  //      const fileInput3 = document.getElementById('image3Input') as HTMLInputElement;
+  //      if (fileInput) {
+  //        fileInput.value = '';
+  //      }
+  //      if(fileInput2){
+  //        fileInput2.value = '';
+  //      }
+  //      if(fileInput3){
+  //        fileInput3.value = '';
+  //      }
+  //    }, 100);
+  //   if(this.handHoldingType=='formalisationcompliance'){
+  //     const modalElement = document.getElementById('addHandHoldingByFormaliasation');
+  //   const modal = new bootstrap.Modal(modalElement);
+  //   modal.show();
+  //   }
+  //   else{
+  //     const modalElement = document.getElementById('addHandHolding');
+  //   const modal = new bootstrap.Modal(modalElement);
+  //   modal.show();
+  //   }
+    
+  // }
+  openModal(mode: string, item?: any): void {
+  this.isEditMode = mode === 'edit';
+  this.isSubmitted = false;
+  
+  this.uploadedFilesHandHolding=null;
+  
+  if (this.isEditMode && item) {
+    if(this.handHoldingType=='counselling'){
+      this.editingId = item.counselletingId || null;
+    }
+    else if(this.handHoldingType=='businessplan'){
+      this.editingId = item.businessPlanId || null;
+      this.uploadedFilesHandHolding=item?.planFileUploadPath;
+    }
+    else if(this.handHoldingType=='sectoradvisory'){
+      this.editingId = item.sectorAdvisoryId || null;
+    }
+    else if(this.handHoldingType=='marketstudy'){
+      this.editingId = item.marketStudyId || null;
+    }
+    else if(this.handHoldingType=='formalisationcompliance'){
+      this.editingId = item.formalisationComplianceId || null;
+      this.uploadedFilesHandHolding=item?.documentPath;
+    }
+    else if(this.handHoldingType=='govtschemeapplication'){
+      this.editingId = item.govtSchemeApplicationId || null;
+    }
+    else{
+      this.editingId = item.counselletingId || null;
+    }
+   
+    this.addFieldsDynamically();
+    this.handHoldingForm.patchValue(item);
+    
+    // Handle different form types
+    if(this.handHoldingType === 'govtschemeapplication') {
+      this.handHoldingForm.patchValue({
+        applicationDate: item?.applicationDate ? this.convertToISOFormat(item.applicationDate) : null,
+        sanctionDate: item?.sanctionDate ? this.convertToISOFormat(item.sanctionDate) : null,
+        govtSchemeDetails: item?.details || '',
+        organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+      });
+    }
+    else if(this.handHoldingType !== 'formalisationcompliance') {
+      const selectedResources = item?.participantNames?.map((name: any) => 
+        this.participantList.find((r: any) => r.participantName === name)
+      ).filter((r: any) => r !== undefined) || [];
+      
       this.handHoldingForm.patchValue({
         counsellingDate: item?.counsellingDate ? this.convertToISOFormat(item.counsellingDate) : null,
         participantIds: selectedResources,
         organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
       });
-      console.log('Form values in edit mode:', this.handHoldingForm.value);
     } else {
-      this.resetForm();
+      this.handHoldingForm.patchValue({
+        organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+      });
     }
-     setTimeout(() => {
-       const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-       if (fileInput) {
-         fileInput.value = '';
-       }
-     }, 100);
-      setTimeout(() => {
+  } else {
+    this.resetForm();
+  }
+  
+  setTimeout(() => {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }, 100);
+   setTimeout(() => {
        const fileInput = document.getElementById('image1Input') as HTMLInputElement;
        const fileInput2 = document.getElementById('image2Input') as HTMLInputElement;
        const fileInput3 = document.getElementById('image3Input') as HTMLInputElement;
@@ -349,11 +566,23 @@ convertToISOFormat(date: string): string {
          fileInput3.value = '';
        }
      }, 100);
-    
+  if(this.handHoldingType=='formalisationcompliance'){
+    const modalElement = document.getElementById('addHandHoldingByFormaliasation');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+  else if(this.handHoldingType=='govtschemeapplication'){
+    const modalElement = document.getElementById('addGovtSchemesModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+  else{
     const modalElement = document.getElementById('addHandHolding');
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
+}
+ 
  uploadedFilesHandHolding: any = ''
   onFileSelected(event: any, type: string): void {
     const file = event.target.files[0];
@@ -397,63 +626,109 @@ convertToISOFormat(date: string): string {
     if (fileInput) fileInput.value = '';
   }
 
-  // onSubmit(): void {
-  //   console.log('Form submitted',this.handHoldingForm.value);
-  //   this.isSubmitted = true;
-  //   // Mark all fields as touched to show validation errors
-  //     Object.keys(this.handHoldingForm.controls).forEach(key => {
-  //       this.handHoldingForm.get(key)?.markAsTouched();
-  //     });
-  //   if (this.handHoldingForm.valid) {
-  //     const formData = new FormData();
-  //     const formValue = this.handHoldingForm.value;
-      
-  //     formData.append('type', this.handHoldingType);
-      
-  //     const jsonData = {
-  //       subjectDelivered: formValue.subjectDelivered,
-  //       originalIdea: formValue.originalIdea,
-  //       finalIdea: formValue.finalIdea,
-  //       // handholdingSupportId: formValue.handholdingSupportId,
-  //       organizationId: formValue.organizationId.map((o: any) => o.organizationId)[0],
-  //       counselledBy: formValue.counselledBy,
-  //       participantIds: formValue.participantIds.map((p: any) => p.participantId),
-  //       nonTrainingActivityId: this.activityId,
-  //       nonTrainingSubActivityId: this.subActivityId,
-  //       handHoldingType: this.handHoldingType,
-  //       counsellingDate: formValue.counsellingDate,
-  //       counsellingTime: formValue.counsellingTime
-  //     };
-      
-  //     formData.append('data', JSON.stringify(jsonData));
-      
-  //     if (this.uploadedFile) {
-  //       formData.append('file', this.uploadedFile);
-  //     }
-  //     if (this.uploadedImage1) {
-  //       formData.append('image1', this.uploadedImage1);
-  //     }
-  //     if (this.uploadedImage2) {
-  //       formData.append('image2', this.uploadedImage2);
-  //     }
-  //     if (this.uploadedImage3) {
-  //       formData.append('image3', this.uploadedImage3);
-  //     }
-      
-  //     if (this.isEditMode && this.editingId) {
-  //       this.updateHandHolding(formData);
-  //     } else {
-  //       this.saveHandHolding(formData);
-  //     }
-  //   }
-  // }
-  // ...existing code...
-
-onSubmit(): void {
-  console.log('Form submitted', this.handHoldingForm.value);
-  console.log('Form valid:', this.handHoldingForm.valid);
   
-  // Mark all fields as touched to show validation errors
+// onSubmit(): void {
+//     console.log('Form submitted', this.handHoldingForm.value);
+    
+//     Object.keys(this.handHoldingForm.controls).forEach(key => {
+//       this.handHoldingForm.get(key)?.markAsTouched();
+//     });
+    
+//     this.isSubmitted = true;
+    
+//     if (this.handHoldingForm.valid) {
+//       const formData = new FormData();
+//       const formValue = this.handHoldingForm.value;
+      
+//       formData.append('type', this.handHoldingType);
+      
+//       // Build JSON data based on type
+//       let jsonData: any = {
+//         organizationId: formValue.organizationId && formValue.organizationId.length > 0 
+//           ? formValue.organizationId[0].organizationId 
+//           : null,
+//         nonTrainingActivityId: this.activityId,
+//         nonTrainingSubActivityId: this.subActivityId,
+//         handHoldingType: this.handHoldingType
+//       };
+      
+//       // Add common fields for non-formalisation types
+//       if(this.handHoldingType !== 'formalisationcompliance') {
+//         jsonData = {
+//           ...jsonData,
+//           counselledBy: formValue.counselledBy,
+//           participantIds: formValue.participantIds?.map((p: any) => p.participantId) || [],
+//           counsellingDate: formValue.counsellingDate,
+//           counsellingTime: formValue.counsellingTime
+//         };
+//       }
+      
+//       // Add type-specific fields
+//       if (this.handHoldingType === 'counselling') {
+//         jsonData = {
+//           ...jsonData,
+//           subjectDelivered: formValue.subjectDelivered,
+//           originalIdea: formValue.originalIdea,
+//           finalIdea: formValue.finalIdea
+//         };
+//       } else if (this.handHoldingType === 'businessplan') {
+//         jsonData = {
+//           ...jsonData,
+//           bankName: formValue.bankName,
+//           branchName: formValue.branchName,
+//           bankRemarks: formValue.bankRemarks,
+//         };
+//       }
+//       else if (this.handHoldingType === 'sectoradvisory') {
+//         jsonData = {
+//           ...jsonData,
+//           adviseDetails: formValue.adviseDetails
+//         };
+//       }
+//       else if (this.handHoldingType === 'formalisationcompliance') {
+//         jsonData = {"organizationId":jsonData.organizationId,
+//          "handHoldingType":"formalisationcompliance",
+//           details: formValue.details,
+//           activityId: this.activityId,
+//           subActivityId: this.subActivityId
+//         }
+//       }
+      
+//       // Handle file upload for business plan and formalisation compliance
+//       if(this.isEditMode && this.editingId && (this.handHoldingType === 'businessplan' || this.handHoldingType === 'formalisationcompliance')){
+//         if (this.uploadedFilesHandHolding?.name && typeof this.uploadedFilesHandHolding !== 'string') {
+//           formData.append("file", this.uploadedFilesHandHolding);
+//         }
+//       }
+     
+      
+//       console.log('JSON Data to be sent:', jsonData);
+//       formData.append('data', JSON.stringify(jsonData));
+      
+//       if (this.uploadedFile && !this.isEditMode) {
+//         formData.append('file', this.uploadedFile);
+        
+//       }
+      
+//       if (this.isEditMode && this.editingId) {
+//         this.updateHandHolding(formData);
+//       } else {
+//         this.saveHandHolding(formData);
+//       }
+//     } else {
+//       console.log('Form is invalid');
+//       Object.keys(this.handHoldingForm.controls).forEach(key => {
+//         const control = this.handHoldingForm.get(key);
+//         if (control && control.invalid) {
+//           console.log(`${key} errors:`, control.errors);
+//         }
+//       });
+//       this.toastrService.error('Please fill all required fields', 'Form Validation Error');
+//     }
+//   }
+  onSubmit(): void {
+  console.log('Form submitted', this.handHoldingForm.value);
+  
   Object.keys(this.handHoldingForm.controls).forEach(key => {
     this.handHoldingForm.get(key)?.markAsTouched();
   });
@@ -466,24 +741,23 @@ onSubmit(): void {
     
     formData.append('type', this.handHoldingType);
     
-    // Build base JSON data (common fields for all types)
     let jsonData: any = {
       organizationId: formValue.organizationId && formValue.organizationId.length > 0 
         ? formValue.organizationId[0].organizationId 
         : null,
-      counselledBy: formValue.counselledBy,
-      participantIds: formValue.participantIds?.map((p: any) => p.participantId) || [],
       nonTrainingActivityId: this.activityId,
       nonTrainingSubActivityId: this.subActivityId,
-      handHoldingType: this.handHoldingType,
-      counsellingDate: formValue.counsellingDate,
-      counsellingTime: formValue.counsellingTime
+      handHoldingType: this.handHoldingType
     };
     
     // Add type-specific fields
     if (this.handHoldingType === 'counselling') {
       jsonData = {
         ...jsonData,
+        counselledBy: formValue.counselledBy,
+        participantIds: formValue.participantIds?.map((p: any) => p.participantId) || [],
+        counsellingDate: formValue.counsellingDate,
+        counsellingTime: formValue.counsellingTime,
         subjectDelivered: formValue.subjectDelivered,
         originalIdea: formValue.originalIdea,
         finalIdea: formValue.finalIdea
@@ -491,49 +765,58 @@ onSubmit(): void {
     } else if (this.handHoldingType === 'businessplan') {
       jsonData = {
         ...jsonData,
+        counselledBy: formValue.counselledBy,
+        participantIds: formValue.participantIds?.map((p: any) => p.participantId) || [],
+        counsellingDate: formValue.counsellingDate,
+        counsellingTime: formValue.counsellingTime,
         bankName: formValue.bankName,
         branchName: formValue.branchName,
         bankRemarks: formValue.bankRemarks,
-        // planFileUploadPath: this.uploadedFilesHandHolding?this.uploadedFilesHandHolding:null
       };
     }
     else if (this.handHoldingType === 'sectoradvisory') {
       jsonData = {
         ...jsonData,
+        counselledBy: formValue.counselledBy,
+        participantIds: formValue.participantIds?.map((p: any) => p.participantId) || [],
+        counsellingDate: formValue.counsellingDate,
+        counsellingTime: formValue.counsellingTime,
         adviseDetails: formValue.adviseDetails
       };
     }
-    else if (this.handHoldingType === 'marketstudy') {
-      // Add market study specific fields here if any
-       jsonData = {
+    else if (this.handHoldingType === 'formalisationcompliance') {
+      jsonData = {
         ...jsonData,
+        details: formValue.details,
       };
-      
+    }
+    else if (this.handHoldingType === 'govtschemeapplication') {
+      jsonData = {
+        nonTrainingActivityId: this.activityId,
+        nonTrainingSubActivityId: this.subActivityId,
+        organizationId: jsonData.organizationId,
+        applicationNo: formValue.applicationNo,
+        status: formValue.status,
+        applicationDate: formValue.applicationDate,
+        time: formValue.time,
+        sanctionDetails: formValue.status === 'APPROVED' ? formValue.sanctionDetails : null,
+        sanctionDate: formValue.status === 'APPROVED' ? formValue.sanctionDate : null,
+        sanctionedAmount: formValue.status === 'APPROVED' ? formValue.sanctionedAmount : null,
+        details: formValue.govtSchemeDetails,
+      };
     }
     
-    // Handle file for business plan in edit mode
-    if(this.isEditMode && this.editingId && this.handHoldingType === 'businessplan'){
-       if (this.uploadedFilesHandHolding?.name && typeof this.uploadedFilesHandHolding !== 'string') {
-            formData.append("file", this.uploadedFilesHandHolding);
-      }
-      else{
-        // this.handHoldingForm.patchValue({planFileUploadPath:this.uploadedFilesHandHolding?this.uploadedFilesHandHolding:null  })
-        }
-    }
     console.log('JSON Data to be sent:', jsonData);
     formData.append('data', JSON.stringify(jsonData));
     
     if (this.uploadedFile && !this.isEditMode) {
       formData.append('file', this.uploadedFile);
     }
-    if (this.uploadedImage1) {
-      formData.append('image1', this.uploadedImage1);
-    }
-    if (this.uploadedImage2) {
-      formData.append('image2', this.uploadedImage2);
-    }
-    if (this.uploadedImage3) {
-      formData.append('image3', this.uploadedImage3);
+    
+    if (this.isEditMode && this.editingId && (this.handHoldingType === 'businessplan' || this.handHoldingType === 'formalisationcompliance')) {
+      if (this.uploadedFilesHandHolding?.name && typeof this.uploadedFilesHandHolding !== 'string') {
+        formData.append("file", this.uploadedFilesHandHolding);
+      }
     }
     
     if (this.isEditMode && this.editingId) {
@@ -543,7 +826,6 @@ onSubmit(): void {
     }
   } else {
     console.log('Form is invalid');
-    // Log individual field errors
     Object.keys(this.handHoldingForm.controls).forEach(key => {
       const control = this.handHoldingForm.get(key);
       if (control && control.invalid) {
@@ -554,7 +836,7 @@ onSubmit(): void {
   }
 }
 
-// ...existing code...
+
 
   saveHandHolding(formData: FormData): void {
     this.http.post(`${this.apiUrl}/unified-handholding/save`, formData).subscribe({
@@ -591,23 +873,32 @@ onSubmit(): void {
   deleteHandHolding(item: any): void {
     const modalElement = document.getElementById('deleteModal');
     const modal = new bootstrap.Modal(modalElement);
-     if(this.handHoldingType=='counselling' ){
-         this.editingId = item.counselletingId || null;
-      }
-      else if(this.handHoldingType=='businessplan'){
-          this.editingId = item.businessPlanId || null;
-      }
-      else if(this.handHoldingType=='sectoradvisory'){
-          this.editingId = item.sectorAdvisoryId || null;
-      }
-      else if(this.handHoldingType=='marketstudy'){
-          this.editingId = item.marketStudyId || null;
-      }
-      else{
-         this.editingId = item.counselletingId || null;
-      }
+    
+    if(this.handHoldingType=='counselling' ){
+      this.editingId = item.counselletingId || null;
+    }
+    else if(this.handHoldingType=='businessplan'){
+      this.editingId = item.businessPlanId || null;
+    }
+    else if(this.handHoldingType=='sectoradvisory'){
+      this.editingId = item.sectorAdvisoryId || null;
+    }
+    else if(this.handHoldingType=='marketstudy'){
+      this.editingId = item.marketStudyId || null;
+    }
+    else if(this.handHoldingType=='formalisationcompliance'){
+      this.editingId = item.formalisationComplianceId || null;
+    }
+    else if(this.handHoldingType=='govtschemeapplication'){
+    this.editingId = item.govtSchemeApplicationId || null;
+  }
+    else{
+      this.editingId = item.counselletingId || null;
+    }
+    
     modal.show();
   }
+  
 
   confirmDelete(): void {
     if (this.editingId) {
@@ -632,6 +923,12 @@ onSubmit(): void {
     const modalElement = document.getElementById('addHandHolding');
     const modal = bootstrap.Modal.getInstance(modalElement);
     modal?.hide();
+    const modalElementFormalisation = document.getElementById('addHandHoldingByFormaliasation');
+    const modalFormalisation = bootstrap.Modal.getInstance(modalElementFormalisation);
+    modalFormalisation?.hide();
+    const modalElementGovtScheme = document.getElementById('addGovtSchemesModal');
+    const modalGovtScheme = bootstrap.Modal.getInstance(modalElementGovtScheme);
+    modalGovtScheme?.hide();
   }
 
   resetForm(): void {

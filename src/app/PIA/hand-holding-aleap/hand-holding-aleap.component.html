@@ -12,7 +12,7 @@
                 <button type="button" class="btn btn-sm btn-lime-green" (click)="openModal('add')">
                   <span class="bi bi-plus-lg"></span> Add
                 </button>
-                <button type="button" class="btn btn-sm btn-lime-green" (click)="openParticipantModal()">
+                <button type="button" class="btn btn-sm btn-lime-green" (click)="openParticipantModal()" *ngIf="handHoldingType!='formalisationcompliance' && handHoldingType!='govtschemeapplication'">
                   <span class="bi bi-plus-lg"></span> Add Participant
                 </button>
               </div>
@@ -21,11 +21,11 @@
         </div>
         <div class="card-body">
           <div class="table-scroll-container">
-            <table class="table table-bordered nowrap w-100 trainingTable">
+            <!-- <table class="table table-bordered nowrap w-100 trainingTable">
               <thead class="bg-lime-green">
                 <tr>
                   <th>S.No</th>
-                  <!-- <th>Type</th> -->
+               
                   <th>Counselled By</th>
                   <th>Organization</th>
                   <th>Date</th>
@@ -48,7 +48,7 @@
                 <tr *ngFor="let item of handHoldingList; let i = index">
                   <td>{{ i + 1 }}</td>
                   
-                  <!-- <td>{{ item?.handHoldingType }}</td> -->
+                 
                   <td>{{ item?.counselledBy }}</td>
                   <td>{{ item?.organizationName }}</td>
                   <td>{{ item?.counsellingDate }}</td>
@@ -79,7 +79,155 @@
                   </td>
                 </tr>
               </tbody>
+            </table> -->
+              <!-- Existing Table for counselling, businessplan, sectoradvisory, marketstudy -->
+            <table class="table table-bordered nowrap w-100 trainingTable" *ngIf="handHoldingType!='formalisationcompliance' && handHoldingType!='govtschemeapplication'">
+              <thead class="bg-lime-green">
+                <tr>
+                  <th>S.No</th>
+                  <th>Counselled By</th>
+                  <th>SHG/StartUp</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th *ngIf="handHoldingType=='counselling'">Subject Delivered</th>
+                  <th *ngIf="handHoldingType=='counselling'">Original Idea</th>
+                  <th *ngIf="handHoldingType=='counselling'">Final Idea</th>
+                  <th *ngIf="handHoldingType=='businessplan'">Submitted Bank Name</th>
+                  <th *ngIf="handHoldingType=='businessplan'">Branch Name</th>
+                  <th *ngIf="handHoldingType=='businessplan'">Remarks from Bank</th>
+                  <th *ngIf="handHoldingType=='sectoradvisory'">Advise Details</th>
+                  <th *ngIf="handHoldingType=='businessplan'">Prepared Plan</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!handHoldingList || handHoldingList.length === 0">
+                  <td colspan="10" class="text-center text-muted">Data Not available.</td>
+                </tr>
+                <tr *ngFor="let item of handHoldingList; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item?.counselledBy }}</td>
+                  <td>{{ item?.organizationName }}</td>
+                  <td>{{ item?.counsellingDate }}</td>
+                  <td>{{ item?.counsellingTime }}</td>
+                  <td *ngIf="handHoldingType=='counselling'">{{ item?.subjectDelivered }}</td>
+                  <td *ngIf="handHoldingType=='counselling'">{{ item?.originalIdea }}</td>
+                  <td *ngIf="handHoldingType=='counselling'">{{ item?.finalIdea }}</td>
+                  <td *ngIf="handHoldingType=='businessplan'">{{ item?.bankName }}</td>
+                  <td *ngIf="handHoldingType=='businessplan'">{{ item?.branchName }}</td>
+                  <td *ngIf="handHoldingType=='businessplan'">{{ item?.bankRemarks }}</td>
+                  <td *ngIf="handHoldingType=='sectoradvisory'">{{ item?.adviseDetails }}</td>
+                  <td class="text-center" *ngIf="handHoldingType=='businessplan'">
+                    <a *ngIf="item?.planFileUploadPath" class="btn btn-default text-primary btn-sm"
+                      (click)="showFileViewer(item?.planFileUploadPath)">
+                      <span class="bi bi-eye"></span>
+                    </a>
+                    <span *ngIf="!item?.planFileUploadPath" class="text-muted">No file</span>
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-default text-lime-green btn-sm me-1"
+                      (click)="openModal('edit', item)">
+                      <span class="bi bi-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-default text-danger btn-sm"
+                      (click)="deleteHandHolding(item)">
+                      <span class="bi bi-trash"></span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+
+            <!-- Separate Table for Formalisation Compliance -->
+            <table class="table table-bordered nowrap w-100 trainingTable" *ngIf="handHoldingType=='formalisationcompliance'">
+              <thead class="bg-lime-green">
+                <tr>
+                  <th>S.No</th>
+                  <th>SHG/StartUp</th>
+                  <th>Details</th>
+                  <th>Documents</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!handHoldingList || handHoldingList.length === 0">
+                  <td colspan="5" class="text-center text-muted">Data Not available.</td>
+                </tr>
+                <tr *ngFor="let item of handHoldingList; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item?.organizationName }}</td>
+                  <td>{{ item?.details }}</td>
+                  <td class="text-center">
+                    <a *ngIf="item?.documentPath" class="btn btn-default text-primary btn-sm"
+                      (click)="showFileViewer(item?.documentPath)">
+                      <span class="bi bi-eye"></span>
+                    </a>
+                    <span *ngIf="!item?.documentPath" class="text-muted">No file</span>
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-default text-lime-green btn-sm me-1"
+                      (click)="openModal('edit', item)">
+                      <span class="bi bi-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-default text-danger btn-sm"
+                      (click)="deleteHandHolding(item)">
+                      <span class="bi bi-trash"></span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-bordered nowrap w-100 trainingTable" *ngIf="handHoldingType=='govtschemeapplication'">
+  <thead class="bg-lime-green">
+    <tr>
+      <th>S.No</th>
+      <th>SHG/StartUp</th>
+      <th>Application No</th>
+      <th>Application Date</th>
+      <th>Time</th>
+      <th>Status</th>
+      <th>Sanction Date</th>
+      <th>Sanctioned Amount</th>
+      <th>Sanction Details</th>
+      <th class="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="!handHoldingList || handHoldingList.length === 0">
+      <td colspan="10" class="text-center text-muted">Data Not available.</td>
+    </tr>
+    <tr *ngFor="let item of handHoldingList; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item?.organizationName }}</td>
+      <td>{{ item?.applicationNo }}</td>
+      <td>{{ item?.applicationDate }}</td>
+      <td>{{ item?.time }}</td>
+      <td>
+        <span class="badge" [ngClass]="{
+          'bg-success': item?.status === 'APPROVED',
+          'bg-warning': item?.status === 'SUBMITTED',
+          'bg-info': item?.status === 'UNDER_REVIEW',
+          'bg-danger': item?.status === 'REJECTED'
+        }">
+          {{ item?.status }}
+        </span>
+      </td>
+      <td>{{ item?.sanctionDate || '-' }}</td>
+      <td>{{ item?.sanctionedAmount | currency:'INR':'symbol':'1.0-0' }}</td>
+      <td>{{ item?.sanctionDetails || '-' }}</td>
+      <td class="text-center">
+        <button type="button" class="btn btn-default text-lime-green btn-sm me-1"
+          (click)="openModal('edit', item)">
+          <span class="bi bi-pencil"></span>
+        </button>
+        <button type="button" class="btn btn-default text-danger btn-sm"
+          (click)="deleteHandHolding(item)">
+          <span class="bi bi-trash"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
           </div>
         </div>
       </div>
@@ -105,7 +253,7 @@
               <ng-multiselect-dropdown
                 [settings]="dropdownSettingsOrg"
                 [data]="dropdownListOrg"
-                [placeholder]="'Select Organization'"
+                [placeholder]="'Select SHG/StartUp'"
                 formControlName="organizationId"
                 (onSelect)="onOrganizationSelect($event)"
                 (onDeSelect)="onItemDeSelectOrg($event)">
@@ -413,6 +561,72 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="addHandHoldingByFormaliasation" tabindex="-1" aria-labelledby="addHandHoldingLabel" aria-hidden="true" *ngIf="handHoldingType=='formalisationcompliance'">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addHandHoldingLabel">{{ isEditMode ? 'Update' : 'Add' }} Formalisation Compliance</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="handHoldingForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- Organization -->
+            <div class="col-12 col-sm-6 mb-3">
+              <ng-multiselect-dropdown
+                [settings]="dropdownSettingsOrg"
+                [data]="dropdownListOrg"
+                [placeholder]="'Select SHG/StartUp'"
+                formControlName="organizationId"
+                (onSelect)="onOrganizationSelect($event)"
+                (onDeSelect)="onItemDeSelectOrg($event)">
+              </ng-multiselect-dropdown>
+              <div class="text-danger small" *ngIf="isSubmitted && f['organizationId'].errors?.['required']">
+                Organization is required
+              </div>
+            </div>
+
+            <!-- Details -->
+            <div class="col-12 col-sm-6">
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="details" formControlName="details"
+                  [class.is-invalid]="isSubmitted && f['details'].invalid" placeholder="Details"
+                  rows="3" style="height: auto;"></textarea>
+                <label for="details">Details *</label>
+                <div *ngIf="isSubmitted && f['details'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['details'].errors?.['required']">Details is required</span>
+                  <span *ngIf="f['details'].errors?.['minlength']">Minimum 5 characters required</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input type="file" id="fileInput" class="form-control" (change)="onFileSelected($event, 'file')"
+                  [disabled]="uploadedFilesHandHolding">
+                <label for="fileInput">Upload Document</label>
+              </div>
+              <div *ngIf="uploadedFilesHandHolding" class="mt-2">
+                <span class="me-2">{{ this.uploadedFilesHandHolding.name ? uploadedFilesHandHolding.name : uploadedFilesHandHolding.split('/').pop() }}</span>
+                <button type="button" (click)="removeFile('file')" class="btn btn-sm btn-lime-green">
+                  <span class="bi bi-trash"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" aria-label="Close"
+              (click)="resetForm()">Close</button>
+            <button type="submit" class="btn btn-lime-green">{{ isEditMode ? 'Update' : 'Add' }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- Delete Confirmation Modal -->
@@ -476,6 +690,155 @@
           <div class="text-end mt-3">
             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" (click)="resetParticipantForm()">Cancel</button>
             <button type="button" class="btn btn-lime-green" (click)="saveParticipant()">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Government Schemes Modal -->
+<div class="modal fade" id="addGovtSchemesModal" tabindex="-1" aria-labelledby="addGovtSchemesLabel" aria-hidden="true" *ngIf="handHoldingType=='govtschemeapplication'">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addGovtSchemesLabel">{{ isEditMode ? 'Update' : 'Add' }} Government Scheme Application</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="handHoldingForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- Organization -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+              <ng-multiselect-dropdown
+                [settings]="dropdownSettingsOrg"
+                [data]="dropdownListOrg"
+                [placeholder]="'Select SHG/StartUp'"
+                formControlName="organizationId"
+                (onSelect)="onOrganizationSelect($event)"
+                (onDeSelect)="onItemDeSelectOrg($event)">
+              </ng-multiselect-dropdown>
+              <div class="text-danger small" *ngIf="isSubmitted && f['organizationId'].errors?.['required']">
+                Organization is required
+              </div>
+            </div>
+
+            <!-- Application Number -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="applicationNo" formControlName="applicationNo"
+                  [class.is-invalid]="isSubmitted && f['applicationNo'].invalid" placeholder="Application Number">
+                <label for="applicationNo">Application Number *</label>
+                <div *ngIf="isSubmitted && f['applicationNo'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['applicationNo'].errors?.['required']">Application number is required</span>
+                  <span *ngIf="f['applicationNo'].errors?.['minlength']">Minimum 3 characters required</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Application Date -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="applicationDate" formControlName="applicationDate"
+                  [class.is-invalid]="isSubmitted && f['applicationDate'].invalid" placeholder="Application Date">
+                <label for="applicationDate">Application Date *</label>
+                <div *ngIf="isSubmitted && f['applicationDate'].invalid" class="invalid-feedback">
+                  Application date is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Time -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <input type="time" class="form-control" id="time" formControlName="time"
+                  [class.is-invalid]="isSubmitted && f['time'].invalid" placeholder="Time">
+                <label for="time">Time *</label>
+                <div *ngIf="isSubmitted && f['time'].invalid" class="invalid-feedback">
+                  Time is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Status -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-floating mb-3">
+                <select class="form-select" id="status" formControlName="status"
+                  [class.is-invalid]="isSubmitted && f['status'].invalid">
+                  <option value="">Select Status</option>
+                  <option value="SUBMITTED">Submitted</option>
+                  <option value="UNDER_REVIEW">Under Review</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+                <label for="status">Status *</label>
+                <div *ngIf="isSubmitted && f['status'].invalid" class="invalid-feedback">
+                  Status is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Sanction Date (shown when status is APPROVED) -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="f['status'].value === 'APPROVED'">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="sanctionDate" formControlName="sanctionDate"
+                  [class.is-invalid]="isSubmitted && f['sanctionDate'].invalid" placeholder="Sanction Date">
+                <label for="sanctionDate">Sanction Date *</label>
+                <div *ngIf="isSubmitted && f['sanctionDate'].invalid" class="invalid-feedback">
+                  Sanction date is required for approved applications
+                </div>
+              </div>
+            </div>
+
+            <!-- Sanctioned Amount (shown when status is APPROVED) -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="f['status'].value === 'APPROVED'">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="sanctionedAmount" formControlName="sanctionedAmount"
+                  [class.is-invalid]="isSubmitted && f['sanctionedAmount'].invalid" placeholder="Sanctioned Amount">
+                <label for="sanctionedAmount">Sanctioned Amount *</label>
+                <div *ngIf="isSubmitted && f['sanctionedAmount'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['sanctionedAmount'].errors?.['required']">Sanctioned amount is required</span>
+                  <span *ngIf="f['sanctionedAmount'].errors?.['min']">Amount must be greater than 0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sanction Details (shown when status is APPROVED) -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="f['status'].value === 'APPROVED'">
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="sanctionDetails" formControlName="sanctionDetails"
+                  [class.is-invalid]="isSubmitted && f['sanctionDetails'].invalid" placeholder="Sanction Details"
+                  rows="3" style="height: auto;"></textarea>
+                <label for="sanctionDetails">Sanction Details *</label>
+                <div *ngIf="isSubmitted && f['sanctionDetails'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['sanctionDetails'].errors?.['required']">Sanction details is required</span>
+                  <span *ngIf="f['sanctionDetails'].errors?.['minlength']">Minimum 5 characters required</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details -->
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="govtSchemeDetails" formControlName="govtSchemeDetails"
+                  [class.is-invalid]="isSubmitted && f['govtSchemeDetails'].invalid" placeholder="Details"
+                  rows="3" style="height: auto;"></textarea>
+                <label for="govtSchemeDetails">Details *</label>
+                <div *ngIf="isSubmitted && f['govtSchemeDetails'].invalid" class="invalid-feedback">
+                  <span *ngIf="f['govtSchemeDetails'].errors?.['required']">Details is required</span>
+                  <span *ngIf="f['govtSchemeDetails'].errors?.['minlength']">Minimum 10 characters required</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" aria-label="Close"
+              (click)="resetForm()">Close</button>
+            <button type="submit" class="btn btn-lime-green">{{ isEditMode ? 'Update' : 'Add' }}</button>
           </div>
         </form>
       </div>

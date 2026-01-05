@@ -72,7 +72,7 @@
        <!-- begin:: Preliminary survey for selection of potential SHGs -->
        <!-- selectedBudgetHead=='71' || selectedBudgetHead=='68' -->
        <div class="card budgets mb-3 "
-         *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70'">
+         *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134'  || this.selectedBudgetHead=='135'">
 
          <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
 
@@ -81,7 +81,9 @@
              System</h6>
            <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='72'">Human Resource </h6>
            <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='128'">Miscellaneous </h6>
-           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='70'">Mentoring & Business Facilitation Services--{{typeOfHand}} </h6>
+           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='70'">Mentoring & Business Facilitation Services </h6>
+            <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='134'">Formalisation & compliance ,Registrations ,etc </h6>
+            <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='135'">Access to Government Schemes </h6>
            <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"  *ngIf="selectedBudgetHead=='71'" >Raw material support </h6> -->
            <div class="text-end">
              <button type="button" class="btn btn-sm btn-lime-green" (click)="onFinalSubmit()">Save</button>
@@ -90,7 +92,7 @@
          </div>
          <div class="card-body">
            <!-- || selectedBudgetHead=='71' || selectedBudgetHead=='68' -->
-           <div class="row" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' ">
+           <div class="row" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134'  || this.selectedBudgetHead=='135' ">
              <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                  <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -893,7 +895,7 @@
          </div>
        </div>
        <!-- end:: Contingency fund -->
-        <div class="card budgets mb-3" *ngIf="selectedBudgetHead=='70'">
+        <div class="card budgets mb-3" *ngIf="selectedBudgetHead=='70' || this.selectedBudgetHead=='134'  || this.selectedBudgetHead=='135'">
           <app-hand-holding-aleap [activityId]="selectedActivity" [subActivityId]="selectedBudgetHead" [handHoldingType]="typeOfHand" (handHoldingDataChange)="getDeatilOfTargets()"></app-hand-holding-aleap>
 
         </div>

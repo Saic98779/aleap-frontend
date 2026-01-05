@@ -72,10 +72,17 @@ export class NonTrainingTargetsComponent implements OnInit {
   onBudgetHeadChange(event: any) {
     this.selectedBudgetHead = event;
     console.log('Selected Budget Head:', this.selectedBudgetHead);
-    if(this.selectedActivity!='3'){
+    if(this.selectedBudgetHead!='70'){
+        if(this.selectedBudgetHead=='134'){
+          this.typeOfHand='formalisationcompliance'
+         }
+          if(this.selectedBudgetHead=='135'){
+          this.typeOfHand='govtschemeapplication'
+         }
        this.getDeatilOfTargets()
     }
     else{
+      this.typeOfHand='counselling'
         this.OnChangeTypeOfHand(this.typeOfHand)
     }
    
