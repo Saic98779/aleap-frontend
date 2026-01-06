@@ -18,7 +18,7 @@
                                 <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')">
                                 <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                 </mat-select-filter>
-                                <mat-option value="" >Select Agency</mat-option>
+                                <mat-option value="" >Select Program</mat-option>
                                 <mat-option *ngFor="let list of agencyProgramListFiltered" [value]="list.programId">
                                 {{ list.programTitle }}
                                 </mat-option>
@@ -27,8 +27,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <table class="table table-bordered nowrap">
+            <div class="card-body" style="max-width: max-content;overflow-x: scroll;">
+                <table class="table table-bordered nowrap" style="max-width: max-content;">
                     <thead class="bg-lime-green">
                         <tr>
                             <th>S.No</th>

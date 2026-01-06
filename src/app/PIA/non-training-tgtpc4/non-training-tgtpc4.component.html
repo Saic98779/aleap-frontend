@@ -1016,16 +1016,16 @@
               <div class="form-floating mb-3">
                 <select class="form-select events-expenditure" id="resourceId" formControlName="resourceId"
                   (change)="onResourceChange($any($event.target).value,resourceList)">
-                  <option value="">Select Resource ID</option>
+                  <option value="">Select Resource Name</option>
                   <option *ngFor="let item of resourceList" value="{{item?.resourceId}}">{{item?.name}}</option>
                   <!-- <option value="#">Select Budget Head</option>
                         <option value="1">Preliminary survey for selection of potential SHGs</option>
                         <option value="2">Dashboard / Central Management System</option>
                         <option value="5">Contingency fund</option> -->
                 </select>
-                <label for="resourceId">Resource ID</label>
+                <label for="resourceId">Resource Name</label>
                 <div *ngIf="isSubmitted && fPayment['resourceId'].invalid" class="invalid-feedback" id="resourceError">
-                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Resource ID is required</span>
+                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Resource Name is required</span>
 
                 </div>
               </div>
