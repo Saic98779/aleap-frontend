@@ -609,6 +609,7 @@
                 <label for="fileInput">Upload Document</label>
               </div>
               <div *ngIf="uploadedFilesHandHolding" class="mt-2">
+                
                 <span class="me-2">{{ this.uploadedFilesHandHolding.name ? uploadedFilesHandHolding.name : uploadedFilesHandHolding.split('/').pop() }}</span>
                 <button type="button" (click)="removeFile('file')" class="btn btn-sm btn-lime-green">
                   <span class="bi bi-trash"></span>
