@@ -152,6 +152,56 @@
                </fieldset>
              </div>
            </div>
+           <!-- implementation of ui for targets -->
+           <!-- <div class="dashboard-metrics" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134' || this.selectedBudgetHead=='136' || this.selectedBudgetHead=='139' || this.selectedBudgetHead=='137' || this.selectedBudgetHead=='135' || this.selectedBudgetHead=='138' || this.selectedBudgetHead=='140' || this.selectedBudgetHead=='141'">
+  
+  <div class="dashboard-card">
+    <div class="dashboard-icon physical-icon">
+      <i class="bi bi-flag-fill"></i>
+    </div>
+    <div class="dashboard-content">
+      <h6 class="dashboard-label">Physical Target</h6>
+      <p class="dashboard-value">{{physicalTarget}}</p>
+    </div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="dashboard-icon achievement-icon">
+      <i class="bi bi-check-circle-fill"></i>
+    </div>
+    <div class="dashboard-content">
+      <h6 class="dashboard-label">Physical Achievement</h6>
+      <select *ngIf="physicalTarget<=1" class="dashboard-select" [(ngModel)]="physicalTargetAchievement">
+        <option value="">Select</option>
+        <option value="Not Initiated">Not Initiated</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+      <input *ngIf="physicalTarget>1" type="text" class="dashboard-input" [(ngModel)]="physicalTargetAchievement">
+    </div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="dashboard-icon financial-icon">
+      <i class="bi bi-currency-rupee"></i>
+    </div>
+    <div class="dashboard-content">
+      <h6 class="dashboard-label">Financial Target</h6>
+      <p class="dashboard-value">₹ {{financialTarget | commaSeperationIndia}}</p>
+    </div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="dashboard-icon success-icon">
+      <i class="bi bi-graph-up-arrow"></i>
+    </div>
+    <div class="dashboard-content">
+      <h6 class="dashboard-label">Financial Achievement</h6>
+      <p class="dashboard-value success">₹ {{financialTargetAchievement | commaSeperationIndia}}</p>
+    </div>
+  </div>
+
+</div> -->
            <!-- Vendor Management Section for Budget Heads 79, 80, 81 -->
            <div class="card" *ngIf="selectedBudgetHead=='69'">
              <div class="card-header bg-transparent">
