@@ -35,6 +35,127 @@ export class NonTrainingTgtpc4Component implements OnInit {
          this.paymentForm = this.createFormPayment();
  
    }
+    purposeList: any = [
+    'Field Staff Payment',
+    'Field Staff Training',
+    'Field Staff Travel & Logistics',
+    'Others'
+  ];
+   modufifyPurposeOfListByBudgetHead(){
+    if(['95', '96', '97'].includes(this.selectedBudgetHead)){
+        this.purposeList = ['Field Staff Payment',
+    'Field Staff Training',
+    'Field Staff Travel & Logistics',
+    'Others']
+    }
+    else if(['98',].includes(this.selectedBudgetHead)){
+        this.purposeList = [
+          'Professional / Consultancy service',
+          'Domestic Suplier linkage / onboarding facilitation',
+          'Quality / testing & validation',
+          'Financial & Working Capital linkage',
+          'Others'
+        ]
+    }
+    else if(['100'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Quality testing & laboratory services',
+        'Certification & Standards facilitation',
+        'Quality system & Documentation support',
+        'Others'
+      ]
+    }
+    else if(['99'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Professional / Consultancy Service',
+        'Technical Design & Engineering Services',
+        'Prototyping facilitation & Validation',
+        'Testing, Certification & Standards compliance support',
+        'Others'
+      ]
+    }
+    else if(['101'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Professional / Technical Consultancy Service',
+        'Buyer-seller linkage facilitation',
+        'Buyer qualification & vendor approval support',
+        'Eco system development & Networking support',
+        'Others'
+      ]
+    }
+    else if(['102'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Professional / Technical Consultancy Services',
+        'Technical design & Engineering Service',
+        'Statutory & Compliance facilitation support',
+        'Financial & Institutional linkages',
+        'Others'
+      ]
+    }
+    else if(['103'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Professional / Technical Consultancy Services',
+        'Technical design & Engineering Service',
+        'Statutory & Compliance facilitation support',
+        'Financial & Institutional linkages',
+        'Others'
+      ]
+    }
+   
+    else if(['104'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Professional / Financial consultancy service',
+        'DPR / Proposal preparation support',
+        'Due diligency support',
+        'Monitoring & followup support'
+      ]
+    }
+    
+    else if(['105'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Technical Advisory / Prototyping faciliation service',
+        'Ecosystem & infrastructure access facilitation',
+        'Prototype development support',
+        'Quality, testing & Product readiness support',
+        'Others'
+      ]
+    }
+    else if(['106'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Technical & Commercial adivisory service',
+        'Quality, compliance & certification facilitation',
+        'Supply Chain facilitation',
+        'Others'
+      ]
+    }
+    else if(['107','109'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Field Staff Payment',
+        'Field Staff Training',
+        'Field Staff Travel & Logistics',
+        'Others'
+      ]
+    }
+     else if(['108'].includes(this.selectedBudgetHead)){
+    this.purposeList = [
+      'Technical adivisory / technology facilitation service',
+      'Ecosystem / Technology linkage facilitation',
+      'Design adoption & knowledge transfer',
+      'IPR support',
+      'Others'
+    ]
+    }
+    else if(['110', '28'].includes(this.selectedBudgetHead)){
+      this.purposeList = [
+        'Technical adivisory / technology facilitation service',
+        'Ecosystem / Technology linkage facilitation',
+        'Design adoption & knowledge transfer',
+        'IPR support',
+        'Others'
+      ]
+    }
+   }
+ 
  
    ngOnInit(): void {
       this.getBudgetHeadList()
@@ -73,6 +194,7 @@ export class NonTrainingTgtpc4Component implements OnInit {
       }
    onBudgetHeadChange(event: any) {
      this.selectedBudgetHead = event;
+     this.modufifyPurposeOfListByBudgetHead()
      console.log('Selected Budget Head:', this.selectedBudgetHead);
      this.getDeatilOfTargets()
    }
@@ -86,22 +208,22 @@ export class NonTrainingTgtpc4Component implements OnInit {
            this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
            this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
            console.log('TargetDetails:', this.TargetDetails);
-           if( this.selectedBudgetHead=='110' || this.selectedBudgetHead=='28'){
-             this.getPreliminaryDataById()
- 
-           }
-           else if(this.selectedBudgetHead=='19'){
-             this.getTravelDataBySubActive()
-           }
-           else if(this.selectedBudgetHead=='26'){
-             this.getResourceList()
-             this.getContingencyDataById()
-             this.getPaymentsDataById()
-           }
+          if(['95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '105', '106', '107', '108', '109','110','28','26'].includes(this.selectedBudgetHead) ){
+                this.getPreliminaryDataById()
+
+                }
+                else if(this.selectedBudgetHead=='19'){
+                this.getTravelDataBySubActive()
+                }
+                else if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='94'){
+                this.getResourceList()
+                this.getContingencyDataById()
+                this.getPaymentsDataById()
+                }
  
            
          }, (error) => {
-                     if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='110' || this.selectedBudgetHead=='28'){
+                if(['95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '105', '106', '107', '108', '109','110','28','26'].includes(this.selectedBudgetHead) ){
                   this.getPreliminaryDataById()
  
            }
@@ -109,7 +231,7 @@ export class NonTrainingTgtpc4Component implements OnInit {
             else if(this.selectedBudgetHead=='19'){
              this.getTravelDataBySubActive()
            }
-           else if(this.selectedBudgetHead=='26'){
+           else if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='94'){
              this.getResourceList()
              this.getContingencyDataById()
              this.getPaymentsDataById()
@@ -650,12 +772,14 @@ removeFile(): void {
            
            console.log('Preliminary Data:', this.getContingencyData);
            this.resetFormContingency();
+            this.getDeatilOfTargets()
            this.isSubmitted = false;
            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
            modal1.hide();
          
          }, (error) => {
             this.resetFormContingency();
+             this.getDeatilOfTargets()
            this.isSubmitted = false;
            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
            modal1.hide();
@@ -667,6 +791,7 @@ removeFile(): void {
          this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingency,{...this.contingencyForm.value,"expenditures":[],nonTrainingActivityId:Number(this.selectedActivity),nonTrainingSubActivityId:Number(this.selectedBudgetHead),dateOfJoining:this.contingencyForm?.value?.dateOfJoining?moment(this.contingencyForm?.value?.dateOfJoining).format('DD-MM-YYYY'):null}).subscribe((res: any) => {
            this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
            this.resetFormContingency();
+            this.getDeatilOfTargets()
            this.isSubmitted = false;
            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
            modal1.hide();
@@ -674,13 +799,15 @@ removeFile(): void {
          
          }, (error) => {
            this.resetFormContingency();
+            this.getDeatilOfTargets()
            this.isSubmitted = false;
            const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
            modal1.hide();
            this.toastrService.error(error.message);
          });
      }
-    this.getDeatilOfTargets()
+     
+   
        }
  
    }
@@ -699,6 +826,7 @@ removeFile(): void {
            if(data?.status==400){
              this.toastrService.error(data?.message, "Non Training Progress Data Error!");
              this.closeModalDeleteContinuty();
+             this.getDeatilOfTargets()
              this.deleteContingencyID =''
            }
            else{
@@ -706,6 +834,7 @@ removeFile(): void {
              
            this.toastrService.success( 'Record Deleted Successfully', "Non Training Progress Data Success!");
            this.closeModalDeleteContinuty();
+           this.getDeatilOfTargets()
              this.deleteContingencyID =''
            }
            
@@ -713,12 +842,13 @@ removeFile(): void {
          error: (err) => {
            this.toastrService.error(err.message, "Non Training Progress Error!");
            this.closeModalDeleteContinuty();
+           this.getDeatilOfTargets()
            this.deleteContingencyID =''
            
            new Error(err);
          },
        });
-       this.getDeatilOfTargets()
+       
  
      }
    closeModalDeleteContinuty(): void {
@@ -890,11 +1020,13 @@ removeFile(): void {
              this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsAleapContingencyPayment, formData, this.paymentID).subscribe((res: any) => {
                this.toastrService.success('payments Updated successfully','Non Training Progress Data Success!');
                this.isSubmitted = false;
+               this.getDeatilOfTargets()
                const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
                modal1.hide();
                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
              }, (error) => {
                this.isSubmitted = false;
+               this.getDeatilOfTargets()
                const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
                modal1.hide();
                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
@@ -918,21 +1050,22 @@ removeFile(): void {
            this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsAleapContingencyPayment, formData).subscribe((res: any) => {
              this.toastrService.success('Payments saved successfully','Non Training Progress Data Success!');
              this.isSubmitted = false;
+             this.getDeatilOfTargets()
              const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
              modal1.hide();
+
              document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
            }, (error) => {
              this.isSubmitted = false;
+             this.getDeatilOfTargets()
              const modal1 = bootstrap.Modal.getInstance(document.getElementById('addPayment'));
              modal1.hide();
              document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
              this.toastrService.error(error.message);
+
            });
          }
         
-           setTimeout(() => {
-                this.getDeatilOfTargets()
-             }, 200);
          }
        }
      

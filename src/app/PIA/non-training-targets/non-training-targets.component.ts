@@ -23,6 +23,7 @@ export class NonTrainingTargetsComponent implements OnInit {
    isSubmitted = false;
   loginsessionDetails: any;
   selectedAgencyId: any;
+  typeOfHand: any='counselling';
   @ViewChild(MonthlyRangeComponent) monthlyRange!: MonthlyRangeComponent;
  constructor(private fb: FormBuilder, private toastrService: ToastrService,
       private _commonService: CommonServiceService,
@@ -30,6 +31,7 @@ export class NonTrainingTargetsComponent implements OnInit {
    this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
      this.selectedAgencyId = this.loginsessionDetails.agencyId;
     this.financialForm = this.createForm();
+    this.travelForm = this.createFormTravel();
         this.contingencyForm = this.createFormContingency();
         this.paymentForm = this.createFormPayment();
         this.initializeVendorForm();
@@ -44,6 +46,7 @@ export class NonTrainingTargetsComponent implements OnInit {
     getBudgetHeadList() {
         this._commonService.getDataByUrl(APIS.nontrainingtargets.getBudgetHeadList+this.selectedAgencyId).subscribe((res: any) => {
           this.budgetHeadList = res;
+        
           this.onActivityChange(this.budgetHeadList[0]?.activityId)
         
         }, (error) => {
@@ -54,7 +57,10 @@ export class NonTrainingTargetsComponent implements OnInit {
       SubActivityList:any=[]
       onActivityChange(event: any) {
         this.selectedActivity=event
-         this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+event).subscribe((res: any) => {
+          if(this._commonService.getOption('subActivityId')){
+          this.selectedActivity=this._commonService.getOption('subActivityId')?.split('-')[0]
+        }
+         this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+this.selectedActivity).subscribe((res: any) => {
           this.SubActivityList = res;
           this.selectedBudgetHead= this.SubActivityList[0]?.subActivityId
           this.onBudgetHeadChange(this.SubActivityList[0]?.subActivityId)
@@ -70,7 +76,37 @@ export class NonTrainingTargetsComponent implements OnInit {
   financialTargetAchievement: any = 0;
   onBudgetHeadChange(event: any) {
     this.selectedBudgetHead = event;
+    if(this._commonService.getOption('subActivityId')){
+       this.selectedBudgetHead=this._commonService.getOption('subActivityId')?.split('-')[1]
+    }
+   
     console.log('Selected Budget Head:', this.selectedBudgetHead);
+    if(this.selectedBudgetHead!='70'){
+        if(this.selectedBudgetHead=='134'){
+          this.typeOfHand='formalisationcompliance'
+         }
+          if(this.selectedBudgetHead=='135'){
+          this.typeOfHand='govtschemeapplication'
+         }
+         if(this.selectedBudgetHead=='136'){
+          this.typeOfHand='AccessToFinance'
+         }
+         if(this.selectedBudgetHead=='137'){
+          this.typeOfHand='AccessToTechnologyAndInfrastructure'
+         }
+         if(this.selectedBudgetHead=='139'){
+          this.typeOfHand='aleapdesignstudio'
+         }
+       this.getDeatilOfTargets()
+    }
+    else{
+      this.typeOfHand='counselling'
+        this.OnChangeTypeOfHand(this.typeOfHand)
+    }
+   
+  }
+  OnChangeTypeOfHand(event: any) {
+    this.typeOfHand = event;
     this.getDeatilOfTargets()
   }
  TargetDetails: any;
@@ -88,7 +124,7 @@ export class NonTrainingTargetsComponent implements OnInit {
             if(this.selectedBudgetHead=='69'){
                this.loadVendorData()
             }
-
+          
           }
           else if(this.selectedBudgetHead=='72'){
             this.getResourceList()
@@ -100,6 +136,7 @@ export class NonTrainingTargetsComponent implements OnInit {
             this.getContingencyDataById()
             this.getPaymentsDataById()
             this.getPreliminaryDataById()
+            this.getTravelDataBySubActive()
           }
 
           
@@ -121,6 +158,7 @@ export class NonTrainingTargetsComponent implements OnInit {
             this.getContingencyDataById()
             this.getPaymentsDataById()
             this.getPreliminaryDataById()
+            this.getTravelDataBySubActive()
           }
           // this.toastrService.error(error.message);
         });
@@ -228,7 +266,7 @@ export class NonTrainingTargetsComponent implements OnInit {
 
   }
 
-   modeOfPayment(val:any){
+   modeOfPaymentTravel(val:any){
       if(val=='CASH'){
         this.financialForm.get('bank')?.setValidators(null);
         this.financialForm.get('transactionId')?.setValidators(null);
@@ -1303,6 +1341,207 @@ removeFile(): void {
    isVendorBudgetHead(): boolean {
      return ['79', '80', '81'].includes(this.selectedBudgetHead);
    }
+
+
+    // travel anc TRansport
+      travelForm!: FormGroup;
+   createFormTravel(): FormGroup {
+       return this.fb.group({
+         nonTrainingSubActivityId: [0, ],
+         dateOfTravel: ['', Validators.required],
+         purposeOfTravel: ['', Validators.required],
+         modeOfTravel: ['', Validators.required],
+         destination: ['', Validators.required],
+         noOfPersonsTraveled:  [0, [Validators.required, Validators.min(0)]],
+         amount: [0, [Validators.required, Validators.min(0), Validators.max(5000000)]],
+         billNo: ['', Validators.required],
+         billDate: ['', Validators.required],
+         payeeName: ['', Validators.required],
+         // accountNumber: ['', Validators.required],
+         bank: ['', ],
+         ifscCode: ['', []],
+         modeOfPayment: ['', Validators.required],
+         transactionId: [''],
+         purpose: ['', Validators.required],
+         billInvoicePath: ['']
+       });
+     }
+   
+     get fTravel() {
+       return this.travelForm.controls;
+     }
+     travelList:any=[]
+      getTravelDataBySubActive(){
+           this.travelList=[]
+          this._commonService.getDataByUrl(APIS.nontrainingtargets.getTravelList+this.selectedBudgetHead).subscribe((res: any) => {
+              this.travelList=res.data;
+              this.financialTargetAchievement=0
+            this.travelList?.map((item:any)=>{
+              this.financialTargetAchievement+=Number(item?.amount)
+            })
+             
+          
+          }, (error) => {
+            // this.toastrService.error(error.message);
+          });
+      }
+     iseditModeTravel = false;
+     TravelID:any
+     openModelTravel(mode: string,item?: any): void {
+       if (mode === 'add') {
+         this.travelForm.reset();
+         this.iseditModeTravel = false;
+         this.resetForm();
+       }
+       else {
+         this.TravelID=item?.travelTransportId
+         this.iseditModeTravel = true;
+         this.modeOfPaymentTravel(item?.modeOfPayment);
+         this.travelForm.patchValue({
+           nonTrainingSubActivityId: item?.nonTrainingSubActivityId || 0,
+           dateOfTravel: item?.dateOfTravel ? this.convertToISOFormat(item?.dateOfTravel) : '',
+           purposeOfTravel: item?.purposeOfTravel || '',
+           modeOfTravel: item?.modeOfTravel || '',
+           destination: item?.destination || '',
+           noOfPersonsTraveled: item?.noOfPersonsTraveled || 0,
+           amount: item?.amount || 0,
+           billNo: item?.billNo || '',
+           billDate: item?.billDate ? this.convertToISOFormat(item?.billDate) : '',
+           payeeName: item?.payeeName || '',
+           // accountNumber: item?.accountNumber || '',
+           bank: item?.bank || '',
+           ifscCode: item?.ifscCode || '',
+           modeOfPayment: item?.modeOfPayment || '',
+           transactionId: item?.transactionId || '',
+           purpose: item?.purpose || '',
+           billInvoicePath: item?.billInvoicePath || ''
+         });
+       }
+       const modal1 = new bootstrap.Modal(document.getElementById('addTravel'));
+       modal1.show();
+     }
+     getTravelData:any=[]
+     onSubmitTravel(): void {
+       this.isSubmitted = true;
+        if (this.travelForm.valid) {
+       if(this.iseditModeTravel){
+           this.fTravel['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
+           this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsTravel,{...this.travelForm.value,nonTrainingSubActivityId:Number(this.selectedBudgetHead),travelTransportId:this.TravelID},this.TravelID).subscribe((res: any) => {
+             this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
+             
+             console.log('Preliminary Data:', this.getTravelData);
+             this.resetForm();
+             this.isSubmitted = false;
+             const modalElement = document.getElementById('addTravel');
+             const modal1 = modalElement ? bootstrap.Modal.getInstance(modalElement) : null;
+             if (modal1) {
+               modal1.hide();
+             }
+              this.getDeatilOfTargets()
+           
+           }, (error) => {
+              this.resetForm();
+             this.isSubmitted = false;
+             const modal1 = bootstrap.Modal.getInstance(document.getElementById('addTravel'));
+             modal1.hide();
+              this.getDeatilOfTargets()
+             this.toastrService.error(error.message,"Non Training Progress Data Error!");
+           });
+          
+       }
+       else{
+         console.log('Form Submitted:', this.travelForm.value);
+           this.fTravel['nonTrainingSubActivityId'].setValue(Number(this.selectedBudgetHead));
+            const formData = new FormData();
+             formData.append("dto", JSON.stringify({...this.travelForm.value}));
+   
+             if (this.travelForm.value.billInvoicePath) {
+               formData.append("file", this.uploadedFiles);
+               }
+           this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsTravel,formData).subscribe((res: any) => {
+             this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
+             this.getTravelData.push(res.data)
+             this.resetForm();
+             this.isSubmitted = false;
+             const modal1 = bootstrap.Modal.getInstance(document.getElementById('addTravel'));
+             modal1.hide();
+              this.getDeatilOfTargets()
+            
+           
+           }, (error) => {
+             this.resetForm();
+             this.isSubmitted = false;
+              this.getDeatilOfTargets()
+             const modal1 = bootstrap.Modal.getInstance(document.getElementById('addTravel'));
+             modal1.hide();
+             this.toastrService.error(error.message);
+           });
+          
+       }
+      
+       }
+   
+     }
+     deleteTravelID:any
+     deleteTravel(id:any):void{
+       this.deleteTravelID=id
+        const previewModal = document.getElementById('exampleModalDeleteTravell');
+       if (previewModal) {
+         const modalInstance = new bootstrap.Modal(previewModal);
+         modalInstance.show();
+       }
+     }
+     ConfirmdeleteExpenditureTravel(item:any){
+         this._commonService
+         .deleteId(APIS.nontrainingtargets.deleteNonTrainingtargetsTravel,item).subscribe({
+           next: (data: any) => {
+             if(data?.status==400){
+               this.toastrService.error(data?.message, "Non Training Progress Data Error!");
+               this.closeModalDeleteTravel();
+   
+               this.deletePreliminaryID =''
+             }
+             else{
+               // this.getBulkExpenditure()
+               this.closeModalDeleteTravel();
+               this.deletePreliminaryID =''
+             this.toastrService.success( 'Record Deleted Successfully', "Non Training Progress Data Success!");
+             }
+             
+           },
+           error: (err) => {
+             this.closeModalDeleteTravel();
+             this.deletePreliminaryID =''
+             this.toastrService.error(err.message, "Non Training Progress Error!");
+             new Error(err);
+           },
+         });
+   
+       }
+        closeModalDeleteTravel(): void {
+         const editSessionModal = document.getElementById('exampleModalDeleteTravell');
+         if (editSessionModal) {
+           const modalInstance = bootstrap.Modal.getInstance(editSessionModal);
+           modalInstance.hide();
+         }
+         this.getDeatilOfTargets()
+       } 
+     onFileSelectedTravel(event: any): void {
+       this.uploadedFiles = null;
+       const file = event.target.files[0];
+       if (file) {
+          this.uploadedFiles = file;
+         // Handle file upload logic here
+         // You might want to upload the file and then set the URL
+         this.travelForm.patchValue({
+           billInvoicePath: file.name // This would be the uploaded file URL
+         });
+       }
+     }
+     RedirectToOutcome(){
+        this._commonService.setOption('subActivityId', this.selectedActivity+'-'+ this.selectedBudgetHead);
+        this.router.navigateByUrl('/capture-outcome');
+     }
    }
    
    

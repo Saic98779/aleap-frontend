@@ -1,0 +1,159 @@
+<!-- ...existing code... -->
+
+<!-- begin:: Preliminary survey for selection of potential SHGs -->
+<div class="card budgets mb-3 "
+  >
+<!-- ...existing code... -->
+
+  <!-- TGTPC Reports Section -->
+  <div class="card" >
+    <div class="card-header bg-transparent">
+      <div class="row align-items-center">
+        <div class="col-8 col-sm-8 col-md-9 col-lg-10">
+          <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">TGTPC Reports</h6>
+        </div>
+        <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+          <div class="text-end">
+            <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelTgtpcReports('add')">
+              <span class="bi bi-plus-lg"></span> Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-scroll-container">
+        <table id="view-TgtpcReports" class="table table-bordered nowrap w-100 trainingTable">
+          <thead class="bg-lime-green">
+            <tr>
+              <th>S.No</th>
+              <th>Sector Name</th>
+              <th>Product Name</th>
+              <th>Report Submission Date</th>
+              <th>Approval Date</th>
+              <th class="text-center">Edit / Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!tgtpcReportsList || tgtpcReportsList.length === 0">
+              <td colspan="6" class="text-center text-muted">Data Not available.</td>
+            </tr>
+            <tr *ngFor="let report of tgtpcReportsList; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ report?.sectorName }}</td>
+              <td>{{ report?.productName }}</td>
+              <td class="noWrap">{{ report?.reportSubmissionDate }}</td>
+              <td class="noWrap">{{ report?.approvalDate }}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-default text-lime-green btn-sm"
+                  (click)="openModelTgtpcReports('edit', report)">
+                  <span class="bi bi-pencil"></span>
+                </button>
+                <button type="button" class="btn btn-default text-danger btn-sm"
+                  (click)="deleteTgtpcReports(report?.reportId)">
+                  <span class="bi bi-trash"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Add TGTPC Reports Modal -->
+<div class="modal fade" id="addTgtpcReports" tabindex="-1" aria-labelledby="addTgtpcReportsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="addTgtpcReportsLabel">{{iseditModeTgtpcReports ? 'Update' : 'Add'}} TGTPC Report</h6>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetFormTgtpcReports()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="tgtpcReportsForm" (ngSubmit)="onSubmitTgtpcReports()">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="sectorName" formControlName="sectorName"
+                  [class.is-invalid]="isSubmitted && fTgtpcReports['sectorName'].invalid" placeholder="Sector Name">
+                <label for="sectorName">Sector Name</label>
+                <div *ngIf="isSubmitted && fTgtpcReports['sectorName'].invalid" class="invalid-feedback">
+                  <span *ngIf="fTgtpcReports['sectorName'].errors?.['required']">Sector Name is required</span>
+                  <span *ngIf="fTgtpcReports['sectorName'].errors?.['minlength']">Minimum 2 characters required</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="productName" formControlName="productName"
+                  [class.is-invalid]="isSubmitted && fTgtpcReports['productName'].invalid" placeholder="Product Name">
+                <label for="productName">Product Name</label>
+                <div *ngIf="isSubmitted && fTgtpcReports['productName'].invalid" class="invalid-feedback">
+                  <span *ngIf="fTgtpcReports['productName'].errors?.['required']">Product Name is required</span>
+                  <span *ngIf="fTgtpcReports['productName'].errors?.['minlength']">Minimum 2 characters required</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="reportSubmissionDate" formControlName="reportSubmissionDate"
+                  appDisableFutureDates
+                  [class.is-invalid]="isSubmitted && fTgtpcReports['reportSubmissionDate'].invalid"
+                  placeholder="Report Submission Date">
+                <label for="reportSubmissionDate">Report Submission Date</label>
+                <div *ngIf="isSubmitted && fTgtpcReports['reportSubmissionDate'].invalid" class="invalid-feedback">
+                  Report Submission Date is required
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="approvalDate" formControlName="approvalDate"
+                  appDisableFutureDates
+                  [class.is-invalid]="isSubmitted && fTgtpcReports['approvalDate'].invalid"
+                  placeholder="Approval Date">
+                <label for="approvalDate">Approval Date</label>
+                <div *ngIf="isSubmitted && fTgtpcReports['approvalDate'].invalid" class="invalid-feedback">
+                  Approval Date is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" aria-label="Close"
+              (click)="resetFormTgtpcReports()">Close</button>
+            <button type="submit" class="btn btn-lime-green">{{iseditModeTgtpcReports ? 'Update' : 'Add'}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete TGTPC Reports Modal -->
+<div class="modal fade" id="exampleModalDeleteTgtpcReports" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDeleteTgtpcReportsLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalDeleteTgtpcReportsLabel">Delete Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this report?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-lime-green"
+          (click)="ConfirmDeleteTgtpcReports(deleteTgtpcReportsID)">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

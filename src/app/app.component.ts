@@ -24,6 +24,9 @@ export class AppComponent {
      clearOutcomes(){
         this._commonService.setOption('mobileNumberForNonParticipant', null);
     }
+    ClearNonTrainingTargetsSession(){
+        this._commonService.setOption('subActivityId', null);
+    }
     clearSession(){
         sessionStorage.removeItem('selectAgecytoOutpuAchievements');
     }
