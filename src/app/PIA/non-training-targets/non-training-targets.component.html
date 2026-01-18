@@ -72,7 +72,7 @@
        <!-- begin:: Preliminary survey for selection of potential SHGs -->
        <!-- selectedBudgetHead=='71' || selectedBudgetHead=='68' -->
        <div class="card budgets mb-3 "
-         *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134' || this.selectedBudgetHead=='136' || this.selectedBudgetHead=='137'  || this.selectedBudgetHead=='135' || this.selectedBudgetHead=='139'">
+         *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134' || this.selectedBudgetHead=='136' || this.selectedBudgetHead=='137'  || this.selectedBudgetHead=='135' || this.selectedBudgetHead=='139' || this.selectedBudgetHead=='138' || this.selectedBudgetHead=='140' || this.selectedBudgetHead=='141' ">
 
          <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
 
@@ -87,6 +87,10 @@
             <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='136'">Access to Finance </h6>
             <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='137'">Access to Technology and Infrastructure </h6>
             <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='139'">Access to Packaging, Labelling and Common Branding</h6>
+             <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='138'">Access to Market </h6>
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='140'">Product Development & IPR Support </h6>
+          
+<h6 class="fw-600 mb-2 mb-sm-3 mb-md-0" *ngIf="selectedBudgetHead=='141'">Access to Certifications like ZED, LEAN etc </h6>
 
            <!-- <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"  *ngIf="selectedBudgetHead=='71'" >Raw material support </h6> -->
            <div class="text-end">
@@ -96,7 +100,7 @@
          </div>
          <div class="card-body">
            <!-- || selectedBudgetHead=='71' || selectedBudgetHead=='68' -->
-           <div class="row" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134'  || this.selectedBudgetHead=='136' || this.selectedBudgetHead=='139' || this.selectedBudgetHead=='137' || this.selectedBudgetHead=='135' ">
+           <div class="row" *ngIf="selectedBudgetHead=='69' || selectedBudgetHead=='72' || selectedBudgetHead=='128' || selectedBudgetHead=='70' || this.selectedBudgetHead=='134'  || this.selectedBudgetHead=='136' || this.selectedBudgetHead=='139' || this.selectedBudgetHead=='137' || this.selectedBudgetHead=='135' || this.selectedBudgetHead=='138' || this.selectedBudgetHead=='140' || this.selectedBudgetHead=='141' ">
              <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                  <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -402,6 +406,22 @@
                </div>
              </div>
            </div>
+             <div class="card mb-3"*ngIf="this.selectedBudgetHead=='138' || this.selectedBudgetHead=='140' || this.selectedBudgetHead=='141'">
+              <div class="card-header bg-transparent">
+               <div class="row align-items-center">
+                 <div class="col-8 col-sm-8 col-md-8 col-lg-8">
+                   <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Update Capture Outcome</h6>
+                 </div>
+                =
+               </div>
+             </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-lime-green" (click)="RedirectToOutcome()" >
+                       Click here go to Capture Outcome <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
            <!-- <div class="text-end mt-4">
                             <button type="button" class="btn btn-sm btn-lime-green" (click)="onFinalSubmit()">Save</button>
                         </div> -->

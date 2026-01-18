@@ -1,6 +1,14 @@
 <main class="mt-4">
     <section>
         <div class="container-fluid">
+            <div class="card mb-3" *ngIf=" this.isFromNonTrainingTargets">
+                <div class="card-body">
+                    <button type="button" class="btn btn-lime-green" (click)="BackToPrevious()" >
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+            </div>
             <div class="card mb-3">
                 <div class="card-header bg-transparent">
                     <div class="row align-items-center">

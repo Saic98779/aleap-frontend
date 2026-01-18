@@ -525,7 +525,7 @@
                     </a>
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['updateOutcomes']"
                       style="position:static; background: #dfebeb;min-width:180px;">
-                      <li><a class="dropdown-item" routerLink="/capture-outcome" routerLinkActive="active">Capture Outcome</a></li>
+                      <li><a class="dropdown-item" routerLink="/capture-outcome" (click)="ClearNonTrainingTargetsSession()" routerLinkActive="active">Capture Outcome</a></li>
                       <li><a class="dropdown-item " routerLink="/shg-training"  routerLinkActive="active">SHG Training Status</a></li>
                        <li > <a class="dropdown-item" routerLink="/view-Outcomes" routerLinkActive="active">View Outcomes</a> </li>
                     </ul>

@@ -126,7 +126,8 @@ import { NonTrainingExpVerficationTrackerComponent } from './PIA/non-training-ex
 import { EditProgramStatusViewComponent } from './PIA/edit-program-status-view/edit-program-status-view.component';
 import { SampleUiComponent } from './PIA/sample-ui/sample-ui.component';;
 import { ProgressReportDownloadComponent } from './PIA/progress-report-download/progress-report-download.component';
-import { HandHoldingAleapComponent } from './PIA/hand-holding-aleap/hand-holding-aleap.component'
+import { HandHoldingAleapComponent } from './PIA/hand-holding-aleap/hand-holding-aleap.component';
+import { Tgtpc4NtReportComponent } from './PIA/tgtpc4-nt-report/tgtpc4-nt-report.component'
 @NgModule({
     imports: [
         MaterialModule,
@@ -258,7 +259,8 @@ import { HandHoldingAleapComponent } from './PIA/hand-holding-aleap/hand-holding
         SampleUiComponent
 ,
         ProgressReportDownloadComponent,
-        HandHoldingAleapComponent
+        HandHoldingAleapComponent,
+        Tgtpc4NtReportComponent
     ],
     exports:[MaterialModule,
         LoaderComponent

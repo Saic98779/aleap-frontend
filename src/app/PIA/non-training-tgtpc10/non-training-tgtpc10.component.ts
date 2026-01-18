@@ -71,11 +71,35 @@ export class NonTrainingTgtpc10Component implements OnInit {
    onBudgetHeadChange(event: any) {
      this.selectedBudgetHead = event;
      console.log('Selected Budget Head:', this.selectedBudgetHead);
+     this.modififyPurposeOfListByBudgetHead()
      this.getDeatilOfTargets()
    }
     getSubactivities(event:any){
-        return this.SubActivityList?.find((item:any)=>item?.subActivityId==event)?.subActivityName || ''
+        
+      return this.SubActivityList?.find((item:any)=>item?.subActivityId==event)?.subActivityName || ''
       }
+    purposeList:any = ['Field Staff Payment',
+    'Field Staff Training',
+    'Field Staff Travel & Logistics',
+    'Others']
+
+       modififyPurposeOfListByBudgetHead(){
+    if(['115','114', '113', '112'].includes(this.selectedBudgetHead)){
+        this.purposeList = ['Field Staff Payment',
+    'Field Staff Training',
+    'Field Staff Travel & Logistics',
+    'Others']
+    }
+    else if(['98',].includes(this.selectedBudgetHead)){
+        this.purposeList = [
+          'Professional / Consultancy service',
+          'Domestic Suplier linkage / onboarding facilitation',
+          'Quality / testing & validation',
+          'Financial & Working Capital linkage',
+          'Others'
+        ]
+    }
+  }
   TargetDetails: any;
      getDeatilOfTargets() {
          this.TargetDetails={}
@@ -87,14 +111,14 @@ export class NonTrainingTgtpc10Component implements OnInit {
            this.physicalTargetAchievement = this.TargetDetails?.physicalTargetAchievement || 0;
            this.financialTargetAchievement = this.TargetDetails?.financialTargetAchievement || 0;
            console.log('TargetDetails:', this.TargetDetails);
-           if( this.selectedBudgetHead=='124' || this.selectedBudgetHead=='28'){
+           if( this.selectedBudgetHead=='124' || this.selectedBudgetHead=='28' || this.selectedBudgetHead=='112' || this.selectedBudgetHead=='113'  || this.selectedBudgetHead=='114' || this.selectedBudgetHead=='115' ){
              this.getPreliminaryDataById()
  
            }
            else if(this.selectedBudgetHead=='19'){
              this.getTravelDataBySubActive()
            }
-           else if(this.selectedBudgetHead=='26'){
+           else if(this.selectedBudgetHead=='26'  || this.selectedBudgetHead=='111'){
              this.getResourceList()
              this.getContingencyDataById()
              this.getPaymentsDataById()
@@ -102,7 +126,7 @@ export class NonTrainingTgtpc10Component implements OnInit {
  
            
          }, (error) => {
-                     if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='124' || this.selectedBudgetHead=='28'){
+        if(this.selectedBudgetHead=='26'|| this.selectedBudgetHead=='124' || this.selectedBudgetHead=='28' || this.selectedBudgetHead=='112' || this.selectedBudgetHead=='113'  || this.selectedBudgetHead=='114' || this.selectedBudgetHead=='115'   ){
                   this.getPreliminaryDataById()
  
            }
@@ -110,7 +134,7 @@ export class NonTrainingTgtpc10Component implements OnInit {
             else if(this.selectedBudgetHead=='19'){
              this.getTravelDataBySubActive()
            }
-           else if(this.selectedBudgetHead=='26'){
+           else if(this.selectedBudgetHead=='26' || this.selectedBudgetHead=='111'){
              this.getResourceList()
              this.getContingencyDataById()
              this.getPaymentsDataById()

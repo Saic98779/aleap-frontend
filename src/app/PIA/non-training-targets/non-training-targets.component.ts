@@ -46,6 +46,7 @@ export class NonTrainingTargetsComponent implements OnInit {
     getBudgetHeadList() {
         this._commonService.getDataByUrl(APIS.nontrainingtargets.getBudgetHeadList+this.selectedAgencyId).subscribe((res: any) => {
           this.budgetHeadList = res;
+        
           this.onActivityChange(this.budgetHeadList[0]?.activityId)
         
         }, (error) => {
@@ -56,7 +57,10 @@ export class NonTrainingTargetsComponent implements OnInit {
       SubActivityList:any=[]
       onActivityChange(event: any) {
         this.selectedActivity=event
-         this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+event).subscribe((res: any) => {
+          if(this._commonService.getOption('subActivityId')){
+          this.selectedActivity=this._commonService.getOption('subActivityId')?.split('-')[0]
+        }
+         this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+this.selectedActivity).subscribe((res: any) => {
           this.SubActivityList = res;
           this.selectedBudgetHead= this.SubActivityList[0]?.subActivityId
           this.onBudgetHeadChange(this.SubActivityList[0]?.subActivityId)
@@ -72,6 +76,10 @@ export class NonTrainingTargetsComponent implements OnInit {
   financialTargetAchievement: any = 0;
   onBudgetHeadChange(event: any) {
     this.selectedBudgetHead = event;
+    if(this._commonService.getOption('subActivityId')){
+       this.selectedBudgetHead=this._commonService.getOption('subActivityId')?.split('-')[1]
+    }
+   
     console.log('Selected Budget Head:', this.selectedBudgetHead);
     if(this.selectedBudgetHead!='70'){
         if(this.selectedBudgetHead=='134'){
@@ -1529,6 +1537,10 @@ removeFile(): void {
            billInvoicePath: file.name // This would be the uploaded file URL
          });
        }
+     }
+     RedirectToOutcome(){
+        this._commonService.setOption('subActivityId', this.selectedActivity+'-'+ this.selectedBudgetHead);
+        this.router.navigateByUrl('/capture-outcome');
      }
    }
    

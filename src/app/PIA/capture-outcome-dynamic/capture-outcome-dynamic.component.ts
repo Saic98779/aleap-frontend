@@ -16,6 +16,7 @@ export class CaptureOutcomeDynamicComponent implements OnInit {
   ListOfDynamicFormData:any=[]
   formData:any={}
   agencyId: any;
+  isFromNonTrainingTargets:boolean=false
   constructor(private fb: FormBuilder,
     private toastrService: ToastrService,
     private router: Router,
@@ -24,6 +25,13 @@ export class CaptureOutcomeDynamicComponent implements OnInit {
       this.MobileNumber=this._commonService.getOption('mobileNumberForNonParticipant')
       if(this._commonService.getOption('mobileNumberForNonParticipant')){
         this.Search();
+      }
+      console.log(this._commonService.getOption('subActivityId'))
+      if(this._commonService.getOption('subActivityId')){
+          this.isFromNonTrainingTargets=true
+      }
+      else {
+        this.isFromNonTrainingTargets=false
       }
     }
 
@@ -217,4 +225,9 @@ removeArrayItem(fieldName: string, index: number) {
     this.f2[fieldName].setValue(currentArray);
     this.f2[fieldName].markAsTouched();
 }
+BackToPrevious(){
+  this.router.navigateByUrl('/non-training-targets');
+  this._commonService.setOption('subActivityId', this._commonService.getOption('subActivityId') );
+}
+
 }
