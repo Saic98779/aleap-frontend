@@ -9,3 +9,39 @@
   top: 0;
   z-index: 1; /* Ensures the header stays on top of the scrolling content */
 }
+/* Action buttons styling */
+.table td.text-center {
+  white-space: nowrap;
+}
+
+.table .btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  min-width: 32px;
+}
+
+/* Ensure buttons stay in one line */
+td.text-center .btn {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Add spacing between action buttons */
+td.text-center .btn + .btn {
+  margin-left: 0.25rem;
+}
+
+/* For better alignment in action columns */
+td.text-center {
+  vertical-align: middle !important;
+}
+
+/* Prevent text wrapping in table cells */
+.table-bordered td {
+  white-space: nowrap;
+}
+
+/* Allow wrapping only for specific columns like details */
+.table-bordered td:not(.text-center) {
+  white-space: normal;
+}
