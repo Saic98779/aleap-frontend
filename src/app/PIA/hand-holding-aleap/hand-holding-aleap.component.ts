@@ -433,7 +433,7 @@ selectedPackagingAccessType: string = '';
       this.handHoldingForm.get('adviseDetails')?.setValidators([Validators.required, Validators.minLength(5)]);
     }
     else if (this.handHoldingType == 'formalisationcompliance') {
-      this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(5)]);
+      // this.handHoldingForm.get('details')?.setValidators([]);
     }
     else if (this.handHoldingType == 'marketstudy') {
       this.handHoldingForm.get('counselledBy')?.setValidators([Validators.required]);
@@ -453,7 +453,7 @@ selectedPackagingAccessType: string = '';
         // Vendor Connection validators
       this.handHoldingForm.get('vendorSuggested')?.setValidators([Validators.required, Validators.minLength(3)]);
       this.handHoldingForm.get('quotationDate')?.setValidators([Validators.required]);
-      this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
+      // this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
       this.handHoldingForm.get('cost')?.setValidators([Validators.required, Validators.min(1)]);
       }
        else if (this.selectedAccessType == 'machineryidentification') {
@@ -483,7 +483,7 @@ selectedPackagingAccessType: string = '';
         this.handHoldingForm.get('branchName')?.setValidators([Validators.required, Validators.minLength(3)]);
         this.handHoldingForm.get('dprSubmissionDate')?.setValidators([Validators.required]);
         this.handHoldingForm.get('statusOfApplication')?.setValidators([Validators.required]);
-        this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
+        // this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
       } else if (this.selectedFinanceAccessType === 'creditcounselling') {
         this.handHoldingForm.get('counselledBy')?.setValidators([Validators.required]);
         this.handHoldingForm.get('participantIds')?.setValidators([Validators.required]);
@@ -495,7 +495,7 @@ selectedPackagingAccessType: string = '';
         this.handHoldingForm.get('statusOfApplication')?.setValidators([Validators.required]);
         // this.handHoldingForm.get('applicationDate')?.setValidators(null);
         // this.handHoldingForm.get('time')?.setValidators(null);
-        this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
+        // this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
       }
     }
      else if (this.handHoldingType == 'aleapdesignstudio') {
@@ -508,7 +508,7 @@ selectedPackagingAccessType: string = '';
       } else if (this.selectedPackagingAccessType === 'aleapdesignstudio') {
         // this.handHoldingForm.get('participantIds')?.setValidators([Validators.required]);
         this.handHoldingForm.get('studioAccessDate')?.setValidators([Validators.required]);
-        this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
+        // this.handHoldingForm.get('details')?.setValidators([Validators.required, Validators.minLength(10)]);
       }
     }
    
@@ -1428,8 +1428,10 @@ toggleFeasibilityInputForm() {
       }
       else if (this.handHoldingType === 'formalisationcompliance') {
         jsonData = {
-          ...jsonData,
-          details: formValue.details,
+        organizationId: jsonData.organizationId,
+        nonTrainingActivityId:jsonData.nonTrainingActivityId,
+        nonTrainingSubActivityId: jsonData.nonTrainingSubActivityId,
+        details: formValue.details,
         };
          formData.append('type', this.handHoldingType);
       }
@@ -1563,6 +1565,8 @@ toggleFeasibilityInputForm() {
             branchName: formValue.branchName,
             dprSubmissionDate: formValue.dprSubmissionDate,
             bankApplicationStatus: formValue.statusOfApplication,
+            participantIds:  [],
+            influencedParticipantIds: [],
             // bankSanctionDetails: formValue.statusOfApplication === 'APPROVED' ? formValue.sanctionDetails : null,
             bankSanctionDate: formValue.statusOfApplication === 'APPROVED' ? formValue.sanctionDate : null,
             bankSanctionedAmount: formValue.statusOfApplication === 'APPROVED' ? formValue.sanctionedAmount : null,
@@ -1575,8 +1579,8 @@ toggleFeasibilityInputForm() {
            handHoldingType: 'NT_HANDHOLDING',
            accessToFinanceType:this.selectedFinanceAccessType,
             counselledBy: formValue.counselledBy,
-            participantIds: participantIds,
-            influencedParticipantIds: influencedParticipantIds,
+            participantIds: participantIds? participantIds : [],
+            influencedParticipantIds: influencedParticipantIds? influencedParticipantIds : [],
             counsellingDate: formValue.counsellingDate,
             // counsellingTime: formValue.counsellingTime,
             subjectDelivered: formValue.subjectDelivered
@@ -1588,6 +1592,8 @@ toggleFeasibilityInputForm() {
             handHoldingType: 'NT_HANDHOLDING',
             accessToFinanceType:this.selectedFinanceAccessType,
             schemeName: formValue.schemeName,
+            participantIds:  [],
+            influencedParticipantIds: [],
             govtApplicationStatus: formValue.statusOfApplication,
             // applicationDate: formValue.applicationDate,
             // time: formValue.time,
@@ -1812,7 +1818,18 @@ toggleFeasibilityInputForm() {
     this._commonService.openFile(filePath);
 
   }
-  
+  feasibilityInputListModal: any[] = [];
+  ShowFeasibilityInputs(item: any): void {
+    this.feasibilityInputListModal = item || [];
+    const modalElement = document.getElementById('feasibilityInputsModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+  closeFeasibilityModal(): void {
+    const modalElement = document.getElementById('feasibilityInputsModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal?.hide();
+  }
   participantForm!: FormGroup;
   participantSubmitted = false;
 

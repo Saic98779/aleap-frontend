@@ -97,6 +97,7 @@
                   <th>SHG/StartUp</th>
                   <th>Date</th>
                   <th>Time</th>
+                  <th>Participants</th>
                   <th *ngIf="handHoldingType=='counselling'">Subject Delivered</th>
                   <th *ngIf="handHoldingType=='counselling'">Original Idea</th>
                   <th *ngIf="handHoldingType=='counselling'">Final Idea</th>
@@ -105,6 +106,7 @@
                   <th *ngIf="handHoldingType=='businessplan'">Remarks from Bank</th>
                   <th *ngIf="handHoldingType=='sectoradvisory'">Advise Details</th>
                   <th *ngIf="handHoldingType=='businessplan'">Prepared Plan</th>
+                   <th class="text-center" *ngIf="handHoldingType=='marketstudy'"> Feasibility Inputs</th>
                   <th class="text-center">Actions</th>
                 </tr>
               </thead>
@@ -118,6 +120,11 @@
                   <td>{{ item?.organizationName }}</td>
                   <td>{{ item?.counsellingDate }}</td>
                   <td>{{ item?.counsellingTime }}</td>
+                  <td>
+                    <span *ngFor="let participant of item?.participants; let last = last">
+                      {{ participant.participantName }}<span *ngIf="!last">, </span>
+                    </span>
+                  </td>
                   <td *ngIf="handHoldingType=='counselling'">{{ item?.subjectDelivered }}</td>
                   <td *ngIf="handHoldingType=='counselling'">{{ item?.originalIdea }}</td>
                   <td *ngIf="handHoldingType=='counselling'">{{ item?.finalIdea }}</td>
@@ -131,6 +138,13 @@
                       <span class="bi bi-eye"></span>
                     </a>
                     <span *ngIf="!item?.planFileUploadPath" class="text-muted">No file</span>
+                  </td>
+                   <td class="text-center" *ngIf="handHoldingType=='marketstudy'">
+                    <a *ngIf="item?.feasibilityInputResponses" class="btn btn-default text-primary btn-sm"
+                      (click)="ShowFeasibilityInputs(item?.feasibilityInputResponses)">
+                      <span class="bi bi-eye"></span>
+                    </a>
+                    <span *ngIf="!item?.feasibilityInputResponses" class="text-muted">No Feasibility Inputs</span>
                   </td>
                   <td class="text-center">
                     <button type="button" class="btn btn-default text-lime-green btn-sm me-1"
@@ -445,7 +459,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title" id="addHandHoldingLabel">{{ isEditMode ? 'Update' : 'Add' }} Hand Holding</h6>
+        <h6 class="modal-title" id="addHandHoldingLabel">{{ isEditMode ? 'Update' : 'Add' }} {{handHoldingTypeOptions[handHoldingType]}} </h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"
           (click)="resetForm()"></button>
       </div>
@@ -1226,29 +1240,31 @@
         <div class="row mb-4">
           <div class="col-12">
             <label class="form-label fw-bold">Select Service Type <span class="text-danger">*</span></label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="accessType" id="vendorConnection" 
-                     value="vendorconnection" [(ngModel)]="selectedAccessType" 
-                     (change)="onAccessTypeChange('vendorconnection')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="vendorConnection">
-                Vendor Connection & Quotation Facilitation
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="accessType" id="machineryIdentification" 
-                     value="machineryidentification" [(ngModel)]="selectedAccessType" 
-                     (change)="onAccessTypeChange('machineryidentification')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="machineryIdentification">
-                Identification of Suitable Machinery & Equipment
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="accessType" id="cfcSupport" 
-                     value="cfcsupport" [(ngModel)]="selectedAccessType" 
-                     (change)="onAccessTypeChange('cfcsupport')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="cfcSupport">
-                Support for Common Facility Center (CFC) Access/Incubation and Technology Consultation
-              </label>
+            <div class="d-flex flex-wrap gap-3">
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="accessType" id="vendorConnection" 
+                 value="vendorconnection" [(ngModel)]="selectedAccessType" 
+                 (change)="onAccessTypeChange('vendorconnection')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="vendorConnection">
+            Vendor Connection & Quotation Facilitation
+          </label>
+              </div>
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="accessType" id="machineryIdentification" 
+                 value="machineryidentification" [(ngModel)]="selectedAccessType" 
+                 (change)="onAccessTypeChange('machineryidentification')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="machineryIdentification">
+            Identification of Suitable Machinery & Equipment
+          </label>
+              </div>
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="accessType" id="cfcSupport" 
+                 value="cfcsupport" [(ngModel)]="selectedAccessType" 
+                 (change)="onAccessTypeChange('cfcsupport')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="cfcSupport">
+            Support for Common Facility Center (CFC) Access/Incubation and Technology Consultation
+          </label>
+              </div>
             </div>
           </div>
         </div>
@@ -1313,13 +1329,13 @@
                 </div>
               </div>
 
-              <div class="col-12">
+              <div class="col-12 col-sm-6 col-md-8 col-lg-8">
                 <div class="form-floating mb-3">
-                  <textarea class="form-control" id="vendorDetails" style="height: 100px"
+                  <textarea class="form-control" id="vendorDetails" style="height: 70px"
                             formControlName="details"
                             [class.is-invalid]="isSubmitted && f['details'].invalid"
                             placeholder="Details"></textarea>
-                  <label for="vendorDetails">Details <span class="text-danger">*</span></label>
+                  <label for="vendorDetails">Details </label>
                   <div *ngIf="isSubmitted && f['details'].invalid" class="invalid-feedback">
                     <span *ngIf="f['details'].errors?.['required']">Details are required</span>
                     <span *ngIf="f['details'].errors?.['minlength']">Minimum 10 characters required</span>
@@ -1522,21 +1538,23 @@
         <div class="row mb-4">
           <div class="col-12">
             <label class="form-label fw-bold">Select Service Type <span class="text-danger">*</span></label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="packagingAccessType" id="tradeFairParticipation" 
-                     value="tradefairparticipation" [(ngModel)]="selectedPackagingAccessType" 
-                     (change)="onPackagingAccessTypeChange('tradefairparticipation')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="tradeFairParticipation">
-                Participation in Trade Fairs, Exhibitions, Buyer-Seller Meets
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="packagingAccessType" id="aleapDesignStudio" 
-                     value="aleapdesignstudio" [(ngModel)]="selectedPackagingAccessType" 
-                     (change)="onPackagingAccessTypeChange('aleapdesignstudio')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="aleapDesignStudio">
-                Access to ALEAP Design Studio for Product Photo Shoot
-              </label>
+            <div class="d-flex flex-wrap gap-3">
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="packagingAccessType" id="tradeFairParticipation" 
+                 value="tradefairparticipation" [(ngModel)]="selectedPackagingAccessType" 
+                 (change)="onPackagingAccessTypeChange('tradefairparticipation')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="tradeFairParticipation">
+            Participation in Trade Fairs, Exhibitions, Buyer-Seller Meets
+          </label>
+              </div>
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="packagingAccessType" id="aleapDesignStudio" 
+                 value="aleapdesignstudio" [(ngModel)]="selectedPackagingAccessType" 
+                 (change)="onPackagingAccessTypeChange('aleapdesignstudio')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="aleapDesignStudio">
+            Access to ALEAP Design Studio for Product Photo Shoot
+          </label>
+              </div>
             </div>
           </div>
         </div>
@@ -1701,7 +1719,7 @@
                   <textarea class="form-control" id="details" formControlName="details"
                     [class.is-invalid]="isSubmitted && f['details'].invalid" placeholder="Details"
                     rows="3" style="height: auto;"></textarea>
-                  <label for="details">Details <span class="text-danger">*</span></label>
+                  <label for="details">Details </label>
                   <div *ngIf="isSubmitted && f['details'].invalid" class="invalid-feedback">
                     <span *ngIf="f['details'].errors?.['required']">Details is required</span>
                     <span *ngIf="f['details'].errors?.['minlength']">Minimum 10 characters required</span>
@@ -1730,7 +1748,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header bg-lime-green">
-        <h5 class="modal-title">{{ isEditMode ? 'Edit' : 'Add' }} Linking With</h5>
+        <h5 class="modal-title">{{ isEditMode ? 'Edit' : 'Add' }} Access to Finance</h5>
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
@@ -1738,29 +1756,31 @@
         <div class="row mb-4">
           <div class="col-12">
             <label class="form-label fw-bold">Select Service Type <span class="text-danger">*</span></label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="financeAccessType" id="bankNbfcFinance" 
-                     value="banknbfcfinance" [(ngModel)]="selectedFinanceAccessType" 
-                     (change)="onFinanceAccessTypeChange('banknbfcfinance')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="bankNbfcFinance">
-                Banks or NBFCs
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="financeAccessType" id="govtSchemeFinance" 
-                     value="govtschemefinance" [(ngModel)]="selectedFinanceAccessType" 
-                     (change)="onFinanceAccessTypeChange('govtschemefinance')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="govtSchemeFinance">
-                Govt Schemes
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="financeAccessType" id="creditCounselling" 
-                     value="creditcounselling" [(ngModel)]="selectedFinanceAccessType" 
-                     (change)="onFinanceAccessTypeChange('creditcounselling')" [ngModelOptions]="{standalone: true}">
-              <label class="form-check-label" for="creditCounselling">
-                Credit Counselling / Literacy Sessions
-              </label>
+            <div class="d-flex flex-wrap gap-3">
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="financeAccessType" id="bankNbfcFinance" 
+                 value="banknbfcfinance" [(ngModel)]="selectedFinanceAccessType" 
+                 (change)="onFinanceAccessTypeChange('banknbfcfinance')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="bankNbfcFinance">
+            Banks or NBFCs
+          </label>
+              </div>
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="financeAccessType" id="govtSchemeFinance" 
+                 value="govtschemefinance" [(ngModel)]="selectedFinanceAccessType" 
+                 (change)="onFinanceAccessTypeChange('govtschemefinance')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="govtSchemeFinance">
+            Govt Schemes
+          </label>
+              </div>
+              <div class="form-check">
+          <input class="form-check-input" type="radio" name="financeAccessType" id="creditCounselling" 
+                 value="creditcounselling" [(ngModel)]="selectedFinanceAccessType" 
+                 (change)="onFinanceAccessTypeChange('creditcounselling')" [ngModelOptions]="{standalone: true}">
+          <label class="form-check-label" for="creditCounselling">
+            Credit Counselling / Literacy Sessions
+          </label>
+              </div>
             </div>
           </div>
         </div>
@@ -1894,7 +1914,7 @@
                             formControlName="details"
                             [class.is-invalid]="isSubmitted && f['details'].invalid"
                             placeholder="Details"></textarea>
-                  <label for="bankDetails">Details <span class="text-danger">*</span></label>
+                  <label for="bankDetails">Details </label>
                   <div *ngIf="isSubmitted && f['details'].invalid" class="invalid-feedback">
                     <span *ngIf="f['details'].errors?.['required']">Details are required</span>
                     <span *ngIf="f['details'].errors?.['minlength']">Minimum 10 characters required</span>
@@ -2014,7 +2034,7 @@
                             formControlName="details"
                             [class.is-invalid]="isSubmitted && f['details'].invalid"
                             placeholder="Details"></textarea>
-                  <label for="schemeDetails">Details <span class="text-danger">*</span></label>
+                  <label for="schemeDetails">Details </label>
                   <div *ngIf="isSubmitted && f['details'].invalid" class="invalid-feedback">
                     <span *ngIf="f['details'].errors?.['required']">Details are required</span>
                     <span *ngIf="f['details'].errors?.['minlength']">Minimum 10 characters required</span>
@@ -2126,3 +2146,52 @@
     </div>
   </div>
 </div>
+
+<!-- Feasibility inputs modal -->
+<div class="modal fade" id="feasibilityInputsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-lime-green">
+        <h5 class="modal-title">Feasibility Inputs</h5>
+        <button type="button" class="btn-close" (click)="closeFeasibilityModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" *ngIf="feasibilityInputListModal && feasibilityInputListModal.length > 0">
+          <table class="table table-bordered table-hover">
+            <thead class="bg-lime-green">
+              <tr>
+                <th style="width: 5%">S.No</th>
+                <th style="width: 35%">Input Details</th>
+                <th style="width: 15%">Source</th>
+                <th style="width: 20%">Sector</th>
+                <th style="width: 25%">Feasibility Activity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of feasibilityInputListModal; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.inputDetails }}</td>
+                <td>
+                  <span class="badge" [ngClass]="item.source === 'PRIMARY' ? 'bg-primary' : 'bg-secondary'">
+                    {{ item.source }}
+                  </span>
+                </td>
+                <td>{{ item.sector }}</td>
+                <td>{{ item.feasibilityActivity }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="alert alert-info" *ngIf="!feasibilityInputListModal || feasibilityInputListModal.length === 0">
+          <i class="bi bi-info-circle me-2"></i>
+          No feasibility inputs available.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeFeasibilityModal()">Close</button>
+        
+      </div>
+    </div>
+  </div>
+ 

@@ -78,6 +78,7 @@ export class NonTrainingTargetsComponent implements OnInit {
     this.selectedBudgetHead = event;
     if(this._commonService.getOption('subActivityId')){
        this.selectedBudgetHead=this._commonService.getOption('subActivityId')?.split('-')[1]
+       this._commonService.setOption('subActivityId',null)
     }
    
     console.log('Selected Budget Head:', this.selectedBudgetHead);
