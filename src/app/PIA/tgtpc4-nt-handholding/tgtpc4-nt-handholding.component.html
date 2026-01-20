@@ -1,0 +1,403 @@
+<div class="card">
+  <div class="card-header">
+    <h6>{{ getSubActivityName() }}</h6>
+    <button class="btn btn-lime-green btn-sm float-end" (click)="openModal('add')">
+      <i class="fa fa-plus"></i> Add New
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="view-TgtpcReports" class="table table-bordered nowrap w-100 trainingTable">
+        <thead class="bg-lime-green">
+          <tr>
+            <th>S.No</th>
+            <th *ngFor="let field of getVisibleFields()">
+              {{ getHeaderLabel(field) }}
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of handholdingData; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngFor="let field of getVisibleFields()">
+              {{ field=='organizationId'?item['organizationName']:item[field] }}
+            </td>
+            <td class="text-center">
+              <button type="button" class="btn btn-default text-lime-green btn-sm" (click)="openModal('edit',item)">
+                <span class="bi bi-pencil"></span>
+              </button>
+              <button type="button" class="btn btn-default text-danger btn-sm" (click)="deleteTgtpcReports(item.id)">
+                <span class="bi bi-trash"></span>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="handholdingData.length === 0">
+            <td [attr.colspan]="7" class="text-center">No records found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Template -->
+<ng-template #handholdingModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">{{ isEditMode ? 'Edit' : 'Add' }} {{ getSubActivityName() }}</h6>
+    <button type="button" class="btn-close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="handholdingForm">
+      <div class="row">
+        <!-- Organization/MSME -->
+        <div class="col-md-6 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Name of MSME</mat-label>
+            <!-- <mat-select formControlName="organizationId">
+              <mat-select-filter [array]="OrganizationData" [displayMember]="'organizationName'"
+                (filteredReturn)="filteredOrganizationData = $event">
+              </mat-select-filter>
+              <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                {{ list.organizationName }}
+              </mat-option>
+            </mat-select> -->
+            <mat-select formControlName="organizationId">
+              <div class="search-option">
+                <i class="bx bx-search me-2"></i>
+                <input class="search-input" tabindex="0" #searchDropdownInput
+                  (input)="onSearchChange($any($event.target).value)" (keydown.space)="$event.stopPropagation()"
+                  type="text" matInput placeholder="Search" trim="blur" autocomplete="off" />
+              </div>
+              <span *ngIf="searchValue" class="no-results1">
+                Please enter atleast 2 characters to search
+              </span>
+              <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                {{ list.organizationName }}</mat-option>
+              <span *ngIf="filteredOrganizationData?.length === 0" class="no-results">
+                No results found
+              </span>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Sector Name -->
+
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('nameOfTheSector')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nameOfTheSector" formControlName="nameOfTheSector"
+              placeholder="Name of the Sector">
+            <label for="nameOfTheSector">Name of the Sector</label>
+          </div>
+
+        </div>
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('nameOfTheDomesticSupplier')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nameOfTheDomesticSupplier"
+              formControlName="nameOfTheDomesticSupplier" placeholder="Name of the Domestic supplier connected">
+            <label for="nameOfTheDomesticSupplier">Name of the Domestic supplier connected</label>
+          </div>
+
+        </div>
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('nameOfTheRawMaterial')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nameOfTheRawMaterial" formControlName="nameOfTheRawMaterial"
+              placeholder="Name of the raw material linkage">
+            <!-- <label for="nameOfTheRawMaterial">Name of the raw material linkage</label> -->
+            <label>{{ getFieldLabel('nameOfTheRawMaterial') }}</label>
+          </div>
+
+        </div>
+
+        <!-- Imported Components -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('importedComponents')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="importedComponents" formControlName="importedComponents"
+              placeholder="Imported Components">
+            <label>{{ getFieldLabel('importedComponents') }}</label>
+          </div>
+        </div>
+
+        <!-- Design Developed -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('designDeveloped')">
+          <label class="form-label">Domesti substitute design developled (Yes/No)</label>
+
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="designDevelopedYes" formControlName="designDeveloped"
+                [value]="true">
+              <label class="form-check-label" for="designDevelopedYes">Yes</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="designDevelopedNo" formControlName="designDeveloped"
+                [value]="false">
+              <label class="form-check-label" for="designDevelopedNo">No</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Adoption Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('adoptionDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="adoptionDate" formControlName="adoptionDate"
+              placeholder="Date of Adoption">
+            <!-- <label for="adoptionDate">Date of Adoption</label> -->
+              <label>{{ getFieldLabel('adoptionDate') }}</label>
+            
+          </div>
+        </div>
+
+        <!-- Domestic Products Tested -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('domesticProductsTested')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="domesticProductsTested" formControlName="domesticProductsTested"
+              placeholder="Domestic Substitute Products">
+            <!-- <label for="domesticProductsTested">Domestic Substitute Products</label> -->
+            <label>{{ getFieldLabel('domesticProductsTested') }}</label>
+          </div>
+        </div>
+
+        <!-- Testing Lab -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('testingLab')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="testingLab" formControlName="testingLab"
+              placeholder="Accredited Testing Lab">
+            <!-- <label for="testingLab">Accredited Testing Lab</label> -->
+            <label>{{ getFieldLabel('testingLab') }}</label>
+          </div>
+        </div>
+
+        <!-- Test Name -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('testName')">
+          <mat-form-field appearance="outline" class="w-100">
+            <!-- <mat-label>Name of the Test</mat-label> -->
+            <mat-label>{{ getFieldLabel('testName') }}</mat-label>  
+            <mat-select formControlName="testName">
+              <mat-option value="Performance, safety & durability testing">Performance, safety & durability testing
+              </mat-option>
+              <mat-option value="Environmental & reliability test">Environmental & reliability test</mat-option>
+              <mat-option value="Others">Others, pls specify</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Quality Certifications -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('qualityCertifications')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="qualityCertifications" formControlName="qualityCertifications"
+              placeholder="Quality Certifications">
+            <!-- <label for="qualityCertifications">Quality Certifications</label> -->
+            <label>{{ getFieldLabel('qualityCertifications') }}</label>
+          </div>
+        </div>
+
+        <!-- Domestic Buyer -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('domesticBuyer')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="domesticBuyer" formControlName="domesticBuyer"
+              placeholder="Name of Domestic Buyer">
+            <!-- <label for="domesticBuyer">Name of the Domestic supplier connected</label> -->
+            <label>{{ getFieldLabel('domesticBuyer') }}</label>
+          </div>
+        </div>
+
+        <!-- Product Catalogue -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('productCatalogue')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="productCatalogue" formControlName="productCatalogue"
+              placeholder="Product Catalogue">
+            <!-- <label for="productCatalogue">Product Catalogue</label> -->
+            <label>{{ getFieldLabel('productCatalogue') }}</label>
+          </div>
+        </div>
+
+        <!-- Manufacturing Line -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('manufacturingLine')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="manufacturingLine" formControlName="manufacturingLine"
+              placeholder="Name of Manufacturing Line">
+            <!-- <label for="manufacturingLine">Name of Manufacturing Line</label> -->
+            <label>{{ getFieldLabel('manufacturingLine') }}</label>
+          </div>
+        </div>
+
+        <!-- Production Start Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('productionStartDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="productionStartDate" formControlName="productionStartDate"
+              placeholder="Production Start Date">
+            <!-- <label for="productionStartDate">Production Start Date</label> -->
+            <label>{{ getFieldLabel('productionStartDate') }}</label>
+          </div>
+        </div>
+
+        <!-- Scheme Name -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('schemeName')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="schemeName" formControlName="schemeName"
+              placeholder="Name of the Scheme">
+            <!-- <label for="schemeName">Name of the Scheme</label> -->
+            <label>{{ getFieldLabel('schemeName') }}</label>
+          </div>
+        </div>
+
+        <!-- Investment Value -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('investmentValue')">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="investmentValue" formControlName="investmentValue"
+              placeholder="Value of Investment">
+            <!-- <label for="investmentValue">Value of Investment</label> -->
+            <label>{{ getFieldLabel('investmentValue') }}</label>
+          </div>
+        </div>
+
+        <!-- Scheme Subsidy -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('schemeSubsidy')">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="schemeSubsidy" formControlName="schemeSubsidy"
+              placeholder="Subsidy through Scheme">
+            <!-- <label for="schemeSubsidy">Subsidy through Scheme</label> -->
+            <label>{{ getFieldLabel('schemeSubsidy') }}</label>
+          </div>
+        </div>
+
+        <!-- Release Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('releaseDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="releaseDate" formControlName="releaseDate"
+              placeholder="Date of Release">
+            <!-- <label for="releaseDate">Date of Release</label> -->
+            <label>{{ getFieldLabel('releaseDate') }}</label>
+          </div>
+        </div>
+
+        <!-- DPR Submission Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('dprSubmissionDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dprSubmissionDate" formControlName="dprSubmissionDate"
+              placeholder="Date of DPR Submission">
+            <!-- <label for="dprSubmissionDate">Date of DPR Submission</label> -->
+            <label>{{ getFieldLabel('dprSubmissionDate') }}</label>
+          </div>
+        </div>
+
+        <!-- Sanction Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('sanctionDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="sanctionDate" formControlName="sanctionDate"
+              placeholder="Date of Sanction">
+            <!-- <label for="sanctionDate">Date of Sanction</label> -->
+            <label>{{ getFieldLabel('sanctionDate') }}</label>
+          </div>
+        </div>
+
+        <!-- Sanction Amount -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('sanctionAmount')">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="sanctionAmount" formControlName="sanctionAmount"
+              placeholder="Amount of Sanction">
+            <!-- <label for="sanctionAmount">Amount of Sanction</label> -->
+            <label>{{ getFieldLabel('sanctionAmount') }}</label>
+          </div>
+        </div>
+
+        <!-- Bank/NBFC -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('bankNbfc')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="bankNbfc" formControlName="bankNbfc"
+              placeholder="Name of Bank / NBFC">
+            <!-- <label for="bankNbfc">Name of Bank / NBFC</label> -->
+            <label>{{ getFieldLabel('bankNbfc') }}</label>
+          </div>
+        </div>
+
+        <!-- Product Launch Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('productLaunchDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="productLaunchDate" formControlName="productLaunchDate"
+              placeholder="Date of Product Launch">
+            <!-- <label for="productLaunchDate">Date of Product Launch</label> -->
+            <label>{{ getFieldLabel('productLaunchDate') }}</label>
+          </div>
+        </div>
+
+        <!-- Launched Products -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('launchedProducts')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="launchedProducts" formControlName="launchedProducts"
+              placeholder="Name of Import Substitute Products Launched">
+            <!-- <label for="launchedProducts">Name of Import Substitute Products Launched</label> -->
+            <label>{{ getFieldLabel('launchedProducts') }}</label>
+          </div>
+        </div>
+
+        <!-- Technology/Design -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('technologyDesign')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="technologyDesign" formControlName="technologyDesign"
+              placeholder="Name of the Technology/Design">
+            <!-- <label for="technologyDesign">Name of the Technology/Design</label> -->
+            <label>{{ getFieldLabel('technologyDesign') }}</label>
+          </div>
+        </div>
+
+        <!-- Technical Institution -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('technicalInstitution')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="technicalInstitution" formControlName="technicalInstitution"
+              placeholder="Name of Technical Institution">
+            <!-- <label for="technicalInstitution">Name of Technical Institution</label> -->
+            <label>{{ getFieldLabel('technicalInstitution') }}</label>
+          </div>
+        </div>
+
+        <!-- IPR Name -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('iprName')">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="iprName" formControlName="iprName"
+              placeholder="Name of the IPR Adopted">
+            <!-- <label for="iprName">Name of the IPR Adopted</label> -->
+            <label>{{ getFieldLabel('iprName') }}</label>
+          </div>
+        </div>
+
+        <!-- IPR Registration Date -->
+        <div class="col-md-6 mb-3" *ngIf="shouldShowField('iprRegistrationDate')">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="iprRegistrationDate" formControlName="iprRegistrationDate"
+              placeholder="Date of IPR Registered">
+            <!-- <label for="iprRegistrationDate">Date of IPR Registered</label> -->
+            <label>{{ getFieldLabel('iprRegistrationDate') }}</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+    <button type="button" class="btn btn-lime-green" (click)="saveHandholding()">
+      {{ isEditMode ? 'Update' : 'Save' }}
+    </button>
+  </div>
+</ng-template>
+
+<!-- Delete TGTPC Reports Modal -->
+<div class="modal fade" id="exampleModalDeleteTgtpcReports" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDeleteTgtpcReportsLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalDeleteTgtpcReportsLabel">Delete Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this report?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-lime-green"
+          (click)="ConfirmDeleteTgtpcReports(deleteTgtpcReportsID)">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

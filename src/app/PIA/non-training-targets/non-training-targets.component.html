@@ -1247,7 +1247,8 @@
               </div>
             </div>
             <div class="card-body">
-              <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable table-responsive">
+              
+              <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
                 <thead class="bg-lime-green">
                   <tr>
                     <th>S.No</th>
@@ -1255,7 +1256,7 @@
                     <th>Purpose Of Travel</th>
                     <th>Mode Of Travel</th>
                     <th>Destination</th>
-                    <th>No. of peCandidateed</th>
+                    <th>No. of Person Travelled</th>
                     <th>Amount</th>
                     <th>Bill No.</th>
                     <th>Bill Date</th>
@@ -1384,7 +1385,7 @@
                   <div *ngIf="isSubmitted && f['expenditureAmount'].invalid" class="invalid-feedback">
                   <span *ngIf="f['expenditureAmount'].errors?.['required']">Expenditure amount is required</span>
                   <span *ngIf="f['expenditureAmount'].errors?.['min']">Amount must be greater than 0</span>
-                   <span *ngIf="f['expenditureAmount'].errors?.['max']">Amount cannot exceed ₹50,00,000</span>
+                   <span *ngIf="f['expenditureAmount'].errors?.['max']">Amount cannot exceed ₹5000</span>
                 </div>
                </div>
              </div>
@@ -2002,7 +2003,7 @@
                  <div *ngIf="isSubmitted && fContingency['monthlySal'].invalid" class="invalid-feedback">
                    <span *ngIf="fContingency['monthlySal'].errors?.['required']">Salary is required</span>
                    <span *ngIf="fContingency['monthlySal'].errors?.['min']">Salary cannot be negative</span>
-                    <span *ngIf="fContingency['monthlySal'].errors?.['max']">Salary cannot exceed ₹50,00,000</span>
+                    <span *ngIf="fContingency['monthlySal'].errors?.['max']">Salary cannot exceed ₹5,000</span>
                  </div>
                </div>
              </div>
@@ -2257,7 +2258,7 @@
                  <div *ngIf="isSubmitted && fPayment['amount'].invalid" class="invalid-feedback" id="amountError">
                   <span *ngIf="fPayment['amount'].errors?.['required']">Amount is required</span>
                   <span *ngIf="fPayment['amount'].errors?.['min']">Amount must be positive</span>
-                  <span *ngIf="fPayment['amount'].errors?.['max']">Amount can not be exceed ₹50,00,000 </span>
+                  <span *ngIf="fPayment['amount'].errors?.['max']">Amount can not be exceed ₹5,000 </span>
                 </div>
                </div>
              </div>
@@ -2544,7 +2545,7 @@
                <div *ngIf="isSubmitted && fTravel['amount'].invalid" class="invalid-feedback">
              <span *ngIf="fTravel['amount'].errors?.['required']">Amount is required</span>
              <span *ngIf="fTravel['amount'].errors?.['min']">Amount must be positive</span>
-             <span *ngIf="fTravel['amount'].errors?.['max']">Cash payments cannot exceed ₹50,00,000</span>
+             <span *ngIf="fTravel['amount'].errors?.['max']">Cash payments cannot exceed ₹5,000</span>
              </div>
               </div>
             </div>

@@ -127,7 +127,10 @@ import { EditProgramStatusViewComponent } from './PIA/edit-program-status-view/e
 import { SampleUiComponent } from './PIA/sample-ui/sample-ui.component';;
 import { ProgressReportDownloadComponent } from './PIA/progress-report-download/progress-report-download.component';
 import { HandHoldingAleapComponent } from './PIA/hand-holding-aleap/hand-holding-aleap.component';
-import { Tgtpc4NtReportComponent } from './PIA/tgtpc4-nt-report/tgtpc4-nt-report.component'
+import { Tgtpc4NtReportComponent } from './PIA/tgtpc4-nt-report/tgtpc4-nt-report.component';
+import { HandHoldingTgtpc10Component } from './PIA/hand-holding-tgtpc10/hand-holding-tgtpc10.component';
+import { Tgtpc4NtHandholdingComponent } from './PIA/tgtpc4-nt-handholding/tgtpc4-nt-handholding.component';
+import { Tgtpc10HandholdingComponent } from './PIA/tgtpc10-handholding/tgtpc10-handholding.component';
 @NgModule({
     imports: [
         MaterialModule,
@@ -256,11 +259,13 @@ import { Tgtpc4NtReportComponent } from './PIA/tgtpc4-nt-report/tgtpc4-nt-report
         TrainingExpenditureVerificatonComponent,
         NonTrainingExpVerficationTrackerComponent,
         EditProgramStatusViewComponent,
-        SampleUiComponent
-,
+        SampleUiComponent,
         ProgressReportDownloadComponent,
         HandHoldingAleapComponent,
-        Tgtpc4NtReportComponent
+        Tgtpc4NtReportComponent,
+        HandHoldingTgtpc10Component,
+        Tgtpc4NtHandholdingComponent,
+        Tgtpc10HandholdingComponent
     ],
     exports:[MaterialModule,
         LoaderComponent

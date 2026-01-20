@@ -91,6 +91,7 @@ export const APIS = {
     saveOrgnization: API_BASE_URL + '/organization/save',
     getOrgnizationData: API_BASE_URL + '/organization/list',
     getOrgnizationDataOnlyId: API_BASE_URL + '/organization-names',
+    getOrgnizationDataOnlyPagination: API_BASE_URL + '/organization-names',
     getParticipantsList: API_BASE_URL + '/agency/participants-dropdown/9',
     getOrganizationDetailsById: API_BASE_URL + '/organization-names?organizationType=MSME',
     getParticipantList: API_BASE_URL + '/participants',
@@ -204,6 +205,13 @@ export const APIS = {
       savetihclData: API_BASE_URL + '/listing-on-nse/save',
       deletetihclData: API_BASE_URL + '/listing-on-nse/delete/',
     },
+    // Add these to your APIS constant object
+tgtpc10: {
+  saveHandholding: API_BASE_URL + '/tgtpc-handholding/save',
+  updateHandholding: API_BASE_URL + '/tgtpc-handholding/update/',
+  deleteHandholding: API_BASE_URL + '/tgtpc-handholding/delete/',
+  getHandholdingBySubActivity: API_BASE_URL + '/tgtpc-handholding/get'
+},
     nimsme: {
       getCorpusList: API_BASE_URL + '/corpusDebitFinancing',
       getdataMedia_doc: API_BASE_URL + '/central-data/content/subActivity/',
@@ -235,6 +243,12 @@ export const APIS = {
       getVisitDetailsById: API_BASE_URL + '/visit-details/',
       getVisitDetailsBySubActivity: API_BASE_URL + '/visit-details/get-by-sub-activity/',
       deleteVisitDetails: API_BASE_URL + '/visit-details/delete/',
+    },
+    tgtpc4:{
+      saveHandholding: API_BASE_URL + '/tgtpc4-nt-handholding/save',
+      updateHandholding: API_BASE_URL + '/tgtpc4-nt-handholding/update/',
+      getHandholdingBySubActivity: API_BASE_URL + '/tgtpc4-nt-handholding/get-by-sub-activity/',
+      deleteHandholding: API_BASE_URL + '/tgtpc4-nt-handholding/delete/',
     },
     updateTechnologyAdoption: API_BASE_URL + '/wehub_sdg/update',
     saveTechnologyAdoption: API_BASE_URL + '/wehub_sdg/save',
