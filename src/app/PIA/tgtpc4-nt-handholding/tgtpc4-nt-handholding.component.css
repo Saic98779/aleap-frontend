@@ -21,7 +21,9 @@
     font-weight: bold;
     color: #63738a;
   }
-  
+  label{
+      color: #06090e;
+  }
   input {
     font-size: 16px;
   }

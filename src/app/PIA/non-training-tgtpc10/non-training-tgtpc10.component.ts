@@ -54,7 +54,10 @@ export class NonTrainingTgtpc10Component implements OnInit {
        SubActivityList:any=[]
        onActivityChange(event: any) {
          this.selectedActivity=event
-          this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+event).subscribe((res: any) => {
+         if(this._commonService.getOption('subActivityId')){
+          this.selectedActivity=this._commonService.getOption('subActivityId')?.split('-')[0]
+        }
+          this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+ this.selectedActivity).subscribe((res: any) => {
            this.SubActivityList = res;
            this.selectedBudgetHead= this.SubActivityList[0]?.subActivityId
            this.onBudgetHeadChange(this.SubActivityList[0]?.subActivityId)
@@ -70,6 +73,10 @@ export class NonTrainingTgtpc10Component implements OnInit {
    financialTargetAchievement: any = 0;
    onBudgetHeadChange(event: any) {
      this.selectedBudgetHead = event;
+       if(this._commonService.getOption('subActivityId')){
+       this.selectedBudgetHead=this._commonService.getOption('subActivityId')?.split('-')[1]
+       this._commonService.setOption('subActivityId',null)
+    }
      console.log('Selected Budget Head:', this.selectedBudgetHead);
      this.modififyPurposeOfListByBudgetHead()
      this.getDeatilOfTargets()
@@ -123,6 +130,13 @@ export class NonTrainingTgtpc10Component implements OnInit {
              this.getContingencyDataById()
              this.getPaymentsDataById()
            }
+           else {
+             this.getPreliminaryDataById()
+                this.getResourceList()
+             this.getContingencyDataById()
+             this.getPaymentsDataById()
+             this.getTravelDataBySubActive()
+           }
  
            
          }, (error) => {
@@ -138,6 +152,13 @@ export class NonTrainingTgtpc10Component implements OnInit {
              this.getResourceList()
              this.getContingencyDataById()
              this.getPaymentsDataById()
+           }
+            else {
+             this.getPreliminaryDataById()
+             this.getResourceList()
+             this.getContingencyDataById()
+             this.getPaymentsDataById()
+             this.getTravelDataBySubActive()
            }
            // this.toastrService.error(error.message);
          });
@@ -1310,6 +1331,11 @@ removeFile(): void {
        
          this.travelForm.get('ifscCode')?.updateValueAndValidity();
        }
+     }
+
+      RedirectToOutcome(){
+        this._commonService.setOption('subActivityId', this.selectedActivity+'-'+ this.selectedBudgetHead+'-'+'tgtpc10');
+        this.router.navigateByUrl('/capture-outcome');
      }
    // end infracture
  

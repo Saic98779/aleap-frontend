@@ -130,6 +130,7 @@ import { HandHoldingAleapComponent } from './PIA/hand-holding-aleap/hand-holding
 import { Tgtpc4NtReportComponent } from './PIA/tgtpc4-nt-report/tgtpc4-nt-report.component';
 import { HandHoldingTgtpc10Component } from './PIA/hand-holding-tgtpc10/hand-holding-tgtpc10.component';
 import { Tgtpc4NtHandholdingComponent } from './PIA/tgtpc4-nt-handholding/tgtpc4-nt-handholding.component';
+import { Tgtpc10HandholdingComponent } from './PIA/tgtpc10-handholding/tgtpc10-handholding.component';
 @NgModule({
     imports: [
         MaterialModule,
@@ -263,7 +264,8 @@ import { Tgtpc4NtHandholdingComponent } from './PIA/tgtpc4-nt-handholding/tgtpc4
         HandHoldingAleapComponent,
         Tgtpc4NtReportComponent,
         HandHoldingTgtpc10Component,
-        Tgtpc4NtHandholdingComponent
+        Tgtpc4NtHandholdingComponent,
+        Tgtpc10HandholdingComponent
     ],
     exports:[MaterialModule,
         LoaderComponent

@@ -1540,7 +1540,7 @@ removeFile(): void {
        }
      }
      RedirectToOutcome(){
-        this._commonService.setOption('subActivityId', this.selectedActivity+'-'+ this.selectedBudgetHead);
+        this._commonService.setOption('subActivityId', this.selectedActivity+'-'+ this.selectedBudgetHead+'-NonTraining');
         this.router.navigateByUrl('/capture-outcome');
      }
    }

@@ -205,6 +205,13 @@ export const APIS = {
       savetihclData: API_BASE_URL + '/listing-on-nse/save',
       deletetihclData: API_BASE_URL + '/listing-on-nse/delete/',
     },
+    // Add these to your APIS constant object
+tgtpc10: {
+  saveHandholding: API_BASE_URL + '/tgtpc-handholding/save',
+  updateHandholding: API_BASE_URL + '/tgtpc-handholding/update/',
+  deleteHandholding: API_BASE_URL + '/tgtpc-handholding/delete/',
+  getHandholdingBySubActivity: API_BASE_URL + '/tgtpc-handholding/get'
+},
     nimsme: {
       getCorpusList: API_BASE_URL + '/corpusDebitFinancing',
       getdataMedia_doc: API_BASE_URL + '/central-data/content/subActivity/',

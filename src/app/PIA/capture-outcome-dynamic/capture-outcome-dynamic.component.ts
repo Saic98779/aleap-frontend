@@ -226,8 +226,15 @@ removeArrayItem(fieldName: string, index: number) {
     this.f2[fieldName].markAsTouched();
 }
 BackToPrevious(){
-  this.router.navigateByUrl('/non-training-targets');
+  if(this._commonService.getOption('subActivityId').split('-')[2]=='tgtpc10'){
+    this.router.navigateByUrl('/non-training-progress-tgtpc10');
   this._commonService.setOption('subActivityId', this._commonService.getOption('subActivityId') );
+  }
+  else{
+    this.router.navigateByUrl('/non-training-targets');
+  this._commonService.setOption('subActivityId', this._commonService.getOption('subActivityId') );
+  }
+  
 }
 
 }

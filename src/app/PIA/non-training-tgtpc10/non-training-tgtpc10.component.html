@@ -49,7 +49,7 @@
 
       <!-- begin:: Preliminary survey for selection of potential SHGs -->
       <div class="card budgets mb-3 "
-        *ngIf="selectedBudgetHead=='26'  || selectedBudgetHead=='111'|| selectedBudgetHead=='124' || selectedBudgetHead=='28' || selectedBudgetHead=='112' || selectedBudgetHead=='113' || selectedBudgetHead=='114' || selectedBudgetHead=='115' ">
+        *ngIf="selectedBudgetHead=='26'  || selectedBudgetHead=='111'|| selectedBudgetHead=='124' || selectedBudgetHead=='28' || selectedBudgetHead=='112' || selectedBudgetHead=='113' || selectedBudgetHead=='114' || selectedBudgetHead=='115' || selectedBudgetHead=='116' || selectedBudgetHead=='117' || selectedBudgetHead=='118' || selectedBudgetHead=='119' || selectedBudgetHead=='120' || selectedBudgetHead=='121' || selectedBudgetHead=='122' || selectedBudgetHead=='123' ">
 
         <div class="card-header bg-transparent d-flex justify-content-between">
           <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0"> {{getSubactivities(selectedBudgetHead)}} </h6>
@@ -63,7 +63,7 @@
         </div>
         <div class="card-body">
           <div class="row"
-            *ngIf="selectedBudgetHead=='26'  || selectedBudgetHead=='111' || selectedBudgetHead=='124' || selectedBudgetHead=='112' || selectedBudgetHead=='113' || selectedBudgetHead=='114' || selectedBudgetHead=='115'  || selectedBudgetHead=='28' || selectedBudgetHead=='13' || selectedBudgetHead=='14' || selectedBudgetHead=='15' || selectedBudgetHead=='16' || selectedBudgetHead=='17' || selectedBudgetHead=='19'">
+            *ngIf="selectedBudgetHead=='26'  || selectedBudgetHead=='111' || selectedBudgetHead=='124' || selectedBudgetHead=='112' || selectedBudgetHead=='113' || selectedBudgetHead=='114' || selectedBudgetHead=='115'  || selectedBudgetHead=='28' || selectedBudgetHead=='116' || selectedBudgetHead=='117' || selectedBudgetHead=='118' || selectedBudgetHead=='119' || selectedBudgetHead=='120' || selectedBudgetHead=='121' || selectedBudgetHead=='122' || selectedBudgetHead=='123'">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
               <fieldset class="mb-3" style="border: 1px solid #e0e0e0; border-radius: 8px; padding-left: 18px; ">
                 <legend class="text-lime-green" style="padding: 0 8px;">Physical</legend>
@@ -207,7 +207,376 @@
             </div>
 
           </div>
+           <div class="card mb-3"*ngIf="this.selectedBudgetHead=='116' ">
+              <div class="card-header bg-transparent">
+               <div class="row align-items-center">
+                 <div class="col-8 col-sm-8 col-md-8 col-lg-8">
+                   <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Update Capture Outcome</h6>
+                 </div>
+                =
+               </div>
+             </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-lime-green" (click)="RedirectToOutcome()" >
+                       Click here go to Capture Outcome <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
 
+            </div>
+             <div class="card budgets mb-3" *ngIf="selectedBudgetHead=='117' || selectedBudgetHead=='118' || selectedBudgetHead=='119' || selectedBudgetHead=='120' || selectedBudgetHead=='121' || selectedBudgetHead=='122' || selectedBudgetHead=='123' ">
+        <div class="card-body">
+          <!-- Tab Navigation -->
+          <ul class="nav nav-tabs mb-3" id="handHoldingTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="handholding-tab" (click)="getDeatilOfTargets()" data-bs-toggle="tab" 
+                      data-bs-target="#handholding" type="button" role="tab" 
+                      aria-controls="handholding" aria-selected="true">
+                Handholding
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="expenditure-tab" data-bs-toggle="tab" (click)="getDeatilOfTargets()"
+                      data-bs-target="#expenditure" type="button" role="tab" 
+                      aria-controls="expenditure" aria-selected="false">
+                General Expenditure
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="salary-tab" data-bs-toggle="tab" (click)="getDeatilOfTargets()"
+                      data-bs-target="#salary" type="button" role="tab" 
+                      aria-controls="salary" aria-selected="false">
+                Resource & Payment
+              </button> 
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="travel-tab" data-bs-toggle="tab"  (click)="getDeatilOfTargets()"
+                      data-bs-target="#travel" type="button" role="tab" 
+                      aria-controls="travel" aria-selected="false">
+                Travel Expenditure
+              </button>
+            </li>
+          </ul>
+
+          <!-- Tab Content -->
+          <div class="tab-content" id="handHoldingTabContent">
+            <!-- Handholding Tab -->
+            <div class="tab-pane fade show active" id="handholding" role="tabpanel" 
+                 aria-labelledby="handholding-tab">
+             <app-tgtpc10-handholding
+              [activityId]="selectedActivity" [subActivityId]="selectedBudgetHead"
+              (handHoldingDataChange)="getDeatilOfTargets()"></app-tgtpc10-handholding>
+            </div>
+
+            <!-- Expenditure Tab -->
+            <div class="tab-pane fade" id="expenditure" role="tabpanel" 
+                 aria-labelledby="expenditure-tab">
+              <div class="p-3">
+                
+                 <div class="card" >
+             <div class="card-header bg-transparent">
+               <div class="row align-items-center">
+                 <div class="col-8 col-sm-8 col-md-9 col-lg-10">
+                   <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Expenditure</h6>
+                 </div>
+                 <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                   <div class="text-end">
+                     <button type="button" class="btn btn-sm btn-lime-green" (click)="openModel('add')"><span
+                         class="bi bi-plus-lg"></span> Add</button>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="card-body">
+               <div class="table-scroll-container">
+                 <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
+                   <thead class="bg-lime-green">
+                     <tr>
+                       <th>S.No</th>
+                       <th>Report Submission Date</th>
+                       <!-- <th> Vendor Company Name</th> -->
+                       <!-- <th>Date of Approval</th> -->
+                       <th>Amount</th>
+                       <th>Bill No.</th>
+                       <th>Bill Date</th>
+                       <th>Mode Of Payment</th>
+                       <th>Payee Name</th>
+                       <th>Transcation ID</th>
+                       <th>Bank</th>
+                       <th>IFSC Code</th>
+                       <th>Purpose</th>
+                       <th>Bill Invoice</th>
+                       <th class="text-center">Edit / Delete</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngIf="!getPreliminaryData || getPreliminaryData.length === 0">
+                       <td colspan="14" class="text-center text-muted">Data Not available.</td>
+                     </tr>
+                     <tr *ngFor="let preliminary of getPreliminaryData; let i = index">
+                       <td>{{ i + 1 }}</td>
+                       <td>{{ preliminary?.paymentDate  }}</td>
+                       <!-- <td *>{{preliminary?.category}}</td> -->
+                       <!-- <td>{{ preliminary.billDate | date: 'dd-MM-yyyy' }}</td> -->
+                       <td>{{ preliminary?.expenditureAmount | commaSeperationIndia }}</td>
+                       <td>{{ preliminary?.billNo }}</td>
+                       <td>{{ preliminary?.billDate  }}</td>
+                       <td>{{ preliminary?.modeOfPayment }}</td>
+                       <td>{{ preliminary?.payeeName }}</td>
+                       <td>{{ preliminary?.transactionId }}</td>
+                       <td>{{ preliminary?.bankName }}</td>
+                       <td>{{ preliminary?.ifscCode }}</td>
+                       <td>{{ preliminary?.purpose }}</td>
+                       <td class="text-center">
+                         <a *ngIf="preliminary?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                           (click)="showFileViewer(preliminary.uploadBillUrl)">
+                           <span class="bi bi-eye"></span>
+                         </a>
+                         <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
+                       </td>
+                       <td class="text-center">
+                         <button type="button" class="btn btn-default text-lime-green btn-sm"
+                           (click)="openModel('edit',preliminary)"><span class="bi bi-pencil"></span></button>
+                         <button type="button" class="btn btn-default text-danger btn-sm"
+                           (click)="deletePreliminary(preliminary?.id)"><span class="bi bi-trash"></span></button>
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
+
+             </div>
+           </div>
+              </div>
+            </div>
+
+            <!-- Salary & Resource Tab -->
+            <div class="tab-pane fade" id="salary" role="tabpanel" 
+                 aria-labelledby="salary-tab">
+              <div class="p-3">
+           <div class="card" >
+             <div class="card-header bg-transparent">
+               <div class="row align-items-center">
+                 <div class="col-8 col-sm-8 col-md-8 col-lg-8">
+                   <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Expenditure</h6>
+                 </div>
+                 <div class="col-4 col-sm-4 col-md-4 col-lg-4">
+                   <div class="text-end">
+                     <button type="button" class="btn btn-sm btn-lime-green me-2" (click)="openModelPayment('add')">Add
+                       Payment</button>
+                     <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelContingency('add')"><span
+                         class="bi bi-plus-lg"></span> Add Resource</button>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="card-body mb-3">
+               <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Resource Details</h6>
+               <div class="table-scroll-container">
+
+                 <table id="view-Resource" class="table table-bordered nowrap w-100 trainingTable overflow-auto">
+                   <thead class="bg-lime-green">
+                     <tr>
+                       <th>S.No</th>
+                       <th>Name of the Resource</th>
+                       <th>Designation</th>
+                       <th>Date of Joining</th>
+                       <th>Relevant Experience (in Years)</th>
+                       <th>Educational Qualifications</th>
+                       <th>Remuneration (in Rs.)</th>
+                       <th>Bank Name </th>
+                       <th>IFSC</th>
+                       <!-- <th class="text-center">Status</th> -->
+                       <th>View Payment</th>
+                       <th class="text-center">Edit / Delete</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngIf="!getContingencyData || getContingencyData.length === 0">
+                       <td colspan="11" class="text-center text-muted">No resource data available.</td>
+                     </tr>
+                     <tr *ngFor="let preliminary of getContingencyData; let i = index">
+                       <td>{{ i + 1 }}</td>
+                       <td>{{ preliminary?.name  }}</td>
+                       <td>{{ preliminary?.designation }}</td>
+                       <td>{{ preliminary?.dateOfJoining  }}</td>
+                       <td>{{ preliminary?.relevantExperience }}</td>
+                       <td>{{ preliminary?.educationalQualification }}</td>
+                       <td>{{ preliminary?.monthlySal | commaSeperationIndia}}</td>
+                       <td>{{ preliminary?.bankName }}</td>
+                       <td>{{ preliminary?.ifscCode }}</td>
+                       <!-- <td class="text-center">
+                                            <span class="badge" 
+                                                  [ngClass]="preliminary.status === 'Completed' ? 'bg-success' : preliminary.status === 'In Progress' ? 'bg-warning' : 'bg-danger'">
+                                              {{ preliminary.status || 'N/A' }}
+                                            </span>
+                                        </td> -->
+                       <td class="text-center">
+                         <a href="#" class="btn btn-default text-primary btn-sm" data-bs-toggle="modal"
+                           data-bs-target="#viewPayment" (click)="getViewData(preliminary?.expenditures)"><span
+                             class="bi bi-eye"></span></a>
+                       </td>
+                       <td class="text-center">
+                         <button type="button" class="btn btn-default text-lime-green btn-sm"
+                           (click)="openModelContingency('edit',preliminary)"><span
+                             class="bi bi-pencil"></span></button>
+                         <button type="button" class="btn btn-default text-danger btn-sm"
+                           (click)="deleteContingency(preliminary?.resourceId)"><span
+                             class="bi bi-trash"></span></button>
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
+             </div>
+             <div class="card-body mb-3">
+               <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Payment Details</h6>
+               <div class="table-scroll-container">
+                 <table id="view-Payments" class="table table-bordered nowrap w-100 trainingTable overflow-auto">
+                   <thead class="bg-lime-green">
+                     <tr>
+                       <th>S.No</th>
+                       <th>Amount (in Rs.)</th>
+                       <th>Payment For Month</th>
+                       <th>Date of Payment</th>
+                       <th>Resource Name</th>
+                       <th>View Bill Invoice</th>
+                       <th class="text-center">Edit / Delete</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngIf="!getPaymentsData || getPaymentsData.length === 0">
+                       <td colspan="10" class="text-center text-muted">No Payment data available.</td>
+                     </tr>
+                     <tr *ngFor="let payment of getPaymentsData; let i = index">
+                       <td>{{ i + 1 }}</td>
+                       <td>{{ payment?.amount | commaSeperationIndia}}</td>
+                       <td>{{ payment?.paymentForMonth }}</td>
+                       <td>{{ payment?.dateOfPayment }}</td>
+                       <td>{{ payment?.resourceName }}</td>
+                       <td class="text-center">
+                         <a *ngIf="payment?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                           (click)="showFileViewer(payment.uploadBillUrl)">
+                           <span class="bi bi-eye"></span>
+                         </a>
+                         <span *ngIf="!payment?.uploadBillUrl" class="text-muted">No file</span>
+                       </td>
+                       <td class="text-center">
+                         <button type="button" class="btn btn-default text-lime-green btn-sm"
+                           (click)="openModelPayment('edit', payment)">
+                           <span class="bi bi-pencil"></span>
+                         </button>
+                         <button type="button" class="btn btn-default text-danger btn-sm"
+                           (click)="deletePayment(payment?.nonTrainingResourceExpenditureId)">
+                           <span class="bi bi-trash"></span>
+                         </button>
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
+             </div>
+           </div>
+              </div>
+            </div>
+
+            <!-- Travel Tab -->
+            <div class="tab-pane fade" id="travel" role="tabpanel" 
+                 aria-labelledby="travel-tab">
+              <div class="p-3">
+               <div class="card">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col-8 col-sm-8 col-md-9 col-lg-10">
+                  <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Travel Expenditure</h6>
+                </div>
+                <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                  <div class="text-end">
+                    <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelTravel('add')"><span
+                        class="bi bi-plus-lg"></span> Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              
+              <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
+                <thead class="bg-lime-green">
+                  <tr>
+                    <th>S.No</th>
+                    <th>Date of Travel</th>
+                    <th>Purpose Of Travel</th>
+                    <th>Mode Of Travel</th>
+                    <th>Destination</th>
+                    <th>No. of Person Travelled</th>
+                    <th>Amount</th>
+                    <th>Bill No.</th>
+                    <th>Bill Date</th>
+                    <th>Mode Of Payment</th>
+                    <th>Payee Name</th>
+                    <th>Transcation ID</th>
+                    <th>Bank</th>
+                    <th>IFSC Code</th>
+                    <th>Purpose</th>
+                    <th>Bill Invoice</th>
+                    <th class="text-center">Edit / Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!travelList || travelList.length === 0">
+                    <td colspan="18" class="text-center text-muted">Data Not available.</td>
+                  </tr>
+                  <tr *ngFor="let preliminary of travelList; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ preliminary?.dateOfTravel  }}</td>
+                    <td>{{ preliminary?.purposeOfTravel  }}</td>
+                    <td>{{ preliminary?.modeOfTravel  }}</td>
+                    <td>{{ preliminary?.destination  }}</td>
+                    <td>{{ preliminary?.noOfPersonsTraveled  }}</td>
+                    <td>{{ preliminary?.amount  | commaSeperationIndia}}</td>
+                    <!-- <td>{{ preliminary.billDate | date: 'dd-MM-yyyy' }}</td> -->
+                    <td>{{ preliminary?.billNo }}</td>
+                    <td>{{ preliminary?.billDate  }}</td>
+                    <td>{{ preliminary?.modeOfPayment }}</td>
+                    <td>{{ preliminary?.payeeName }}</td>
+                    <td>{{ preliminary?.transactionId }}</td>
+                    <td>{{ preliminary?.bankName }}</td>
+                    <td>{{ preliminary?.ifscCode }}</td>
+                    <td>{{ preliminary?.purpose }}</td>
+                    <td class="text-center">
+                      <a *ngIf="preliminary?.uploadBillUrl" class="btn btn-default text-primary btn-sm"
+                        (click)="showFileViewer(preliminary.uploadBillUrl)">
+                        <span class="bi bi-eye"></span>
+                      </a>
+                      <span *ngIf="!preliminary?.uploadBillUrl" class="text-muted">No file</span>
+                    </td>
+                    <!-- <td class="text-center">
+                                                <a href="#" class="btn btn-default text-primary btn-sm"><span class="bi bi-eye"></span></a>
+                                            </td> -->
+                    <td class="text-center">
+                      <button type="button" class="btn btn-default text-lime-green btn-sm"
+                        (click)="openModelTravel('edit',preliminary)"><span class="bi bi-pencil"></span></button>
+                      <button type="button" class="btn btn-default text-danger btn-sm"
+                        (click)="deleteTravel(preliminary?.travelTransportId)"><span
+                          class="bi bi-trash"></span></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+          <!-- <div>
+            <app-tgtpc10-handholding
+              *ngIf="selectedBudgetHead=='117' || selectedBudgetHead=='118' || selectedBudgetHead=='119' || selectedBudgetHead=='120' || selectedBudgetHead=='121' || selectedBudgetHead=='122' || selectedBudgetHead=='123' "
+              [activityId]="selectedActivity" [subActivityId]="selectedBudgetHead"
+              (handHoldingDataChange)="getDeatilOfTargets()"></app-tgtpc10-handholding>
+          </div> -->
           <div
             *ngIf="selectedBudgetHead=='112' || selectedBudgetHead=='113' || selectedBudgetHead=='114' || selectedBudgetHead=='115' ">
             <app-tgtpc4-nt-report [activityId]="selectedActivity" [subActivityId]="selectedBudgetHead"
@@ -317,19 +686,19 @@
                     <button type="button" class="btn btn-sm btn-lime-green me-2" (click)="openModelPayment('add')">Add
                       Payment</button>
                     <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelContingency('add')"><span
-                        class="bi bi-plus-lg"></span> Add Consultant</button>
+                        class="bi bi-plus-lg"></span> Add {{selectedBudgetHead=='26' || selectedBudgetHead=='111'? 'Consultant': 'Resource'}}</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="card-body mb-3">
-              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Consultant Details</h6>
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View {{selectedBudgetHead=='26' || selectedBudgetHead=='111'? 'Consultant': 'Resource'}} Details</h6>
               <div class="table-scroll-container">
                 <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
                   <thead class="bg-lime-green">
                     <tr>
                       <th>S.No</th>
-                      <th>Name of the Consultant</th>
+                      <th>Name of the {{selectedBudgetHead=='26' || selectedBudgetHead=='111'? 'Consultant': 'Resource'}}</th>
                       <th>Designation</th>
                       <th>Relevant Experience (Years)</th>
                       <th>Educational Qualifications</th>
@@ -384,7 +753,7 @@
                       <th>Amount (in Rs.)</th>
                       <th>Payment For Month</th>
                       <th>Date of Payment</th>
-                      <th>Consultant Name</th>
+                      <th>{{selectedBudgetHead=='26' || selectedBudgetHead=='111'? 'Consultant': 'Resource'}} Name</th>
                       <th>View Bill Invoice</th>
                       <th class="text-center">Edit / Delete</th>
                     </tr>
@@ -730,7 +1099,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Consultant</h6>
+        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} {{selectedBudgetHead=='111'? 'Consultant': 'Resource'}}</h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -742,7 +1111,7 @@
 
                 <input type="text" class="form-control" id="employeeName" formControlName="name"
                   [class.is-invalid]="isSubmitted && fContingency['name'].invalid" placeholder="Enter employee name">
-                <label for="employeeName">Name Of The Consultant</label>
+                <label for="employeeName">Name Of The {{selectedBudgetHead=='111'? 'Consultant': 'Resource'}}</label>
                 <div *ngIf="isSubmitted && fContingency['name'].invalid" class="invalid-feedback">
                   <span *ngIf="fContingency['name'].errors?.['required']">Name is required</span>
                   <span *ngIf="fContingency['name'].errors?.['minlength']">Name must be at least 2 characters</span>
@@ -985,7 +1354,7 @@
                 <th>Amount (in Rs.)</th>
                 <th>Payment For Month</th>
                 <th>Date of Payment</th>
-                <th>Consultant Name</th>
+                <th>{{selectedBudgetHead=='111'? 'Consultant': 'Resource'}} Name</th>
               </tr>
             </thead>
             <tbody>
@@ -1026,16 +1395,16 @@
               <div class="form-floating mb-3">
                 <select class="form-select events-expenditure" id="resourceId" formControlName="resourceId"
                   (change)="onResourceChange($any($event.target).value,resourceList)">
-                  <option value="">Select Consultant </option>
+                  <option value="">Select {{selectedBudgetHead=='111'? 'Consultant': 'Resource'}} </option>
                   <option *ngFor="let item of resourceList" value="{{item?.resourceId}}">{{item?.name}}</option>
                   <!-- <option value="#">Select Budget Head</option>
                         <option value="1">Preliminary survey for selection of potential SHGs</option>
                         <option value="2">Dashboard / Central Management System</option>
                         <option value="5">Contingency fund</option> -->
                 </select>
-                <label for="resourceId">Consultant</label>
+                <label for="resourceId">{{selectedBudgetHead=='111'? 'Consultant': 'Resource'}}</label>
                 <div *ngIf="isSubmitted && fPayment['resourceId'].invalid" class="invalid-feedback" id="resourceError">
-                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Consultant is required</span>
+                  <span *ngIf="fPayment['resourceId'].errors?.['required']">{{selectedBudgetHead=='111'? 'Consultant': 'Resource'}} is required</span>
 
                 </div>
               </div>
@@ -1251,7 +1620,7 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="personsTravelled" placeholder=""
+                <input type="number" class="form-control" id="personsTravelled" placeholder=""
                   [class.is-invalid]="isSubmitted && fTravel['noOfPersonsTraveled'].invalid"
                   formControlName="noOfPersonsTraveled" name="noOfPersonsTraveled">
                 <label for="personsTravelled">No. Of Persons Travelled</label>
