@@ -110,7 +110,7 @@ export class Tgtpc10HandholdingComponent implements OnInit {
     },
     122: { 
       name: 'Packaging Standards support',
-      fields: ['organizationId', 'participantIds', 'handholdingSupportBy', 'handholdingDate', 'handholdingTime', 'packagingStandardsSupportDetails', 'brandingSupportDetails'],
+      fields: ['organizationId', 'participantIds', 'handholdingSupportBy', 'handholdingDate', 'handholdingTime', 'packagingStandardsSupportDetails'],
       headers: {
         'handholdingSupportBy': 'Handholding Support By',
         'handholdingDate': 'Date',
@@ -121,9 +121,11 @@ export class Tgtpc10HandholdingComponent implements OnInit {
     },
     123: { 
       name: 'Branding Support',
-      fields: ['organizationId', 'participantIds', 'handholdingSupportBy', 'handholdingDate', 'handholdingTime', 'packagingStandardsSupportDetails', 'brandingSupportDetails'],
+      fields: ['organizationId', 'participantIds', 'handholdingSupportBy', 'handholdingDate', 'handholdingTime', 'brandingSupportDetails'],
       headers: {
         'handholdingSupportBy': 'Handholding Support By',
+        'handholdingDate': 'Date',
+        'handholdingTime': 'Time',
         // 'packagingStandardsSupportDetails': 'Packaging Standards Support Details',
         'brandingSupportDetails': 'Details of Support'
       }
