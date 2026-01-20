@@ -317,19 +317,19 @@
                     <button type="button" class="btn btn-sm btn-lime-green me-2" (click)="openModelPayment('add')">Add
                       Payment</button>
                     <button type="button" class="btn btn-sm btn-lime-green" (click)="openModelContingency('add')"><span
-                        class="bi bi-plus-lg"></span> Add Resource</button>
+                        class="bi bi-plus-lg"></span> Add Consultant</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="card-body mb-3">
-              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Resource Details</h6>
+              <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">View Consultant Details</h6>
               <div class="table-scroll-container">
                 <table id="view-Priliminary" class="table table-bordered nowrap w-100 trainingTable">
                   <thead class="bg-lime-green">
                     <tr>
                       <th>S.No</th>
-                      <th>Name of the Resource</th>
+                      <th>Name of the Consultant</th>
                       <th>Designation</th>
                       <th>Relevant Experience (Years)</th>
                       <th>Educational Qualifications</th>
@@ -384,7 +384,7 @@
                       <th>Amount (in Rs.)</th>
                       <th>Payment For Month</th>
                       <th>Date of Payment</th>
-                      <th>Resource Name</th>
+                      <th>Consultant Name</th>
                       <th>View Bill Invoice</th>
                       <th class="text-center">Edit / Delete</th>
                     </tr>
@@ -730,7 +730,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header py-2">
-        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Resource</h6>
+        <h6 class="modal-title" id="addContingencyLabel">{{iseditModeContingency?'Update' :'Add'}} Consultant</h6>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -742,7 +742,7 @@
 
                 <input type="text" class="form-control" id="employeeName" formControlName="name"
                   [class.is-invalid]="isSubmitted && fContingency['name'].invalid" placeholder="Enter employee name">
-                <label for="employeeName">Name Of The Resource</label>
+                <label for="employeeName">Name Of The Consultant</label>
                 <div *ngIf="isSubmitted && fContingency['name'].invalid" class="invalid-feedback">
                   <span *ngIf="fContingency['name'].errors?.['required']">Name is required</span>
                   <span *ngIf="fContingency['name'].errors?.['minlength']">Name must be at least 2 characters</span>
@@ -985,7 +985,7 @@
                 <th>Amount (in Rs.)</th>
                 <th>Payment For Month</th>
                 <th>Date of Payment</th>
-                <th>Resource Name</th>
+                <th>Consultant Name</th>
               </tr>
             </thead>
             <tbody>
@@ -1026,16 +1026,16 @@
               <div class="form-floating mb-3">
                 <select class="form-select events-expenditure" id="resourceId" formControlName="resourceId"
                   (change)="onResourceChange($any($event.target).value,resourceList)">
-                  <option value="">Select Resource ID</option>
+                  <option value="">Select Consultant </option>
                   <option *ngFor="let item of resourceList" value="{{item?.resourceId}}">{{item?.name}}</option>
                   <!-- <option value="#">Select Budget Head</option>
                         <option value="1">Preliminary survey for selection of potential SHGs</option>
                         <option value="2">Dashboard / Central Management System</option>
                         <option value="5">Contingency fund</option> -->
                 </select>
-                <label for="resourceId">Resource ID</label>
+                <label for="resourceId">Consultant</label>
                 <div *ngIf="isSubmitted && fPayment['resourceId'].invalid" class="invalid-feedback" id="resourceError">
-                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Resource ID is required</span>
+                  <span *ngIf="fPayment['resourceId'].errors?.['required']">Consultant is required</span>
 
                 </div>
               </div>
