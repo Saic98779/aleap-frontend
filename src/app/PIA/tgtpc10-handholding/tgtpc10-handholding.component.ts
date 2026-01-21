@@ -346,16 +346,15 @@ export class Tgtpc10HandholdingComponent implements OnInit {
   openModal(type: any, record?: any): void {
     this.isEditMode = type === 'edit';
      this.uploadedFilesHandHolding=null;
+      this.filteredOrganizationData = this.OrganizationData.slice();
     if (this.isEditMode) {
       this.currentRecordId = record.id;
        this.uploadedFilesHandHolding=record?.testResultFilePath;
+       this.onSearchChange(record?.organizationName.slice(0,3));
         this.loadParticipants(record?.organizationId);
-         const selectedResources = record?.participants?.map((participant: any) => {
-            const id = participant.participantId || participant.influencedParticipantId;
-            console.log('Mapping participant ID:', id,record.participants,this.participantList,this.participantList.find((r: any) => r.id === id));
-            return this.participantList.find((r: any) => r.id === id);
-          }).filter((r: any) => r !== undefined) || [];
-      const formattedRecord = {
+        
+    setTimeout(() => {
+        const formattedRecord = {
         ...record,
         handholdingDate: this.convertToISOFormat(record.handholdingDate),
         registrationDate: this.convertToISOFormat(record.registrationDate),
@@ -364,12 +363,16 @@ export class Tgtpc10HandholdingComponent implements OnInit {
         firstDateOfSupply: this.convertToISOFormat(record.firstDateOfSupply),
         dateOfTest: this.convertToISOFormat(record.dateOfTest),
         testResultsDate: this.convertToISOFormat(record.testResultsDate),
-         participantIds: selectedResources,
-      }; 
-      this.handholdingForm.patchValue(formattedRecord);
-       setTimeout(() => {
+      };
+       this.handholdingForm.patchValue(formattedRecord); 
+     
+       const selectedResources = record?.participants?.map((participant: any) => {
+            const id = participant.participantId || participant.influencedParticipantId;
+            console.log('Mapping participant ID:', id,record.participants,this.participantList,this.participantList.find((r: any) => r.id === id));
+            return this.participantList.find((r: any) => r.id === id);
+          }).filter((r: any) => r !== undefined) || [];
         this.handholdingForm.patchValue({ participantIds: selectedResources });
-      }, 500);
+    }, 500);
     } else {
       this.handholdingForm.reset();
       this.handholdingForm.patchValue({ 
@@ -438,7 +441,7 @@ export class Tgtpc10HandholdingComponent implements OnInit {
       brandingSupportDetails: formValue.brandingSupportDetails || ''
     };
 
-    const payload: any = { tgtpcHandholdingSupportRequest };
+    let payload: any = { tgtpcHandholdingSupportRequest };
 
     // Add subactivity-specific fields
     switch (this.subActivityId) {
@@ -483,10 +486,12 @@ export class Tgtpc10HandholdingComponent implements OnInit {
       typehandholading='testingqualitycertificationsupport';
     }
     else if(this.subActivityId=='122'){
+      payload=tgtpcHandholdingSupportRequest
       typehandholading='packagingstandardssupport';
     }
     else if(this.subActivityId=='123'){
       typehandholading='brandingsupport';
+       payload=tgtpcHandholdingSupportRequest
     }
     formData.append('type', typehandholading);
     formData.append('data', JSON.stringify(payload));
