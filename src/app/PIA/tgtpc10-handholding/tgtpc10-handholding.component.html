@@ -55,7 +55,8 @@
             </td>
           </tr>
           <tr *ngIf="handholdingData.length === 0">
-            <td [attr.colspan]="getVisibleFields().length + 4+(subActivityId == 120 || subActivityId == 121? 1: 0)" class="text-center">No records found</td>
+            <td [attr.colspan]="getVisibleFields().length + 4+(subActivityId == 120 || subActivityId == 121? 1: 0)"
+              class="text-center">No records found</td>
           </tr>
         </tbody>
       </table>
