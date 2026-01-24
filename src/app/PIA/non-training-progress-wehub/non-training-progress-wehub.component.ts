@@ -93,6 +93,16 @@ deleteTechnologyAdoptionID: any;
          this._commonService.getDataByUrl(APIS.nontrainingtargets.getSubActivityList+event).subscribe((res: any) => {
           this.SubActivityList = res;
           this.selectedBudgetHead= this.SubActivityList[0]?.subActivityId
+             if(this.selectedBudgetHead=='62'){
+                      this.designations = [
+                      { value: 'CEO', label: 'CEO' },
+                      { value: 'Project Manager', label: 'Project Manager' },
+                      { value: 'Project Coordinator ', label: 'Project Coordinator ' },
+                      { value: 'Designer', label: 'Designer' },
+                      { value: 'Developer', label: 'Developer' },
+                      { value: 'Analyst', label: 'Analyst' }
+                    ];
+          }
           this.onBudgetHeadChange(this.SubActivityList[0]?.subActivityId)
         
         }, (error) => {
@@ -611,6 +621,7 @@ removeFile(): void {
     { value: 'Developer', label: 'Developer' },
     { value: 'Analyst', label: 'Analyst' }
   ];
+ 
    contingencyForm!: FormGroup;
      createFormContingency(): FormGroup {
     return this.fb.group({
