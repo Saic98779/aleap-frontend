@@ -62,7 +62,7 @@ export class DownloadExcelPdfComponent implements OnInit {
     }
     this.loaderService.show()
     this._commonService
-      .getDataByUrl(`${APIS.programCreation.getNewProgramListByAgency + agencyId}?statuses=Sessions%20Created&statuses=Participants%20Added&statuses=Attendance%20Marked&statuses=Program%20Execution%20Updated&statuses=Program%20Execution&statuses=Program%20Expenditure%20Updated`)
+      .getDataByUrl(`${APIS.programCreation.getNewProgramListByAgency + agencyId}?statuses=Sessions%20Created&statuses=Participants%20Added&statuses=Attendance%20Marked&statuses=Program%20Execution%20Updated&statuses=Program%20Execution&statuses=Program%20Expenditure%20Updated&statuses=Program Expenditure Approved`)
       .subscribe({
         next: (res: any) => {
           this.loaderService.hide()
