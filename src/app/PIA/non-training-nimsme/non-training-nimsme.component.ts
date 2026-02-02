@@ -43,7 +43,13 @@ export class NonTrainingNimsmeComponent implements OnInit {
     
   }
 
-
+designations = [
+      { value: 'CEO', label: 'CEO' },
+      { value: 'Project Manager', label: 'Project Manager' },
+      { value: 'Designer', label: 'Designer' },
+      { value: 'Developer', label: 'Developer' },
+      { value: 'Analyst', label: 'Analyst' }
+    ];
     // addd by upendranath reddy for common file preview
   showFileViewer(filePath: string) {
     console.log('File path to open:', filePath);
@@ -85,7 +91,24 @@ export class NonTrainingNimsmeComponent implements OnInit {
   onBudgetHeadChange(event: any) {
     this.selectedBudgetHead = event;
     console.log('Selected Budget Head:', this.selectedBudgetHead);
+    if( this.selectedBudgetHead=='82'){
+      this.designations=[{value :'EDC Manager' ,label :'EDC Manager'}]
+    }
+    else if(this.selectedBudgetHead=='84'){
+        this.designations=[{value :'EDC Asst Manager' ,label :'EDC Asst Manager'}]
+    }
+    else {
+        this.designations = [
+      { value: 'CEO', label: 'CEO' },
+      { value: 'Project Manager', label: 'Project Manager' },
+      { value: 'Designer', label: 'Designer' },
+      { value: 'Developer', label: 'Developer' },
+      { value: 'Analyst', label: 'Analyst' }
+    ];
+    }
+    
     this.getDeatilOfTargets()
+    
   }
  TargetDetails: any;
     getDeatilOfTargets() {
@@ -1000,13 +1023,7 @@ closeModalDelete(): void {
         // });
       }
   
-     designations = [
-      { value: 'CEO', label: 'CEO' },
-      { value: 'Project Manager', label: 'Project Manager' },
-      { value: 'Designer', label: 'Designer' },
-      { value: 'Developer', label: 'Developer' },
-      { value: 'Analyst', label: 'Analyst' }
-    ];
+     
      contingencyForm!: FormGroup;
        createFormContingency(): FormGroup {
       return this.fb.group({

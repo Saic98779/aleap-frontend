@@ -230,7 +230,7 @@ export class NonTrainingCipetComponent implements OnInit {
   chnageUdyam(event: any) {
     if (event.target.value == 'Yes') {
       this.fOrg['udyamregistrationNo'].addValidators(Validators.required);
-      this.fOrg['dateOfRegistration'].addValidators(Validators.required);
+      this.fOrg['dateOfRegistration'].setValidators(null);
     } else {
       this.fOrg['udyamregistrationNo'].setValidators(null);
       this.fOrg['dateOfRegistration'].setValidators(null);
