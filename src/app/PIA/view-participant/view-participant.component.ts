@@ -19,9 +19,11 @@ export class ViewParticipantComponent implements OnInit {
   loginsessionDetails: any;
     agencyId: any;
     programIds:any
+     Role :any='';
     constructor(private fb: FormBuilder,
       private toastrService: ToastrService,
       private _commonService: CommonServiceService, private router: Router,) { 
+        this.Role=JSON.parse(sessionStorage.getItem('user') || '{}').userRole;
         this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;
       }
   

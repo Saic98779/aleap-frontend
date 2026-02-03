@@ -108,6 +108,7 @@
                                     <option value="SPIU">SPIU</option>
                                     <option value="FINANCE">FINANCE</option>
                                      <option value="DIC">DIC</option>
+                                     <option value="DATA_ENTRY">DATA_ENTRY</option>
                                 </select>
                                 <label for="floatingSelect">Type Of User</label>
                                 <div *ngIf="f2['userRole'].touched && f2['userRole'].invalid" class="error"
@@ -117,7 +118,7 @@
                             </div>
                         </div>
                         <div class="col-12"
-                            *ngIf="f2['userRole'].value === 'AGENCY_MANAGER' || f2['userRole'].value === 'AGENCY_EXECUTOR'">
+                            *ngIf="f2['userRole'].value === 'AGENCY_MANAGER' || f2['userRole'].value === 'AGENCY_EXECUTOR' || f2['userRole'].value === 'DATA_ENTRY'">
                             <div class="form-floating mb-3">
                                 <select class="form-select" formControlName="department">
                                     <option value="">Select Agency</option>

@@ -118,19 +118,19 @@ const routes: Routes = [
         path: 'program-creation',
         component: ProgramCreationComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'program-creation-edit/:id',
         component: ProgramCreationComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'veiw-program-creation',
         component: VeiwProgramCreationComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     //   {
     //     path: 'program-monitoring',
@@ -142,44 +142,44 @@ const routes: Routes = [
         path: 'training-Expenditure-verfication',
         component: TrainingExpenditureVerificatonComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,,Role.FINANCE] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,,Role.FINANCE,Role.DATA_ENTRY] }
     },
      {
         path: 'expenditure-verification',
         component: FinanceExpenditureComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE,Role.DATA_ENTRY] }
     },
      {
         path: 'Non-training-Expenditure',
         component: NonTrainingExpendituresComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE,Role.DATA_ENTRY] }
     },
      {
         path: 'edit-program-status-view',
         component: EditProgramStatusViewComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY,Role.FINANCE,Role.DATA_ENTRY] }
     },
      {
         path: 'Non-training-Expenditure-tracker',
         component: NonTrainingExpVerficationTrackerComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.FINANCE] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY,Role.FINANCE] }
     },
    
      {
         path: 'program-monitoring',
         component: ProgramMonitoringNewComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'veiw-program',
         component: ViewProgramAgenciesComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'veiw-program-dic',
@@ -190,163 +190,163 @@ const routes: Routes = [
         path: 'add-participant-data',
         component: AddParticipantDataComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'add-participant-data-edit/:id',
         component: AddParticipantDataComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'add-non-participant-data',
         component: AddNonParticipantsDataComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'add-non-participant-data-edit/:id',
         component: AddNonParticipantsDataComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'update-program-execution',
         component: UpdateProgramExecutionComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-program-participate',
         component: ViewParticipateCreationComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'upload-program-participate',
         component: UploadParticipantsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-table-organization',
         component: MasterListComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-Outcomes',
         component: ViewOutcomesComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'capture-outcome',
         component: CaptureOutcomeDynamicComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'esdp-training',
         component: ESDPTrainingComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },   
     {
         path: 'view-application',
         component: ViewApplicationComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     }, 
     {
         path: 'shg-training',
         component: ShgTrainingStatusComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'MSME-councellor-registeration',
         component: MsmeCouncellorRegisterationComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
       {
         path: 'assign-Counsellor',
         component: AssignCounsellorComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
       {
         path: 'Registration',
         component: RegistrationNewComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'assessment',
         component: StartupAssesmentComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-MSME-councellor',
         component: ViewMsmeCouncellorDataComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'global-dashboard',
         component: GlobalDashboardComponent,
         canActivate: [AuthGuard],
-        // data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin,Role.SPIU,Role.DIC,Role.FINANCE] }
+        // data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY,Role.CALL_CENTER,Role.Admin,Role.SPIU,Role.DIC,Role.FINANCE] }
     },
     {
         path: 'notification-viewer-update',
         component: NotificationViewerUpdateComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin,Role.SPIU] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY,Role.CALL_CENTER,Role.Admin,Role.SPIU] }
     },
     {
         path: 'view-participant-data',
         component: ViewParticipantComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'ViewPrograms-district-wise',
         component: ViewProgramsSeperateComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-Completed-data',
         component: ViewCompletedComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-Completed-program-related',
         component: ViewAllProgramsRelatedDataComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-Completed-data-new',
         component: ViewAllAgencyCompletedComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'program-sessions',
         component: ProgramSessionsComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'add-sessions',
         component: AddProgramSessionsComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'view-agency-sessions',
@@ -358,49 +358,49 @@ const routes: Routes = [
         path: 'program-sessions-edit/:id',
         component: ProgramSessionsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'attendance-Participant',
         component: AttentanceParticipantComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'rawMaterials-Participant',
         component: RawMaterialsParticipantsComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'program-expenditure',
         component: ProgramExpenditureComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'program-summary',
         component: ProgramSummaryComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'collage-home',
         component: CollageHomeComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'collage-creation',
         component: CollageCreationComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'bulk-expenditure',
         component: BulkExpenditureComponent,
         canActivate: [AuthGuard],
-        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR]}
+        data: { roles:  [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]}
     },
     {
         path: 'participant-details',
@@ -412,103 +412,103 @@ const routes: Routes = [
         path: 'financial-targets',
         component: FinancialTargetsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'physical-targets',
         component: PhysicalTargetsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'training-targets',
         component: TrainingTargetsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'download-excel-pdf',
         component: DownloadExcelPdfComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress-nimme',
         component: NonTrainingNimsmeComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-targets',
         component: NonTrainingTargetsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress',
         component: NonTrainingTargetCodeComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
       {
         path: 'non-training-progress-wehub',
         component: NonTrainingProgressWehubComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress-coi',
         component: NonTrainingCoiComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path:"reshedule-programs",
         component:ResheduleProgramsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress-cipet',
         component: NonTrainingCipetComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress-tgtpc4',
         component: NonTrainingTgtpc4Component,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress-rich6a',
         component: NonTrainingRich6aComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'non-training-progress-tgtpc10',
         component: NonTrainingTgtpc10Component,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'non-training-progress-tihcl',
         component: NonTrainingTihclComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'progress-monitoring',
         component: ProgressMonitoringComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'output-progress',
         component: OutputProgressComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path:'question-assignment',
@@ -520,7 +520,7 @@ const routes: Routes = [
         path: 'progress-monitoring-report',
         component: ProgressMonitoringReportComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'progress-monitoring-report-approval',
@@ -532,31 +532,31 @@ const routes: Routes = [
         path: 'msme-by-month',
         component: MsmeByMonthComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'msme-by-quarter',
         component: MsmeByQuarterComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'Training-Non-trainingAchievements',
         component: TargetsAndAchievementsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
      {
         path: 'Training-Non-training-targets',
         component: TrainigNontrainingTargetsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY] }
     },
     {
         path: 'help-support',
         component: HelpSupportComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.DEVELOPER] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY,Role.CALL_CENTER,Role.DEVELOPER] }
     },
     {
         path: 'sample-screen-ui',
@@ -574,7 +574,7 @@ const routes: Routes = [
         path: 'view-participants-incomplete-programs',
         component: ViewIncompleteParticipantsComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.CALL_CENTER] }
+        data: { roles: [Role.Admin,Role.SPIU,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.DATA_ENTRY,Role.CALL_CENTER] }
     },
     {
         path: 'login',

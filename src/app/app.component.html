@@ -443,7 +443,7 @@
                     </ul>
                   </li>
                   <!-- Program Creation (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu" style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('programCreation', $event)">
                       <span>Program Creation</span>
@@ -452,14 +452,14 @@
                     </a>
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['programCreation']"
                       style="position:static;background: #dfebeb; min-width:180px;">
-                      <li><a class="dropdown-item" routerLink="/program-creation" routerLinkActive="active">Add Program</a></li>
-                      <li><a class="dropdown-item" routerLink="/add-sessions" routerLinkActive="active">Add Sessions</a></li>
-                      <li><a class="dropdown-item" routerLink="/veiw-program-creation" routerLinkActive="active">View My Programs</a></li>
-                      <li><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active">View All Agencies Programs</a></li>
+                      <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]"><a class="dropdown-item"  routerLink="/program-creation" routerLinkActive="active">Add Program</a></li>
+                      <li ><a class="dropdown-item" routerLink="/add-sessions" routerLinkActive="active">Add Sessions</a></li>
+                      <li ><a class="dropdown-item" routerLink="/veiw-program-creation" routerLinkActive="active">View My Programs</a></li>
+                      <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]"><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active">View All Agencies Programs</a></li>
                     </ul>
                   </li>
                   <!-- Participant Details (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu" style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('participantDetails', $event)">
                       <span>Participant Details</span>
@@ -476,7 +476,7 @@
                     </ul>
                   </li>
                   <!-- Program Execution (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu" style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('programExecution', $event)">
                       <span>Program Execution</span>
@@ -487,8 +487,7 @@
                       style="position:static;background: #dfebeb; min-width:180px;">
                       <li><a class="dropdown-item" routerLink="/attendance-Participant" routerLinkActive="active">Participant
                           Attendance Details</a></li>
-                      <li><a class="dropdown-item" routerLink="/rawMaterials-Participant" routerLinkActive="active">Participant Raw
-                          Material Details</a></li>
+                        <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]"><a class="dropdown-item" routerLink="/rawMaterials-Participant" routerLinkActive="active">Participant Raw Material Details</a></li>
                       <li><a class="dropdown-item" routerLink="/update-program-execution" routerLinkActive="active">Program
                           Execution</a></li>
                       <li><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">Create Collage</a></li>
@@ -516,7 +515,7 @@
                     </ul>
                   </li>
                   <!-- Update Outcomes (Agency) -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]" class="dropdown-submenu" style="position:relative;">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]" class="dropdown-submenu" style="position:relative;">
                     <a class="dropdown-item d-flex justify-content-between align-items-center" href="#"
                       (click)="toggleSubMenu('updateOutcomes', $event)">
                       <span>Update Outcomes</span>
@@ -526,7 +525,7 @@
                     <ul class="dropdown-menu show shadow" *ngIf="openSubMenus['updateOutcomes']"
                       style="position:static; background: #dfebeb;min-width:180px;">
                       <li><a class="dropdown-item" routerLink="/capture-outcome" (click)="ClearNonTrainingTargetsSession()" routerLinkActive="active">Capture Outcome</a></li>
-                      <li><a class="dropdown-item " routerLink="/shg-training"  routerLinkActive="active">SHG Training Status</a></li>
+                      <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]"><a class="dropdown-item " routerLink="/shg-training"  routerLinkActive="active">SHG Training Status</a></li>
                        <li > <a class="dropdown-item" routerLink="/view-Outcomes" routerLinkActive="active">View Outcomes</a> </li>
                     </ul>
                   </li>
@@ -588,7 +587,7 @@
                   </ng-container>
                   
                  <!-- Masters List (Agency)  -->
-                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+                  <li *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.DATA_ENTRY]">
                     <a class="dropdown-item" routerLink="/view-table-organization" routerLinkActive="active">Masters List</a>
                   </li>
                    
@@ -663,7 +662,7 @@
                     </ul>
                   </li>
                   
-                    <li *appHasRole="[Role.DEVELOPER,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.Admin,Role.SPIU]">
+                    <li *appHasRole="[Role.DEVELOPER,Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.Admin,Role.SPIU,Role.DATA_ENTRY]">
                     <a class="dropdown-item" routerLink="/help-support" routerLinkActive="active">Help Support</a>
                   </li> 
                     <li *appHasRole="[Role.DIC]">
