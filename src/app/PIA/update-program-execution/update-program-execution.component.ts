@@ -27,6 +27,7 @@ export class UpdateProgramExecutionComponent implements OnInit {
   // Store files separately
   selectedFiles: { [key: string]: any } = {};
   agencyId: any
+   Role :any='';
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -34,6 +35,8 @@ export class UpdateProgramExecutionComponent implements OnInit {
     private toastrService: ToastrService,
     private sanitizer: DomSanitizer
   ) {
+   
+	    this.Role=JSON.parse(sessionStorage.getItem('user') || '{}').userRole;
     this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;
   }
 

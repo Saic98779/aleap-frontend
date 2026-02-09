@@ -83,7 +83,7 @@
               </div>
             </div>
             <div class="mb-3">
-                <button type="button" [ngClass]="{'disabled': programIds == ''}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalDeleteConfirm">Final Submission</button>
+                <button type="button" [ngClass]="{'disabled': programIds == '' || this.Role=='DATA_ENTRY'}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalDeleteConfirm">Final Submission</button>
             </div>
         </div>
     </section>

@@ -61,6 +61,10 @@ export class LoginComponent implements OnInit {
                                     this.router.navigateByUrl('/veiw-program');
                                 }     
                         }
+                         else if(res?.data.userRole === Role.DATA_ENTRY
+                        ) {
+                            this.router.navigateByUrl('/veiw-program-creation');
+                        }
                         else if(res?.data.userRole === Role.AGENCY_MANAGER
                             || res?.data.userRole === Role.AGENCY_EXECUTOR
                         ){

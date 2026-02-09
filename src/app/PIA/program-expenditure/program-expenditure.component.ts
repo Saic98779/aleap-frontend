@@ -18,10 +18,13 @@ export class ProgramExpenditureComponent implements OnInit {
   formModel:any
   agencyId: any
   expenditureType:any='PRE'
+  Role :any='';
   constructor(
     private _commonService: CommonServiceService,
     private toastrService: ToastrService,
   ) {
+    
+	    this.Role=JSON.parse(sessionStorage.getItem('user') || '{}').userRole;
     this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;
     // this.formModel = new window.bootstrap.Modal(document.getElementById("addPreEventModal"));
   }

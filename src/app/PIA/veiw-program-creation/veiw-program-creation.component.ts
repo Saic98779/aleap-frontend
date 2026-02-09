@@ -324,6 +324,8 @@ onDateRangeChange() {
 
     const startDate = parseDateOnly(row.startDate);
     const isEditDisabled = startDate && (startDate < fiveDaysAgo);
+    let loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}').userRole;
+    
     //  const isEditDisabled = startDate && (startDate < today || startDate > fiveDaysAgo);
 
     // console.log(row.startDate, startDate, isEditDisabled, 'iseditdisable');
@@ -337,12 +339,13 @@ onDateRangeChange() {
       <button type="button" 
         class="btn btn-default btn-sm text-danger editable-btn"
         data-id="${row.id}" title="Edit" 
-        ${isEditDisabled ? 'disabled' : ''}>
+        ${isEditDisabled || loginsessionDetails=='DATA_ENTRY' ? 'disabled' : ''}>
         <span class="bi bi-pencil"></span>
       </button>
-      <button type="button" class="btn btn-default btn-sm text-lime-green reschedule-btn" 
+      <button type="button" class="btn btn-default btn-sm text-lime-green reschedule-btn ${loginsessionDetails=='DATA_ENTRY' ? 'isDisabled' : ''}" 
         title="Reshedule Data" data-bs-toggle="modal" data-bs-target="#viewSheduleModal" 
-        data-id="${row.id}">
+        data-id="${row.id}"
+        ${loginsessionDetails=='DATA_ENTRY' ? 'disabled' : ''} >
         <span class="bi bi-arrow-repeat"></span>
       </button>
     `;

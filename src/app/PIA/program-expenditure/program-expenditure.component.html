@@ -176,7 +176,7 @@
                 </div>
                 
                     <div class="mb-3">
-                        <button type="button" [ngClass]="{'isDisable': programCreationMain.get('programId')?.value == ''}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalDeleteConfirm">Final Submission</button> &nbsp;&nbsp;
+                        <button type="button" [ngClass]="{'isDisable': programCreationMain.get('programId')?.value == '' || this.Role=='DATA_ENTRY'}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalDeleteConfirm">Final Submission</button> &nbsp;&nbsp;
                     </div>
                 
             </div>

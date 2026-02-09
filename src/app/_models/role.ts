@@ -9,5 +9,6 @@
     AGENCY_USER = "AGENCY_USER",
     DEVELOPER = "DEVELOPER",
     FINANCE = "FINANCE",
-    DIC = "DIC"
+    DIC = "DIC",
+    DATA_ENTRY = "DATA_ENTRY"
 }

@@ -79,7 +79,7 @@ export class UserRegistrationComponent implements OnInit,AfterViewInit {
       if (value === 'ADMIN' || value === 'CALL_CENTER' || value === 'DEPARTMENT') {
         departmentControl?.setValue('Commissionarate of Industries');
         departmentControl?.disable();
-      } else if (value === 'AGENCY_MANAGER' || value === 'AGENCY_EXECUTOR') {
+      } else if (value === 'AGENCY_MANAGER' || value === 'AGENCY_EXECUTOR' || value === 'DATA_ENTRY') {
         departmentControl?.setValue('');
         departmentControl?.enable();
       } else if (value === 'SPIU') {

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import moment from "moment";
 import { DomSanitizer } from '@angular/platform-browser';
+import { Role } from '@app/_models';
 declare var bootstrap: any;
 
 @Component({
@@ -27,13 +28,14 @@ export class AddProgramSessionsComponent implements OnInit {
 
   // Visible methodologies after filtering
   availableMethodologies: string[] = [];
-
+  Role :any='';
   constructor(
     private fb: FormBuilder,
     private toastrService: ToastrService,
     private _commonService: CommonServiceService,
     private sanitizer: DomSanitizer
   ) {
+    this.Role=JSON.parse(sessionStorage.getItem('user') || '{}').userRole;
     this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;
     this.modalFormStype = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z .]+$/)]],
