@@ -13,6 +13,7 @@ import { MonthlyRangeComponent } from '../monthly-range/monthly-range.component'
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { state } from '@angular/animations';
 import { distinct } from 'rxjs';
+import { ModalService } from '@app/_services/modal.service';
 
 @Component({
   selector: 'app-non-training-cipet',
@@ -27,11 +28,14 @@ export class NonTrainingCipetComponent implements OnInit {
   loginsessionDetails: any;
   selectedAgencyId: any;
   @ViewChild(MonthlyRangeComponent) monthlyRange!: MonthlyRangeComponent;
+  @ViewChild('addVisitDetailsModal') addVisitDetailsModal: any;
+@ViewChild('deleteVisitModalTemplate') deleteVisitModalTemplate: any;
   constructor(
     private fb: FormBuilder, 
     private toastrService: ToastrService,
     private _commonService: CommonServiceService,
     private router: Router,
+     private modalService: ModalService
   ) {
     this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
     this.selectedAgencyId = this.loginsessionDetails.agencyId;
@@ -44,7 +48,7 @@ export class NonTrainingCipetComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBudgetHeadList();
-    this.getOrganizationData();
+    this.loadOrganizations();
     this.getAllDistricts();
     this.getAllSectors();
     this.visitForm = this.createFormVisit(); // Add this line
@@ -136,16 +140,51 @@ export class NonTrainingCipetComponent implements OnInit {
   }
 
   // Get Organization Data
-  getOrganizationData() {
-    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId+'?organizationType=MSME').subscribe({
+  // getOrganizationData() {
+  //   this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId+'?organizationType=MSME').subscribe({
+  //     next: (res: any) => {
+  //       this.OrganizationData = res.data || [];
+  //       this.assignFluidDataOrg();
+  //     },
+  //     error: (err) => {
+  //       this.toastrService.error(err.message);
+  //     }
+  //   });
+  // }
+  
+  filteredOrganizationData: any = []
+  searchValue: boolean = true;
+  loadOrganizations(Orgvalue?:any) {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?page=0&size=500').subscribe({
       next: (res: any) => {
-        this.OrganizationData = res.data || [];
-        this.assignFluidDataOrg();
+        this.OrganizationData = res?.data;
+        this.filteredOrganizationData = this.OrganizationData.slice();
+        //  this.f2['organizationId'].patchValue(Orgvalue?.organizationId);
       },
       error: (err) => {
-        this.toastrService.error(err.message);
+        this.toastrService.error(err.message, "Organization Data Error!");
       }
     });
+  }
+
+ onSearchChange(event: any) {
+    const filterValue = event?.toLowerCase();
+    if (filterValue.length >= 2) {
+      this.searchValue = false;
+      this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?search=' + event + '&page=0&size=500')
+        .subscribe({
+          next: (res: any) => {
+            this.OrganizationData = res?.data;
+            this.filteredOrganizationData = this.OrganizationData.slice();
+          },
+          error: (error: any) => {
+            this.filteredOrganizationData = [];
+          }
+        });
+    } else {
+      this.searchValue = true;
+      this.filteredOrganizationData = this.OrganizationData.slice();
+    }
   }
 
   // Get Mandal by District
@@ -282,7 +321,7 @@ export class NonTrainingCipetComponent implements OnInit {
           udyamYesOrNo: 'No',
           stateId: 'Telangana'
         });
-        this.getOrganizationData();
+        this.loadOrganizations();
         
         // Close the modal
         const modalElement = document.getElementById('addOrganisation');
@@ -1687,21 +1726,23 @@ onItemDeSelectResource(item: any) {
 // Handle organization selection
 onOrganizationSelect(item: any) {
   console.log('Organization selected:', item);
-  if (item && Object.keys(item)?.length > 0) {
-    this.selectedOrganization = item;
-    this.fVisit['organizationId'].setValue(this.selectedOrganization.organizationId);
-    
-    if (this.copyFromOrganization) {
+  this.selectedOrganization = item;
+  if (this.copyFromOrganization) {
       this.copyOrganizationAddress();
     }
-  }
+  // if (item && Object.keys(item)?.length > 0) {
+  //   this.selectedOrganization = item;
+  //   this.fVisit['organizationId'].setValue(this.selectedOrganization.organizationId);
+    
+    
+  // }
 }
 
 // Copy address from organization
 copyOrganizationAddress() {
   if (this.selectedOrganization) {
     // Fetch organization details
-    this._commonService.getDataByUrl(APIS.masterList.getOrganizationByOrgId+`${this.selectedOrganization.organizationId}`).subscribe({
+    this._commonService.getDataByUrl(APIS.masterList.getOrganizationByOrgId+`${this.selectedOrganization}`).subscribe({
       next: (res: any) => {
         const orgData = res.data;
 
@@ -1762,10 +1803,9 @@ openVisitModal(mode: string, item?: any): void {
     this.iseditModeVisit = true;
     
     // Set selected organization
-    this.selectedOrganization = this.OrganizationData.find((org: any) => 
-      org.organizationId === item?.organizationId
-    );
+    this.selectedOrganization = item?.organizationId
     // Set selectedItems array for ng-multiselect-dropdown
+    this.onSearchChange(item.organizationName?.substring(0, 2) || '');
     this.selectedItems = this.selectedOrganization ? [this.selectedOrganization] : [];
     
     // Convert resource IDs to objects for multiselect
@@ -1798,8 +1838,11 @@ openVisitModal(mode: string, item?: any): void {
     }
   }
   
-  const modal = new bootstrap.Modal(document.getElementById('addVisitDetails'));
-  modal.show();
+  this.modalService.openModal(this.addVisitDetailsModal, {
+    centered: true,
+    size: 'xl',
+    scrollable: true
+  });
 }
 
 // Get Visit Details
@@ -1815,6 +1858,7 @@ getVisitDetailsList() {
     }
   });
 }
+
 
 // Submit Visit Form
 onSubmitVisit(): void {
@@ -1857,6 +1901,7 @@ onSubmitVisit(): void {
         error: (err) => {
           this.toastrService.error(err.message, 'Error!');
           this.isSubmitted = false;
+            this.closeVisitModal();
         }
       });
 
@@ -1872,6 +1917,7 @@ onSubmitVisit(): void {
         error: (err) => {
           this.toastrService.error(err.message, 'Error!');
           this.isSubmitted = false;
+            this.closeVisitModal();
         }
       });
     }
@@ -1938,15 +1984,11 @@ confirmDeleteVisit(id: any) {
 }
 
 closeVisitModal(): void {
-  const modal = document.getElementById('addVisitDetails');
-  if (modal) {
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    if (modalInstance) {
-      modalInstance.hide();
-    }
-  }
-  this.isSubmitted = false;
+  
+   this.modalService.closeModal(this.addVisitDetailsModal);
   this.visitForm.reset();
+  this.selectedItems = [];
+  this.isSubmitted = false;
 }
 
 closeDeleteVisitModal(): void {

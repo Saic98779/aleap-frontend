@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
                                 <div [ngClass]="{'isDisabled': DefaultDisabled}" >
                                       <ng-multiselect-dropdown   class="multi"
                                         placeholder="Select Organisation*"
@@ -49,11 +49,32 @@
                                         [data]="dropdownListOrg"
                                         (onSelect)="onItemSelectOrg($event)"
                                      ></ng-multiselect-dropdown> 
-                                     <!-- <label for="area" class="form-label"> Sector </label> -->
+                                    
                                     
                                 </div>
                                
+                            </div> -->
+                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Name of Organization *</mat-label>
+                            <mat-select formControlName="organizationId" [ngClass]="{'isDisabled': DefaultDisabled}" >
+                            <div class="search-option">
+                                <i class="bx bx-search me-2"></i>
+                                <input class="search-input" #searchDropdownInput (input)="onSearchChange($any($event.target).value)"
+                                (keydown.space)="$event.stopPropagation()" type="text" placeholder="Search" autocomplete="off" />
                             </div>
+                            <span *ngIf="searchValue" class="no-results1">
+                                Please enter atleast 2 characters to search
+                            </span>
+                            <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                                {{ list.organizationName }}
+                            </mat-option>
+                            <span *ngIf="filteredOrganizationData?.length === 0" class="no-results">
+                                No results found
+                            </span>
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
                             <!-- <div class="col-12 col-sm-4 col-md-4 col-lg-4" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="organizationId"  formControlName="organizationId">

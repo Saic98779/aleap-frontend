@@ -1811,223 +1811,240 @@
 
 
 <!-- ...existing code... -->
-
-<!-- Add Visit Details Modal -->
-<div class="modal fade" id="addVisitDetails" tabindex="-1" aria-labelledby="addVisitDetailsLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header py-2">
-        <h6 class="modal-title" id="addVisitDetailsLabel">{{iseditModeVisit ? 'Update' : 'Add'}} Visit Details</h6>
-        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="visitForm" (ngSubmit)="onSubmitVisit()">
-          <div class="row">
-            <!-- Organization -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Organization <span class="text-danger">*</span></label>
-              <ng-multiselect-dropdown
-                [settings]="dropdownSettingsOrg"
-                [data]="dropdownListOrg"
-                [(ngModel)]="selectedItems"
-                [ngModelOptions]="{standalone: true}"
-                (onSelect)="onOrganizationSelect($event)"
-                (onDeSelect)="onItemDeSelectOrg($event)">
-              </ng-multiselect-dropdown>
-            </div>
-
-            <!-- Copy Address Checkbox -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <div class="form-check mt-4">
-                <input class="form-check-input" type="checkbox" 
-                  [(ngModel)]="copyFromOrganization"
-                  [ngModelOptions]="{standalone: true}"
-                  (change)="onCopyAddressChange($event,selectedItems)" id="copyAddress">
-                <label class="form-check-label" for="copyAddress">
-                  Same As Organization Address
-                </label>
-              </div>
-            </div>
-
-            <!-- Date of Visit -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Date of Visit <span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="dateOfVisit"
-                [class.is-invalid]="isSubmitted && fVisit['dateOfVisit'].errors">
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['dateOfVisit'].errors?.['required']">
-                Date of Visit is required
-              </div>
-            </div>
-
-            <!-- Time of Visit -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Time of Visit <span class="text-danger">*</span></label>
-              <input type="time" class="form-control" formControlName="timeOfVisit"
-                [class.is-invalid]="isSubmitted && fVisit['timeOfVisit'].errors">
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['timeOfVisit'].errors?.['required']">
-                Time of Visit is required
-              </div>
-            </div>
-
-            <!-- Resources -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Select Resources <span class="text-danger">*</span></label>
-              <ng-multiselect-dropdown
-                [settings]="dropdownSettingsResource"
-                [data]="dropdownListResource"
-                formControlName="nonTrainingResourceIds"
-                (onSelect)="onItemSelectResource($event)"
-                (onDeSelect)="onItemDeSelectResource($event)">
-              </ng-multiselect-dropdown>
-              <div class="text-danger small" *ngIf="isSubmitted && fVisit['nonTrainingResourceIds'].errors?.['required']">
-                At least one resource is required
-              </div>
-            </div>
-
-            <!-- Within Hyderabad -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Within Hyderabad <span class="text-danger">*</span></label>
-              <div class="d-flex gap-3 mt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" formControlName="withInHyderabad" 
-                    [value]="true" id="withinHydYes">
-                  <label class="form-check-label" for="withinHydYes">Yes</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" formControlName="withInHyderabad" 
-                    [value]="false" id="withinHydNo">
-                  <label class="form-check-label" for="withinHydNo">No</label>
-                </div>
-              </div>
-            </div>
-
-            <!-- State -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">State <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="state" readonly>
-            </div>
-
-            <!-- District -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">District <span class="text-danger">*</span></label>
-              <select class="form-select" formControlName="district" 
-                (change)="GetMandalByDistrict($event)"
-                [class.is-invalid]="isSubmitted && fVisit['district'].errors">
-                <option value="">Select District</option>
-                <option *ngFor="let dist of allDistricts" [value]="dist.districtId">
-                  {{dist.districtName}}
-                </option>
-              </select>
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['district'].errors?.['required']">
-                District is required
-              </div>
-            </div>
-
-            <!-- Mandal -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Mandal <span class="text-danger">*</span></label>
-              <select class="form-select" formControlName="mandal"
-                [class.is-invalid]="isSubmitted && fVisit['mandal'].errors">
-                <option value="">Select Mandal</option>
-                <option *ngFor="let mandal of MandalList" [value]="mandal.mandalId">
-                  {{mandal.mandalName}}
-                </option>
-              </select>
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['mandal'].errors?.['required']">
-                Mandal is required
-              </div>
-            </div>
-
-            <!-- Town -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Town <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="town"
-                [class.is-invalid]="isSubmitted && fVisit['town'].errors">
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['town'].errors?.['required']">
-                Town is required
-              </div>
-            </div>
-
-            <!-- Street No -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Street No<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="streetNo">
-               <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['streetNo'].errors?.['required']">
-                Street No is required
-              </div>
-            </div>
-
-            <!-- House No -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">House No<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="houseNo">
-               <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['houseNo'].errors?.['required']">
-                House No is required
-              </div>
-            </div>
-
-            <!-- Latitude -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Latitude<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="latitude"
-                [class.is-invalid]="isSubmitted && fVisit['latitude'].errors">
-                 <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['required']">
-                Latitude is required
-              </div>
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['pattern']">
-                Invalid latitude format
-              </div>
-            </div>
-
-            <!-- Longitude -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Longitude<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="longitude"
-                [class.is-invalid]="isSubmitted && fVisit['longitude'].errors">
-                 <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['required']">
-                Longitude is required
-              </div>
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['pattern']">
-                Invalid longitude format
-              </div>
-            </div>
-
-            <!-- Contact No -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Contact No <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="contactNo" maxlength="10"
-                [class.is-invalid]="isSubmitted && fVisit['contactNo'].errors">
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['contactNo'].errors?.['required']">
-                Contact number is required
-              </div>
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['contactNo'].errors?.['pattern']">
-                Invalid contact number
-              </div>
-            </div>
-
-            <!-- Email -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
-              <label class="form-label">Email <span class="text-danger">*</span></label>
-              <input type="email" class="form-control" formControlName="email"
-                [class.is-invalid]="isSubmitted && fVisit['email'].errors">
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['email'].errors?.['required']">
-                Email is required
-              </div>
-              <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['email'].errors?.['email']">
-                Invalid email format
-              </div>
-            </div>
-          </div>
-
-          <div class="text-end mt-3">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-lime-green">{{iseditModeVisit ? 'Update' : 'Add'}}</button>
-          </div>
-        </form>
-      </div>
-    </div>
+<!-- Convert Bootstrap modal to ng-template -->
+<ng-template #addVisitDetailsModal let-modal>
+  <div class="modal-header py-2">
+    <h6 class="modal-title">{{iseditModeVisit ? 'Update' : 'Add'}} Visit Details</h6>
+    <button type="button" class="btn-close me-1" (click)="closeVisitModal()"></button>
   </div>
-</div>
+  <div class="modal-body">
+    <form [formGroup]="visitForm" (ngSubmit)="onSubmitVisit()">
+      <div class="row">
+        <!-- Organization -->
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Name of Oragnization *</mat-label>
+            <mat-select formControlName="organizationId" (selectionChange)="onOrganizationSelect($event.value)">
+              <div class="search-option">
+                <i class="bx bx-search me-2"></i>
+                <input class="search-input" #searchDropdownInput (input)="onSearchChange($any($event.target).value)"
+                  (keydown.space)="$event.stopPropagation()" type="text" placeholder="Search" autocomplete="off" />
+              </div>
+              <span *ngIf="searchValue" class="no-results1">
+                Please enter atleast 2 characters to search
+              </span>
+              <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                {{ list.organizationName }}
+              </mat-option>
+              <span *ngIf="filteredOrganizationData?.length === 0" class="no-results">
+                No results found
+              </span>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Organization <span class="text-danger">*</span></label>
+          <ng-multiselect-dropdown
+            [settings]="dropdownSettingsOrg"
+            [data]="dropdownListOrg"
+            [(ngModel)]="selectedItems"
+            [ngModelOptions]="{standalone: true}"
+            (onSelect)="onOrganizationSelect($event)"
+            (onDeSelect)="onItemDeSelectOrg($event)">
+          </ng-multiselect-dropdown>
+        </div> -->
+
+        <!-- Copy Address Checkbox -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <div class="form-check mt-4">
+            <input class="form-check-input" type="checkbox" 
+              [(ngModel)]="copyFromOrganization"
+              [ngModelOptions]="{standalone: true}"
+              (change)="onCopyAddressChange($event,selectedItems)" id="copyAddress">
+            <label class="form-check-label" for="copyAddress">
+              Same As Organization Address
+            </label>
+          </div>
+        </div>
+
+        <!-- Date of Visit -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Date of Visit <span class="text-danger">*</span></label>
+          <input type="date" class="form-control" formControlName="dateOfVisit"
+            [class.is-invalid]="isSubmitted && fVisit['dateOfVisit'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['dateOfVisit'].errors?.['required']">
+            Date of Visit is required
+          </div>
+        </div>
+
+        <!-- Time of Visit -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Time of Visit <span class="text-danger">*</span></label>
+          <input type="time" class="form-control" formControlName="timeOfVisit"
+            [class.is-invalid]="isSubmitted && fVisit['timeOfVisit'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['timeOfVisit'].errors?.['required']">
+            Time of Visit is required
+          </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Select Resources <span class="text-danger">*</span></label>
+          <ng-multiselect-dropdown
+            [settings]="dropdownSettingsResource"
+            [data]="dropdownListResource"
+            formControlName="nonTrainingResourceIds"
+            (onSelect)="onItemSelectResource($event)"
+            (onDeSelect)="onItemDeSelectResource($event)">
+          </ng-multiselect-dropdown>
+          <div class="text-danger small" *ngIf="isSubmitted && fVisit['nonTrainingResourceIds'].errors?.['required']">
+            At least one resource is required
+          </div>
+        </div>
+
+        <!-- Within Hyderabad -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Within Hyderabad <span class="text-danger">*</span></label>
+          <div class="d-flex gap-3 mt-2">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="withInHyderabad" 
+                [value]="true" id="withinHydYes">
+              <label class="form-check-label" for="withinHydYes">Yes</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="withInHyderabad" 
+                [value]="false" id="withinHydNo">
+              <label class="form-check-label" for="withinHydNo">No</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- State -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">State <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="state" readonly>
+        </div>
+
+        <!-- District -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">District <span class="text-danger">*</span></label>
+          <select class="form-select" formControlName="district" 
+            (change)="GetMandalByDistrict($event)"
+            [class.is-invalid]="isSubmitted && fVisit['district'].errors">
+            <option value="">Select District</option>
+            <option *ngFor="let dist of allDistricts" [value]="dist.districtId">
+              {{dist.districtName}}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['district'].errors?.['required']">
+            District is required
+          </div>
+        </div>
+
+        <!-- Mandal -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Mandal <span class="text-danger">*</span></label>
+          <select class="form-select" formControlName="mandal"
+            [class.is-invalid]="isSubmitted && fVisit['mandal'].errors">
+            <option value="">Select Mandal</option>
+            <option *ngFor="let mandal of MandalList" [value]="mandal.mandalId">
+              {{mandal.mandalName}}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['mandal'].errors?.['required']">
+            Mandal is required
+          </div>
+        </div>
+
+        <!-- Town -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Town <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="town"
+            [class.is-invalid]="isSubmitted && fVisit['town'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['town'].errors?.['required']">
+            Town is required
+          </div>
+        </div>
+
+        <!-- Street No -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Street No<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="streetNo">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['streetNo'].errors?.['required']">
+            Street No is required
+          </div>
+        </div>
+
+        <!-- House No -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">House No<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="houseNo">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['houseNo'].errors?.['required']">
+            House No is required
+          </div>
+        </div>
+
+        <!-- Latitude -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Latitude<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="latitude"
+            [class.is-invalid]="isSubmitted && fVisit['latitude'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['required']">
+            Latitude is required
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['latitude'].errors?.['pattern']">
+            Invalid latitude format
+          </div>
+        </div>
+
+        <!-- Longitude -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Longitude<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="longitude"
+            [class.is-invalid]="isSubmitted && fVisit['longitude'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['required']">
+            Longitude is required
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['longitude'].errors?.['pattern']">
+            Invalid longitude format
+          </div>
+        </div>
+
+        <!-- Contact No -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Contact No <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="contactNo" maxlength="10"
+            [class.is-invalid]="isSubmitted && fVisit['contactNo'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['contactNo'].errors?.['required']">
+            Contact number is required
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['contactNo'].errors?.['pattern']">
+            Invalid contact number
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <label class="form-label">Email <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" formControlName="email"
+            [class.is-invalid]="isSubmitted && fVisit['email'].errors">
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['email'].errors?.['required']">
+            Email is required
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && fVisit['email'].errors?.['email']">
+            Invalid email format
+          </div>
+        </div>
+      </div>
+
+      <div class="text-end mt-3">
+        <button type="button" class="btn btn-secondary me-2" (click)="closeVisitModal()">Close</button>
+        <button type="submit" class="btn btn-lime-green">{{iseditModeVisit ? 'Update' : 'Add'}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
 
 <!-- Delete Visit Details Modal -->
 <div class="modal fade" id="exampleModalDeleteVisit" tabindex="-1" role="dialog">

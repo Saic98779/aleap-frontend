@@ -10,6 +10,7 @@ import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt';
 import { MonthlyRangeComponent } from '../monthly-range/monthly-range.component';
+import { ModalService } from '@app/_services/modal.service';
 
 @Component({
   selector: 'app-non-training-progress-wehub',
@@ -26,6 +27,7 @@ export class NonTrainingProgressWehubComponent implements OnInit {
   loginsessionDetails: any;
   selectedAgencyId: any;
    OrganizationData: any = []
+   @ViewChild('addCandidatesModal') addCandidatesModal: any;
    // Add these properties to the component class
 technologyAdoptionForm!: FormGroup;
 technologyAdoptionData: any = [];
@@ -35,20 +37,23 @@ deleteTechnologyAdoptionID: any;
 
 // Add in constructor after other form creations
 
-  getOrganizationData() {
-    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
-      next: (res: any) => {
-        this.OrganizationData = res?.data || [];
-      },
-      error: (err) => {
-        this.toastrService.error(err.message, "Organization Data Error!");
-        new Error(err);
-      },
-    });
-  }
+  // getOrganizationData() {
+  //   this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
+  //     next: (res: any) => {
+  //       this.OrganizationData = res?.data || [];
+  //     },
+  //     error: (err) => {
+  //       this.toastrService.error(err.message, "Organization Data Error!");
+  //       new Error(err);
+  //     },
+  //   });
+  // }
+
+ 
   @ViewChild(MonthlyRangeComponent) monthlyRange!: MonthlyRangeComponent;
  constructor(private fb: FormBuilder, private toastrService: ToastrService,
       private _commonService: CommonServiceService,
+      private modalService: ModalService,
       private router: Router,) {
    this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
      this.selectedAgencyId = this.loginsessionDetails.agencyId;
@@ -66,6 +71,40 @@ deleteTechnologyAdoptionID: any;
     // this.getOrganizationData()
      this.getBudgetHeadList()
     
+  }
+   filteredOrganizationData: any = []
+  searchValue: boolean = true;
+  getOrganizationData(Orgvalue?:any) {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?page=0&size=500').subscribe({
+      next: (res: any) => {
+        this.OrganizationData = res?.data;
+        this.filteredOrganizationData = this.OrganizationData.slice();
+        
+      },
+      error: (err) => {
+        this.toastrService.error(err.message, "Organization Data Error!");
+      }
+    });
+  }
+
+ onSearchChange(event: any) {
+    const filterValue = event?.toLowerCase();
+    if (filterValue.length >= 2) {
+      this.searchValue = false;
+      this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?search=' + event + '&page=0&size=500')
+        .subscribe({
+          next: (res: any) => {
+            this.OrganizationData = res?.data;
+            this.filteredOrganizationData = this.OrganizationData.slice();
+          },
+          error: (error: any) => {
+            this.filteredOrganizationData = [];
+          }
+        });
+    } else {
+      this.searchValue = true;
+      this.filteredOrganizationData = this.OrganizationData.slice();
+    }
   }
 
     // addd by upendranath reddy for common file preview
@@ -681,9 +720,14 @@ removeFile(): void {
         accountNo: item?.accountNo || ''
       });
     }
-    const modal1 = new bootstrap.Modal(document.getElementById('addContingency'));
-    modal1.show();
+      const modal1 = bootstrap.Modal.getInstance(document.getElementById('addContingency'));
+          modal1.show();
+   
   }
+  closeModalCandidates(): void {
+  this.modalService.closeModal(this.addCandidatesModal);
+  this.resetFormCandidates();
+}
   getContingencyData:any=[]
   onSubmitContingency(): void {
     this.isSubmitted = true;
@@ -1421,6 +1465,7 @@ createFormCandidate(): FormGroup {
     if (mode === 'edit') {
       this.candidateID=item?.candidateId
       this.iseditModeCandidates = true;
+     this.onSearchChange(item.organizationName?.substring(0, 2) || '');
       this.candidateForm.patchValue({
         udhyamDpiitRegistrationNo: item?.udhyamDpiitRegistrationNo || '',
         applicationReceivedDate: item?.applicationReceivedDate ? this.convertToISOFormat(item?.applicationReceivedDate) : '',
@@ -1434,8 +1479,11 @@ createFormCandidate(): FormGroup {
         organizationId: item?.organizationId || 0
       });
     }
-    const modal1 = new bootstrap.Modal(document.getElementById('addCandidates'));
-    modal1.show();
+    this.modalService.openModal(this.addCandidatesModal, {
+    centered: true,
+    size: 'xl',
+    scrollable: true
+  });
   }
   getCandidateData:any=[]
   onSubmitCandidate(): void {
@@ -1445,9 +1493,10 @@ createFormCandidate(): FormGroup {
         this.fcandidate['subActivityId'].setValue(Number(this.selectedBudgetHead));
         this._commonService.update(APIS.nontrainingtargets.updateNonTrainingtargetsCandidate,{...this.candidateForm.value,subActivityId:Number(this.selectedBudgetHead)},this.candidateID).subscribe((res: any) => {
           this.toastrService.success('Data Updated successfully','Non Training Progress Data Success!');
-          
+           this.closeModalCandidates();
           console.log('Preliminary Data:', this.getTravelData);
           this.resetFormCandidates();
+     
           this.isSubmitted = false;
           const modalElement = document.getElementById('addCandidates');
           const modal1 = modalElement ? bootstrap.Modal.getInstance(modalElement) : null;
@@ -1457,6 +1506,7 @@ createFormCandidate(): FormGroup {
            this.getDeatilOfTargets()
         
         }, (error) => {
+           this.closeModalCandidates();
            this.resetFormCandidates();
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addCandidates'));
@@ -1478,6 +1528,7 @@ createFormCandidate(): FormGroup {
         this._commonService.add(APIS.nontrainingtargets.saveNonTrainingtargetsCandidate,{...this.candidateForm.value,subActivityId:Number(this.selectedBudgetHead),organizationId:Number(this.candidateForm.value?.organizationId)}).subscribe((res: any) => {
           this.toastrService.success('Data saved successfully','Non Training Progress Data Success!');
           this.getTravelData.push(res.data)
+           this.closeModalCandidates();
           this.resetFormCandidates();
           this.isSubmitted = false;
           const modal1 = bootstrap.Modal.getInstance(document.getElementById('addCandidates'));
@@ -1486,6 +1537,7 @@ createFormCandidate(): FormGroup {
          
         
         }, (error) => {
+           this.closeModalCandidates();
           this.resetFormCandidates();
           this.isSubmitted = false;
            this.getDeatilOfTargets()
@@ -1499,16 +1551,13 @@ createFormCandidate(): FormGroup {
     }
 
   }
-  resetFormCandidates(): void {
-      const modalElement = document.getElementById('addCandidates');
-      const modal1 = modalElement ? bootstrap.Modal.getInstance(modalElement) : null;
-      if (modal1) {
-              modal1.hide();
-                }
-      this.isSubmitted = false;
-      this.candidateForm.reset();
-
-  }
+ resetFormCandidates(): void {
+  this.candidateForm.reset();
+  this.isSubmitted = false;
+  this.iseditModeCandidates = false;
+  this.filteredOrganizationData = [];
+  this.searchValue = false;
+}
   deleteCandidateID:any
   deleteCandidate(id:any):void{
     this.deleteCandidateID=id

@@ -236,241 +236,217 @@
     </div>
 </div>
 </div>
-<div class="modal fade" id="editParticiapant" tabindex="-1" role="dialog" aria-labelledby="exampleModalDeleteLabel" aria-hidden="true">
- <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalDeleteLabel">Update Participant Details</h5>
-            <button type="button" class="btn-close" (click)="closeModalEdit()"  aria-label="Close"></button>
+<!-- Convert Bootstrap modal to ng-template -->
+<ng-template #editParticipantModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Update Participant Details</h5>
+    <button type="button" class="btn-close" (click)="closeModalEdit()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="ParticipantDataForm">
+      <div class="row mb-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="mobileNo" placeholder="" formControlName="mobileNo" (input)="getDataByMobileNumber($any($event.target).value)">
+            <label id="mobileNo">Mobile No<span class="c-red"> *</span></label>
+          </div>
+          <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && !f2['mobileNo']?.errors?.['pattern']" class="error">Mobile No is required</div>
+          <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && f2['mobileNo']?.errors?.['pattern']" class="error">Mobile No Starts with 6,7,8,9 and should be 10 digits</div>
         </div>
-        <div class="modal-body">
-            <form [formGroup]="ParticipantDataForm">
-                        <div class="row mb-3">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="mobileNo" placeholder="" formControlName="mobileNo" (input)="getDataByMobileNumber($any($event.target).value)">
-                                    <label id="mobileNo">Mobile No<span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && !f2['mobileNo']?.errors?.['pattern']" class="error">Mobile No is required</div>
-                                <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && f2['mobileNo']?.errors?.['pattern']" class="error">Mobile No Starts with 6,7,8,9 and should be 10 digits</div>
-                            </div>
-                            <div class="col-12 col-sm-3 col-md-3 col-lg-3">
-                                <!-- <label class="fs-md fw-600 mb-1">Post Training Assessment</label> -->
-                                <div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant" (change)="OragnizationList($event)" id="Aspirant" value="Aspirant">
-                                        <label class="form-check-label" for="Aspirant">Aspirant</label>
-                                    </div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant" (change)="OragnizationList($event)" id="Existing Oragnization" value="Existing Oragnization">
-                                        <label class="form-check-label" for="Existing Oragnization">Existing Oragnization</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
-                                <div [ngClass]="{'isDisabled': DefaultDisabled}" >
-                                      <ng-multiselect-dropdown   class="multi"
-                                        placeholder="Select Organisation*"
-                                        name="organizationId"
-                                        formControlName="organizationId"
-                                        [settings]="dropdownSettingsOrg"
-                                        [data]="dropdownListOrg"
-                                        (onSelect)="onItemSelectOrg($event)"
-                                     ></ng-multiselect-dropdown> 
-                                     <!-- <label for="area" class="form-label"> Sector </label> -->
-                                    
-                                </div>
-                               
-                            </div>
-                            <!-- <div class="col-12 col-sm-4 col-md-4 col-lg-4" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="organizationId"  formControlName="organizationId">
-                                      <option selected value="">Select Organisation Name</option>
-                                      <option *ngFor="let val of OrganizationData" value="{{val?.organizationId}}">{{val?.organizationName}}</option>
-                                    </select>
-                                    <label for="organizationId">Organisation Name <span class="c-red"> *</span></label>
-                                </div>
-                            </div> -->
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled':DefaultDisabled}" >
-                                    <select class="form-select" id="programId" formControlName="programIds" (change)="getProgramDetailsById($any($event.target).value)">
-                                        <option value="">Select Program</option>
-                                        <option *ngFor="let list of agencyProgramList"  value="{{list?.programId}}">{{list?.programTitle}}</option>
-                                        <!-- <ng-container *ngFor="let list of agencyProgramList">
-                                            <option *ngIf="!list?.programId.include(this.previousParticipationDetails?.programIds)"  value="{{list?.programId}}">{{list?.programTitle}}</option>
-                                        </ng-container> -->
-                                    </select>
-                                    <label for="programId">Programs <span class="c-red"> *</span></label>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="code" placeholder="">
-                                    <label for="code">Code</label>
-                                </div>
-                            </div> -->
-                          
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
-                                <div class="form-floating mb-3 " [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="text" class="form-control" id="participantName" formControlName="participantName" placeholder="">
-                                    <label for="participantName">Name Of The Participant <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['participantName'].touched && !f2['participantName'].valid && !f2['participantName']?.errors?.['pattern']" class="error">Name  Of Participant is required</div>
-                                <div *ngIf="f2['participantName'].touched && !f2['participantName'].valid && f2['participantName']?.errors?.['pattern']" class="error">Participant Name Should be Characters</div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="text" class="form-control" id="aadharNo" formControlName="aadharNo" placeholder="">
-                                    <label for="aadharNo">Aadhar Number </label>
-                                </div>
-                                <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && !f2['aadharNo']?.errors?.['pattern']" class="error">Aadhar No is required</div>
-                                <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && f2['aadharNo']?.errors?.['pattern']" class="error">Aadhar No should be 12 digit Numbers</div>
-                           
-                            </div>
-                           
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="email" class="form-control" id="email" placeholder="" formControlName="email">
-                                    <label for="email">Email</label>
-                                </div>
-                                <div *ngIf="f2['email'].touched && !f2['email'].valid && !f2['email']?.errors?.['email']" class="error">Email is required</div>
-                                <div *ngIf="f2['email'].touched && !f2['email'].valid && f2['email']?.errors?.['email']" class="error">Please Enter Proper Email Id</div>
-                           
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="gender" formControlName="gender">
-                                      <option selected value="">Select Gender</option>
-                                      <option value="M">Male</option>
-                                      <option value="F">Female</option>
-                                      <option value="Trans-Gender">Trans-Gender</option>
-                                    </select>
-                                    <label for="gender">Gender <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['gender'].touched && !f2['gender'].valid" class="error">Gender is required</div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="category" formControlName="category">
-                                      <option selected value="">Select Category</option>
-                                      <option value="OC">OC</option>
-                                      <option value="BC">BC</option>
-                                      <option value="SC">SC</option>
-                                      <option value="ST">ST</option>
-                                      <option value="Minority">Minority</option>
-                                    </select>
-                                    <label for="category">Category<span class="c-red"> *</span> </label>
-                                </div>
-                                <div *ngIf="f2['category'].touched && !f2['category'].valid" class="error">Category is required</div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="disability" formControlName="disability">
-                                      <option selected value="">Select Disability</option>
-                                      <option value="Y">Yes</option>
-                                      <option value="N">No</option>
-                                    </select>
-                                    <label for="disability">Disability <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['disability'].touched && !f2['disability'].valid" class="error">Disability is required</div>
-                            </div>    
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3">
-                                    <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input type="text" class="form-control" id="designation" placeholder="" formControlName="designation">
-                                        <label id="designation">{{this.f2['isAspirant'].value=='Existing Oragnization'?"Designation":"Current Trade"}}</label>
-                                    </div>
-                                    <!-- <select class="form-select" id="designation" formControlName="designation">
-                                      <option selected>Select Designation</option>
-                                      <option value="Designation 1">Designation 1</option>
-                                      <option value="Designation 2">Designation 2</option>
-                                    </select>
-                                    <label for="designation">Designation</label> -->
-                                </div>
-                            </div>
-                            <ng-container *ngIf="programData?.programType!='Awareness'">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="isParticipatedBefore" formControlName="isParticipatedBefore">
-                                      <option selected value="">Select Previous Participation</option>
-                                      <option value="Y">Yes</option>
-                                      <option value="N">No</option>
-                                    </select>
-                                    <label for="isParticipatedBefore">Previous Participation</label>
-                                </div>
-                            </div>
-                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="preTrainingAssessmentConducted" formControlName="preTrainingAssessmentConducted">
-                                      <option selected>Select Pre-Training</option>
-                                      <option value="Product Innovation">Product Innovation</option>
-                                    </select>
-                                    <label for="preTrainingAssessmentConducted">Pre-Training Assessment Conducted</label>
-                                </div>
-                            </div> -->
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <label class="fs-md fw-600 mb-1">Pre Training Assessment Conducted</label>
-                                <div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" name="preTrainingAssessmentConducted" formControlName="preTrainingAssessmentConducted" id="Yes" value="Y">
-                                        <label class="form-check-label" for="Yes">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" name="preTrainingAssessmentConducted" formControlName="preTrainingAssessmentConducted" id="No" value="N">
-                                        <label class="form-check-label" for="No">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <label class="fs-md fw-600 mb-1">Post Training Assessment Conducted</label>
-                                <div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" name="postTrainingAssessmentConducted" formControlName="postTrainingAssessmentConducted" id="Yes" value="Y">
-                                        <label class="form-check-label" for="Yes">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" name="postTrainingAssessmentConducted" formControlName="postTrainingAssessmentConducted" id="No" value="N">
-                                        <label class="form-check-label" for="No">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <label class="fs-md fw-600 mb-1">Certificate Issue Date</label>
-                                <div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" name="isCertificateIssued" formControlName="isCertificateIssued" id="isCertificateIssued" value="Y">
-                                        <label class="form-check-label" for="isCertificateIssued">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" name="isCertificateIssued" formControlName="isCertificateIssued" id="noCertificate"  value="N">
-                                        <label class="form-check-label" for="noCertificate">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 " id="certificateDate" *ngIf="this.f2['isCertificateIssued']?.value=='Y'" >
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="date" class="form-control" id="certificateIssueDate" formControlName="certificateIssueDate" placeholder="">
-                                    <label for="certificateIssueDate">Issue Date <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['certificateIssueDate'].touched && !f2['certificateIssueDate'].valid" class="error">Issue Date is required</div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="text" class="form-control" id="needAssessmentMethodology" formControlName="needAssessmentMethodology" placeholder="">
-                                    <label for="needAssessmentMethodology">Methodology Used for Needs Assessment</label>
-                                </div>
-                            </div>
-                        </ng-container>
-                        </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-lime-green" [disabled]="!ParticipantDataForm.valid" [ngClass]="{'disabled': ParticipantDataForm.invalid}"  (click)="Submitform()">{{isedit?'Update':'Submit'}}</button>
-                        </div>
-                    </form>
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+          <div>
+            <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+              <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant" (change)="OragnizationList($event)" id="Aspirant" value="Aspirant">
+              <label class="form-check-label" for="Aspirant">Aspirant</label>
+            </div>
+            <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+              <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant" (change)="OragnizationList($event)" id="Existing Oragnization" value="Existing Oragnization">
+              <label class="form-check-label" for="Existing Oragnization">Existing Oragnization</label>
+            </div>
+          </div>
         </div>
-       
-    </div>
-</div>
-</div>
+         <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+          <mat-form-field appearance="outline" class="w-100" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <mat-label>Name of Oragnization *</mat-label>
+            <mat-select formControlName="organizationId" >
+              <div class="search-option">
+                <i class="bx bx-search me-2"></i>
+                <input class="search-input" #searchDropdownInput (input)="onSearchChange($any($event.target).value)"
+                  (keydown.space)="$event.stopPropagation()" type="text" placeholder="Search" autocomplete="off" />
+              </div>
+              <span *ngIf="searchValue" class="no-results1">
+                Please enter atleast 2 characters to search
+              </span>
+              <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                {{ list.organizationName }}
+              </mat-option>
+              <span *ngIf="filteredOrganizationData?.length === 0" class="no-results">
+                No results found
+              </span>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+          <div [ngClass]="{'isDisabled': DefaultDisabled}">
+            <ng-multiselect-dropdown class="multi"
+              placeholder="Select Organisation*"
+              name="organizationId"
+              formControlName="organizationId"
+              [settings]="dropdownSettingsOrg"
+              [data]="dropdownListOrg"
+              (onSelect)="onItemSelectOrg($event)">
+            </ng-multiselect-dropdown>
+          </div>
+        </div> -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled':DefaultDisabled}">
+            <select class="form-select" id="programId" formControlName="programIds" (change)="getProgramDetailsById($any($event.target).value)">
+              <option value="">Select Program</option>
+              <option *ngFor="let list of agencyProgramList" value="{{list?.programId}}">{{list?.programTitle}}</option>
+            </select>
+            <label for="programId">Programs <span class="c-red"> *</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <input type="text" class="form-control" id="participantName" formControlName="participantName" placeholder="">
+            <label for="participantName">Name Of The Participant <span class="c-red"> *</span></label>
+          </div>
+          <div *ngIf="f2['participantName'].touched && !f2['participantName'].valid && !f2['participantName']?.errors?.['pattern']" class="error">Name Of Participant is required</div>
+          <div *ngIf="f2['participantName'].touched && !f2['participantName'].valid && f2['participantName']?.errors?.['pattern']" class="error">Participant Name Should be Characters</div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <input type="text" class="form-control" id="aadharNo" formControlName="aadharNo" placeholder="">
+            <label for="aadharNo">Aadhar Number</label>
+          </div>
+          <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && !f2['aadharNo']?.errors?.['pattern']" class="error">Aadhar No is required</div>
+          <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && f2['aadharNo']?.errors?.['pattern']" class="error">Aadhar No should be 12 digit Numbers</div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <input type="email" class="form-control" id="email" placeholder="" formControlName="email">
+            <label for="email">Email</label>
+          </div>
+          <div *ngIf="f2['email'].touched && !f2['email'].valid && !f2['email']?.errors?.['email']" class="error">Email is required</div>
+          <div *ngIf="f2['email'].touched && !f2['email'].valid && f2['email']?.errors?.['email']" class="error">Please Enter Proper Email Id</div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <select class="form-select" id="gender" formControlName="gender">
+              <option selected value="">Select Gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="Trans-Gender">Trans-Gender</option>
+            </select>
+            <label for="gender">Gender <span class="c-red"> *</span></label>
+          </div>
+          <div *ngIf="f2['gender'].touched && !f2['gender'].valid" class="error">Gender is required</div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <select class="form-select" id="category" formControlName="category">
+              <option selected value="">Select Category</option>
+              <option value="OC">OC</option>
+              <option value="BC">BC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+              <option value="Minority">Minority</option>
+            </select>
+            <label for="category">Category<span class="c-red"> *</span></label>
+          </div>
+          <div *ngIf="f2['category'].touched && !f2['category'].valid" class="error">Category is required</div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+            <select class="form-select" id="disability" formControlName="disability">
+              <option selected value="">Select Disability</option>
+              <option value="Y">Yes</option>
+              <option value="N">No</option>
+            </select>
+            <label for="disability">Disability <span class="c-red"> *</span></label>
+          </div>
+          <div *ngIf="f2['disability'].touched && !f2['disability'].valid" class="error">Disability is required</div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-floating mb-3">
+            <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+              <input type="text" class="form-control" id="designation" placeholder="" formControlName="designation">
+              <label id="designation">{{this.f2['isAspirant'].value=='Existing Oragnization'?"Designation":"Current Trade"}}</label>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="programData?.programType!='Awareness'">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+              <select class="form-select" id="isParticipatedBefore" formControlName="isParticipatedBefore">
+                <option selected value="">Select Previous Participation</option>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+              </select>
+              <label for="isParticipatedBefore">Previous Participation</label>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="fs-md fw-600 mb-1">Pre Training Assessment Conducted</label>
+            <div>
+              <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                <input class="form-check-input" type="radio" name="preTrainingAssessmentConducted" formControlName="preTrainingAssessmentConducted" id="preYes" value="Y">
+                <label class="form-check-label" for="preYes">Yes</label>
+              </div>
+              <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                <input class="form-check-input" type="radio" name="preTrainingAssessmentConducted" formControlName="preTrainingAssessmentConducted" id="preNo" value="N">
+                <label class="form-check-label" for="preNo">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="fs-md fw-600 mb-1">Post Training Assessment Conducted</label>
+            <div>
+              <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                <input class="form-check-input" type="radio" name="postTrainingAssessmentConducted" formControlName="postTrainingAssessmentConducted" id="postYes" value="Y">
+                <label class="form-check-label" for="postYes">Yes</label>
+              </div>
+              <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                <input class="form-check-input" type="radio" name="postTrainingAssessmentConducted" formControlName="postTrainingAssessmentConducted" id="postNo" value="N">
+                <label class="form-check-label" for="postNo">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="fs-md fw-600 mb-1">Certificate Issue Date</label>
+            <div>
+              <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                <input class="form-check-input" type="radio" name="isCertificateIssued" formControlName="isCertificateIssued" id="isCertificateIssued" value="Y">
+                <label class="form-check-label" for="isCertificateIssued">Yes</label>
+              </div>
+              <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                <input class="form-check-input" type="radio" name="isCertificateIssued" formControlName="isCertificateIssued" id="noCertificate" value="N">
+                <label class="form-check-label" for="noCertificate">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="certificateDate" *ngIf="this.f2['isCertificateIssued']?.value=='Y'">
+            <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+              <input type="date" class="form-control" id="certificateIssueDate" formControlName="certificateIssueDate" placeholder="">
+              <label for="certificateIssueDate">Issue Date <span class="c-red"> *</span></label>
+            </div>
+            <div *ngIf="f2['certificateIssueDate'].touched && !f2['certificateIssueDate'].valid" class="error">Issue Date is required</div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+              <input type="text" class="form-control" id="needAssessmentMethodology" formControlName="needAssessmentMethodology" placeholder="">
+              <label for="needAssessmentMethodology">Methodology Used for Needs Assessment</label>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="text-end">
+        <button type="button" class="btn btn-secondary me-2" (click)="closeModalEdit()">Close</button>
+        <button type="button" class="btn btn-lime-green" [disabled]="!ParticipantDataForm.valid" [ngClass]="{'disabled': ParticipantDataForm.invalid}" (click)="Submitform()">{{isedit?'Update':'Submit'}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
