@@ -352,8 +352,8 @@ export class AddParticipantDataComponent implements OnInit {
 
   Submitform() {
     
-    let payload:any={...this.ParticipantDataForm.value, "programIds": [this.ParticipantDataForm.value.programIds] }
-   console.log(typeof payload['programIds'])
+    let payload:any={...this.ParticipantDataForm.value }
+   console.log(typeof payload['programIds'],payload['programIds'],this.previousParticipationDetails?.programIds,)
     if(this.f2['isAspirant'].value!='Existing Oragnization'){
     delete payload['organizationId']
   }
@@ -371,7 +371,10 @@ export class AddParticipantDataComponent implements OnInit {
   if(this.isedit){
     console.log(this.participantId,this.previousParticipationDetails?.programIds,payload.programIds)
     if(Object?.keys(this.previousParticipationDetails)?.length){
-      payload['programIds']=[...payload.programIds,...this.previousParticipationDetails?.programIds]
+      payload['programIds']=[payload.programIds,...this.previousParticipationDetails?.programIds]
+    }
+    else{
+      payload['programIds'] = [this.ParticipantDataForm.value.programIds]
     }
     // payload['programIds']=[this.ParticipantDataForm.value.programIds]
     payload['participantId']=this.participantId
@@ -408,8 +411,11 @@ export class AddParticipantDataComponent implements OnInit {
     let Url=APIS.participantdata.add
     if(Object?.keys(this.previousParticipationDetails)?.length){
       Url=APIS.participantdata.update
-      payload['programIds']=[...payload.programIds,...this.previousParticipationDetails?.programIds]
+      payload['programIds']=[payload.programIds,...this.previousParticipationDetails?.programIds]
       payload['participantId']=this.previousParticipationDetails?.participantId
+    }
+    else{
+      payload['programIds'] = [this.ParticipantDataForm.value.programIds]
     }
     this._commonService
       .add(Url, payload).subscribe({
@@ -473,7 +479,7 @@ export class AddParticipantDataComponent implements OnInit {
             let item = res?.data;
             this.previousParticipationDetails = item;
             if(!this.isedit){
-              this.ParticipantDataForm.patchValue({ ...item, certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant'})
+              this.ParticipantDataForm.patchValue({ ...item,programIds: item.programIds?.[0], certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant'})
             }
             
           }
