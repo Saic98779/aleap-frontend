@@ -1,360 +1,579 @@
-﻿<!-- <nav>
-    <nav class="navbar navbar-expand px-3" style="background-color: #e3f2fd;" *ngIf="user">
-        <div class="container-fluid">
-            <img src="https://avatars.githubusercontent.com/u/57286889?s=280&v=4" style="height: 79px;">
-        </div>
-        <div style="float: right;">
-
-            <button type="button" class="btn btn-orange" (click)="logout()">Logout</button>
-        </div>
-    </nav>
-</nav> -->
-<!-- Aleap -->
-<header *ngIf="user">
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center justify-content-between w-100">
-        <div class="d-flex align-items-center">
-          <ng-container *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-             <a class="navbar-brand me-2" href="#"  *ngIf="this.user?.agencyName=='ALEAP'">
-            <img src="../assets/img/aleapLogo.jpeg" alt="Aleap Logo" class="img-fluid" style="height: 47px; width: 100px;scale: 2.3;padding-left: 25px;clip-path: inset(10px 0 10px 0);">
-          </a>
-          </ng-container>
-         <ng-container *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
-
-          <a class="navbar-brand" href="#"   *ngIf="this.user?.agencyName!='ALEAP'">
-            <img src="../assets/img/logo.png" alt="Logo" class="img-fluid" style="height: 45px; width: 45px;">
-          </a>
-           <a class="navbar-brand me-2" href="#"   *ngIf="this.user?.agencyName!='ALEAP'">
-            <img src="../assets/img/Ramp final_logo.png" alt="Ramp Final Logo" class="img-fluid" style="height: 45px; width: 36px;">
-          </a>
-
-         </ng-container>
-          <!-- <img src="../assets/img/GT Logo.png" alt="GT Logo" class="footer-logo" /> -->
-
-        </div>
-        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar2"
-          aria-labelledby="offcanvasNavbar2Label">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbar2Label">RAMP</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-              aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-
-
-
-              <li class="nav-item"
-                *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
-                <a class="nav-link" routerLink="/global-dashboard" routerLinkActive="active" id="dropdown3"
-                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dashboard
-                </a>
-              </li>
-              <li class="nav-item" *appHasRole="[Role.CALL_CENTER]">
-                <a class="nav-link" routerLink="/participant-details" routerLinkActive="active" id="dropdown3"
-                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Program Participation Verification
-                </a>
-              </li>
-              <li class="nav-item" *appHasRole="[Role.CALL_CENTER]">
-                <a class="nav-link" routerLinkActive="active" id="dropdown3" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Outcome Verification
-                </a>
-              </li>
-              <li class="nav-item dropdown" *appHasRole="[Role.Admin]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Targets</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown"> 
-                  <li><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active">View Programs</a></li>                
-                  <li><a class="dropdown-item" routerLink="/view-agency-sessions" routerLinkActive="active">View Sessions</a></li>  
-                  <li><a class="dropdown-item"routerLink="/view-Completed-data" routerLinkActive="active">View Participants</a></li>     
-                  <li><a class="dropdown-item" routerLink="/physical-targets" routerLinkActive="active">Output
-                      Targets</a></li>
-                      <li><a class="dropdown-item" routerLink="/financial-targets" routerLinkActive="active">Output Acheivements</a></li> 
-                  <li><a class="dropdown-item" routerLink="/bulk-expenditure" routerLinkActive="active">Bulk Expenditure</a></li> 
-                </ul>
-              </li>
-              <li class="nav-item dropdown" *appHasRole="[Role.Admin]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Programs Per Agencies</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-                  <li><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active">View Programs</a>
-                  </li>
-                  <li><a class="dropdown-item" routerLink="/view-agency-sessions" routerLinkActive="active">View Sessions</a></li>  
-                 <li><a class="dropdown-item" routerLink="/view-Completed-data" routerLinkActive="active">View
-                      Participants</a></li>
-                      <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active">View Completed programs
-                         </a></li>
-                  <li><a class="dropdown-item" routerLink="/bulk-expenditure" routerLinkActive="active">Bulk Expenditure</a></li> 
-                 </ul>
-              </li>
-                <li class="nav-item dropdown" *appHasRole="[Role.Admin]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Finance</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-
-                      <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Expenditure Verification
-                         </a></li>
-
-                </ul>
-              </li>
-              <li class="nav-item" *appHasRole="[Role.Admin]">
-                <a class="nav-link" id="homeDropdown" role="button" routerLink="/view-table-organization"
-                  routerLinkActive="active" aria-expanded="false">
-                  <span>Masters List</span>
-                </a>
-              </li>
-              <li class="nav-item" *appHasRole="[Role.Admin]">
-                <a class="nav-link" routerLink="/program-monitoring" routerLinkActive="active" id="dropdown3"
-                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Program Monitoring
-                </a>
-              </li>
-              <li class="nav-item dropdown" *appHasRole="[Role.Admin]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Reports</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-                  <li><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">Create Collage</a>
-                  </li>
-                  <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active">Program
-                      Summary</a></li>
-                </ul>
-              </li> 
-
-               <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Programs</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-                  <li><a class="dropdown-item" routerLink="/program-creation" routerLinkActive="active">Add Program</a>
-                  </li>
-                  <li><a class="dropdown-item" routerLink="/add-sessions" routerLinkActive="active">Add Sessions</a>
-                  </li>
-                  <li><a class="dropdown-item" routerLink="/attendance-Participant" routerLinkActive="active">Particpant
-                      Attendance Details</a></li>
-                <li><a class="dropdown-item" routerLink="/rawMaterials-Participant"
-                      routerLinkActive="active">Particpant Raw Material Details</a></li>
-
-                      <li><a class="dropdown-item" routerLink="/update-program-execution" routerLinkActive="active">Program
-                      Execution</a></li>
-
-
-
-                  <li><a class="dropdown-item" routerLink="/veiw-program-creation" routerLinkActive="active">View My
-                      Programs</a></li>
-
-                      <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active">View Completed programs
-                         </a></li>
-
-                  <!-- <li><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active">View All Agencies
-                      Programs</a></li> -->
-                </ul>
-              </li> 
-               <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="dropdown2" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Participant Details <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown2">
-                   <!-- <li><a class="dropdown-item" routerLink="/update-program-execution" routerLinkActive="active">Program Execution</a></li> -->
-                   <li><a class="dropdown-item" routerLink="/add-participant-data" routerLinkActive="active">Add
-                      Participant</a></li>
-                  <li><a class="dropdown-item" routerLink="/view-participant-data" routerLinkActive="active">View
-                      Participant</a></li> 
-                   <li><a class="dropdown-item" href="#">View Completed</a></li> 
-                 </ul>
-              </li>
-               <!-- <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="dropdown2" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Participant Details <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown2">
-                   <li><a class="dropdown-item" routerLink="/update-program-execution" routerLinkActive="active">Program Execution</a></li>
-                   <li><a class="dropdown-item" routerLink="/add-participant-data" routerLinkActive="active">Add
-                      Participant</a></li>
-                  <li><a class="dropdown-item" routerLink="/view-participant-data" routerLinkActive="active">View
-                      Participant</a></li> 
-                   <li><a class="dropdown-item" href="#">View Completed</a></li> 
-                 </ul>
-              </li>
-              <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="dropdown2" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Program Execution <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown2">
-                 
-                 
-                  
-                  <li><a class="dropdown-item" routerLink="/program-expenditure" routerLinkActive="active">Program
-                      Expenditure</a></li>
-                  <li><a class="dropdown-item" routerLink="/bulk-expenditure" routerLinkActive="active">Bulk
-                      Expenditure</a></li>
-                   <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active">Program Summary</a></li> 
-                   <li><a class="dropdown-item" routerLink="/add-participant-data" routerLinkActive="active">Add Participant</a></li>
-                                <li><a class="dropdown-item" routerLink="/view-participant-data" routerLinkActive="active">View Participant</a></li> 
-                   <li><a class="dropdown-item" routerLink="/view-Completed-data" routerLinkActive="active">View
-                      Completed</a></li>
-                      
-                </ul>
-              </li> -->
-
-              <!-- <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Finance</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-
-                      <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active">Expenditure Verification
-                         </a></li>
-
-                </ul>
-              </li> -->
-
-              <!-- <li class="nav-item dropdown isDisabled" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="dropdown3" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Update Outcomes <span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown3">
-                  <li><a class="dropdown-item" routerLink="/capture-outcome" routerLinkActive="active">Capture
-                      Outcome</a></li>
-                 <li><a class="dropdown-item" href="#">Capture Outcome</a></li>
-                                <li><a class="dropdown-item" href="#">Organisation Updates</a></li>                                 
-                  <li><a class="dropdown-item" routerLink="/shg-training" routerLinkActive="active">SHG Training
-                      Status</a></li>
-                </ul>
-              </li> -->
-              <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" id="homeDropdown" role="button" routerLink="/view-table-organization"
-                  routerLinkActive="active" aria-expanded="false">
-                  <span>Masters List</span>
-                </a>
-              </li> 
-
-
-               <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                   <span>ESDP Training</span> <span class="bi bi-chevron-down"></span>
-                </a>
-                 <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-
-                  <li><a class="dropdown-item" routerLink="/esdp-training" routerLinkActive="active">ESDP Application</a></li>
-                  <li><a class="dropdown-item" routerLink="/view-application" routerLinkActive="active">View Application</a>
-                  </li>
-
-                </ul>
-              </li>
-              <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Reports</span> <span class="bi bi-chevron-down"></span>
-
-                </a>
-                <!-- <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-
-                  <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active">Program
-                      Summary</a></li>
-                  <li><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active">Create Collage</a>
-                  </li>
-
-                </ul> -->
-              </li>
-              <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="dropdown3" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Counsellor<span class="bi bi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown3">
-                  <li><a class="dropdown-item" routerLink="/MSME-councellor-registeration"
-                      routerLinkActive="active">Counsellor Registration</a></li>
-                       <li><a class="dropdown-item" routerLink="/assign-Counsellor"
-                      routerLinkActive="active">Assign Counsellor </a></li>
-                  <li><a class="dropdown-item" routerLink="/view-MSME-councellor" routerLinkActive="active">View
-                      Counsellor Registration</a></li>
-                </ul>
-              </li>
-                <li class="nav-item dropdown" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-                <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <span>Others</span> <span class="bi bi-chevron-down"></span>
-
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-
-                  <li><a class="dropdown-item" routerLink="/Registration" routerLinkActive="active">SHG / Startup Registration</a></li>
-                  <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active">Startups Assessments</a>
-                  </li>
-
-                </ul>
-              </li> 
-            </ul>
-          </div>
-        </div>
-        <div class="d-flex align-items-center justify-content-between" >
-        
-
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2"
-            aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <ul class="navbar-nav me-auto ms-2">
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <span class="bi bi-person-circle fs-3"></span>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="homeDropdown" *ngIf="user?.email!='districts@gmail.com'">
-                <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active"><span
-                      class="bi bi-person fs-5 me-2"></span> My Profile</a></li>
-                <li><a class="dropdown-item" routerLink="/password-settings" routerLinkActive="active"><span
-                      class="bi bi-key fs-5 me-2"></span> Change Password</a></li>
-                <li *appHasRole="[Role.Admin]"><a class="dropdown-item" routerLink="/user-registration"
-                    routerLinkActive="active"><span class="bi bi-person-circle fs-5 me-2"></span> Register User</a></li>
-                <li><a class="dropdown-item" (click)="logout()"><span class="bi bi-box-arrow-right fs-5 me-2"></span>
-                    Logout</a></li>
-              </ul>
-               <ul class="dropdown-menu" aria-labelledby="homeDropdown" *ngIf="user?.email=='districts@gmail.com' && this.user?.userRole=='ADMIN'">
-                <!-- <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active"><span
-                      class="bi bi-person fs-5 me-2"></span> My Profile</a></li>
-                <li><a class="dropdown-item" routerLink="/password-settings" routerLinkActive="active"><span
-                      class="bi bi-key fs-5 me-2"></span> Change Password</a></li>
-                <li *appHasRole="[Role.Admin]"><a class="dropdown-item" routerLink="/user-registration"
-                    routerLinkActive="active"><span class="bi bi-person-circle fs-5 me-2"></span> Register User</a></li> -->
-                <li><a class="dropdown-item" (click)="logout()"><span class="bi bi-box-arrow-right fs-5 me-2"></span>
-                    Logout</a>
-                  </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
+﻿<div class="app-shell" [class.sidebar-collapsed]="sidebarCollapsed" [class.mobile-view]="isMobileView" [class.mobile-sidebar-open]="mobileSidebarOpen" *ngIf="user; else guestView">
+  <aside class="app-sidebar" (click)="onMenuClick($event)">
+    <div class="sidebar-brand">
+      <a class="navbar-brand brand-single" href="#">
+        <img src="https://www.aleap.org/assets/images/logo/aleap-logo.svg" alt="Aleap Logo" class="img-fluid brand-logo-large">
+        <!-- <img src="../assets/img/aleapLogo.jpeg" alt="Aleap Logo" class="img-fluid brand-logo-large"> -->
+      </a>
     </div>
-  </nav>
-</header>
 
-<!-- main app container class="container"-->
-<div style="min-height: calc(100vh - 68px); padding-bottom: 60px;">
-  <router-outlet></router-outlet>
+    <nav class="sidebar-nav" (click)="onSidebarNavigation($event)">
+      <ul class="navbar-nav flex-column w-100">
+        <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
+          <a class="nav-link" routerLink="/global-dashboard" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-speedometer2 me-2 menu-icon"></span>Dashboard</a>
+        </li>
+        <li class="nav-item" *appHasRole="[Role.CALL_CENTER]">
+          <a class="nav-link" routerLink="/participant-details" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-person-check me-2 menu-icon"></span>Program Participation Verification</a>
+        </li>
+        <li class="nav-item" *appHasRole="[Role.CALL_CENTER]">
+          <a class="nav-link" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-patch-check me-2 menu-icon"></span>Outcome Verification</a>
+        </li>
+
+        <li class="nav-item dropdown" [class.show]="openSubMenus['targets']" *appHasRole="[Role.Admin]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('targets', $event)" [attr.aria-expanded]="openSubMenus['targets']"><span class="bi bi-bullseye me-2 menu-icon"></span>Targets</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['targets']">
+            <li><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active"><span class="bi bi-list-ul me-2 submenu-icon"></span>View Programs</a></li>
+            <li><a class="dropdown-item" routerLink="/view-agency-sessions" routerLinkActive="active"><span class="bi bi-calendar-event me-2 submenu-icon"></span>View Sessions</a></li>
+            <li><a class="dropdown-item" routerLink="/view-Completed-data" routerLinkActive="active"><span class="bi bi-people me-2 submenu-icon"></span>View Participants</a></li>
+            <li><a class="dropdown-item" routerLink="/physical-targets" routerLinkActive="active"><span class="bi bi-flag me-2 submenu-icon"></span>Output Targets</a></li>
+            <li><a class="dropdown-item" routerLink="/financial-targets" routerLinkActive="active"><span class="bi bi-graph-up-arrow me-2 submenu-icon"></span>Output Acheivements</a></li>
+            <li><a class="dropdown-item" routerLink="/bulk-expenditure" routerLinkActive="active"><span class="bi bi-cash-stack me-2 submenu-icon"></span>Bulk Expenditure</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown" [class.show]="openSubMenus['programsAgencies']" *appHasRole="[Role.Admin]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('programsAgencies', $event)" [attr.aria-expanded]="openSubMenus['programsAgencies']"><span class="bi bi-diagram-3 me-2 menu-icon"></span>Programs Per Agencies</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['programsAgencies']">
+            <li><a class="dropdown-item" routerLink="/veiw-program" routerLinkActive="active"><span class="bi bi-list-ul me-2 submenu-icon"></span>View Programs</a></li>
+            <li><a class="dropdown-item" routerLink="/view-agency-sessions" routerLinkActive="active"><span class="bi bi-calendar-event me-2 submenu-icon"></span>View Sessions</a></li>
+            <li><a class="dropdown-item" routerLink="/view-Completed-data" routerLinkActive="active"><span class="bi bi-people me-2 submenu-icon"></span>View Participants</a></li>
+            <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active"><span class="bi bi-check2-square me-2 submenu-icon"></span>View Completed programs</a></li>
+            <li><a class="dropdown-item" routerLink="/bulk-expenditure" routerLinkActive="active"><span class="bi bi-cash-stack me-2 submenu-icon"></span>Bulk Expenditure</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown" [class.show]="openSubMenus['finance']" *appHasRole="[Role.Admin]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('finance', $event)" [attr.aria-expanded]="openSubMenus['finance']"><span class="bi bi-wallet2 me-2 menu-icon"></span>Finance</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['finance']">
+            <li><a class="dropdown-item" routerLink="/expenditure-verification" routerLinkActive="active"><span class="bi bi-receipt-cutoff me-2 submenu-icon"></span>Expenditure Verification</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item" *appHasRole="[Role.Admin]">
+          <a class="nav-link" routerLink="/view-table-organization" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-card-list me-2 menu-icon"></span>Masters List</a>
+        </li>
+        <li class="nav-item" *appHasRole="[Role.Admin]">
+          <a class="nav-link" routerLink="/program-monitoring" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-activity me-2 menu-icon"></span>Program Monitoring</a>
+        </li>
+        <li class="nav-item dropdown" [class.show]="openSubMenus['reportsAdmin']" *appHasRole="[Role.Admin]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('reportsAdmin', $event)" [attr.aria-expanded]="openSubMenus['reportsAdmin']"><span class="bi bi-bar-chart-line me-2 menu-icon"></span>Reports</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['reportsAdmin']">
+            <li><a class="dropdown-item" routerLink="/collage-home" routerLinkActive="active"><span class="bi bi-images me-2 submenu-icon"></span>Create Collage</a></li>
+            <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active"><span class="bi bi-journal-text me-2 submenu-icon"></span>Program Summary</a></li>
+          </ul>
+        </li>
+
+         <li class="nav-item dropdown" [class.show]="openSubMenus['projectDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('projectDetails', $event)" [attr.aria-expanded]="openSubMenus['projectDetails']"><span class="bi bi-kanban me-2 menu-icon"></span>Project</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['projectDetails']">
+          <li><a class="dropdown-item" routerLink="/add-project-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Project</a></li>
+          <li><a class="dropdown-item" routerLink="/view-project-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Project</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown" [class.show]="openSubMenus['programs']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('programs', $event)" [attr.aria-expanded]="openSubMenus['programs']"><span class="bi bi-kanban me-2 menu-icon"></span>Programs</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['programs']">
+            <li><a class="dropdown-item" routerLink="/program-creation" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Program</a></li>
+            <li><a class="dropdown-item" routerLink="/add-sessions" routerLinkActive="active"><span class="bi bi-calendar2-plus me-2 submenu-icon"></span>Add Sessions</a></li>
+            <li><a class="dropdown-item" routerLink="/attendance-Participant" routerLinkActive="active"><span class="bi bi-person-lines-fill me-2 submenu-icon"></span>Particpant Attendance Details</a></li>
+            <!-- <li><a class="dropdown-item" routerLink="/rawMaterials-Participant" routerLinkActive="active"><span class="bi bi-box-seam me-2 submenu-icon"></span>Particpant Raw Material Details</a></li> -->
+            <li><a class="dropdown-item" routerLink="/update-program-execution" routerLinkActive="active"><span class="bi bi-play-circle me-2 submenu-icon"></span>Program Execution</a></li>
+            <li><a class="dropdown-item" routerLink="/veiw-program-creation" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View My Programs</a></li>
+            <!-- <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active"><span class="bi bi-check2-square me-2 submenu-icon"></span>View Completed programs</a></li> -->
+          </ul>
+        </li>
+        <li class="nav-item" *appHasRole="[Role.Admin]">
+          <a class="nav-link" routerLink="/view-table-organization" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-card-list me-2 menu-icon"></span>Project</a>
+        </li>
+        <li class="nav-item dropdown" [class.show]="openSubMenus['participantDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('participantDetails', $event)" [attr.aria-expanded]="openSubMenus['participantDetails']"><span class="bi bi-people me-2 menu-icon"></span>Participant</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['participantDetails']">
+            <li><a class="dropdown-item" routerLink="/add-participant-data" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Add Participant</a></li>
+            <li><a class="dropdown-item" routerLink="/view-participant-data" routerLinkActive="active"><span class="bi bi-person-vcard me-2 submenu-icon"></span>View Participant</a></li>
+            <li><a class="dropdown-item" href="#"><span class="bi bi-check-circle me-2 submenu-icon"></span>View Completed</a></li>
+          </ul>
+        </li>
+
+       
+           <li class="nav-item dropdown" [class.show]="openSubMenus['counsellor']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('counsellor', $event)" [attr.aria-expanded]="openSubMenus['counsellor']"><span class="bi bi-person-badge me-2 menu-icon"></span>Counsellor</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['counsellor']">
+            <li><a class="dropdown-item" routerLink="/MSME-councellor-registeration" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Counsellor Registration</a></li>
+            <li><a class="dropdown-item" routerLink="/assign-Counsellor" routerLinkActive="active"><span class="bi bi-person-check me-2 submenu-icon"></span>Assign Counsellor</a></li>
+            <li><a class="dropdown-item" routerLink="/view-MSME-councellor" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Counsellor Registration</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown" [class.show]="openSubMenus['esdpTraining']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('esdpTraining', $event)" [attr.aria-expanded]="openSubMenus['esdpTraining']"><span class="bi bi-mortarboard me-2 menu-icon"></span>ESDP Training</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['esdpTraining']">
+            <li><a class="dropdown-item" routerLink="/esdp-training" routerLinkActive="active"><span class="bi bi-journal-plus me-2 submenu-icon"></span>ESDP Application</a></li>
+            <li><a class="dropdown-item" routerLink="/view-application" routerLinkActive="active"><span class="bi bi-journal-check me-2 submenu-icon"></span>View Application</a></li>
+          </ul>
+        </li>
+          <li class="nav-item dropdown" [class.show]="openSubMenus['Survey']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('Survey', $event)" [attr.aria-expanded]="openSubMenus['Survey']"><span class="bi bi-ui-checks me-2 menu-icon"></span>Survey</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['Survey']">
+            <li><a class="dropdown-item" routerLink="/Registration" routerLinkActive="active"><span class="bi bi-pencil-square me-2 submenu-icon"></span>Survey Registration</a></li>
+            <li><a class="dropdown-item" routerLink="/view-survey-details" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Survey Details</a></li>
+            <!-- <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active"><span class="bi bi-clipboard2-check me-2 submenu-icon"></span>Startups Assessments</a></li> -->
+          </ul>
+        </li>
+
+        <li class="nav-item" [class.show]="openSubMenus['Startups']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link" routerLink="/assessment" routerLinkActive="active" (click)="closeAllSubMenus()">
+            <span class="bi bi-clipboard2-check me-2 menu-icon"></span>Startups Assessments
+          </a>
+        </li>
+        <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link" routerLink="/membership" routerLinkActive="active" (click)="closeAllSubMenus()">
+            <span class="bi bi-person-badge me-2 menu-icon"></span>Membership
+          </a>
+        </li>
+        <li class="nav-item dropdown" [class.show]="openSubMenus['employee']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('employee', $event)" [attr.aria-expanded]="openSubMenus['employee']">
+            <span class="bi bi-people-fill me-2 menu-icon"></span>Employee
+          </a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['employee']">
+            <li><a class="dropdown-item" routerLink="/add-employee" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Add Employee</a></li>
+            <li><a class="dropdown-item" routerLink="/view-employee" routerLinkActive="active"><span class="bi bi-person-lines-fill me-2 submenu-icon"></span>View Employee</a></li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item dropdown" [class.show]="openSubMenus['attendance']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('attendance', $event)" [attr.aria-expanded]="openSubMenus['attendance']">
+            <span class="bi bi-calendar-check me-2 menu-icon"></span>Attendance
+          </a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['attendance']">
+            <li><a class="dropdown-item" routerLink="/mark-attendance" routerLinkActive="active"><span class="bi bi-check2-square me-2 submenu-icon"></span>Mark Attendance</a></li>
+            <li><a class="dropdown-item" routerLink="/view-attendance" routerLinkActive="active"><span class="bi bi-list-check me-2 submenu-icon"></span>View Attendance</a></li>
+          </ul>
+        </li> -->
+         <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link" routerLink="/view-table-organization" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-card-list me-2 menu-icon"></span>Masters List</a>
+        </li>
+        <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link" href="#" (click)="closeAllSubMenus()"><span class="bi bi-bar-chart-line me-2 menu-icon"></span>Reports</a>
+        </li>
+
+     
+
+        <!-- <li class="nav-item dropdown" [class.show]="openSubMenus['others']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('others', $event)" [attr.aria-expanded]="openSubMenus['others']"><span class="bi bi-grid me-2 menu-icon"></span>Others</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['others']">
+            <li><a class="dropdown-item" routerLink="/Registration" routerLinkActive="active"><span class="bi bi-pencil-square me-2 submenu-icon"></span>SHG / Startup Registration</a></li>
+            <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active"><span class="bi bi-clipboard2-check me-2 submenu-icon"></span>Startups Assessments</a></li>
+          </ul>
+        </li> -->
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="app-sidebar-backdrop" *ngIf="isMobileView && mobileSidebarOpen" (click)="closeMobileSidebar()"></div>
+
+  <section class="app-main">
+    <header class="app-topbar">
+      <button type="button" class="btn sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        <span class="bi" [ngClass]="sidebarCollapsed ? 'bi-layout-sidebar-inset-reverse' : 'bi-layout-sidebar-inset'"></span>
+      </button>
+      <div class="ms-auto d-flex align-items-center gap-2 app-topbar-actions">
+        <select id="languageSelectApp" class="translate-select form-select form-select-sm app-language-select"
+          [value]="selectedLanguage" (change)="onLanguageChange($any($event.target).value)">
+          <option value="en">English</option>
+          <option value="te">తెలుగు (Telugu)</option>
+        </select>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="bi bi-person-circle fs-3"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" *ngIf="user?.email!='districts@gmail.com'">
+              <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active"><span class="bi bi-person fs-5 me-2"></span>My Profile</a></li>
+              <li><a class="dropdown-item" routerLink="/password-settings" routerLinkActive="active"><span class="bi bi-key fs-5 me-2"></span>Change Password</a></li>
+              <li *appHasRole="[Role.Admin]"><a class="dropdown-item" routerLink="/user-registration" routerLinkActive="active"><span class="bi bi-person-circle fs-5 me-2"></span>Register User</a></li>
+              <li><a class="dropdown-item" (click)="logout()"><span class="bi bi-box-arrow-right fs-5 me-2"></span>Logout</a></li>
+            </ul>
+            <ul class="dropdown-menu dropdown-menu-end" *ngIf="user?.email=='districts@gmail.com' && this.user?.userRole=='ADMIN'">
+              <li><a class="dropdown-item" (click)="logout()"><span class="bi bi-box-arrow-right fs-5 me-2"></span>Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <div id="google_translate_element_app" style="display: none;"></div>
+
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+
+  <div class="menu-loader-overlay" *ngIf="isMenuLoading">
+    <div class="menu-loader-wrap">
+      <div class="menu-loader-ring ring-one"></div>
+      <div class="menu-loader-ring ring-two"></div>
+      <img src="../assets/img/aleap-single-logo.jpeg" alt="Loading" class="menu-loader-logo">
+    </div>
+  </div>
 </div>
+
+<ng-template #guestView>
+  <div style="min-height: 100vh;">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>
 
 <!-- credits / footer -->
 <style>
+  .app-shell {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f7fb;
+  }
+  .app-sidebar {
+    width: 280px;
+    min-width: 280px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, #1f2a60 0%, #162348 100%);
+    color: #eef3ff;
+    padding: 16px 12px;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 8px 0 18px rgba(9, 15, 36, 0.35);
+    z-index: 1040;
+    transition: width 0.28s ease, min-width 0.28s ease, padding 0.28s ease, opacity 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .app-shell.sidebar-collapsed .app-sidebar {
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    opacity: 0;
+    box-shadow: none;
+  }
+  .app-shell.sidebar-collapsed .sidebar-brand,
+  .app-shell.sidebar-collapsed .sidebar-nav {
+    display: none;
+  }
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 112px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #dbe5fb;
+    box-shadow: 0 8px 20px rgba(6, 12, 30, 0.22);
+    margin-bottom: 18px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .sidebar-nav {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+  }
+  .brand-logo-wrap,
+  .brand-single {
+    margin: 0 !important;
+  }
+  .brand-logo-main {
+    height: 36px;
+    width: 36px;
+    object-fit: contain;
+  }
+  .brand-logo-sub {
+    height: 36px;
+    width: 28px;
+    object-fit: contain;
+  }
+  .brand-logo-large {
+    height: 76px;
+    max-width: 220px;
+    object-fit: contain;
+    display: block;
+  }
+  .sidebar-nav .nav-link {
+    color: #dfe7ff;
+    border-radius: 8px;
+    margin: 2px 0;
+    padding: 11px 14px;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+  }
+  .sidebar-nav .nav-link:hover,
+  .sidebar-nav .nav-link.active,
+  .sidebar-nav .show > .nav-link {
+    background: #2f6ebf;
+    color: #ffffff;
+  }
+  .sidebar-nav .dropdown-menu {
+    position: static !important;
+    float: none;
+    transform: none !important;
+    border: 0;
+    box-shadow: none;
+    border-radius: 8px;
+    background: transparent;
+    padding: 2px 4px 6px;
+    margin-left: 8px;
+  }
+  .sidebar-nav .dropdown-menu:not(.show) {
+    display: none;
+  }
+  .sidebar-nav .dropdown-item {
+    color: #d3defd;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 7px 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+  }
+  .sidebar-nav .dropdown-item:hover,
+  .sidebar-nav .dropdown-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+  .sidebar-nav .dropdown-toggle::after {
+    margin-left: auto;
+    margin-top: 3px;
+    flex-shrink: 0;
+    color: #b8c9f5;
+    transition: transform 0.2s ease;
+  }
+  .sidebar-nav .show > .dropdown-toggle::after {
+    transform: rotate(180deg);
+  }
+  .sidebar-nav .nav-item {
+    margin-bottom: 2px;
+  }
+  .menu-icon {
+    min-width: 26px;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #324181 !important;
+    border: 1px solid rgba(189, 208, 255, 0.45);
+    color: #e6eeff !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .sidebar-nav .nav-link.active .menu-icon,
+  .sidebar-nav .nav-link:hover .menu-icon,
+  .sidebar-nav .show > .nav-link .menu-icon {
+    background: #4f7df4 !important;
+    border-color: #9fb8ff;
+    color: #ffffff !important;
+  }
+  .submenu-icon {
+    min-width: 22px;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(32, 47, 102, 0.9) !important;
+    border: 1px solid rgba(173, 196, 255, 0.35);
+    color: #d6e4ff !important;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .sidebar-nav .dropdown-item.active .submenu-icon,
+  .sidebar-nav .dropdown-item:hover .submenu-icon {
+    background: #4f7df4 !important;
+    border-color: #a8c1ff;
+    color: #ffffff !important;
+  }
+  .menu-loader-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(7, 12, 28, 0.62);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-loader-wrap {
+    width: 130px;
+    height: 130px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-loader-logo {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    z-index: 2;
+    animation: logoPulse 1.2s ease-in-out infinite;
+  }
+  .menu-loader-ring {
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+  }
+  .menu-loader-ring.ring-one {
+    width: 92px;
+    height: 92px;
+    border-width: 3px;
+    border-color: #7ea0ff transparent #7ea0ff transparent;
+    animation: spinClock 1.1s linear infinite;
+  }
+  .menu-loader-ring.ring-two {
+    width: 118px;
+    height: 118px;
+    border-width: 2px;
+    border-color: transparent #4f7df4 transparent #4f7df4;
+    animation: spinAnti 1.4s linear infinite;
+  }
+  @keyframes spinClock {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes spinAnti {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  @keyframes logoPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 0.85;
+    }
+  }
+  .app-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .app-topbar {
+    min-height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #d8def4;
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+  }
+  .app-topbar-actions {
+    min-width: 0;
+  }
+  .app-language-select {
+    width: 150px;
+    min-width: 150px;
+    height: 36px;
+    font-size: 13px;
+    border-color: #c9d6f0;
+    color: #2c3d88;
+    background-color: #f3f6ff;
+  }
+  .app-language-select:focus {
+    border-color: #7ea0e6;
+    box-shadow: 0 0 0 0.2rem rgba(47, 110, 191, 0.15);
+  }
+  .sidebar-toggle-btn {
+    border: 1px solid #d1d8f3;
+    background: #eef2ff;
+    color: #2c3d88;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .sidebar-toggle-btn:hover {
+    background: #dfe6ff;
+    color: #1f2a60;
+  }
+  .app-content {
+    flex: 1;
+    padding: 14px;
+  }
+  .app-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 12, 28, 0.5);
+    z-index: 1050;
+  }
+
+  @media (max-width: 991.98px) {
+    .app-shell {
+      display: block;
+    }
+    .app-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: min(320px, 86vw);
+      min-width: 0;
+      height: 100vh;
+      max-height: none;
+      transform: translateX(-105%);
+      transition: transform 0.28s ease;
+      z-index: 1060;
+      overflow-y: auto;
+    }
+    .app-shell.mobile-sidebar-open .app-sidebar {
+      transform: translateX(0);
+    }
+    .app-main {
+      width: 100%;
+      min-width: 100%;
+    }
+    .app-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1045;
+    }
+    .app-language-select {
+      width: 128px;
+      min-width: 128px;
+      font-size: 12px;
+    }
+    .app-content {
+      padding: 10px;
+    }
+  }
+
   .footer-custom {
     background: #f8f9fa;
     padding: 12px 0 8px 0;

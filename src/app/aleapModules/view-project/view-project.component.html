@@ -1,0 +1,78 @@
+<main class="mt-4">
+	<section>
+		<div class="card mb-3">
+			<div class="card-header bg-transparent">
+				<div class="d-flex justify-content-between align-items-center flex-wrap">
+					<h6 class="fw-600 mb-2 mb-sm-0">Projects Details</h6>
+					<button type="button" class="btn btn-lime-green" (click)="addProject()">Add Project</button>
+				</div>
+			</div>
+
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="view-table-project" class="table table-borderless table-striped nowrap">
+						<thead class="bg-lime-green text-white">
+							<tr>
+								<th>S.No</th>
+								<th class="text-center">Edit / Delete</th>
+								<th>Title of the Project</th>
+								<th>Funding Agency</th>
+								<th>Ministry/Concerned Department</th>
+								<th>SPOC from Funding Agency-Name, Designation, Contact No., Email</th>
+								<th>Project Cost in Lakhs</th>
+								<th>Project Tenure- Start Date End Date</th>
+								<th>Project Head and Team</th>
+								<th>Brief Description of the Project</th>
+								<th>Project Location</th>
+								<th>Total No. of Beneficiaries (Upload List)</th>
+								<th>Expected Impact/Outcome</th>
+								<th>Sanction Orders (Upload file)</th>
+							</tr>
+						</thead>
+						<tbody *ngIf="projectsData.length">
+							<tr *ngFor="let item of projectsData; let i = index">
+								<td>{{ i + 1 }}</td>
+								<td class="text-center">
+									<button type="button" class="btn btn-default text-lime-green btn-sm" (click)="editRow(item)">
+										<span class="bi bi-pencil"></span>
+									</button>
+									<button type="button" class="btn btn-default text-danger btn-sm" (click)="deleteRow(item)">
+										<span class="bi bi-trash"></span>
+									</button>
+								</td>
+								<td>{{ item.projectTitle }}</td>
+								<td>{{ item.fundingAgency }}</td>
+								<td>{{ item.ministryDepartment }}</td>
+								<td>
+									{{ item.spocName }}<br>
+									{{ item.spocDesignation }}<br>
+									{{ item.spocContactNo }}<br>
+									{{ item.spocEmail }}
+								</td>
+								<td>{{ item.projectCostLakhs }}</td>
+								<td>
+									{{ item.tenureStartDate }}<br>
+									{{ item.tenureEndDate }}
+								</td>
+								<td>{{ item.projectHeadTeam }}</td>
+								<td>{{ item.briefDescription }}</td>
+								<td>{{ item.projectLocation }}</td>
+								<td>
+									{{ item.beneficiariesCount }}
+									<div class="small text-muted">{{ item.beneficiariesListFileName || '-' }}</div>
+								</td>
+								<td>{{ item.expectedImpactOutcome }}</td>
+								<td>{{ item.sanctionOrderFileName || '-' }}</td>
+							</tr>
+						</tbody>
+						<tbody *ngIf="!projectsData.length">
+							<tr>
+								<td colspan="14" class="text-center text-muted">No project data found</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

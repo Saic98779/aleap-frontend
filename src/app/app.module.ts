@@ -78,6 +78,8 @@ import { NonTrainingTargetsComponent } from './PIA/non-training-targets/non-trai
 import { TargetsAndAchievementsComponent } from './PIA/targets-and-achievements/targets-and-achievements.component';
 import { MonthlyRangeComponent } from './PIA/monthly-range/monthly-range.component';
 import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view-programs-seperate.component';
+import { AddProjectComponent } from './aleapModules/add-project/add-project.component';
+import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
 
 @NgModule({
     imports: [
@@ -93,7 +95,7 @@ import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view
         BrowserAnimationsModule,
         NgMultiSelectDropDownModule.forRoot(), // Make sure this is here
         ToastrModule.forRoot({
-            positionClass: 'toast-bottom-right',
+            positionClass: 'toast-top-right',
             timeOut: 15000, // 15 seconds
             closeButton: true,
             progressBar: true,
@@ -161,7 +163,9 @@ import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view
         NonTrainingTargetsComponent,
         TargetsAndAchievementsComponent,
         MonthlyRangeComponent,
-        ViewProgramsSeperateComponent
+        ViewProgramsSeperateComponent,
+        AddProjectComponent,
+        ViewProjectComponent
 
     ],
     exports:[MaterialModule],

@@ -1,11 +1,11 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-:root {  
-  --bs-primary: #1976D2;          /* Change from #004796 to #1976D2 */
-  --bs-link-color: #1976D2;       /* Change from #42A5F5 to #1976D2 */
-  --bs-link-hover-color: #1565C0; /* Change from #0a58ca to #1565C0 */
-  --bs-primary-rgb: 25,118,210;   /* Change RGB values to match #1976D2 */
+:root {
+  --bs-primary: #2c3d88;
+  --bs-link-color: #2c3d88;
+  --bs-link-hover-color: #465bc4;
+  --bs-primary-rgb: 44,61,136;
 
   
   --bs-blue: #1068fe;
@@ -14,7 +14,7 @@
   --bs-red: #dc3545;
   --bs-orange: #fd7e14;
   --bs-yellow: #ffc107;
-  --bs-green: #198754;
+  --bs-green: #5b6cff;
   --bs-teal: #20c997;
   --bs-cyan: #0dcaf0;
   --bs-black: #000;
@@ -30,17 +30,17 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #004796;
+  --bs-primary: #2c3d88;
   --bs-secondary: #6c757d;
-  --bs-success: #198754;
+  --bs-success: #5b6cff;
   --bs-info: #0dcaf0;
   --bs-warning: #ffc107;
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 13,110,253;
+  --bs-primary-rgb: 44,61,136;
   --bs-secondary-rgb: 108,117,125;
-  --bs-success-rgb: 25,135,84;
+  --bs-success-rgb: 91,108,255;
   --bs-info-rgb: 13,202,240;
   --bs-warning-rgb: 255,193,7;
   --bs-danger-rgb: 255,0,45;
@@ -68,8 +68,8 @@
   --bs-border-radius-xl: 1rem;
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
-  --bs-link-color: #004796;
-  --bs-link-hover-color: #0a58ca;
+  --bs-link-color: #2c3d88;
+  --bs-link-hover-color: #465bc4;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
 }
@@ -15310,4 +15310,232 @@ outline: none; */
 /* Add relative positioning to the password input container */
 .login-password {
   position: relative;
+}
+
+/* Global UI polish for table + form screens */
+.app-content {
+  --ui-surface: #ffffff;
+  --ui-surface-soft: #f5f8ff;
+  --ui-border: #dbe4f5;
+  --ui-text: #22324d;
+  --ui-muted: #60728f;
+  --ui-accent: #2f6ebf;
+}
+
+.app-content .card,
+.app-content .mat-card {
+  border: 1px solid var(--ui-border);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(30, 52, 92, 0.08);
+  background: var(--ui-surface);
+}
+
+.app-content .card-header,
+.app-content .mat-card-header {
+  background: linear-gradient(180deg, #ffffff 0%, var(--ui-surface-soft) 100%);
+  border-bottom: 1px solid var(--ui-border);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  font-weight: 700;
+  color: var(--ui-text);
+}
+
+.app-content .card-header .row,
+.app-content .card-body .row {
+  row-gap: 0.75rem;
+}
+
+.app-content .card-header .row > [class*="col-"],
+.app-content .card-header .row > [class*="col-"] {
+  display: flex;
+  align-items: center;
+}
+
+.app-content .card-header .row > [class*="col-"] .form-control,
+.app-content .card-header .row > [class*="col-"] .form-select,
+.app-content .card-header .row > [class*="col-"] .mat-form-field,
+.app-content .card-body > .row > [class*="col-"] > .form-control,
+.app-content .card-body > .row > [class*="col-"] > .form-select,
+.app-content .card-body > .row > [class*="col-"] > .mat-form-field {
+  width: 100%;
+}
+
+.app-content .card-header .row > [class*="col-"].text-end,
+.app-content .card-header .row > [class*="col-"].text-end {
+  justify-content: flex-end;
+}
+
+.app-content .card-title,
+.app-content h5,
+.app-content h6 {
+  color: var(--ui-text);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.app-content .form-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ui-muted);
+  margin-bottom: 0.35rem;
+}
+
+.app-content .form-check-label,
+.app-content .mat-radio-label-content,
+.app-content .mat-checkbox-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ui-text);
+}
+
+.app-content .form-control,
+.app-content .form-select,
+.app-content .mat-form-field-appearance-outline .mat-form-field-outline {
+  border-color: var(--ui-border);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.app-content .mat-form-field {
+  width: 100%;
+}
+
+.app-content .mat-form-field-wrapper {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.app-content .mat-form-field-appearance-outline .mat-form-field-flex {
+  min-height: 40px;
+  align-items: center;
+}
+
+.app-content .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0;
+}
+
+.app-content .form-control,
+.app-content .form-select {
+  min-height: 40px;
+  font-size: 14px;
+  color: var(--ui-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-content .form-control:focus,
+.app-content .form-select:focus {
+  border-color: #8fb1ee;
+  box-shadow: 0 0 0 0.2rem rgba(47, 110, 191, 0.15);
+}
+
+.app-content .table {
+  border: 1px solid var(--ui-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.app-content .table-responsive,
+.app-content .dtable-container {
+  border-radius: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-content .table > :not(caption) > * > * {
+  padding: 0.7rem 0.65rem;
+  vertical-align: middle;
+}
+
+.app-content .table thead th {
+  background: linear-gradient(180deg, #2f7ed8 0%, #2f6ebf 100%);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.app-content .table tbody td {
+  border-color: #e8eef9;
+  color: #31425e;
+  font-size: 13px;
+}
+
+.app-content .table tbody tr:nth-child(even) td {
+  background: #f9fbff;
+}
+
+.app-content .table tbody tr:hover td {
+  background: #eef4ff;
+}
+
+.app-content .btn {
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.app-content .btn-primary,
+.app-content .btn-info {
+  box-shadow: 0 3px 10px rgba(47, 110, 191, 0.25);
+}
+
+@media (max-width: 767.98px) {
+  .app-content .card,
+  .app-content .mat-card {
+    border-radius: 10px;
+  }
+
+  .app-content .table thead th,
+  .app-content .table tbody td {
+    font-size: 12px;
+    padding: 0.55rem 0.5rem;
+  }
+
+  .app-content .form-control,
+  .app-content .form-select {
+    min-height: 38px;
+  }
+
+  .app-content .card-header .row > [class*="col-"],
+  .app-content .card-header .row > [class*="col-"] {
+    align-items: stretch;
+  }
+
+  .app-content .card-header .row > [class*="col-"].text-end,
+  .app-content .card-header .row > [class*="col-"].text-end {
+    justify-content: flex-start;
+  }
+
+  .app-content .btn {
+    width: 100%;
+  }
+}
+
+/* Keep Google translate banner from breaking app layout */
+body {
+  top: 0 !important;
+}
+
+iframe.goog-te-banner-frame,
+.goog-te-banner-frame,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+
+#goog-gt-tt,
+.goog-text-highlight {
+  display: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Toastr position override */
+.toast-container.toast-top-right,
+.toast-top-right {
+  top: 78px !important;
+  right: 16px !important;
+  left: auto !important;
+  bottom: auto !important;
+  z-index: 99999 !important;
 }

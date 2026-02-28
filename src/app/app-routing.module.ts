@@ -55,6 +55,8 @@ import { ProgressMonitoringComponent } from './PIA/progress-monitoring/progress-
 import { NonTrainingTargetsComponent } from './PIA/non-training-targets/non-training-targets.component';
 import { TargetsAndAchievementsComponent } from './PIA/targets-and-achievements/targets-and-achievements.component';
 import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view-programs-seperate.component';
+import { AddProjectComponent } from './aleapModules/add-project/add-project.component';
+import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
 
 const routes: Routes = [
     {
@@ -362,6 +364,25 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
+    {
+        path: 'add-project-data',
+        component: AddProjectComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-project-data-edit/:id',
+        component: AddProjectComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-project-data',
+        component: ViewProjectComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    
     {
         path: 'login',
         component: LoginComponent

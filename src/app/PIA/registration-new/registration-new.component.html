@@ -1,718 +1,730 @@
  <main class="mt-4">
-        <section>
-            <div class="container-fluid">
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">SHG / Startup Registration</h6>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                <select id="languageSelect" class="translate-select form-select form-select-sm">
+   <section>
+     <div class="container-fluid">
+       <div class="card mb-3">
+         <div class="card-header bg-transparent">
+           <div class="row align-items-center">
+             <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10">
+               <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Survey Registration</h6>
+             </div>
+             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+               <!-- <select id="languageSelect" class="translate-select form-select form-select-sm">
                                     <option value="">Select Language</option>
                                     <option value="en">English</option>
                                     <option value="te">Telugu</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" id="google_translate_element">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Name</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Father / Husband name</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Date Of Birth</label>
-                                            <input type="date" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Age</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Qualification</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Email ID</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Phone No.</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Alternate Phone No.</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Gender</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="male" value="male">
-                                            <label class="form-check-label fs-md" for="male">Male</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                                            <label class="form-check-label fs-md" for="female">Female</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="other" value="other">
-                                            <label class="form-check-label fs-md" for="other">Transgender</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Caste</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="caste" id="sc" value="male">
-                                            <label class="form-check-label fs-md" for="sc">SC</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="caste" id="st" value="female">
-                                            <label class="form-check-label fs-md" for="st">ST</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="caste" id="bc" value="">
-                                            <label class="form-check-label fs-md" for="bc">BC</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="caste" id="minority" value="">
-                                            <label class="form-check-label fs-md" for="minority">Minority</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="caste" id="general" value="">
-                                            <label class="form-check-label fs-md" for="general">General</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Disability</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="disabilityRadio" id="disabilityYes" value="male">
-                                            <label class="form-check-label fs-md" for="disabilityYes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="disabilityRadio" id="disabilityNo" value="female">
-                                            <label class="form-check-label fs-md" for="disabilityNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                               <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Door No.</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Street Name</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>     
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                               <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Village</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Panchayat Name</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>     
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                               <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Mandal</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">District</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>     
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                               <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">State</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Pincode</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>     
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                               <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Aadhar No.</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="mb-3">
-                                            <label class="fs-md fw-600 mb-1">Pan Card</label>
-                                            <input type="text" class="form-control form-control-sm" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>     
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Self-Help Group / Society (SHG) Name</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Years spent in SHG</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">SHG Leader Name</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Your Position in SHG</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="position" id="member" value="male">
-                                            <label class="form-check-label fs-md" for="member">Member</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="position" id="firstLeader" value="female">
-                                            <label class="form-check-label fs-md" for="firstLeader">First Leader</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="position" id="secondLeader" value="female">
-                                            <label class="form-check-label fs-md" for="secondLeader">Second Leader</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Name of the Mandal Federation</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Name of V.O</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                        </div>  
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">What is your source of income?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="income" id="self" value="">
-                                            <label class="form-check-label fs-md" for="self">Self-employment</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="income" id="daily" value="">
-                                            <label class="form-check-label fs-md" for="daily">Daily wage / Business</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="income" id="source" value="">
-                                            <label class="form-check-label fs-md" for="source">No source of income / Unemployed</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="income" id="otherSource" value="">
-                                            <label class="form-check-label fs-md" for="otherSource">Other </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">What are the main skills you currently have?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skill" id="Handicrafts" value="">
-                                            <label class="form-check-label fs-md" for="Handicrafts">Handicrafts </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skill" id="Tailoring" value="">
-                                            <label class="form-check-label fs-md" for="Tailoring">Tailoring</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skill" id="food" value="">
-                                            <label class="form-check-label fs-md" for="food">Food Processing</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skill" id="electrical" value="">
-                                            <label class="form-check-label fs-md" for="electrical">Electrical & Electronics</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skill" id="otherSkills" value="">
-                                            <label class="form-check-label fs-md" for="otherSkills">Other</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Are you willing to start your own business or expand your existing business?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="existing" id="existingYes" value="">
-                                            <label class="form-check-label fs-md" for="existingYes">Yes </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="existing" id="existingNo" value="">
-                                            <label class="form-check-label fs-md" for="existingNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">What type of business are you interested in starting?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="training" id="Manufacturing" value="">
-                                            <label class="form-check-label fs-md" for="Manufacturing">Manufacturing / Production </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="training" id="Retail" value="">
-                                            <label class="form-check-label fs-md" for="Retail">Retail / Service Sector  </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="training" id="existingOther" value="">
-                                            <label class="form-check-label fs-md" for="existingOther">Other </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">If you are selected, are you available for 15 days of practical and skill development training from 9:30 AM to 5:30 PM?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skilltiming" id="trainingYes" value="">
-                                            <label class="form-check-label fs-md" for="trainingYes">Yes </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="skilltiming" id="trainingNo" value="">
-                                            <label class="form-check-label fs-md" for="trainingNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Are you willing to work closely with MSME counselors for your business development?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="msme" id="msmeYes" value="">
-                                            <label class="form-check-label fs-md" for="msmeYes">Yes </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="msme" id="msmeNo" value="">
-                                            <label class="form-check-label fs-md" for="msmeNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
-                        
-                        <div class="card mt-3 mb-4">
-                            <div class="card-header bg-transparent rounded-top py-3">
-                                <h6 class="fw-600 mb-0">This is a survey regarding the utilization of government schemes, digital platforms, certifications, financial linkages, and others.</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Govt Schemes </th>
-                                                <th>Digital Platforms</th>
-                                                <th>Certifications</th>
-                                                <th>Financial Linkages</th>
-                                                <th>Others</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="PMEGP">
-                                                        <label class="form-check-label fs-md" for="PMEGP">
-                                                            PMEGP
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="ONDC">
-                                                        <label class="form-check-label fs-md" for="ONDC">
-                                                            ONDC
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="bronze">
-                                                        <label class="form-check-label fs-md" for="bronze">
-                                                             ZED-Bronze 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Banks">
-                                                        <label class="form-check-label fs-md" for="Banks">
-                                                            Banks
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Udyam">
-                                                        <label class="form-check-label fs-md" for="Udyam">
-                                                            Udyam Registration 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="PMMY">
-                                                        <label class="form-check-label fs-md" for="PMMY">
-                                                            PMMY
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="GeM">
-                                                        <label class="form-check-label fs-md" for="GeM">
-                                                            GeM
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="ZED-Silver">
-                                                        <label class="form-check-label fs-md" for="ZED-Silver">
-                                                             ZED-Silver 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="NBFCs">
-                                                        <label class="form-check-label fs-md" for="NBFCs">
-                                                            NBFCs
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Others">
-                                                        <label class="form-check-label fs-md" for="Others">
-                                                            Others 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="NSIC">
-                                                        <label class="form-check-label fs-md" for="NSIC">
-                                                            NSIC
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="OEM">
-                                                        <label class="form-check-label fs-md" for="OEM">
-                                                            OEM
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="ZED-Gold">
-                                                        <label class="form-check-label fs-md" for="ZED-Gold">
-                                                             ZED-Gold 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Micro">
-                                                        <label class="form-check-label fs-md" for="Micro">
-                                                            Micro Finance 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="material">
-                                                        <label class="form-check-label fs-md" for="material">
-                                                            Raw material
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="TReDS">
-                                                        <label class="form-check-label fs-md" for="TReDS">
-                                                            TReDS
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Basic">
-                                                        <label class="form-check-label fs-md" for="Basic">
-                                                             LEAN - Basic  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Fis">
-                                                        <label class="form-check-label fs-md" for="Fis">
-                                                            Other Fis  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Schemes">
-                                                        <label class="form-check-label fs-md" for="Schemes">
-                                                            IC Schemes 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Intermediate">
-                                                        <label class="form-check-label fs-md" for="Intermediate">
-                                                             LEAN - Intermediate  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Greening">
-                                                        <label class="form-check-label fs-md" for="Greening">
-                                                            Greening MSMEs 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Advanced">
-                                                        <label class="form-check-label fs-md" for="Advanced">
-                                                             LEAN - Advanced  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Viswakarma">
-                                                        <label class="form-check-label fs-md" for="Viswakarma">
-                                                            PM Viswakarma
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Trademark">
-                                                        <label class="form-check-label fs-md" for="Trademark ">
-                                                             Trademark  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Hub">
-                                                        <label class="form-check-label fs-md" for="Hub">
-                                                            National SC/ST Hub
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Barcode">
-                                                        <label class="form-check-label fs-md" for="Barcode">
-                                                             Barcode  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="ASPIRE">
-                                                        <label class="form-check-label fs-md" for="ASPIRE">
-                                                            ASPIRE
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="GI">
-                                                        <label class="form-check-label fs-md" for="GI">
-                                                             GI  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Consortia">
-                                                        <label class="form-check-label fs-md" for="Consortia">
-                                                             Consortia & Tender Marketing 
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Design">
-                                                        <label class="form-check-label fs-md" for="Design">
-                                                             Design  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="SFURTI">
-                                                        <label class="form-check-label fs-md" for="SFURTI">
-                                                             SFURTI
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="Patents">
-                                                        <label class="form-check-label fs-md" for="Patents">
-                                                             Patents  
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                </select> -->
+               <!-- <select id="languageSelect" class="translate-select form-select form-select-sm"
+                 [value]="selectedLanguage" (change)="onLanguageChange($any($event.target).value)">
+                 <option value="en">English</option>
+                 <option value="te">తెలుగు (Telugu)</option>
+               </select> -->
+             </div>
+           </div>
+         </div>
+         <div class="card-body" id="google_translate_element" >
+           <div class="row">
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Name</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Father / Husband name</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Date Of Birth</label>
+                     <input type="date" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Age</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Qualification</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Email ID</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Phone No.</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Alternate Phone No.</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Gender</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+                     <label class="form-check-label fs-md" for="male">Male</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                     <label class="form-check-label fs-md" for="female">Female</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="gender" id="other" value="other">
+                     <label class="form-check-label fs-md" for="other">Transgender</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Caste</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="caste" id="sc" value="male">
+                     <label class="form-check-label fs-md" for="sc">SC</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="caste" id="st" value="female">
+                     <label class="form-check-label fs-md" for="st">ST</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="caste" id="bc" value="">
+                     <label class="form-check-label fs-md" for="bc">BC</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="caste" id="minority" value="">
+                     <label class="form-check-label fs-md" for="minority">Minority</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="caste" id="general" value="">
+                     <label class="form-check-label fs-md" for="general">General</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Disability</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="disabilityRadio" id="disabilityYes"
+                       value="male">
+                     <label class="form-check-label fs-md" for="disabilityYes">Yes</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="disabilityRadio" id="disabilityNo"
+                       value="female">
+                     <label class="form-check-label fs-md" for="disabilityNo">No</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Door No.</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Street Name</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Village</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Panchayat Name</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Mandal</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">District</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">State</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Pincode</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="row">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Aadhar No.</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                   <div class="mb-3">
+                     <label class="fs-md fw-600 mb-1">Pan Card</label>
+                     <input type="text" class="form-control form-control-sm" placeholder="">
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Self-Help Group / Society (SHG) Name</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Years spent in SHG</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">SHG Leader Name</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Your Position in SHG</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="position" id="member" value="male">
+                     <label class="form-check-label fs-md" for="member">Member</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="position" id="firstLeader" value="female">
+                     <label class="form-check-label fs-md" for="firstLeader">First Leader</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="position" id="secondLeader" value="female">
+                     <label class="form-check-label fs-md" for="secondLeader">Second Leader</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Name of the Mandal Federation</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Name of V.O</label>
+                 <input type="text" class="form-control form-control-sm" placeholder="">
+               </div>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-12">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">What is your source of income?</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="income" id="self" value="">
+                     <label class="form-check-label fs-md" for="self">Self-employment</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="income" id="daily" value="">
+                     <label class="form-check-label fs-md" for="daily">Daily wage / Business</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="income" id="source" value="">
+                     <label class="form-check-label fs-md" for="source">No source of income / Unemployed</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="income" id="otherSource" value="">
+                     <label class="form-check-label fs-md" for="otherSource">Other </label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">What are the main skills you currently have?</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skill" id="Handicrafts" value="">
+                     <label class="form-check-label fs-md" for="Handicrafts">Handicrafts </label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skill" id="Tailoring" value="">
+                     <label class="form-check-label fs-md" for="Tailoring">Tailoring</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skill" id="food" value="">
+                     <label class="form-check-label fs-md" for="food">Food Processing</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skill" id="electrical" value="">
+                     <label class="form-check-label fs-md" for="electrical">Electrical & Electronics</label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skill" id="otherSkills" value="">
+                     <label class="form-check-label fs-md" for="otherSkills">Other</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Are you willing to start your own business or expand your existing
+                   business?</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="existing" id="existingYes" value="">
+                     <label class="form-check-label fs-md" for="existingYes">Yes </label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="existing" id="existingNo" value="">
+                     <label class="form-check-label fs-md" for="existingNo">No</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">What type of business are you interested in starting?</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="training" id="Manufacturing" value="">
+                     <label class="form-check-label fs-md" for="Manufacturing">Manufacturing / Production </label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="training" id="Retail" value="">
+                     <label class="form-check-label fs-md" for="Retail">Retail / Service Sector </label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="training" id="existingOther" value="">
+                     <label class="form-check-label fs-md" for="existingOther">Other </label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">If you are selected, are you available for 15 days of practical and
+                   skill development training from 9:30 AM to 5:30 PM?</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skilltiming" id="trainingYes" value="">
+                     <label class="form-check-label fs-md" for="trainingYes">Yes </label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="skilltiming" id="trainingNo" value="">
+                     <label class="form-check-label fs-md" for="trainingNo">No</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12">
+               <div class="mb-3">
+                 <label class="fs-md fw-600 mb-1">Are you willing to work closely with MSME counselors for your business
+                   development?</label>
+                 <div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="msme" id="msmeYes" value="">
+                     <label class="form-check-label fs-md" for="msmeYes">Yes </label>
+                   </div>
+                   <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="msme" id="msmeNo" value="">
+                     <label class="form-check-label fs-md" for="msmeNo">No</label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
 
-                        <p>I understand that this information will be used to assess my eligibility for the RAMP project and I agree to follow the project guidelines if selected.</p>
-                        
-                        <div class="text-center">
-                            <button class="btn btn-lime-green">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+           <div class="card mt-3 mb-4">
+             <div class="card-header bg-transparent rounded-top py-3">
+               <h6 class="fw-600 mb-0">This is a survey regarding the utilization of government schemes, digital
+                 platforms, certifications, financial linkages, and others.</h6>
+             </div>
+             <div class="card-body">
+               <div class="table-responsive">
+                 <table class="table mb-0">
+                   <thead class="bg-lime-green text-white">
+                     <tr>
+                       <th>Govt Schemes </th>
+                       <th>Digital Platforms</th>
+                       <th>Certifications</th>
+                       <th>Financial Linkages</th>
+                       <th>Others</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="PMEGP">
+                           <label class="form-check-label fs-md" for="PMEGP">
+                             PMEGP
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="ONDC">
+                           <label class="form-check-label fs-md" for="ONDC">
+                             ONDC
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="bronze">
+                           <label class="form-check-label fs-md" for="bronze">
+                             ZED-Bronze
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Banks">
+                           <label class="form-check-label fs-md" for="Banks">
+                             Banks
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Udyam">
+                           <label class="form-check-label fs-md" for="Udyam">
+                             Udyam Registration
+                           </label>
+                         </div>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="PMMY">
+                           <label class="form-check-label fs-md" for="PMMY">
+                             PMMY
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="GeM">
+                           <label class="form-check-label fs-md" for="GeM">
+                             GeM
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="ZED-Silver">
+                           <label class="form-check-label fs-md" for="ZED-Silver">
+                             ZED-Silver
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="NBFCs">
+                           <label class="form-check-label fs-md" for="NBFCs">
+                             NBFCs
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Others">
+                           <label class="form-check-label fs-md" for="Others">
+                             Others
+                           </label>
+                         </div>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="NSIC">
+                           <label class="form-check-label fs-md" for="NSIC">
+                             NSIC
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="OEM">
+                           <label class="form-check-label fs-md" for="OEM">
+                             OEM
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="ZED-Gold">
+                           <label class="form-check-label fs-md" for="ZED-Gold">
+                             ZED-Gold
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Micro">
+                           <label class="form-check-label fs-md" for="Micro">
+                             Micro Finance
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="material">
+                           <label class="form-check-label fs-md" for="material">
+                             Raw material
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="TReDS">
+                           <label class="form-check-label fs-md" for="TReDS">
+                             TReDS
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Basic">
+                           <label class="form-check-label fs-md" for="Basic">
+                             LEAN - Basic
+                           </label>
+                         </div>
+                       </td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Fis">
+                           <label class="form-check-label fs-md" for="Fis">
+                             Other Fis
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Schemes">
+                           <label class="form-check-label fs-md" for="Schemes">
+                             IC Schemes
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Intermediate">
+                           <label class="form-check-label fs-md" for="Intermediate">
+                             LEAN - Intermediate
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Greening">
+                           <label class="form-check-label fs-md" for="Greening">
+                             Greening MSMEs
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Advanced">
+                           <label class="form-check-label fs-md" for="Advanced">
+                             LEAN - Advanced
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Viswakarma">
+                           <label class="form-check-label fs-md" for="Viswakarma">
+                             PM Viswakarma
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Trademark">
+                           <label class="form-check-label fs-md" for="Trademark ">
+                             Trademark
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Hub">
+                           <label class="form-check-label fs-md" for="Hub">
+                             National SC/ST Hub
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Barcode">
+                           <label class="form-check-label fs-md" for="Barcode">
+                             Barcode
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="ASPIRE">
+                           <label class="form-check-label fs-md" for="ASPIRE">
+                             ASPIRE
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="GI">
+                           <label class="form-check-label fs-md" for="GI">
+                             GI
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Consortia">
+                           <label class="form-check-label fs-md" for="Consortia">
+                             Consortia & Tender Marketing
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Design">
+                           <label class="form-check-label fs-md" for="Design">
+                             Design
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="SFURTI">
+                           <label class="form-check-label fs-md" for="SFURTI">
+                             SFURTI
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td>
+                         <div class="form-check">
+                           <input class="form-check-input" type="checkbox" value="" id="Patents">
+                           <label class="form-check-label fs-md" for="Patents">
+                             Patents
+                           </label>
+                         </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
+             </div>
+           </div>
+
+           <p>I understand that this information will be used to assess my eligibility for the RAMP project and I agree
+             to follow the project guidelines if selected.</p>
+
+           <div class="text-center">
+             <button class="btn btn-lime-green">Submit</button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+ </main>

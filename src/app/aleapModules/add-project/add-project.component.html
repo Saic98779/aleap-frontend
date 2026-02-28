@@ -1,0 +1,209 @@
+<main class="mt-4">
+	<section>
+		<div class="container-fluid">
+			<form [formGroup]="addProjectForm" (ngSubmit)="submitProject()">
+				<div class="card mb-4">
+					<div class="card-header bg-transparent">
+						<div class="d-flex justify-content-between align-items-center flex-wrap">
+							<h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Add' }} Project</h6>
+							<button type="button" class="btn btn-default" (click)="goToProjects()">Back</button>
+						</div>
+					</div>
+
+					<div class="card-body">
+						<div class="row">
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="projectTitle" placeholder="Title of the Project">
+									<label>Title of the Project <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['projectTitle'].touched && f['projectTitle'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['projectTitle'].errors?.['required']">Title of the Project is required</span>
+									<span *ngIf="f['projectTitle'].errors?.['pattern']">Title of the Project cannot start with spaces</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="fundingAgency" placeholder="Funding Agency">
+									<label>Funding Agency <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['fundingAgency'].touched && f['fundingAgency'].invalid" class="error" style="color: red;">
+									Funding Agency is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="ministryDepartment" placeholder="Ministry/Concerned Department">
+									<label>Ministry/Concerned Department <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['ministryDepartment'].touched && f['ministryDepartment'].invalid" class="error" style="color: red;">
+									Ministry/Concerned Department is required
+								</div>
+							</div>
+
+							<div class="col-12"><h6 class="text-green mt-2 mb-3">SPOC from Funding Agency</h6></div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="spocName" placeholder="SPOC Name">
+									<label>SPOC Name <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['spocName'].touched && f['spocName'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['spocName'].errors?.['required']">SPOC Name is required</span>
+									<span *ngIf="f['spocName'].errors?.['pattern']">SPOC Name should be characters</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="spocDesignation" placeholder="Designation">
+									<label>Designation <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['spocDesignation'].touched && f['spocDesignation'].invalid" class="error" style="color: red;">
+									Designation is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="spocContactNo" placeholder="Contact No.">
+									<label>Contact No. <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['spocContactNo'].touched && f['spocContactNo'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['spocContactNo'].errors?.['required']">Contact No. is required</span>
+									<span *ngIf="f['spocContactNo'].errors?.['pattern']">Enter valid 10 digit mobile number</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="email" class="form-control" formControlName="spocEmail" placeholder="Email">
+									<label>Email <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['spocEmail'].touched && f['spocEmail'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['spocEmail'].errors?.['required']">Email is required</span>
+									<span *ngIf="f['spocEmail'].errors?.['email']">Enter valid email</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="number" class="form-control" formControlName="projectCostLakhs" placeholder="Project Cost in Lakhs">
+									<label>Project Cost in Lakhs <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['projectCostLakhs'].touched && f['projectCostLakhs'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['projectCostLakhs'].errors?.['required']">Project Cost is required</span>
+									<span *ngIf="f['projectCostLakhs'].errors?.['pattern']">Enter valid amount</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="date" class="form-control" formControlName="tenureStartDate">
+									<label>Project Tenure Start Date <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['tenureStartDate'].touched && f['tenureStartDate'].invalid" class="error" style="color: red;">
+									Start Date is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="date" class="form-control" formControlName="tenureEndDate">
+									<label>Project Tenure End Date <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['tenureEndDate'].touched && f['tenureEndDate'].errors?.['required']" class="error" style="color: red;">
+									End Date is required
+								</div>
+								<div *ngIf="f['tenureEndDate'].touched && addProjectForm.errors?.['invalidTenureDate']" class="error" style="color: red;">
+									End Date must be greater than or equal to Start Date
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="projectHeadTeam" placeholder="Project Head and Team">
+									<label>Project Head and Team <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['projectHeadTeam'].touched && f['projectHeadTeam'].invalid" class="error" style="color: red;">
+									Project Head and Team is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="projectLocation" placeholder="Project Location">
+									<label>Project Location <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['projectLocation'].touched && f['projectLocation'].invalid" class="error" style="color: red;">
+									Project Location is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="number" class="form-control" formControlName="beneficiariesCount" placeholder="Total No. of Beneficiaries">
+									<label>Total No. of Beneficiaries <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['beneficiariesCount'].touched && f['beneficiariesCount'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['beneficiariesCount'].errors?.['required']">Beneficiaries count is required</span>
+									<span *ngIf="f['beneficiariesCount'].errors?.['pattern']">Enter valid count greater than 0</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-6 col-lg-6">
+								<div class="mb-3">
+									<label class="form-label fs-md fw-600">Beneficiaries List (Upload List) <span class="c-red">*</span></label>
+									<input type="file" class="form-control" (change)="onFileChange('beneficiariesListFile', $event)">
+								</div>
+								<div *ngIf="f['beneficiariesListFile'].touched && f['beneficiariesListFile'].invalid" class="error" style="color: red;">
+									Beneficiaries list file is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-6 col-lg-6">
+								<div class="mb-3">
+									<label class="form-label fs-md fw-600">Sanction Orders (Upload file) <span class="c-red">*</span></label>
+									<input type="file" class="form-control" (change)="onFileChange('sanctionOrderFile', $event)">
+								</div>
+								<div *ngIf="f['sanctionOrderFile'].touched && f['sanctionOrderFile'].invalid" class="error" style="color: red;">
+									Sanction order file is required
+								</div>
+							</div>
+
+							<div class="col-12">
+								<div class="form-floating mb-3">
+									<textarea class="form-control" formControlName="briefDescription" placeholder="Brief Description of the Project" style="height: 100px"></textarea>
+									<label>Brief Description of the Project <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['briefDescription'].touched && f['briefDescription'].invalid" class="error" style="color: red;">
+									Brief Description is required
+								</div>
+							</div>
+
+							<div class="col-12">
+								<div class="form-floating mb-3">
+									<textarea class="form-control" formControlName="expectedImpactOutcome" placeholder="Expected Impact/Outcome" style="height: 90px"></textarea>
+									<label>Expected Impact/Outcome <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['expectedImpactOutcome'].touched && f['expectedImpactOutcome'].invalid" class="error" style="color: red;">
+									Expected Impact/Outcome is required
+								</div>
+							</div>
+						</div>
+
+						<div class="text-end mt-2">
+							<button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
+							<button type="submit" class="btn btn-lime-green" [disabled]="loading || addProjectForm.invalid">
+								<span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+								{{ isEditMode ? 'Update' : 'Submit' }}
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+</main>
