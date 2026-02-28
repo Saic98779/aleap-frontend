@@ -374,7 +374,7 @@ export class AddParticipantDataComponent implements OnInit {
       payload['programIds']=[payload.programIds,...this.previousParticipationDetails?.programIds]
     }
     else{
-      payload['programIds'] = [this.ParticipantDataForm.value.programIds]
+      payload['programIds'] = [Number(this.ParticipantDataForm.value.programIds)]
     }
     // payload['programIds']=[this.ParticipantDataForm.value.programIds]
     payload['participantId']=this.participantId
@@ -415,7 +415,7 @@ export class AddParticipantDataComponent implements OnInit {
       payload['participantId']=this.previousParticipationDetails?.participantId
     }
     else{
-      payload['programIds'] = [this.ParticipantDataForm.value.programIds]
+      payload['programIds'] = [Number(this.ParticipantDataForm.value.programIds)]
     }
     this._commonService
       .add(Url, payload).subscribe({
