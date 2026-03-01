@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl:'http://98.87.249.76:8081/workflow',
+    apiUrl:'http://api.aleap.metaversedu.in/workflow',
     // apiUrl: 'https://metaverseedu.in/workflow1'
 };
