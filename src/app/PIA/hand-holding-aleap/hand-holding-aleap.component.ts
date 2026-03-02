@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { APIS } from '@app/constants/constants';
 import { ToastrService } from 'ngx-toastr';
 import { CommonServiceService } from '@app/_services/common-service.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { ModalService } from '@app/_services/modal.service';
 
 declare var bootstrap: any;
 
@@ -47,6 +48,15 @@ export class HandHoldingAleapComponent implements OnInit {
   @Input() subActivityId: any;
   @Input() handHoldingType: any;
   @Output() handHoldingDataChange= new EventEmitter<number>();
+  @ViewChild('addHandHoldingModal') addHandHoldingModal: any;
+  @ViewChild('addHandHoldingByFormaliasationModal') addHandHoldingByFormaliasationModal: any;
+  @ViewChild('deleteModalTemplate') deleteModalTemplate: any;
+  @ViewChild('addParticipantModalTemplate') addParticipantModalTemplate: any;
+  @ViewChild('addGovtSchemesModalTemplate') addGovtSchemesModalTemplate: any;
+  @ViewChild('addAccessTechnologyModalTemplate') addAccessTechnologyModalTemplate: any;
+  @ViewChild('addPackagingAccessModalTemplate') addPackagingAccessModalTemplate: any;
+  @ViewChild('addFinanceAccessModalTemplate') addFinanceAccessModalTemplate: any;
+  @ViewChild('feasibilityInputsModalTemplate') feasibilityInputsModalTemplate: any;
   handHoldingForm!: FormGroup;
   handHoldingList: any = [];
   organizationList: any[] = [];
@@ -76,7 +86,8 @@ isFeasibilityFormVisible: boolean = false;
     private fb: FormBuilder,
     private http: HttpClient,
      private toastrService: ToastrService,
-        private _commonService: CommonServiceService
+        private _commonService: CommonServiceService,
+    private modalService: ModalService
   ) {
     this.formDetailsforParticipant();
      this.handHoldingForm = this.fb.group({
@@ -658,23 +669,55 @@ selectedPackagingAccessType: string = '';
   }
   OrganizationData: any[] = []
   filteredOrganizationData: any = []
-    loadOrganizations() {
-      this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
-        next: (res: any) => {
-          this.OrganizationData = res?.data
-          this.filteredOrganizationData = this.OrganizationData.slice()
-          this.assignFluidData1Org()
-          // this.submitedData=res?.data?.data
-          // this.advanceSearch(this.getSelDataRange);
-          // modal.close()
-  
-        },
-        error: (err) => {
-          this.toastrService.error(err.message, "Organization Data Error!");
-          new Error(err);
-        },
-      });
+  searchValue: boolean = true;
+  loadOrganizations(Orgvalue?:any) {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?page=0&size=500').subscribe({
+      next: (res: any) => {
+        this.OrganizationData = res?.data;
+        this.filteredOrganizationData = this.OrganizationData.slice();
+      },
+      error: (err) => {
+        this.toastrService.error(err.message, "Organization Data Error!");
+      }
+    });
+  }
+
+ onSearchChange(event: any) {
+    const filterValue = event?.toLowerCase();
+    if (filterValue.length >= 2) {
+      this.searchValue = false;
+      this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?search=' + event + '&page=0&size=500')
+        .subscribe({
+          next: (res: any) => {
+            this.OrganizationData = res?.data;
+            this.filteredOrganizationData = this.OrganizationData.slice();
+          },
+          error: (error: any) => {
+            this.filteredOrganizationData = [];
+          }
+        });
+    } else {
+      this.searchValue = true;
+      this.filteredOrganizationData = this.OrganizationData.slice();
     }
+  }
+    // loadOrganizations() {
+    //   this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
+    //     next: (res: any) => {
+    //       this.OrganizationData = res?.data
+    //       this.filteredOrganizationData = this.OrganizationData.slice()
+    //       this.assignFluidData1Org()
+    //       // this.submitedData=res?.data?.data
+    //       // this.advanceSearch(this.getSelDataRange);
+    //       // modal.close()
+  
+    //     },
+    //     error: (err) => {
+    //       this.toastrService.error(err.message, "Organization Data Error!");
+    //       new Error(err);
+    //     },
+    //   });
+    // }
     // Handle organization selection
 // Handle resource selection
 onOrganizationSelect(item: any) {
@@ -682,7 +725,7 @@ onOrganizationSelect(item: any) {
   this.handHoldingForm.patchValue({
     participantIds: []
   });
-  this.loadParticipants(item.organizationId);
+  this.loadParticipants(item);
 }
 
     filteredParticipantData: any = []
@@ -841,8 +884,10 @@ convertToISOFormat(date: string): string {
   this.isSubmitted = false;
   
   this.uploadedFilesHandHolding=null;
+  this.filteredOrganizationData = this.OrganizationData.slice();
 
   if (this.isEditMode && item) {
+      this.onSearchChange(item.organizationName?.substring(0, 2) || '');
       this.loadParticipants(item?.organizationId); // Load participants based on the organization's ID
     if(this.handHoldingType=='counselling'){
       this.editingId = item.counselletingId || null;
@@ -901,7 +946,7 @@ convertToISOFormat(date: string): string {
         applicationDate: item?.applicationDate ? this.convertToISOFormat(item.applicationDate) : null,
         sanctionDate: item?.sanctionDate ? this.convertToISOFormat(item.sanctionDate) : null,
         govtSchemeDetails: item?.details || '',
-        organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+        // organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
       });
     }
      // Handle Access to Technology & Infrastructure types
@@ -909,8 +954,8 @@ convertToISOFormat(date: string): string {
                this.handHoldingType === 'machineryidentification' || 
                this.handHoldingType === 'cfcsupport') {
         this.handHoldingForm.patchValue({
-          organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? 
-            [this.OrganizationData.find(org => org.organizationId === item.organizationId)] : [],
+          // organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? 
+          //   [this.OrganizationData.find(org => org.organizationId === item.organizationId)] : [],
           quotationDate: item?.quotationDate ? this.convertToISOFormat(item.quotationDate) : null,
           groundingDate: item?.groundingDate ? this.convertToISOFormat(item.groundingDate) : null,
         });
@@ -929,8 +974,8 @@ convertToISOFormat(date: string): string {
           sanctionDetails: item?.bankSanctionDetails || item?.govtSanctionDetails || '',
           sanctionedAmount: item?.bankSanctionedAmount || item?.govtSanctionedAmount || null,
           details: item?.bankDetails || item?.govtDetails || '',
-          organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? 
-            [this.OrganizationData.find(org => org.organizationId === item.organizationId)] : []
+          // organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? 
+          //   [this.OrganizationData.find(org => org.organizationId === item.organizationId)] : []
         });
         
         if (this.selectedFinanceAccessType === 'creditcounselling') {
@@ -951,8 +996,8 @@ convertToISOFormat(date: string): string {
           ...item,
           studioAccessDate: item?.studioAccessDate ? this.convertToISOFormat(item.studioAccessDate) : null,
           eventDate: item?.eventDate ? this.convertToISOFormat(item.eventDate) : null,
-          organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? 
-            [this.OrganizationData.find(org => org.organizationId === item.organizationId)] : []
+          // organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? 
+          //   [this.OrganizationData.find(org => org.organizationId === item.organizationId)] : []
         });
         
         this.uploadedImage1 = item?.aleapDesignStudioImage1;
@@ -969,7 +1014,7 @@ convertToISOFormat(date: string): string {
       this.handHoldingForm.patchValue({
         counsellingDate: item?.counsellingDate ? this.convertToISOFormat(item.counsellingDate) : null,
         participantIds: selectedResources,
-        organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+        // organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
       });
       console.log('Patched form values:', selectedResources,this.participantList);
     }
@@ -981,7 +1026,7 @@ convertToISOFormat(date: string): string {
           }).filter((r: any) => r !== undefined) || [];
       this.handHoldingForm.patchValue({
          participantIds: selectedResources,
-        organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
+        // organizationId: this.OrganizationData.find(org => org.organizationId == item.organizationId) ? [this.OrganizationData.find(org => org.organizationId ===item.organizationId)] : []
       });
     }
     },100);
@@ -1011,36 +1056,42 @@ convertToISOFormat(date: string): string {
        }
      }, 100);
   if(this.handHoldingType=='formalisationcompliance'){
-    const modalElement = document.getElementById('addHandHoldingByFormaliasation');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    this.modalService.openModal(this.addHandHoldingByFormaliasationModal, { 
+      modalDialogClass: 'modal-xl',
+      backdrop: 'static'
+    });
   }
   else if(this.handHoldingType=='govtschemeapplication'){
-    const modalElement = document.getElementById('addGovtSchemesModal');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    this.modalService.openModal(this.addGovtSchemesModalTemplate, { 
+      modalDialogClass: 'modal-xl',
+      backdrop: 'static'
+    });
   }
   else if (this.handHoldingType === 'AccessToTechnologyAndInfrastructure' || 
              this.handHoldingType === 'machineryidentification' || 
              this.handHoldingType === 'cfcsupport') {
-      const modalElement = document.getElementById('addAccessTechnologyModal');
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-    else if (this.handHoldingType === 'AccessToFinance') {
-      const modalElement = document.getElementById('addFinanceAccessModal');
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-    else  if (this.handHoldingType == 'aleapdesignstudio') {
-      const modalElement = document.getElementById('addPackagingAccessModal');
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
+    this.modalService.openModal(this.addAccessTechnologyModalTemplate, { 
+      modalDialogClass: 'modal-xl',
+      backdrop: 'static'
+    });
+  }
+  else if (this.handHoldingType === 'AccessToFinance') {
+    this.modalService.openModal(this.addFinanceAccessModalTemplate, { 
+      modalDialogClass: 'modal-xl',
+      backdrop: 'static'
+    });
+  }
+  else  if (this.handHoldingType == 'aleapdesignstudio') {
+    this.modalService.openModal(this.addPackagingAccessModalTemplate, { 
+      modalDialogClass: 'modal-xl',
+      backdrop: 'static'
+    });
+  }
   else{
-    const modalElement = document.getElementById('addHandHolding');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    this.modalService.openModal(this.addHandHoldingModal, { 
+      modalDialogClass: 'modal-xl',
+      backdrop: 'static'
+    });
   }
 }
  
@@ -1378,9 +1429,8 @@ toggleFeasibilityInputForm() {
       console.log('Mapped Influenced Participant IDs:', influencedParticipantIds);
 
       let jsonData: any = {
-        organizationId: formValue.organizationId && formValue.organizationId.length > 0
-          ? formValue.organizationId[0].organizationId
-          : null,
+        organizationId: formValue.organizationId ? formValue.organizationId: null,
+
         nonTrainingActivityId: Number(this.activityId),
         nonTrainingSubActivityId: Number(this.subActivityId),
         handHoldingType: this.handHoldingType
@@ -1675,8 +1725,6 @@ toggleFeasibilityInputForm() {
   }
 
   deleteHandHolding(item: any): void {
-    const modalElement = document.getElementById('deleteModal');
-    const modal = new bootstrap.Modal(modalElement);
     
     if(this.handHoldingType=='counselling' ){
       this.editingId = item.counselletingId || null;
@@ -1732,7 +1780,10 @@ toggleFeasibilityInputForm() {
       this.editingId = item.counselletingId || null;
     }
     
-    modal.show();
+    this.modalService.openModal(this.deleteModalTemplate, { 
+      modalDialogClass: 'modal-dialog-centered',
+      backdrop: 'static'
+    });
   }
   
 
@@ -1753,9 +1804,7 @@ toggleFeasibilityInputForm() {
           console.log('Deleted successfully:', response);
           this.toastrService.success('Data deleted successfully', 'Delete Successful');
           this.loadHandHoldingData();
-          const modalElement = document.getElementById('deleteModal');
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal?.hide();
+          this.modalService.closeModal(this.deleteModalTemplate);
         },
         error: (error) => {
           this.toastrService.error(error, 'Delete Error');
@@ -1770,29 +1819,12 @@ toggleFeasibilityInputForm() {
   }
 
  closeModal(): void {
-    const modalElement = document.getElementById('addHandHolding');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    modal?.hide();
-    
-    const modalElementFormalisation = document.getElementById('addHandHoldingByFormaliasation');
-    const modalFormalisation = bootstrap.Modal.getInstance(modalElementFormalisation);
-    modalFormalisation?.hide();
-    
-    const modalElementGovtScheme = document.getElementById('addGovtSchemesModal');
-    const modalGovtScheme = bootstrap.Modal.getInstance(modalElementGovtScheme);
-    modalGovtScheme?.hide();
-    
-    const modalElementAccessTech = document.getElementById('addAccessTechnologyModal');
-    const modalAccessTech = bootstrap.Modal.getInstance(modalElementAccessTech);
-    modalAccessTech?.hide();
-
-     const modalElementPackaging = document.getElementById('addPackagingAccessModal');
-    const modalPackaging = bootstrap.Modal.getInstance(modalElementPackaging);
-    modalPackaging?.hide();
-
-      const modalElementFinance = document.getElementById('addFinanceAccessModal');
-    const modalFinance = bootstrap.Modal.getInstance(modalElementFinance);
-    modalFinance?.hide();
+    this.modalService.closeModal(this.addHandHoldingModal);
+    this.modalService.closeModal(this.addHandHoldingByFormaliasationModal);
+    this.modalService.closeModal(this.addGovtSchemesModalTemplate);
+    this.modalService.closeModal(this.addAccessTechnologyModalTemplate);
+    this.modalService.closeModal(this.addPackagingAccessModalTemplate);
+    this.modalService.closeModal(this.addFinanceAccessModalTemplate);
   }
 
 
@@ -1821,14 +1853,13 @@ toggleFeasibilityInputForm() {
   feasibilityInputListModal: any[] = [];
   ShowFeasibilityInputs(item: any): void {
     this.feasibilityInputListModal = item || [];
-    const modalElement = document.getElementById('feasibilityInputsModal');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    this.modalService.openModal(this.feasibilityInputsModalTemplate, { 
+      modalDialogClass: 'modal-lg',
+      backdrop: 'static'
+    });
   }
   closeFeasibilityModal(): void {
-    const modalElement = document.getElementById('feasibilityInputsModal');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    modal?.hide();
+    this.modalService.closeModal(this.feasibilityInputsModalTemplate);
   }
   participantForm!: FormGroup;
   participantSubmitted = false;
@@ -1851,9 +1882,10 @@ toggleFeasibilityInputForm() {
   openParticipantModal(): void {
     this.participantSubmitted = false;
     this.participantForm.reset();
-    const modalElement = document.getElementById('addParticipantModal');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    this.modalService.openModal(this.addParticipantModalTemplate, { 
+      modalDialogClass: 'modal-dialog-centered modal-lg',
+      backdrop: 'static'
+    });
   }
 
   // Save participant
@@ -1866,8 +1898,9 @@ toggleFeasibilityInputForm() {
         mobileNo: this.participantForm.value.mobileNo,
         // isAspirant: this.participantForm.value.isAspirant === 'Aspirant' ? true : false,
         isAspirant:this.participantForm.value.organizationId?'Existing Oragnization':'Aspirant',
-        // organizationId: this.participantForm.value.organizationId,
-        "organizationId": this.participantForm.value.organizationId?.[0]?.organizationId
+        organizationId: this.participantForm.value.organizationId,
+        // "organizationId": this.participantForm.value.organizationId?.[0]?.organizationId
+
         // programIds: [this.handHoldingForm.value.programIds || this.activityId]
       };
 
@@ -1878,7 +1911,7 @@ toggleFeasibilityInputForm() {
           } else {
             this.toastrService.success('Participant added successfully', 'Success!');
             this.closeParticipantModal();
-            this.loadParticipants(this.participantForm.value.organizationId?.[0]?.organizationId); // Reload participants list
+            this.loadParticipants(this.participantForm.value.organizationId); // Reload participants list
             this.resetParticipantForm();
           }
         },
@@ -1894,15 +1927,16 @@ toggleFeasibilityInputForm() {
 
   // Close participant modal
   closeParticipantModal(): void {
-    const modalElement = document.getElementById('addParticipantModal');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    modal?.hide();
+    this.modalService.closeModal(this.addParticipantModalTemplate);
   }
 
   // Reset participant form
   resetParticipantForm(): void {
     this.participantForm.reset();
     this.participantSubmitted = false;
+  }
+  closeDeleteModal(): void {
+    this.modalService.closeModal(this.deleteModalTemplate);
   }
 
   // ...existing code...

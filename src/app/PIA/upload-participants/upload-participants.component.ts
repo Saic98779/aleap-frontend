@@ -11,6 +11,7 @@ import 'datatables.net-responsive-dt';
 import moment from 'moment';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 declare var bootstrap: any;
+import { ModalService } from '@app/_services/modal.service';
 
 @Component({
   selector: 'app-upload-participants',
@@ -22,15 +23,17 @@ export class UploadParticipantsComponent implements OnInit {
   loginsessionDetails: any;
     agencyId: any;
     programIds:any
+    @ViewChild('editParticipantModal') editParticipantModal: any;
     constructor(private fb: FormBuilder,
       private toastrService: ToastrService,
+      private modalService: ModalService,
       private _commonService: CommonServiceService, private router: Router,) { 
         this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;
       }
   
     ngOnInit(): void {
       this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-       this.getOrganizationData()
+       this.loadOrganizations()
     this.formDetails();
     //this.getData()
     
@@ -412,22 +415,21 @@ EditProgramId:any=false
       this.isedit=true
     this.participantId=item.participantId
    console.log(this.OrganizationData)
-    this.ParticipantDataForm.patchValue({ ...item,programIds :item.programIds?.[0],certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant',organizationId:this.OrganizationData.filter((data:any)=>{
-      if(data.organizationId==item?.organizationId){
-            return data
-          }
-    })})
-    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-      const myModal = new bootstrap.Modal(document.getElementById('editParticiapant'));
-       myModal.show();
+    this.ParticipantDataForm.patchValue({ ...item,programIds :item.programIds?.[0],certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant',organizationId:item.organizationId})
+    this.modalService.openModal(this.editParticipantModal, {
+    centered: true,
+    size: 'xl',
+    scrollable: true
+  });
     }
+
     OragnizationList(event: any) {
     if (event.target.value === 'Existing Oragnization') {
-      this.getOrganizationData();
+      this.loadOrganizations();
     }
   }
     // Upload documnet
-
+ 
     @ViewChild('fileInput') fileInput!: ElementRef;
     openFileUploadModal() {
       const modal1 = new bootstrap.Modal(document.getElementById('addDocumentModel'));
@@ -693,22 +695,57 @@ EditProgramId:any=false
       }
     })
   }
-   OrganizationData: any = []
-  getOrganizationData() {
-    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
-      next: (res: any) => {
-        this.OrganizationData = res?.data
-        this.assignFluidData1Org()
-        // this.submitedData=res?.data?.data
-        // this.advanceSearch(this.getSelDataRange);
-        // modal.close()
+  //  OrganizationData: any = []
+  // getOrganizationData() {
+  //   this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
+  //     next: (res: any) => {
+  //       this.OrganizationData = res?.data
+  //       this.assignFluidData1Org()
+  //       // this.submitedData=res?.data?.data
+  //       // this.advanceSearch(this.getSelDataRange);
+  //       // modal.close()
 
+  //     },
+  //     error: (err) => {
+  //       this.toastrService.error(err.message, "Organization Data Error!");
+  //       new Error(err);
+  //     },
+  //   });
+  // }
+   OrganizationData: any = []
+  filteredOrganizationData: any = []
+  searchValue: boolean = true;
+  loadOrganizations(Orgvalue?:any) {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?page=0&size=500').subscribe({
+      next: (res: any) => {
+        this.OrganizationData = res?.data;
+        this.filteredOrganizationData = this.OrganizationData.slice();
+         this.f2['organizationId'].patchValue(Orgvalue?.organizationId);
       },
       error: (err) => {
         this.toastrService.error(err.message, "Organization Data Error!");
-        new Error(err);
-      },
+      }
     });
+  }
+
+ onSearchChange(event: any) {
+    const filterValue = event?.toLowerCase();
+    if (filterValue.length >= 2) {
+      this.searchValue = false;
+      this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?search=' + event + '&page=0&size=500')
+        .subscribe({
+          next: (res: any) => {
+            this.OrganizationData = res?.data;
+            this.filteredOrganizationData = this.OrganizationData.slice();
+          },
+          error: (error: any) => {
+            this.filteredOrganizationData = [];
+          }
+        });
+    } else {
+      this.searchValue = true;
+      this.filteredOrganizationData = this.OrganizationData.slice();
+    }
   }
    DefaultDisabled: boolean = false;
   previousParticipationDetails: any = {};
@@ -808,12 +845,9 @@ EditProgramId:any=false
       //this.getData()  
     }
       closeModalEdit(): void {
-  
-        const editSessionModal = document.getElementById('editParticiapant');
-      if (editSessionModal) {
-        const modalInstance = bootstrap.Modal.getInstance(editSessionModal);
-        modalInstance.hide();
-      }
+  this.modalService.closeModal(this.editParticipantModal);
+  this.ParticipantDataForm.reset();
+  this.isedit = false;
   
         // const myModal = bootstrap.Modal.getInstance(document.getElementById('exampleModalDelete'));
         // myModal.hide();

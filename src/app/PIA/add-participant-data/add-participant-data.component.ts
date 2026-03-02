@@ -112,7 +112,7 @@ export class AddParticipantDataComponent implements OnInit {
     }
   ngOnInit(): void {
     this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');    
-    this.getOrganizationData()
+    this.loadOrganizations()
     this.formDetails();
     this.formDetailsOrganization();
     //this.getData()
@@ -352,8 +352,8 @@ export class AddParticipantDataComponent implements OnInit {
 
   Submitform() {
     
-    let payload:any={...this.ParticipantDataForm.value, "programIds": [this.ParticipantDataForm.value.programIds], "organizationId": this.ParticipantDataForm.value.organizationId?.[0]?.organizationId }
-   console.log(typeof payload['programIds'])
+    let payload:any={...this.ParticipantDataForm.value }
+   console.log(typeof payload['programIds'],payload['programIds'],this.previousParticipationDetails?.programIds,)
     if(this.f2['isAspirant'].value!='Existing Oragnization'){
     delete payload['organizationId']
   }
@@ -371,7 +371,10 @@ export class AddParticipantDataComponent implements OnInit {
   if(this.isedit){
     console.log(this.participantId,this.previousParticipationDetails?.programIds,payload.programIds)
     if(Object?.keys(this.previousParticipationDetails)?.length){
-      payload['programIds']=[...payload.programIds,...this.previousParticipationDetails?.programIds]
+      payload['programIds']=[payload.programIds,...this.previousParticipationDetails?.programIds]
+    }
+    else{
+      payload['programIds'] = [Number(this.ParticipantDataForm.value.programIds)]
     }
     // payload['programIds']=[this.ParticipantDataForm.value.programIds]
     payload['participantId']=this.participantId
@@ -408,8 +411,11 @@ export class AddParticipantDataComponent implements OnInit {
     let Url=APIS.participantdata.add
     if(Object?.keys(this.previousParticipationDetails)?.length){
       Url=APIS.participantdata.update
-      payload['programIds']=[...payload.programIds,...this.previousParticipationDetails?.programIds]
+      payload['programIds']=[payload.programIds,...this.previousParticipationDetails?.programIds]
       payload['participantId']=this.previousParticipationDetails?.participantId
+    }
+    else{
+      payload['programIds'] = [Number(this.ParticipantDataForm.value.programIds)]
     }
     this._commonService
       .add(Url, payload).subscribe({
@@ -473,11 +479,7 @@ export class AddParticipantDataComponent implements OnInit {
             let item = res?.data;
             this.previousParticipationDetails = item;
             if(!this.isedit){
-              this.ParticipantDataForm.patchValue({ ...item, certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant',organizationId:this.OrganizationData.filter((data:any)=>{
-                if(data.organizationId==item?.organizationId){
-                      return data
-                    }
-              })})
+              this.ParticipantDataForm.patchValue({ ...item,programIds: item.programIds?.[0], certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant'})
             }
             
           }
@@ -500,11 +502,8 @@ export class AddParticipantDataComponent implements OnInit {
     this.isedit=true
     this.participantId=item.participantId
    console.log(this.OrganizationData)
-    this.ParticipantDataForm.patchValue({ ...item,programIds :item.programIds?.[0],certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant',organizationId:this.OrganizationData.filter((data:any)=>{
-      if(data.organizationId==item?.organizationId){
-            return data
-          }
-    })})
+    this.onSearchChange(item.organizationName?.substring(0, 2) || '');
+    this.ParticipantDataForm.patchValue({ ...item,programIds :item.programIds?.[0],certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant'})
   }
 
   typeOragnization(event: any) {
@@ -646,7 +645,7 @@ export class AddParticipantDataComponent implements OnInit {
     });
     this.OrganisationForm.reset();
     // this.getData()
-    this.getOrganizationData()
+    this.loadOrganizations()
 
   }
   // district list()
@@ -678,25 +677,60 @@ export class AddParticipantDataComponent implements OnInit {
   }
   OragnizationList(event: any) {
     if (event.target.value === 'Existing Oragnization') {
-      this.getOrganizationData();
+      this.loadOrganizations();
     }
   }
-  OrganizationData: any = []
-  getOrganizationData() {
-    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
-      next: (res: any) => {
-        this.OrganizationData = res?.data
-        this.assignFluidData1Org()
-        // this.submitedData=res?.data?.data
-        // this.advanceSearch(this.getSelDataRange);
-        // modal.close()
+  
+  // getOrganizationData() {
+  //   this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyId).subscribe({
+  //     next: (res: any) => {
+  //       this.OrganizationData = res?.data
+  //       this.assignFluidData1Org()
+  //       // this.submitedData=res?.data?.data
+  //       // this.advanceSearch(this.getSelDataRange);
+  //       // modal.close()
 
+  //     },
+  //     error: (err) => {
+  //       this.toastrService.error(err.message, "Organization Data Error!");
+  //       new Error(err);
+  //     },
+  //   });
+  // }
+   OrganizationData: any = []
+  filteredOrganizationData: any = []
+  searchValue: boolean = true;
+  loadOrganizations(Orgvalue?:any) {
+    this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?page=0&size=500').subscribe({
+      next: (res: any) => {
+        this.OrganizationData = res?.data;
+        this.filteredOrganizationData = this.OrganizationData.slice();
+        
       },
       error: (err) => {
         this.toastrService.error(err.message, "Organization Data Error!");
-        new Error(err);
-      },
+      }
     });
+  }
+
+ onSearchChange(event: any) {
+    const filterValue = event?.toLowerCase();
+    if (filterValue.length >= 2) {
+      this.searchValue = false;
+      this._commonService.getDataByUrl(APIS.participantdata.getOrgnizationDataOnlyPagination + '?search=' + event + '&page=0&size=500')
+        .subscribe({
+          next: (res: any) => {
+            this.OrganizationData = res?.data;
+            this.filteredOrganizationData = this.OrganizationData.slice();
+          },
+          error: (error: any) => {
+            this.filteredOrganizationData = [];
+          }
+        });
+    } else {
+      this.searchValue = true;
+      this.filteredOrganizationData = this.OrganizationData.slice();
+    }
   }
   // get program details 
   programData:any={}

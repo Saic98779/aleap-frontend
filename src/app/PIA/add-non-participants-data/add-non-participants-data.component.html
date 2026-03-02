@@ -1,68 +1,98 @@
 <main class="mt-4">
-    <section>
-        <div class="container-fluid">
-            <div class="card mb-4">
-                <div class="card-header bg-transparent">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap">
-                        <div>
-                            <h6 class="mb-2 mb-sm-0 text-green">{{isedit?'Edit':'Add'}} Participant</h6>
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-lime-green" data-bs-toggle="modal" data-bs-target="#addOrganisation">Add New Organisation</button>
-                            <!-- <a class="btn btn-default ms-3" id="iconChange" data-bs-toggle="collapse" href="#collapseExample"  aria-expanded="false" aria-controls="collapseExample">
+  <section>
+    <div class="container-fluid">
+      <div class="card mb-4">
+        <div class="card-header bg-transparent">
+          <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div>
+              <h6 class="mb-2 mb-sm-0 text-green">{{isedit?'Edit':'Add'}} Participant</h6>
+            </div>
+            <div>
+              <button type="button" class="btn btn-lime-green" data-bs-toggle="modal"
+                data-bs-target="#addOrganisation">Add New Organisation</button>
+              <!-- <a class="btn btn-default ms-3" id="iconChange" data-bs-toggle="collapse" href="#collapseExample"  aria-expanded="false" aria-controls="collapseExample">
                                 <span class="bi bi-chevron-down"></span>
                             </a> -->
-                        </div>
-                    </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" id="">
+          <form [formGroup]="ParticipantDataForm">
+            <div class="row mb-3">
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="mobileNo" placeholder="" formControlName="mobileNo"
+                    (input)="getDataByMobileNumber($any($event.target).value)">
+                  <label id="mobileNo">Mobile No<span class="c-red"> *</span></label>
                 </div>
-                <div class="card-body" id="">
-                    <form [formGroup]="ParticipantDataForm">
-                        <div class="row mb-3">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="mobileNo" placeholder="" formControlName="mobileNo" (input)="getDataByMobileNumber($any($event.target).value)">
-                                    <label id="mobileNo">Mobile No<span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && !f2['mobileNo']?.errors?.['pattern']" class="error">Mobile No is required</div>
-                                <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && f2['mobileNo']?.errors?.['pattern']" class="error">Mobile No Starts with 6,7,8,9 and should be 10 digits</div>
-                            </div>
-                            <div class="col-12 col-sm-3 col-md-3 col-lg-4 hidden" style="display: none;">
-                                <!-- <label class="fs-md fw-600 mb-1">Post Training Assessment</label> -->
-                                <div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant" (change)="OragnizationList($event)" id="Aspirant" value="Aspirant">
-                                        <label class="form-check-label" for="Aspirant">Aspirant</label>
-                                    </div>
-                                    <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant" (change)="OragnizationList($event)" id="Existing Oragnization" value="Existing Oragnization">
-                                        <label class="form-check-label" for="Existing Oragnization">Existing Oragnization</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4 relative field" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
-                                <div [ngClass]="{'isDisabled': DefaultDisabled}" >
-                                      <ng-multiselect-dropdown   class="multi"
-                                        placeholder="Select Organisation*"
-                                        name="organizationId"
-                                        formControlName="organizationId"
-                                        [settings]="dropdownSettingsOrg"
-                                        [data]="dropdownListOrg"
-                                        (onSelect)="onItemSelectOrg($event)"
-                                     ></ng-multiselect-dropdown> 
-                                     <!-- <label for="area" class="form-label"> Sector </label> -->
-                                    
-                                </div>
-                               
-                            </div>
-                             <div class="col-12 col-sm-6 col-md-4 col-lg-4" >
-                                <div class="form-floating mb-3 " [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="text" class="form-control" id="participantName" formControlName="participantName" placeholder="">
-                                    <label for="participantName">Name Of The Participant <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['participantName'].touched && !f2['participantName'].valid && !f2['participantName']?.errors?.['pattern']" class="error">Name  Of Participant is required</div>
-                                <div *ngIf="f2['participantName'].touched && !f2['participantName'].valid && f2['participantName']?.errors?.['pattern']" class="error">Participant Name Should be Characters</div>
-                            </div>
-                            <!-- <div class="col-12 col-sm-4 col-md-4 col-lg-4" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+                <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && !f2['mobileNo']?.errors?.['pattern']"
+                  class="error">Mobile No is required</div>
+                <div *ngIf="f2['mobileNo'].touched && !f2['mobileNo'].valid && f2['mobileNo']?.errors?.['pattern']"
+                  class="error">Mobile No Starts with 6,7,8,9 and should be 10 digits</div>
+              </div>
+              <div class="col-12 col-sm-3 col-md-3 col-lg-4 hidden" style="display: none;">
+                <!-- <label class="fs-md fw-600 mb-1">Post Training Assessment</label> -->
+                <div>
+                  <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                    <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant"
+                      (change)="OragnizationList($event)" id="Aspirant" value="Aspirant">
+                    <label class="form-check-label" for="Aspirant">Aspirant</label>
+                  </div>
+                  <div class="form-check form-check-inline" [ngClass]="{'isDisabled': DefaultDisabled}">
+                    <input class="form-check-input" type="radio" formControlName="isAspirant" name="isAspirant"
+                      (change)="OragnizationList($event)" id="Existing Oragnization" value="Existing Oragnization">
+                    <label class="form-check-label" for="Existing Oragnization">Existing Oragnization</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+                <mat-form-field appearance="outline" class="w-100"
+                  class="col-12 col-sm-6 col-md-4 col-lg-4 relative field">
+                  <mat-label>Name of Organisation *</mat-label>
+                  <mat-select formControlName="organizationId" [ngClass]="{'isDisabled': DefaultDisabled}" >
+                    <div class="search-option">
+                      <i class="bx bx-search me-2"></i>
+                      <input class="search-input" #searchDropdownInput
+                        (input)="onSearchChange($any($event.target).value)" (keydown.space)="$event.stopPropagation()"
+                        type="text" placeholder="Search" autocomplete="off" />
+                    </div>
+                    <span *ngIf="searchValue" class="no-results1">
+                      Please enter atleast 2 characters to search
+                    </span>
+                    <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                      {{ list.organizationName }}
+                    </mat-option>
+                    <span *ngIf="filteredOrganizationData?.length === 0" class="no-results">
+                      No results found
+                    </span>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 relative field"
+                *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
+                <div [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <ng-multiselect-dropdown class="multi" placeholder="Select Organisation*" name="organizationId"
+                    formControlName="organizationId" [settings]="dropdownSettingsOrg" [data]="dropdownListOrg"
+                    (onSelect)="onItemSelectOrg($event)"></ng-multiselect-dropdown>
+                 
+
+                </div>
+
+              </div> -->
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3 " [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <input type="text" class="form-control" id="participantName" formControlName="participantName"
+                    placeholder="">
+                  <label for="participantName">Name Of The Participant <span class="c-red"> *</span></label>
+                </div>
+                <div
+                  *ngIf="f2['participantName'].touched && !f2['participantName'].valid && !f2['participantName']?.errors?.['pattern']"
+                  class="error">Name Of Participant is required</div>
+                <div
+                  *ngIf="f2['participantName'].touched && !f2['participantName'].valid && f2['participantName']?.errors?.['pattern']"
+                  class="error">Participant Name Should be Characters</div>
+              </div>
+              <!-- <div class="col-12 col-sm-4 col-md-4 col-lg-4" *ngIf="this.f2['isAspirant'].value=='Existing Oragnization'">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="organizationId"  formControlName="organizationId">
                                       <option selected value="">Select Organisation Name</option>
@@ -71,7 +101,7 @@
                                     <label for="organizationId">Organisation Name <span class="c-red"> *</span></label>
                                 </div>
                             </div> -->
-                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
+              <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
                                 <div class="form-floating mb-3" [ngClass]="{'isDisabled':this.EditProgramId || DefaultDisabled}" >
                                     <select class="form-select" id="programId" formControlName="programIds" (change)="getProgramDetailsById($any($event.target).value)">
                                         <option value="">Select Program</option>
@@ -82,87 +112,94 @@
                                 </div>
                                 
                             </div> -->
-                        </div>
-                        <div class="row">
-                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            </div>
+            <div class="row">
+              <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="code" placeholder="">
                                     <label for="code">Code</label>
                                 </div>
                             </div> -->
-                          
-                           
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4" >
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="text" class="form-control" id="aadharNo" formControlName="aadharNo" placeholder="">
-                                    <label for="aadharNo">Aadhar Number </label>
-                                </div>
-                                <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && !f2['aadharNo']?.errors?.['pattern']" class="error">Aadhar No is required</div>
-                                <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && f2['aadharNo']?.errors?.['pattern']" class="error">Aadhar No should be 12 digit Numbers</div>
-                           
-                            </div>
-                           
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <input type="email" class="form-control" id="email" placeholder="" formControlName="email">
-                                    <label for="email">Email</label>
-                                </div>
-                                <div *ngIf="f2['email'].touched && !f2['email'].valid && !f2['email']?.errors?.['email']" class="error">Email is required</div>
-                                <div *ngIf="f2['email'].touched && !f2['email'].valid && f2['email']?.errors?.['email']" class="error">Please Enter Proper Email Id</div>
-                           
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="gender" formControlName="gender">
-                                      <option selected value="">Select Gender</option>
-                                      <option value="M">Male</option>
-                                      <option value="F">Female</option>
-                                      <option value="Trans-Gender">Trans-Gender</option>
-                                    </select>
-                                    <label for="gender">Gender <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['gender'].touched && !f2['gender'].valid" class="error">Gender is required</div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="category" formControlName="category">
-                                      <option selected value="">Select Category</option>
-                                      <option value="OC">OC</option>
-                                      <option value="BC">BC</option>
-                                      <option value="SC">SC</option>
-                                      <option value="ST">ST</option>
-                                      <option value="Minority">Minority</option>
-                                    </select>
-                                    <label for="category">Category<span class="c-red"> *</span> </label>
-                                </div>
-                                <div *ngIf="f2['category'].touched && !f2['category'].valid" class="error">Category is required</div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                    <select class="form-select" id="disability" formControlName="disability">
-                                      <option selected value="">Select Disability</option>
-                                      <option value="Y">Yes</option>
-                                      <option value="N">No</option>
-                                    </select>
-                                    <label for="disability">Disability <span class="c-red"> *</span></label>
-                                </div>
-                                <div *ngIf="f2['disability'].touched && !f2['disability'].valid" class="error">Disability is required</div>
-                            </div>    
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-floating mb-3">
-                                    <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
-                                        <input type="text" class="form-control" id="designation" placeholder="" formControlName="designation">
-                                        <label id="designation">{{this.f2['isAspirant'].value=='Existing Oragnization'?"Designation":"Current Trade"}}</label>
-                                    </div>
-                                    <!-- <select class="form-select" id="designation" formControlName="designation">
+
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <input type="text" class="form-control" id="aadharNo" formControlName="aadharNo" placeholder="">
+                  <label for="aadharNo">Aadhar Number </label>
+                </div>
+                <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && !f2['aadharNo']?.errors?.['pattern']"
+                  class="error">Aadhar No is required</div>
+                <div *ngIf="f2['aadharNo'].touched && !f2['aadharNo'].valid && f2['aadharNo']?.errors?.['pattern']"
+                  class="error">Aadhar No should be 12 digit Numbers</div>
+
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <input type="email" class="form-control" id="email" placeholder="" formControlName="email">
+                  <label for="email">Email</label>
+                </div>
+                <div *ngIf="f2['email'].touched && !f2['email'].valid && !f2['email']?.errors?.['email']" class="error">
+                  Email is required</div>
+                <div *ngIf="f2['email'].touched && !f2['email'].valid && f2['email']?.errors?.['email']" class="error">
+                  Please Enter Proper Email Id</div>
+
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <select class="form-select" id="gender" formControlName="gender">
+                    <option selected value="">Select Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="Trans-Gender">Trans-Gender</option>
+                  </select>
+                  <label for="gender">Gender <span class="c-red"> *</span></label>
+                </div>
+                <div *ngIf="f2['gender'].touched && !f2['gender'].valid" class="error">Gender is required</div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <select class="form-select" id="category" formControlName="category">
+                    <option selected value="">Select Category</option>
+                    <option value="OC">OC</option>
+                    <option value="BC">BC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                    <option value="Minority">Minority</option>
+                  </select>
+                  <label for="category">Category<span class="c-red"> *</span> </label>
+                </div>
+                <div *ngIf="f2['category'].touched && !f2['category'].valid" class="error">Category is required</div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+                  <select class="form-select" id="disability" formControlName="disability">
+                    <option selected value="">Select Disability</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                  </select>
+                  <label for="disability">Disability <span class="c-red"> *</span></label>
+                </div>
+                <div *ngIf="f2['disability'].touched && !f2['disability'].valid" class="error">Disability is required
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
+                    <input type="text" class="form-control" id="designation" placeholder=""
+                      formControlName="designation">
+                    <label
+                      id="designation">{{this.f2['isAspirant'].value=='Existing Oragnization'?"Designation":"Current Trade"}}</label>
+                  </div>
+                  <!-- <select class="form-select" id="designation" formControlName="designation">
                                       <option selected>Select Designation</option>
                                       <option value="Designation 1">Designation 1</option>
                                       <option value="Designation 2">Designation 2</option>
                                     </select>
                                     <label for="designation">Designation</label> -->
-                                </div>
-                            </div>
-                            <!-- <ng-container *ngIf="programData?.programType!='Awareness'">
+                </div>
+              </div>
+              <!-- <ng-container *ngIf="programData?.programType!='Awareness'">
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="form-floating mb-3" [ngClass]="{'isDisabled': DefaultDisabled}">
                                     <select class="form-select" id="isParticipatedBefore" formControlName="isParticipatedBefore">
@@ -226,15 +263,17 @@
                                 </div>
                             </div>
                         </ng-container> -->
-                        </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-lime-green" [disabled]="!ParticipantDataForm.valid" [ngClass]="{'disabled': ParticipantDataForm.invalid}"  (click)="Submitform()">{{isedit?'Update':'Submit'}}</button>
-                        </div>
-                    </form>
-                </div>
             </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-lime-green" [disabled]="!ParticipantDataForm.valid"
+                [ngClass]="{'disabled': ParticipantDataForm.invalid}"
+                (click)="Submitform()">{{isedit?'Update':'Submit'}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-            <!-- <div class="card mb-3">
+      <!-- <div class="card mb-3">
                 <div class="card-header bg-transparent">
                     <div class="row align-items-center">
                         <div class="col-12 col-sm-7 col-md-8 col-lg-9">
@@ -300,131 +339,144 @@
                     </table>
                 </div>
             </div> -->
-        </div>
-    </section>
+    </div>
+  </section>
 </main>
 
 <!-- begin:: modal add new location -->
 <div class="modal fade" id="addOrganisation" tabindex="-1" aria-labelledby="addOrganisationLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <form [formGroup]="OrganisationForm" >
-            <div class="modal-content">
-                <div class="modal-header py-2">
-                    <h6 class="modal-title" id="addLocationLabel">Add Organisation</h6>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card shadow-md p-3 mb-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">                                   
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <form [formGroup]="OrganisationForm">
+      <div class="modal-content">
+        <div class="modal-header py-2">
+          <h6 class="modal-title" id="addLocationLabel">Add Organisation</h6>
+          <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card shadow-md p-3 mb-4">
+            <div class="row">
+              <div class="col-12">
+                <div class="mb-3">
 
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <label class="form-label fs-md fw-600">Type of Organisation</label>
-                                        <!-- <a class="btn btn-default" id="iconChange" data-bs-toggle="collapse" href="#collapseExampleOne" aria-expanded="false" aria-controls="collapseExample">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <label class="form-label fs-md fw-600">Type of Organisation</label>
+                    <!-- <a class="btn btn-default" id="iconChange" data-bs-toggle="collapse" href="#collapseExampleOne" aria-expanded="false" aria-controls="collapseExample">
                                             <span class="bi bi-chevron-down"></span>
                                         </a> -->
-                                    </div>
+                  </div>
 
-                                    <div class="" id="">
-                                        <div class="row">
-                                            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="organizationType" id="SHG" value="SHG" (change)="typeOragnization($any($event.target).value)"  formControlName="organizationType">
-                                                    <label class="form-check-label fs-md" for="SHG">SHG</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="organizationType" id="startup" value="Start Up" (change)="typeOragnization($any($event.target).value)"  formControlName="organizationType">
-                                                    <label class="form-check-label fs-md" for="startup">Start Up</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="organizationType" id="MSME" value="MSME" (change)="typeOragnization($any($event.target).value)"  formControlName="organizationType">
-                                                    <label class="form-check-label fs-md" for="MSME">MSME</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="organizationType" id="Department" value="Department" (change)="typeOragnization($any($event.target).value)"  formControlName="organizationType">
-                                                    <label class="form-check-label fs-md" for="Department">Department</label>
-                                                </div>
-                                               
-                                            </div>
-                                            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="" id="">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="organizationType" id="SHG" value="SHG"
+                            (change)="typeOragnization($any($event.target).value)" formControlName="organizationType">
+                          <label class="form-check-label fs-md" for="SHG">SHG</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="organizationType" id="startup"
+                            value="Start Up" (change)="typeOragnization($any($event.target).value)"
+                            formControlName="organizationType">
+                          <label class="form-check-label fs-md" for="startup">Start Up</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="organizationType" id="MSME" value="MSME"
+                            (change)="typeOragnization($any($event.target).value)" formControlName="organizationType">
+                          <label class="form-check-label fs-md" for="MSME">MSME</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="organizationType" id="Department"
+                            value="Department" (change)="typeOragnization($any($event.target).value)"
+                            formControlName="organizationType">
+                          <label class="form-check-label fs-md" for="Department">Department</label>
+                        </div>
+
+                      </div>
+                      <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="organizationName" placeholder="" formControlName="organizationName">
                                                     <label for="organizationName">Organization Name</label>
                                                 </div>
                                             </div> -->
-                                        </div>
-                                        
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="show-hide " id="SHG"  *ngIf="this.fOrg['organizationType'].value=='SHG'">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="nameOfTheSHG" placeholder="" formControlName="nameOfTheSHG" >
-                                        <label for="nameOfTheSHG">Name of the SHG <span class="c-red"> *</span></label>
-                                    </div>
-                                    <!-- <div *ngIf="fOrg['nameOfTheSHG'].touched && !fOrg['nameOfTheSHG'].valid" class="error" style="padding-top: 5px;"> Name of the SHG is required</div> -->
-                                    <div *ngIf="fOrg['nameOfTheSHG'].touched && !fOrg['nameOfTheSHG'].valid && !fOrg['nameOfTheSHG']?.errors?.['pattern']" class="error">Name of the SHG is required</div>
-                                    <div *ngIf="fOrg['nameOfTheSHG'].touched && !fOrg['nameOfTheSHG'].valid && fOrg['nameOfTheSHG']?.errors?.['pattern']" class="error">Name of the SHG Should be Charactersand Numerics</div>
-                                </div>
-                               
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <!-- <input type="text" class="form-control" id="district" placeholder="" formControlName="distId"> -->
-                                        <select class="form-select" id="district" formControlName="distId" (change)="GetMandalByDistrictSHG($any($event.target).value)" >
-                                            <option value="">Select District</option>
-                                            <option *ngFor="let list of allDistricts" value="{{list?.districtId}}">{{list?.districtName}}</option>
-                                        </select>
-                                        <label for="district">District <span class="c-red"> *</span></label>
-                                    </div>
-                                    <div *ngIf="fOrg['distId'].touched && !fOrg['distId'].valid" class="error" style="padding-top:  5px;">District is required</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="District" formControlName="mandal" >
-                                          <option selected value="">Select Mandal</option>
-                                          <option *ngFor="let list of MandalListSHG" value="{{list?.mandalId}}">{{list?.mandalName}}</option>
-                                          <!-- <option value="1">Mandal 1</option> -->
-                                        </select>
-                                        <label for="Mandal">Mandal <span class="c-red"> *</span></label>
-                                    </div>
-                                    <div *ngIf="fOrg['mandal'].touched && !fOrg['mandal'].valid" class="error" style="padding-top:  5px;">Mandal is required</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="vo" placeholder="" formControlName="nameOfTheVO">
-                                        <label for="vo">Name of the VO <span class="c-red"> *</span></label>
-                                    </div>
-                                    <div *ngIf="fOrg['nameOfTheVO'].touched && !fOrg['nameOfTheVO'].valid" class="error" style="padding-top:  5px;">Name of the VO is required</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="gramaPanchayat" placeholder="" formControlName="gramaPanchayat">
-                                        <label for="gramaPanchayat">Grama Panchyat <span class="c-red"> *</span></label>
-                                    </div>
-                                    <div *ngIf="fOrg['gramaPanchayat'].touched && !fOrg['gramaPanchayat'].valid" class="error" style="padding-top:  5px;">Grama Panchyat is required</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field">
-                                    <div >
-                                          <ng-multiselect-dropdown   class="multi"
-                                            placeholder="Select sector*"
-                                            name="sectorIds"
-                                            formControlName="sectorIds"
-                                            [settings]="dropdownSettings"
-                                            [data]="dropdownList1"
-                                            (onSelect)="onItemSelect($event)"
-                                            (onSelectAll)="onSelectAll($event)"
-                                         ></ng-multiselect-dropdown> 
-                                         <!-- <label for="area" class="form-label"> Sector </label> -->
-                                        
-                                    </div>
-                                   
-                                </div>
-                                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="show-hide " id="SHG" *ngIf="this.fOrg['organizationType'].value=='SHG'">
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nameOfTheSHG" placeholder=""
+                      formControlName="nameOfTheSHG">
+                    <label for="nameOfTheSHG">Name of the SHG <span class="c-red"> *</span></label>
+                  </div>
+                  <!-- <div *ngIf="fOrg['nameOfTheSHG'].touched && !fOrg['nameOfTheSHG'].valid" class="error" style="padding-top: 5px;"> Name of the SHG is required</div> -->
+                  <div
+                    *ngIf="fOrg['nameOfTheSHG'].touched && !fOrg['nameOfTheSHG'].valid && !fOrg['nameOfTheSHG']?.errors?.['pattern']"
+                    class="error">Name of the SHG is required</div>
+                  <div
+                    *ngIf="fOrg['nameOfTheSHG'].touched && !fOrg['nameOfTheSHG'].valid && fOrg['nameOfTheSHG']?.errors?.['pattern']"
+                    class="error">Name of the SHG Should be Charactersand Numerics</div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <!-- <input type="text" class="form-control" id="district" placeholder="" formControlName="distId"> -->
+                    <select class="form-select" id="district" formControlName="distId"
+                      (change)="GetMandalByDistrictSHG($any($event.target).value)">
+                      <option value="">Select District</option>
+                      <option *ngFor="let list of allDistricts" value="{{list?.districtId}}">{{list?.districtName}}
+                      </option>
+                    </select>
+                    <label for="district">District <span class="c-red"> *</span></label>
+                  </div>
+                  <div *ngIf="fOrg['distId'].touched && !fOrg['distId'].valid" class="error" style="padding-top:  5px;">
+                    District is required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="District" formControlName="mandal">
+                      <option selected value="">Select Mandal</option>
+                      <option *ngFor="let list of MandalListSHG" value="{{list?.mandalId}}">{{list?.mandalName}}
+                      </option>
+                      <!-- <option value="1">Mandal 1</option> -->
+                    </select>
+                    <label for="Mandal">Mandal <span class="c-red"> *</span></label>
+                  </div>
+                  <div *ngIf="fOrg['mandal'].touched && !fOrg['mandal'].valid" class="error" style="padding-top:  5px;">
+                    Mandal is required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="vo" placeholder="" formControlName="nameOfTheVO">
+                    <label for="vo">Name of the VO <span class="c-red"> *</span></label>
+                  </div>
+                  <div *ngIf="fOrg['nameOfTheVO'].touched && !fOrg['nameOfTheVO'].valid" class="error"
+                    style="padding-top:  5px;">Name of the VO is required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="gramaPanchayat" placeholder=""
+                      formControlName="gramaPanchayat">
+                    <label for="gramaPanchayat">Grama Panchyat <span class="c-red"> *</span></label>
+                  </div>
+                  <div *ngIf="fOrg['gramaPanchayat'].touched && !fOrg['gramaPanchayat'].valid" class="error"
+                    style="padding-top:  5px;">Grama Panchyat is required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field">
+                  <div>
+                    <ng-multiselect-dropdown class="multi" placeholder="Select sector*" name="sectorIds"
+                      formControlName="sectorIds" [settings]="dropdownSettings" [data]="dropdownList1"
+                      (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"></ng-multiselect-dropdown>
+                    <!-- <label for="area" class="form-label"> Sector </label> -->
+
+                  </div>
+
+                </div>
+                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="village" placeholder="">
                                         <label for="village">Name of the Village</label>
@@ -454,155 +506,26 @@
                                         <label for="ifsc">IFSC Code</label>
                                     </div>
                                 </div> -->
-                            </div>
-                        </div>
-                        <div class="show-hide " id="Start Up" *ngIf="this.fOrg['organizationType'].value=='Start Up'">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="msmeStartup" placeholder="" formControlName="organizationName">
-                                        <label for="msmeStartup">Name of the Startup<span class="c-red"> *</span></label>
-                                    </div>
-                                    <!-- <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid" class="error" style="padding-top:  5px;">Name of the Startup is required</div> -->
-                                    <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && !fOrg['organizationName']?.errors?.['pattern']" class="error">Name of the Startup is required</div>
-                                <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && fOrg['organizationName']?.errors?.['pattern']" class="error">Name of the Startup Should be Charactersand Numerics</div>
-                              
-                                </div>
-                                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="sector" formControlName="sector">
-                                          <option selected>Select sector</option>
-                                          <option value="sector1">sector 1</option>
-                                          <option value="sector2">sector 2</option>
-                                          <option value="sector3">sector 3</option>
-                                        </select>
-                                        <label for="Sector">Sector</label>
-                                    </div>
-                                </div> -->
-                                
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="msmeCertificate" placeholder="" formControlName="startupCertificateNo">
-                                        <label for="msmeCertificate">Certificate No</label>
-                                    </div>
-                                    <div *ngIf="fOrg['startupCertificateNo'].touched && !fOrg['startupCertificateNo'].valid" class="error" style="padding-top:  5px;">Certificate No is required</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="natureStartup" placeholder="" formControlName="natureOfStartup">
-                                        <label for="natureStartup">Nature of Startup<span class="c-red"> *</span></label>
-                                    </div>
-                                    <!-- <div *ngIf="fOrg['natureOfStartup'].touched && !fOrg['natureOfStartup'].valid" class="error" style="padding-top:  5px;">Nature of Startup is required</div> -->
-                                    <div *ngIf="fOrg['natureOfStartup'].touched && !fOrg['natureOfStartup'].valid && !fOrg['natureOfStartup']?.errors?.['pattern']" class="error">Nature of Startup is required</div>
-                                    <div *ngIf="fOrg['natureOfStartup'].touched && !fOrg['natureOfStartup'].valid && fOrg['natureOfStartup']?.errors?.['pattern']" class="error">Nature of Startup Should be Charactersand Numerics</div>
-                             
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field">
-                                    <div >
-                                          <ng-multiselect-dropdown   class="multi"
-                                            placeholder="Select sector*"
-                                            name="sectorIds"
-                                            formControlName="sectorIds"
-                                            [settings]="dropdownSettings"
-                                            [data]="dropdownList1"
-                                            (onSelect)="onItemSelect($event)"
-                                            (onSelectAll)="onSelectAll($event)"
-                                         ></ng-multiselect-dropdown> 
-                                         <!-- <label for="area" class="form-label"> Sector </label> -->
-                                        
-                                    </div>
-                                   
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control" id="incorporationDate" placeholder="" formControlName="incorporationDate">
-                                        <label for="incorporationDate">Incorporation Date</label>
-                                    </div>
-                                    <div *ngIf="fOrg['incorporationDate'].touched && !fOrg['incorporationDate'].valid" class="error" style="padding-top:  5px;">Incorporation Date is required</div>
-                             
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="areasWorking" placeholder="" formControlName="areasOfWorking">
-                                        <label for="areasWorking">Areas of Working</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control" id="dateIssue" placeholder="" formControlName="dateOfIssue">
-                                        <label for="dateIssue">Date of Isuue</label>
-                                    </div>
-                                    <div *ngIf="fOrg['dateOfIssue'].touched && !fOrg['dateOfIssue'].valid" class="error" style="padding-top:  5px;">Date of Isuue is required</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control" id="validupto" placeholder="" formControlName="validupto">
-                                        <label for="validupto">Valid Upto </label>
-                                    </div>
-                                    <div *ngIf="fOrg['validupto'].touched && !fOrg['validupto'].valid" class="error" style="padding-top:  5px;">Valid Upto is required</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="show-hide " id="Department"  *ngIf="this.fOrg['organizationType']?.value=='Department'">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="organization" placeholder="" name="organizationName" formControlName="organizationName">
-                                        <label for="organization">Department Name <span class="c-red"> *</span></label>
-                                    </div>
-                                    <!-- <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid" class="error" style="padding-top:  5px;">Organization Name is required</div> -->
-                                    <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && !fOrg['organizationName']?.errors?.['pattern']" class="error">Department Name is required</div>
-                                    <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && fOrg['organizationName']?.errors?.['pattern']" class="error">Department Name Should be Charactersand Numerics</div>
-                                </div>
-                            </div>
-                        </div>
+              </div>
+            </div>
+            <div class="show-hide " id="Start Up" *ngIf="this.fOrg['organizationType'].value=='Start Up'">
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="msmeStartup" placeholder=""
+                      formControlName="organizationName">
+                    <label for="msmeStartup">Name of the Startup<span class="c-red"> *</span></label>
+                  </div>
+                  <!-- <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid" class="error" style="padding-top:  5px;">Name of the Startup is required</div> -->
+                  <div
+                    *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && !fOrg['organizationName']?.errors?.['pattern']"
+                    class="error">Name of the Startup is required</div>
+                  <div
+                    *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && fOrg['organizationName']?.errors?.['pattern']"
+                    class="error">Name of the Startup Should be Charactersand Numerics</div>
 
-                        <div class="show-hide " id="MSME"  *ngIf="this.fOrg['organizationType']?.value=='MSME'">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <label class="fw-600 fs-md">Category <span class="c-red"> *</span></label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="organizationCategory" id="Micro" value="Micro" formControlName="organizationCategory">
-                                            <label class="form-check-label fs-md" for="Micro">Micro</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="organizationCategory" id="Small" value="Small" formControlName="organizationCategory">
-                                            <label class="form-check-label fs-md" for="Small">Small</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="organizationCategory" id="Medium" value="Medium" formControlName="organizationCategory">
-                                            <label class="form-check-label fs-md" for="Medium">Medium</label>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="organization" placeholder="" name="organizationName" formControlName="organizationName">
-                                        <label for="organization">Organization Name <span class="c-red"> *</span></label>
-                                    </div>
-                                    <!-- <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid" class="error" style="padding-top:  5px;">Organization Name is required</div> -->
-                                    <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && !fOrg['organizationName']?.errors?.['pattern']" class="error">Organization Name is required</div>
-                                    <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && fOrg['organizationName']?.errors?.['pattern']" class="error">Organization Name Should be Charactersand Numerics</div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field">
-                                    <div >
-                                          <ng-multiselect-dropdown   class="multi"
-                                            placeholder="Select sector*"
-                                            name="sectorIds"
-                                            formControlName="sectorIds"
-                                            [settings]="dropdownSettings"
-                                            [data]="dropdownList1"
-                                            (onSelect)="onItemSelect($event)"
-                                            (onSelectAll)="onSelectAll($event)"
-                                         ></ng-multiselect-dropdown> 
-                                         <!-- <label for="area" class="form-label"> Sector </label> -->
-                                        
-                                    </div>
-                                   
-                                </div>
-                                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                </div>
+                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="sector" formControlName="sector">
                                           <option selected>Select sector</option>
@@ -613,193 +536,376 @@
                                         <label for="Sector">Sector</label>
                                     </div>
                                 </div> -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <label class="fw-600 fs-md">Udyam Registration Number<span class="c-red"> *</span></label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="udyamYesOrNo" formControlName="udyamYesOrNo" (change)="chnageUdyam($any($event.target).value)" id="udyamYes" value="Yes" >
-                                            <label class="form-check-label fs-md" for="udyamYes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="udyamYesOrNo" formControlName="udyamYesOrNo"  (change)="chnageUdyam($any($event.target).value)" id="udyamNo" value="No" >
-                                            <label class="form-check-label fs-md" for="udyamNo">No</label>
-                                        </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="msmeCertificate" placeholder=""
+                      formControlName="startupCertificateNo">
+                    <label for="msmeCertificate">Certificate No</label>
+                  </div>
+                  <div *ngIf="fOrg['startupCertificateNo'].touched && !fOrg['startupCertificateNo'].valid" class="error"
+                    style="padding-top:  5px;">Certificate No is required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="natureStartup" placeholder=""
+                      formControlName="natureOfStartup">
+                    <label for="natureStartup">Nature of Startup<span class="c-red"> *</span></label>
+                  </div>
+                  <!-- <div *ngIf="fOrg['natureOfStartup'].touched && !fOrg['natureOfStartup'].valid" class="error" style="padding-top:  5px;">Nature of Startup is required</div> -->
+                  <div
+                    *ngIf="fOrg['natureOfStartup'].touched && !fOrg['natureOfStartup'].valid && !fOrg['natureOfStartup']?.errors?.['pattern']"
+                    class="error">Nature of Startup is required</div>
+                  <div
+                    *ngIf="fOrg['natureOfStartup'].touched && !fOrg['natureOfStartup'].valid && fOrg['natureOfStartup']?.errors?.['pattern']"
+                    class="error">Nature of Startup Should be Charactersand Numerics</div>
+
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field">
+                  <div>
+                    <ng-multiselect-dropdown class="multi" placeholder="Select sector*" name="sectorIds"
+                      formControlName="sectorIds" [settings]="dropdownSettings" [data]="dropdownList1"
+                      (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"></ng-multiselect-dropdown>
+                    <!-- <label for="area" class="form-label"> Sector </label> -->
+
+                  </div>
+
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="incorporationDate" placeholder=""
+                      formControlName="incorporationDate">
+                    <label for="incorporationDate">Incorporation Date</label>
+                  </div>
+                  <div *ngIf="fOrg['incorporationDate'].touched && !fOrg['incorporationDate'].valid" class="error"
+                    style="padding-top:  5px;">Incorporation Date is required</div>
+
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="areasWorking" placeholder=""
+                      formControlName="areasOfWorking">
+                    <label for="areasWorking">Areas of Working</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="dateIssue" placeholder="" formControlName="dateOfIssue">
+                    <label for="dateIssue">Date of Isuue</label>
+                  </div>
+                  <div *ngIf="fOrg['dateOfIssue'].touched && !fOrg['dateOfIssue'].valid" class="error"
+                    style="padding-top:  5px;">Date of Isuue is required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="validupto" placeholder="" formControlName="validupto">
+                    <label for="validupto">Valid Upto </label>
+                  </div>
+                  <div *ngIf="fOrg['validupto'].touched && !fOrg['validupto'].valid" class="error"
+                    style="padding-top:  5px;">Valid Upto is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="show-hide " id="Department" *ngIf="this.fOrg['organizationType']?.value=='Department'">
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="organization" placeholder="" name="organizationName"
+                      formControlName="organizationName">
+                    <label for="organization">Department Name <span class="c-red"> *</span></label>
+                  </div>
+                  <!-- <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid" class="error" style="padding-top:  5px;">Organization Name is required</div> -->
+                  <div
+                    *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && !fOrg['organizationName']?.errors?.['pattern']"
+                    class="error">Department Name is required</div>
+                  <div
+                    *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && fOrg['organizationName']?.errors?.['pattern']"
+                    class="error">Department Name Should be Charactersand Numerics</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="show-hide " id="MSME" *ngIf="this.fOrg['organizationType']?.value=='MSME'">
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <label class="fw-600 fs-md">Category <span class="c-red"> *</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="organizationCategory" id="Micro" value="Micro"
+                        formControlName="organizationCategory">
+                      <label class="form-check-label fs-md" for="Micro">Micro</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="organizationCategory" id="Small" value="Small"
+                        formControlName="organizationCategory">
+                      <label class="form-check-label fs-md" for="Small">Small</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="organizationCategory" id="Medium"
+                        value="Medium" formControlName="organizationCategory">
+                      <label class="form-check-label fs-md" for="Medium">Medium</label>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="organization" placeholder="" name="organizationName"
+                      formControlName="organizationName">
+                    <label for="organization">Organization Name <span class="c-red"> *</span></label>
+                  </div>
+                  <!-- <div *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid" class="error" style="padding-top:  5px;">Organization Name is required</div> -->
+                  <div
+                    *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && !fOrg['organizationName']?.errors?.['pattern']"
+                    class="error">Organization Name is required</div>
+                  <div
+                    *ngIf="fOrg['organizationName'].touched && !fOrg['organizationName'].valid && fOrg['organizationName']?.errors?.['pattern']"
+                    class="error">Organization Name Should be Charactersand Numerics</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 relative field">
+                  <div>
+                    <ng-multiselect-dropdown class="multi" placeholder="Select sector*" name="sectorIds"
+                      formControlName="sectorIds" [settings]="dropdownSettings" [data]="dropdownList1"
+                      (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"></ng-multiselect-dropdown>
+                    <!-- <label for="area" class="form-label"> Sector </label> -->
+
+                  </div>
+
+                </div>
+                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="sector" formControlName="sector">
+                                          <option selected>Select sector</option>
+                                          <option value="sector1">sector 1</option>
+                                          <option value="sector2">sector 2</option>
+                                          <option value="sector3">sector 3</option>
+                                        </select>
+                                        <label for="Sector">Sector</label>
                                     </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 " id="udyamyesShow" *ngIf="this.fOrg['udyamYesOrNo'].value=='Yes'">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-6 col-md-4 col-lg-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="udyamNumber" placeholder="" formControlName="udyamregistrationNo">
-                                                <label for="udyamNumber">Udyam No.<span class="c-red"> *</span></label>
-                                            </div>
-                                            <div *ngIf="fOrg['udyamregistrationNo'].touched && !fOrg['udyamregistrationNo'].valid" class="error" style="padding-top:  5px;">Udyam No is required</div>
-                              
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-md-4 col-lg-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="date" class="form-control" id="registrationDate" placeholder="" formControlName="dateOfRegistration" >
-                                                <label for="registrationDate">Registration Date<span class="c-red"> *</span></label>
-                                            </div>
-                                            <div *ngIf="fOrg['dateOfRegistration'].touched && !fOrg['dateOfRegistration'].valid" class="error" style="padding-top:  5px;">Registration Date is required</div>
-                              
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 none-d" id="udyamnoShow" *ngIf="udyamYesOrNo=='Yes'" >
+                                </div> -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <label class="fw-600 fs-md">Udyam Registration Number<span class="c-red"> *</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="udyamYesOrNo" formControlName="udyamYesOrNo"
+                        (change)="chnageUdyam($any($event.target).value)" id="udyamYes" value="Yes">
+                      <label class="form-check-label fs-md" for="udyamYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="udyamYesOrNo" formControlName="udyamYesOrNo"
+                        (change)="chnageUdyam($any($event.target).value)" id="udyamNo" value="No">
+                      <label class="form-check-label fs-md" for="udyamNo">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 " id="udyamyesShow"
+                  *ngIf="this.fOrg['udyamYesOrNo'].value=='Yes'">
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-6">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="udyamNumber" placeholder=""
+                          formControlName="udyamregistrationNo">
+                        <label for="udyamNumber">Udyam No.<span class="c-red"> *</span></label>
+                      </div>
+                      <div *ngIf="fOrg['udyamregistrationNo'].touched && !fOrg['udyamregistrationNo'].valid"
+                        class="error" style="padding-top:  5px;">Udyam No is required</div>
+
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-6">
+                      <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="registrationDate" placeholder=""
+                          formControlName="dateOfRegistration">
+                        <label for="registrationDate">Registration Date<span class="c-red"> *</span></label>
+                      </div>
+                      <div *ngIf="fOrg['dateOfRegistration'].touched && !fOrg['dateOfRegistration'].valid" class="error"
+                        style="padding-top:  5px;">Registration Date is required</div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 none-d" id="udyamnoShow" *ngIf="udyamYesOrNo=='Yes'" >
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="companyRegistration" placeholder="">
                                         <label for="companyRegistration">Company Registration</label>
                                     </div>
                                 </div> -->
-                            </div>
-                        </div>
-                       
-                    </div>
-    
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="card shadow-md p-3 mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="fw-600">Address</h6>
-                                    <a class="btn btn-default" id="iconChange" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        <span class="bi bi-chevron-down"></span>
-                                    </a>
-                                </div>
-                                <div class="row collapse show" id="collapseExample">
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="State" formControlName="stateId">
-                                              <!-- <option selected>Select State</option> -->
-                                              <option selected value="Telangana">Telangana</option>
-                                            </select>
-                                            <label for="State">State<span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="fOrg['stateId'].touched && !fOrg['stateId'].valid" class="error" style="padding-top:  5px;">State is required</div>
-                              
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="District" formControlName="distId" (change)="GetMandalByDistrict($any($event.target).value)">
-                                              <option selected value="">Select District</option>
-                                              <option *ngFor="let list of allDistricts" value="{{list.districtId}}">{{list.districtName}}</option>
-                                            </select>
-                                            <label for="District">District <span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="fOrg['distId'].touched && !fOrg['distId'].valid" class="error" style="padding-top:  5px;">District is required</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="District" formControlName="mandal">
-                                              <option selected value="">Select Mandal</option>
-                                              <option *ngFor="let list of MandalList" value="{{list.mandalId}}">{{list.mandalName}}</option>
-                                              <!-- <option value="1">Mandal 1</option> -->
-                                            </select>
-                                            <label for="Mandal">Mandal<span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="fOrg['mandal'].touched && !fOrg['mandal'].valid" class="error" style="padding-top:  5px;">Mandal is required</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="village" placeholder="" formControlName="town">
-                                            <label for="village">Town/Village<span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="fOrg['town'].touched && !fOrg['town'].valid" class="error" style="padding-top:  5px;">Town/Village is required</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="street" placeholder="" formControlName="streetNo">
-                                            <label for="street">Street No.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="house" placeholder="" formControlName="houseNo">
-                                            <label for="house">House No.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="Longitude" placeholder="" formControlName="longitude">
-                                            <label for="Longitude">Geo Location Longitude</label>
-                                        </div>
-                                        <div *ngIf="fOrg['longitude'].touched  && fOrg['longitude']?.errors?.['pattern']" class="error">Geo Location Longitude should be Numbers with pointers</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="Latiude" placeholder="" formControlName="latitude">
-                                            <label for="Latiude">Geo Location Latitude</label>
-                                        </div>
-                                        <div *ngIf="fOrg['latitude'].touched  && fOrg['latitude']?.errors?.['pattern']" class="error">Geo Location Latiude should be Numbers with pointers</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3 mb-lg-0">
-                                            <input type="text" class="form-control" id="contact" placeholder="" formControlName="contactNo">
-                                            <label for="contact">Contact No<span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="this.fOrg['contactNo'].touched && !this.fOrg['contactNo'].valid && !this.fOrg['contactNo']?.errors?.['pattern']" class="error" style="padding-top: 22px;">contact No is required</div>
-                                        <div *ngIf="this.fOrg['contactNo'].touched && !this.fOrg['contactNo'].valid && this.fOrg['contactNo']?.errors?.['pattern']" class="error" style="padding-top: 22px;">contact No Starts with 6,7,8,9 and should be 10 digits</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3 mb-md-0 mb-lg-0">
-                                            <input type="email" class="form-control" id="email" placeholder="" formControlName="email">
-                                            <label for="email">Email</label>
-                                        </div>
-                                        <div *ngIf="fOrg['email'].touched && fOrg['email']?.errors?.['email']" class="error" style="padding-top: 22px;">Please Enter Proper Email Id</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3 mb-md-0 mb-lg-0">
-                                            <input type="text" class="form-control" id="website" placeholder="" formControlName="website">
-                                            <label for="website">Website</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12" >
-                            <div class="card shadow-md p-3 mb-3" *ngIf="this.fOrg['organizationType'].value!='Department'">
-                                <h6 class="fs-md fw-600 mb-2">{{this.fOrg['organizationType'].value=='MSME'?'Director':(this.fOrg['organizationType'].value=='Start Up'?'Promoter':'Leader')}} Details</h6>
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3 mb-sm-0 mb-lg-0">
-                                            <input type="text" class="form-control" id="ownerName" placeholder="" formControlName="ownerName">
-                                            <label for="ownerName">Name <span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="fOrg['ownerName'].touched && !fOrg['ownerName'].valid" class="error" style="padding-top: 22px;">Name is required</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3 mb-sm-0 mb-lg-0">
-                                            <input type="text" class="form-control" id="ownercontact" placeholder="" formControlName="ownerContactNo">
-                                            <label for="ownercontact">Contact <span class="c-red"> *</span></label>
-                                        </div>
-                                        <div *ngIf="fOrg['ownerContactNo'].touched && !fOrg['ownerContactNo'].valid && !fOrg['ownerContactNo']?.errors?.['pattern']" class="error" style="padding-top: 22px;">Owner contact No is required</div>
-                                        <div *ngIf="fOrg['ownerContactNo'].touched && !fOrg['ownerContactNo'].valid && fOrg['ownerContactNo']?.errors?.['pattern']" class="error" style="padding-top: 22px;">Owner contact No Starts with 6/7/8/9 and should be 10 digits</div>
-                                   
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-3 mb-sm-0 mb-lg-0">
-                                            <input type="email" class="form-control" id="owneremail" placeholder="" formControlName="ownerEmail">
-                                            <label for="owneremail">Email</label>
-                                        </div>
-                                        <div *ngIf="fOrg['ownerEmail'].touched && fOrg['ownerEmail']?.errors?.['email']" class="error" style="padding-top: 22px;">Please Enter Proper Email Id</div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <div class="form-floating mb-0 mb-lg-0">
-                                            <input type="text" class="form-control" id="ownerAddress" placeholder="" formControlName="ownerAddress">
-                                            <label for="ownerAddress">Address</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="text-end">
-                        <button type="button" class="btn btn-lime-green"  data-bs-dismiss="modal" [disabled]="!OrganisationForm.valid" [ngClass]="{'disabled': OrganisationForm.invalid}" (click)="SubmitformOrganization()">Submit</button>
-                    </div>
-                </div>
+              </div>
             </div>
-        </form>
-        
-    </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="card shadow-md p-3 mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="fw-600">Address</h6>
+                  <a class="btn btn-default" id="iconChange" data-bs-toggle="collapse" href="#collapseExample"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    <span class="bi bi-chevron-down"></span>
+                  </a>
+                </div>
+                <div class="row collapse show" id="collapseExample">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="State" formControlName="stateId">
+                        <!-- <option selected>Select State</option> -->
+                        <option selected value="Telangana">Telangana</option>
+                      </select>
+                      <label for="State">State<span class="c-red"> *</span></label>
+                    </div>
+                    <div *ngIf="fOrg['stateId'].touched && !fOrg['stateId'].valid" class="error"
+                      style="padding-top:  5px;">State is required</div>
+
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="District" formControlName="distId"
+                        (change)="GetMandalByDistrict($any($event.target).value)">
+                        <option selected value="">Select District</option>
+                        <option *ngFor="let list of allDistricts" value="{{list.districtId}}">{{list.districtName}}
+                        </option>
+                      </select>
+                      <label for="District">District <span class="c-red"> *</span></label>
+                    </div>
+                    <div *ngIf="fOrg['distId'].touched && !fOrg['distId'].valid" class="error"
+                      style="padding-top:  5px;">District is required</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="District" formControlName="mandal">
+                        <option selected value="">Select Mandal</option>
+                        <option *ngFor="let list of MandalList" value="{{list.mandalId}}">{{list.mandalName}}</option>
+                        <!-- <option value="1">Mandal 1</option> -->
+                      </select>
+                      <label for="Mandal">Mandal<span class="c-red"> *</span></label>
+                    </div>
+                    <div *ngIf="fOrg['mandal'].touched && !fOrg['mandal'].valid" class="error"
+                      style="padding-top:  5px;">Mandal is required</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="village" placeholder="" formControlName="town">
+                      <label for="village">Town/Village<span class="c-red"> *</span></label>
+                    </div>
+                    <div *ngIf="fOrg['town'].touched && !fOrg['town'].valid" class="error" style="padding-top:  5px;">
+                      Town/Village is required</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="street" placeholder="" formControlName="streetNo">
+                      <label for="street">Street No.</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="house" placeholder="" formControlName="houseNo">
+                      <label for="house">House No.</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="Longitude" placeholder="" formControlName="longitude">
+                      <label for="Longitude">Geo Location Longitude</label>
+                    </div>
+                    <div *ngIf="fOrg['longitude'].touched  && fOrg['longitude']?.errors?.['pattern']" class="error">Geo
+                      Location Longitude should be Numbers with pointers</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="Latiude" placeholder="" formControlName="latitude">
+                      <label for="Latiude">Geo Location Latitude</label>
+                    </div>
+                    <div *ngIf="fOrg['latitude'].touched  && fOrg['latitude']?.errors?.['pattern']" class="error">Geo
+                      Location Latiude should be Numbers with pointers</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3 mb-lg-0">
+                      <input type="text" class="form-control" id="contact" placeholder="" formControlName="contactNo">
+                      <label for="contact">Contact No<span class="c-red"> *</span></label>
+                    </div>
+                    <div
+                      *ngIf="this.fOrg['contactNo'].touched && !this.fOrg['contactNo'].valid && !this.fOrg['contactNo']?.errors?.['pattern']"
+                      class="error" style="padding-top: 22px;">contact No is required</div>
+                    <div
+                      *ngIf="this.fOrg['contactNo'].touched && !this.fOrg['contactNo'].valid && this.fOrg['contactNo']?.errors?.['pattern']"
+                      class="error" style="padding-top: 22px;">contact No Starts with 6,7,8,9 and should be 10 digits
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3 mb-md-0 mb-lg-0">
+                      <input type="email" class="form-control" id="email" placeholder="" formControlName="email">
+                      <label for="email">Email</label>
+                    </div>
+                    <div *ngIf="fOrg['email'].touched && fOrg['email']?.errors?.['email']" class="error"
+                      style="padding-top: 22px;">Please Enter Proper Email Id</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3 mb-md-0 mb-lg-0">
+                      <input type="text" class="form-control" id="website" placeholder="" formControlName="website">
+                      <label for="website">Website</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="card shadow-md p-3 mb-3" *ngIf="this.fOrg['organizationType'].value!='Department'">
+                <h6 class="fs-md fw-600 mb-2">
+                  {{this.fOrg['organizationType'].value=='MSME'?'Director':(this.fOrg['organizationType'].value=='Start Up'?'Promoter':'Leader')}}
+                  Details</h6>
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3 mb-sm-0 mb-lg-0">
+                      <input type="text" class="form-control" id="ownerName" placeholder="" formControlName="ownerName">
+                      <label for="ownerName">Name <span class="c-red"> *</span></label>
+                    </div>
+                    <div *ngIf="fOrg['ownerName'].touched && !fOrg['ownerName'].valid" class="error"
+                      style="padding-top: 22px;">Name is required</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3 mb-sm-0 mb-lg-0">
+                      <input type="text" class="form-control" id="ownercontact" placeholder=""
+                        formControlName="ownerContactNo">
+                      <label for="ownercontact">Contact <span class="c-red"> *</span></label>
+                    </div>
+                    <div
+                      *ngIf="fOrg['ownerContactNo'].touched && !fOrg['ownerContactNo'].valid && !fOrg['ownerContactNo']?.errors?.['pattern']"
+                      class="error" style="padding-top: 22px;">Owner contact No is required</div>
+                    <div
+                      *ngIf="fOrg['ownerContactNo'].touched && !fOrg['ownerContactNo'].valid && fOrg['ownerContactNo']?.errors?.['pattern']"
+                      class="error" style="padding-top: 22px;">Owner contact No Starts with 6/7/8/9 and should be 10
+                      digits</div>
+
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-3 mb-sm-0 mb-lg-0">
+                      <input type="email" class="form-control" id="owneremail" placeholder=""
+                        formControlName="ownerEmail">
+                      <label for="owneremail">Email</label>
+                    </div>
+                    <div *ngIf="fOrg['ownerEmail'].touched && fOrg['ownerEmail']?.errors?.['email']" class="error"
+                      style="padding-top: 22px;">Please Enter Proper Email Id</div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-floating mb-0 mb-lg-0">
+                      <input type="text" class="form-control" id="ownerAddress" placeholder=""
+                        formControlName="ownerAddress">
+                      <label for="ownerAddress">Address</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <button type="button" class="btn btn-lime-green" data-bs-dismiss="modal"
+              [disabled]="!OrganisationForm.valid" [ngClass]="{'disabled': OrganisationForm.invalid}"
+              (click)="SubmitformOrganization()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
 </div>

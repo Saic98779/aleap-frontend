@@ -1633,188 +1633,166 @@
 
 <!-- Select candidates -->
 
-<div class="modal fade" id="addCandidates" tabindex="-1" aria-labelledby="addCandidatesLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header py-2">
-        <h6 class="modal-title" id="addCandidatesLabel">{{iseditModeCandidates?'Update' :'Add'}} Candidate
-        </h6>
-        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="candidateForm" (ngSubmit)="onSubmitCandidate()">
-
-          <div class="row">
-            <!-- Organization ID -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <select class="form-select" id="organizationId" formControlName="organizationId"
-                  [class.is-invalid]="isSubmitted && fcandidate['organizationId'].invalid">
-                  <option value="">Select Organization</option>
-                  <option *ngFor="let val of OrganizationData" value="{{val?.organizationId}}">{{val?.organizationName}}
-                  </option>
-                </select>
-                <label for="organizationId">Name Of MSME</label>
-                <div *ngIf="isSubmitted && fcandidate['organizationId'].invalid" class="invalid-feedback">
-                  Name Of MSME is required
-                </div>
-              </div>
-            </div>
-            <!-- Udyam DPIIT Registration Number -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="udhyamDpiitRegistrationNo"
-                  formControlName="udhyamDpiitRegistrationNo"
-                  [class.is-invalid]="isSubmitted && fcandidate['udhyamDpiitRegistrationNo'].invalid"
-                  placeholder="Udyam / DPIIT Registration No" pattern="^[Uu][Dd][Yy][Aa][Mm]-[A-Za-z]{2}-\d{2}-\d{7}$"
-                  (input)="fcandidate['udhyamDpiitRegistrationNo'].setValue($any($event.target).value)">
-                <label for="udhyamDpiitRegistrationNo">Udhyam / DPIIT Registration No</label>
-                <div *ngIf="isSubmitted && fcandidate['udhyamDpiitRegistrationNo'].errors?.['required']"
-                  class="invalid-feedback">
-                  Udyam / DPIIT Registration No is required
-                </div>
-                <div *ngIf="isSubmitted && fcandidate['udhyamDpiitRegistrationNo'].errors?.['pattern']"
-                  class="invalid-feedback">
-                  Invalid format. Correct Format: UDYAM-XX-00-1234567 or udyam-xx-12-1234567
-                </div>
-              </div>
-            </div>
-
-            <!-- Application Received Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="applicationReceivedDate" appDisableFutureDates
-                  formControlName="applicationReceivedDate"
-                  [class.is-invalid]="isSubmitted && fcandidate['applicationReceivedDate'].invalid"
-                  placeholder="Application Received Date">
-                <label for="applicationReceivedDate">Application Received Date</label>
-                <div *ngIf="isSubmitted && fcandidate['applicationReceivedDate'].invalid" class="invalid-feedback">
-                  Application Received Date is required
-                </div>
-              </div>
-            </div>
-
-            <!-- Application Source -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <!-- <select class="form-select" id="applicationSource" 
-                        formControlName="applicationSource"
-                        [class.is-invalid]="isSubmitted && fcandidate['applicationSource'].invalid">
-                  <option value="">Select Application Source</option>
-                  <option value="Online">Online</option>
-                  <option value="Referral">Referral</option>
-                  <option value="Direct">Direct</option>
-                  <option value="Agency">Agency</option>
-                </select> -->
-                <input type="text" class="form-control" id="applicationSource" formControlName="applicationSource"
-                  [class.is-invalid]="isSubmitted && fcandidate['applicationSource'].invalid"
-                  placeholder="Source of applicated received">
-                <label for="applicationSource">Source of applicated received</label>
-                <div *ngIf="isSubmitted && fcandidate['applicationSource'].invalid" class="invalid-feedback">
-                  Source of applicated received is required
-                </div>
-              </div>
-            </div>
-
-            <!-- Shortlisting Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="shortlistingDate" formControlName="shortlistingDate"
-                  [class.is-invalid]="isSubmitted && fcandidate['shortlistingDate'].invalid"
-                  placeholder="Shortlisting Date">
-                <label for="shortlistingDate">Shortlisting Date</label>
-                <div *ngIf="isSubmitted && fcandidate['shortlistingDate'].invalid" class="invalid-feedback">
-                  Shortlisting Date is required
-                </div>
-              </div>
-            </div>
-
-            <!-- Need Assessment Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="needAssessmentDate" formControlName="needAssessmentDate"
-                  [class.is-invalid]="isSubmitted && fcandidate['needAssessmentDate'].invalid"
-                  placeholder="Need Assessment Date">
-                <label for="needAssessmentDate">Need Assessment Date</label>
-                <div *ngIf="isSubmitted && fcandidate['needAssessmentDate'].invalid" class="invalid-feedback">
-                  Need Assessment Date is required
-                </div>
-              </div>
-            </div>
-
-            <!-- Candidate Finalised -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div>
-                <label class="form-label d-block mb-2">Candidate Finalised</label>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" id="candidateFinalisedYes"
-                    formControlName="candidateFinalised" [value]="true">
-                  <label class="form-check-label" for="candidateFinalisedYes">Yes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" id="candidateFinalisedNo"
-                    formControlName="candidateFinalised" [value]="false">
-                  <label class="form-check-label" for="candidateFinalisedNo">No</label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Cohort Name -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="fcandidate['candidateFinalised'].value">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="cohortName" formControlName="cohortName"
-                  [class.is-invalid]="isSubmitted && fcandidate['cohortName'].invalid" placeholder="Cohort Name">
-                <label for="cohortName">Cohort Name</label>
-                <div *ngIf="isSubmitted && fcandidate['cohortName'].invalid" class="invalid-feedback">
-                  Cohort Name is required
-                </div>
-              </div>
-            </div>
-
-            <!-- Baseline Assessment Date -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="baselineAssessmentDate"
-                  formControlName="baselineAssessmentDate"
-                  [class.is-invalid]="isSubmitted && fcandidate['baselineAssessmentDate'].invalid"
-                  placeholder="Baseline Assessment Date">
-                <label for="baselineAssessmentDate">Date of Baseline assessment</label>
-                <div *ngIf="isSubmitted && fcandidate['baselineAssessmentDate'].invalid" class="invalid-feedback">
-                  Date of Baseline assessment is required
-                </div>
-              </div>
-            </div>
-
-            <!-- Sub Activity ID -->
-            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="subActivityId" 
-                       formControlName="subActivityId"
-                       [class.is-invalid]="isSubmitted && fcandidate['subActivityId'].invalid"
-                       min="0"
-                       placeholder="Sub Activity ID">
-                <label for="subActivityId">Sub Activity ID</label>
-                <div *ngIf="isSubmitted && fcandidate['subActivityId'].invalid" class="invalid-feedback">
-                  <span *ngIf="fcandidate['subActivityId'].errors?.['required']">Sub Activity ID is required</span>
-                  <span *ngIf="fcandidate['subActivityId'].errors?.['min']">Sub Activity ID cannot be negative</span>
-                </div>
-              </div>
-            </div> -->
-
-            <!-- Organization ID -->
-
-          </div>
-
-          <div class="text-end mt-3">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" aria-label="Close"
-              (click)="resetFormCandidates()">Close</button>
-            <button type="submit" class="btn btn-lime-green">{{iseditModeCandidates?'Update' :'Add'}}</button>
-          </div>
-        </form>
-      </div>
-    </div>
+<!-- Convert Bootstrap modal to ng-template -->
+<ng-template #addCandidatesModal let-modal>
+  <div class="modal-header py-2">
+    <h6 class="modal-title">{{iseditModeCandidates?'Update' :'Add'}} Candidate</h6>
+    <button type="button" class="btn-close me-1" (click)="closeModalCandidates()"></button>
   </div>
-</div>
+  <div class="modal-body">
+    <form [formGroup]="candidateForm" (ngSubmit)="onSubmitCandidate()">
+      <div class="row">
+        <!-- Organization ID with Mat Select -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Name of MSME</mat-label>
+            <mat-select formControlName="organizationId" [class.is-invalid]="isSubmitted && fcandidate['organizationId'].invalid">
+              <div class="search-option">
+                <i class="bx bx-search me-2"></i>
+                <input class="search-input" #searchDropdownInput (input)="onSearchChange($any($event.target).value)"
+                  (keydown.space)="$event.stopPropagation()" type="text" placeholder="Search" autocomplete="off" />
+              </div>
+              <span *ngIf="searchValue" class="no-results1">
+                Please enter atleast 2 characters to search
+              </span>
+              <mat-option *ngFor="let list of filteredOrganizationData" [value]="list.organizationId">
+                {{ list.organizationName }}
+              </mat-option>
+              <span *ngIf="filteredOrganizationData?.length === 0" class="no-results">
+                No results found
+              </span>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="isSubmitted && fcandidate['organizationId'].invalid" class="invalid-feedback">
+            Name Of MSME is required
+          </div>
+        </div>
+
+        <!-- Udyam DPIIT Registration Number -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="udhyamDpiitRegistrationNo"
+              formControlName="udhyamDpiitRegistrationNo"
+              [class.is-invalid]="isSubmitted && fcandidate['udhyamDpiitRegistrationNo'].invalid"
+              placeholder="Udyam / DPIIT Registration No" pattern="^[Uu][Dd][Yy][Aa][Mm]-[A-Za-z]{2}-\d{2}-\d{7}$"
+              (input)="fcandidate['udhyamDpiitRegistrationNo'].setValue($any($event.target).value)">
+            <label for="udhyamDpiitRegistrationNo">Udhyam / DPIIT Registration No</label>
+            <div *ngIf="isSubmitted && fcandidate['udhyamDpiitRegistrationNo'].errors?.['required']"
+              class="invalid-feedback">
+              Udyam / DPIIT Registration No is required
+            </div>
+            <div *ngIf="isSubmitted && fcandidate['udhyamDpiitRegistrationNo'].errors?.['pattern']"
+              class="invalid-feedback">
+              Invalid format. Correct Format: UDYAM-XX-00-1234567 or udyam-xx-12-1234567
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Received Date -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="applicationReceivedDate" appDisableFutureDates
+              formControlName="applicationReceivedDate"
+              [class.is-invalid]="isSubmitted && fcandidate['applicationReceivedDate'].invalid"
+              placeholder="Application Received Date">
+            <label for="applicationReceivedDate">Application Received Date</label>
+            <div *ngIf="isSubmitted && fcandidate['applicationReceivedDate'].invalid" class="invalid-feedback">
+              Application Received Date is required
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Source -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="applicationSource" formControlName="applicationSource"
+              [class.is-invalid]="isSubmitted && fcandidate['applicationSource'].invalid"
+              placeholder="Source of applicated received">
+            <label for="applicationSource">Source of applicated received</label>
+            <div *ngIf="isSubmitted && fcandidate['applicationSource'].invalid" class="invalid-feedback">
+              Source of applicated received is required
+            </div>
+          </div>
+        </div>
+
+        <!-- Shortlisting Date -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="shortlistingDate" formControlName="shortlistingDate"
+              [class.is-invalid]="isSubmitted && fcandidate['shortlistingDate'].invalid"
+              placeholder="Shortlisting Date">
+            <label for="shortlistingDate">Shortlisting Date</label>
+            <div *ngIf="isSubmitted && fcandidate['shortlistingDate'].invalid" class="invalid-feedback">
+              Shortlisting Date is required
+            </div>
+          </div>
+        </div>
+
+        <!-- Need Assessment Date -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="needAssessmentDate" formControlName="needAssessmentDate"
+              [class.is-invalid]="isSubmitted && fcandidate['needAssessmentDate'].invalid"
+              placeholder="Need Assessment Date">
+            <label for="needAssessmentDate">Need Assessment Date</label>
+            <div *ngIf="isSubmitted && fcandidate['needAssessmentDate'].invalid" class="invalid-feedback">
+              Need Assessment Date is required
+            </div>
+          </div>
+        </div>
+
+        <!-- Candidate Finalised -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div>
+            <label class="form-label d-block mb-2">Candidate Finalised</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="candidateFinalisedYes"
+                formControlName="candidateFinalised" [value]="true">
+              <label class="form-check-label" for="candidateFinalisedYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="candidateFinalisedNo"
+                formControlName="candidateFinalised" [value]="false">
+              <label class="form-check-label" for="candidateFinalisedNo">No</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cohort Name -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngIf="fcandidate['candidateFinalised'].value">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="cohortName" formControlName="cohortName"
+              [class.is-invalid]="isSubmitted && fcandidate['cohortName'].invalid" placeholder="Cohort Name">
+            <label for="cohortName">Cohort Name</label>
+            <div *ngIf="isSubmitted && fcandidate['cohortName'].invalid" class="invalid-feedback">
+              Cohort Name is required
+            </div>
+          </div>
+        </div>
+
+        <!-- Baseline Assessment Date -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="baselineAssessmentDate"
+              formControlName="baselineAssessmentDate"
+              [class.is-invalid]="isSubmitted && fcandidate['baselineAssessmentDate'].invalid"
+              placeholder="Baseline Assessment Date">
+            <label for="baselineAssessmentDate">Date of Baseline assessment</label>
+            <div *ngIf="isSubmitted && fcandidate['baselineAssessmentDate'].invalid" class="invalid-feedback">
+              Date of Baseline assessment is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-end mt-3">
+        <button type="button" class="btn btn-secondary me-2" (click)="closeModalCandidates()">Close</button>
+        <button type="submit" class="btn btn-lime-green">{{iseditModeCandidates?'Update' :'Add'}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
 <!-- begin --Delete candidate -->
 <div class="modal fade" id="exampleModalDeleteCandidate" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalDeleteLabel" aria-hidden="true">

@@ -123,7 +123,7 @@ designations = [
             if (
             this.selectedBudgetHead == '77' ||
             this.selectedBudgetHead == '78' ||
-            this.selectedBudgetHead == '79'  || this.selectedBudgetHead=='142' || this.selectedBudgetHead=='143' ||
+            this.selectedBudgetHead == '79'  || this.selectedBudgetHead=='142' || this.selectedBudgetHead=='143' || this.selectedBudgetHead=='144' ||
             
             this.selectedBudgetHead == '80' ||
             this.selectedBudgetHead=='142' || this.selectedBudgetHead=='143' ||
@@ -157,7 +157,7 @@ designations = [
             this.selectedBudgetHead == '77' ||
             this.selectedBudgetHead == '78' ||
             this.selectedBudgetHead == '79' ||
-            this.selectedBudgetHead=='142' || this.selectedBudgetHead=='143' ||
+            this.selectedBudgetHead=='142' || this.selectedBudgetHead=='143' || this.selectedBudgetHead=='144' ||
             this.selectedBudgetHead == '80' ||
             this.selectedBudgetHead=='142' || this.selectedBudgetHead=='143' ||
             this.selectedBudgetHead == '81'
@@ -883,7 +883,7 @@ closeModalDelete(): void {
   // Load Vendor Data
   loadVendorData() {
     // Only load vendor data for selectedBudgetHead 79, 80, 81
-    if (!this.selectedBudgetHead || !['79', '80', '81','142','143'].includes(this.selectedBudgetHead)) {
+    if (!this.selectedBudgetHead || !['79', '80', '81','142','143','144'].includes(this.selectedBudgetHead)) {
       this.getVendorData = [];
       return;
     }
@@ -972,7 +972,7 @@ closeModalDelete(): void {
 
   // Check if current budget head supports vendor management
   isVendorBudgetHead(): boolean {
-    return ['79', '80', '81','142','143'].includes(this.selectedBudgetHead);
+    return ['79', '80', '81','142','143','144'].includes(this.selectedBudgetHead);
   }
 
 

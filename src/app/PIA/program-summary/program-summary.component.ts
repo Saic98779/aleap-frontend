@@ -10,6 +10,7 @@ import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { LoaderService } from '@app/common_components/loader-service.service';
 
 @Component({
   selector: 'app-program-summary',
@@ -36,6 +37,7 @@ export class ProgramSummaryComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private toastrService: ToastrService,
     private imageService: ImageService,
+    private loaderService: LoaderService,
     private _commonService: CommonServiceService, private router: Router,) { 
       this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;
     }
@@ -164,6 +166,31 @@ export class ProgramSummaryComponent implements OnInit {
         return isNaN(percentage) ? 0 : percentage
 
       }
+
+ isDownloading: boolean = false;
+DownloadPdfFromBEApi() {
+    this.isDownloading = true;
+    this.loaderService.show('Downloading file...');
+    this._commonService.downloadFile(`${APIS.programSummary.downloadPDF}${this.programIds}`).subscribe({
+      next: (response: Blob) => {
+        console.log(response)
+        this.loaderService.hide();
+        this.isDownloading = false;
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(response);
+        a.href = objectUrl;
+        a.download ='program-summary.pdf';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+        this.toastrService.success('File downloaded successfully.');
+      },
+      error: (err) => {
+        this.loaderService.hide();
+        this.isDownloading = false;
+        this.toastrService.error(err.error?.message || 'Failed to download file.');
+      },
+    });
+  }
      isGeneratingPDF: boolean = false;
   pdfProgress: string = '';
   pdfProgressPercentage: number = 0;
