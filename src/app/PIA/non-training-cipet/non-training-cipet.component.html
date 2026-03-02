@@ -786,6 +786,7 @@
                   <option *ngFor="let desig of designations" [value]="desig.value">
                     {{ desig.label }}
                   </option>
+                  <option *ngIf="selectedBudgetHead=='6'" value="Project Intern">Project Intern</option>
                 </select>
                 <label for="designation">Designation</label>
                 <div *ngIf="isSubmitted && fContingency['designation'].invalid" class="invalid-feedback">
