@@ -184,6 +184,13 @@ export const APIS = {
         saveProgramMonitoring:API_BASE_URL +`/new/program/feedback/save`,
         updateProgramMonitoring:API_BASE_URL +`/new/program/feedback/update/`,
     },
+    questionnaire: {
+        save: 'https://api.aleap.metaversedu.in/workflow/questionnaire/save',
+        list: 'https://api.aleap.metaversedu.in/workflow/questionnaire',
+        byId: 'https://api.aleap.metaversedu.in/workflow/questionnaire/',
+        update: 'https://api.aleap.metaversedu.in/workflow/questionnaire/',
+        delete: 'https://api.aleap.metaversedu.in/workflow/questionnaire/'
+    },
     collageCreation:{
         GET_ALL_IMAGES: API_BASE_URL+`/program/file/paths/`,
         GET_COLLAGE_IMAGES: API_BASE_URL+`/program/file/paths/status?fileType=COLLAGE`,

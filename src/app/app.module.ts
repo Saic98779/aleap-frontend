@@ -80,6 +80,7 @@ import { MonthlyRangeComponent } from './PIA/monthly-range/monthly-range.compone
 import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view-programs-seperate.component';
 import { AddProjectComponent } from './aleapModules/add-project/add-project.component';
 import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
+import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 
 @NgModule({
     imports: [
@@ -165,7 +166,8 @@ import { ViewProjectComponent } from './aleapModules/view-project/view-project.c
         MonthlyRangeComponent,
         ViewProgramsSeperateComponent,
         AddProjectComponent,
-        ViewProjectComponent
+        ViewProjectComponent,
+        ViewRegistrationNewComponent
 
     ],
     exports:[MaterialModule],

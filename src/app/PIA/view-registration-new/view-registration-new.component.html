@@ -1,0 +1,132 @@
+<main class="mt-4">
+	<section>
+		<div class="card mb-3">
+			<div class="card-header bg-transparent">
+				<div class="row">
+					<div class="col-12">
+						<h6 class="fw-600 mb-0">View Survey Registrations</h6>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<table id="view-registration-new-table" class="table table-borderless table-striped nowrap w-100">
+					<thead class="bg-lime-green text-white">
+						<tr>
+							<th>S.No</th>
+							<th class="text-center">Actions</th>
+							<th>Name</th>
+							<th>Father / Husband Name</th>
+							<th>Phone No.</th>
+							<th>Email</th>
+							<th>Gender</th>
+							<th>Caste</th>
+							<th>Disability</th>
+							<th>District</th>
+							<th>State</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</section>
+</main>
+
+<div class="modal fade" #previewModal tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content shadow-lg rounded-4">
+			<div class="modal-header bg-lime-green text-white rounded-top-4">
+				<h5 class="modal-title fw-bold text-white" id="previewModalLabel">
+					<i class="bi bi-eye me-2"></i>
+					Registration Preview
+				</h5>
+				<button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="closePreviewModal()"></button>
+			</div>
+
+			<div class="modal-body px-4 py-3" *ngIf="previewData; else noPreviewData" style="max-height: 70vh; overflow-y: auto;">
+				<div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+					<i class="bi bi-info-circle-fill me-2"></i>
+					<div>
+						Please verify the captured details. Use the scroll inside this popup to review every section.
+					</div>
+				</div>
+
+				<div class="confirmation-section mb-4" *ngFor="let section of previewSections">
+					<div class="d-flex justify-content-between align-items-center mb-2">
+						<h6 class="mb-0 text-green fw-bold">{{ section.title }}</h6>
+						<hr class="flex-grow-1 ms-3" style="height:2px; background: #e0e0e0; border:0;">
+					</div>
+					<div class="table-responsive">
+						<table class="table table-sm table-borderless align-middle mb-2">
+							<tbody>
+								<ng-container *ngFor="let fieldPair of getFieldPairs(section.fields)">
+									<tr>
+										<td class="text-muted small" style="width:20%" *ngIf="fieldPair[0]">{{ fieldPair[0].label }}</td>
+										<td class="fw-semibold" style="width:30%" *ngIf="fieldPair[0]">{{ formatFieldValue(fieldPair[0].key) }}</td>
+										<td class="text-muted small" style="width:20%" *ngIf="fieldPair[1]">{{ fieldPair[1].label }}</td>
+										<td class="fw-semibold" style="width:30%" *ngIf="fieldPair[1]">{{ formatFieldValue(fieldPair[1].key) }}</td>
+									</tr>
+								</ng-container>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="confirmation-section mb-2">
+					<div class="d-flex justify-content-between align-items-center mb-2">
+						<h6 class="mb-0 text-green fw-bold">Ecosystem Touchpoints</h6>
+						<span class="badge bg-light text-dark border border-lime-green">Program Usage</span>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-sm table-borderless align-middle mb-2">
+							<tbody>
+								<tr>
+									<td class="text-muted small" style="width: 20%;">Government Schemes</td>
+									<td class="fw-semibold" style="width: 30%;">{{ formatList(previewData?.govtSchemes) }}</td>
+									<td class="text-muted small" style="width: 20%;">Digital Platforms</td>
+									<td class="fw-semibold" style="width: 30%;">{{ formatList(previewData?.digitalPlatforms) }}</td>
+								</tr>
+								<tr>
+									<td class="text-muted small">Certifications</td>
+									<td class="fw-semibold">{{ formatList(previewData?.certifications) }}</td>
+									<td class="text-muted small">Financial Linkages</td>
+									<td class="fw-semibold">{{ formatList(previewData?.financialLinkages) }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<ng-template #noPreviewData>
+				<div class="modal-body text-center text-muted py-5">
+					<i class="bi bi-exclamation-circle display-4 mb-3"></i>
+					<div>No data available for preview.</div>
+				</div>
+			</ng-template>
+
+			<div class="modal-footer bg-light rounded-bottom-4">
+				<button type="button" class="btn btn-secondary px-4" (click)="closePreviewModal()">
+					<i class="bi bi-x-circle me-1"></i> Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" #deleteConfirmModal tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-white" id="deleteConfirmLabel">Delete Registration</h5>
+				<button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to delete this registration?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+				<button type="button" class="btn btn-lime-green" (click)="confirmDelete()">Delete</button>
+			</div>
+		</div>
+	</div>
+</div>

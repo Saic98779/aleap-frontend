@@ -1,730 +1,891 @@
- <main class="mt-4">
-   <section>
-     <div class="container-fluid">
-       <div class="card mb-3">
-         <div class="card-header bg-transparent">
-           <div class="row align-items-center">
-             <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10">
-               <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Survey Registration</h6>
-             </div>
-             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-               <!-- <select id="languageSelect" class="translate-select form-select form-select-sm">
-                                    <option value="">Select Language</option>
-                                    <option value="en">English</option>
-                                    <option value="te">Telugu</option>
-                                </select> -->
-               <!-- <select id="languageSelect" class="translate-select form-select form-select-sm"
-                 [value]="selectedLanguage" (change)="onLanguageChange($any($event.target).value)">
-                 <option value="en">English</option>
-                 <option value="te">తెలుగు (Telugu)</option>
-               </select> -->
-             </div>
-           </div>
-         </div>
-         <div class="card-body" id="google_translate_element" >
-           <div class="row">
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Name</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Father / Husband name</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Date Of Birth</label>
-                     <input type="date" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Age</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Qualification</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Email ID</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Phone No.</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Alternate Phone No.</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Gender</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="gender" id="male" value="male">
-                     <label class="form-check-label fs-md" for="male">Male</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                     <label class="form-check-label fs-md" for="female">Female</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="gender" id="other" value="other">
-                     <label class="form-check-label fs-md" for="other">Transgender</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Caste</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="caste" id="sc" value="male">
-                     <label class="form-check-label fs-md" for="sc">SC</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="caste" id="st" value="female">
-                     <label class="form-check-label fs-md" for="st">ST</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="caste" id="bc" value="">
-                     <label class="form-check-label fs-md" for="bc">BC</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="caste" id="minority" value="">
-                     <label class="form-check-label fs-md" for="minority">Minority</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="caste" id="general" value="">
-                     <label class="form-check-label fs-md" for="general">General</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Disability</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="disabilityRadio" id="disabilityYes"
-                       value="male">
-                     <label class="form-check-label fs-md" for="disabilityYes">Yes</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="disabilityRadio" id="disabilityNo"
-                       value="female">
-                     <label class="form-check-label fs-md" for="disabilityNo">No</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Door No.</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Street Name</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Village</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Panchayat Name</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Mandal</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">District</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">State</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Pincode</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="row">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Aadhar No.</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                   <div class="mb-3">
-                     <label class="fs-md fw-600 mb-1">Pan Card</label>
-                     <input type="text" class="form-control form-control-sm" placeholder="">
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Self-Help Group / Society (SHG) Name</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Years spent in SHG</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">SHG Leader Name</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Your Position in SHG</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="position" id="member" value="male">
-                     <label class="form-check-label fs-md" for="member">Member</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="position" id="firstLeader" value="female">
-                     <label class="form-check-label fs-md" for="firstLeader">First Leader</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="position" id="secondLeader" value="female">
-                     <label class="form-check-label fs-md" for="secondLeader">Second Leader</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Name of the Mandal Federation</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Name of V.O</label>
-                 <input type="text" class="form-control form-control-sm" placeholder="">
-               </div>
-             </div>
-           </div>
-           <div class="row">
-             <div class="col-12">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">What is your source of income?</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="income" id="self" value="">
-                     <label class="form-check-label fs-md" for="self">Self-employment</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="income" id="daily" value="">
-                     <label class="form-check-label fs-md" for="daily">Daily wage / Business</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="income" id="source" value="">
-                     <label class="form-check-label fs-md" for="source">No source of income / Unemployed</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="income" id="otherSource" value="">
-                     <label class="form-check-label fs-md" for="otherSource">Other </label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">What are the main skills you currently have?</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skill" id="Handicrafts" value="">
-                     <label class="form-check-label fs-md" for="Handicrafts">Handicrafts </label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skill" id="Tailoring" value="">
-                     <label class="form-check-label fs-md" for="Tailoring">Tailoring</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skill" id="food" value="">
-                     <label class="form-check-label fs-md" for="food">Food Processing</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skill" id="electrical" value="">
-                     <label class="form-check-label fs-md" for="electrical">Electrical & Electronics</label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skill" id="otherSkills" value="">
-                     <label class="form-check-label fs-md" for="otherSkills">Other</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Are you willing to start your own business or expand your existing
-                   business?</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="existing" id="existingYes" value="">
-                     <label class="form-check-label fs-md" for="existingYes">Yes </label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="existing" id="existingNo" value="">
-                     <label class="form-check-label fs-md" for="existingNo">No</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">What type of business are you interested in starting?</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="training" id="Manufacturing" value="">
-                     <label class="form-check-label fs-md" for="Manufacturing">Manufacturing / Production </label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="training" id="Retail" value="">
-                     <label class="form-check-label fs-md" for="Retail">Retail / Service Sector </label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="training" id="existingOther" value="">
-                     <label class="form-check-label fs-md" for="existingOther">Other </label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">If you are selected, are you available for 15 days of practical and
-                   skill development training from 9:30 AM to 5:30 PM?</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skilltiming" id="trainingYes" value="">
-                     <label class="form-check-label fs-md" for="trainingYes">Yes </label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="skilltiming" id="trainingNo" value="">
-                     <label class="form-check-label fs-md" for="trainingNo">No</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div class="col-12">
-               <div class="mb-3">
-                 <label class="fs-md fw-600 mb-1">Are you willing to work closely with MSME counselors for your business
-                   development?</label>
-                 <div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="msme" id="msmeYes" value="">
-                     <label class="form-check-label fs-md" for="msmeYes">Yes </label>
-                   </div>
-                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="msme" id="msmeNo" value="">
-                     <label class="form-check-label fs-md" for="msmeNo">No</label>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <form [formGroup]="registrationForm" (ngSubmit)="openConfirmation()">
+        <div class="card mb-4">
+          <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0 text-green">{{ isEditMode ? 'Update Survey Registration' : 'Survey Registration' }}</h6>
+              <div id="google_translate_element"></div>
+            </div>
+          </div>
 
-           <div class="card mt-3 mb-4">
-             <div class="card-header bg-transparent rounded-top py-3">
-               <h6 class="fw-600 mb-0">This is a survey regarding the utilization of government schemes, digital
-                 platforms, certifications, financial linkages, and others.</h6>
-             </div>
-             <div class="card-body">
-               <div class="table-responsive">
-                 <table class="table mb-0">
-                   <thead class="bg-lime-green text-white">
-                     <tr>
-                       <th>Govt Schemes </th>
-                       <th>Digital Platforms</th>
-                       <th>Certifications</th>
-                       <th>Financial Linkages</th>
-                       <th>Others</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="PMEGP">
-                           <label class="form-check-label fs-md" for="PMEGP">
-                             PMEGP
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="ONDC">
-                           <label class="form-check-label fs-md" for="ONDC">
-                             ONDC
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="bronze">
-                           <label class="form-check-label fs-md" for="bronze">
-                             ZED-Bronze
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Banks">
-                           <label class="form-check-label fs-md" for="Banks">
-                             Banks
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Udyam">
-                           <label class="form-check-label fs-md" for="Udyam">
-                             Udyam Registration
-                           </label>
-                         </div>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="PMMY">
-                           <label class="form-check-label fs-md" for="PMMY">
-                             PMMY
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="GeM">
-                           <label class="form-check-label fs-md" for="GeM">
-                             GeM
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="ZED-Silver">
-                           <label class="form-check-label fs-md" for="ZED-Silver">
-                             ZED-Silver
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="NBFCs">
-                           <label class="form-check-label fs-md" for="NBFCs">
-                             NBFCs
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Others">
-                           <label class="form-check-label fs-md" for="Others">
-                             Others
-                           </label>
-                         </div>
-                       </td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="NSIC">
-                           <label class="form-check-label fs-md" for="NSIC">
-                             NSIC
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="OEM">
-                           <label class="form-check-label fs-md" for="OEM">
-                             OEM
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="ZED-Gold">
-                           <label class="form-check-label fs-md" for="ZED-Gold">
-                             ZED-Gold
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Micro">
-                           <label class="form-check-label fs-md" for="Micro">
-                             Micro Finance
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="material">
-                           <label class="form-check-label fs-md" for="material">
-                             Raw material
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="TReDS">
-                           <label class="form-check-label fs-md" for="TReDS">
-                             TReDS
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Basic">
-                           <label class="form-check-label fs-md" for="Basic">
-                             LEAN - Basic
-                           </label>
-                         </div>
-                       </td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Fis">
-                           <label class="form-check-label fs-md" for="Fis">
-                             Other Fis
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Schemes">
-                           <label class="form-check-label fs-md" for="Schemes">
-                             IC Schemes
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Intermediate">
-                           <label class="form-check-label fs-md" for="Intermediate">
-                             LEAN - Intermediate
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Greening">
-                           <label class="form-check-label fs-md" for="Greening">
-                             Greening MSMEs
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Advanced">
-                           <label class="form-check-label fs-md" for="Advanced">
-                             LEAN - Advanced
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Viswakarma">
-                           <label class="form-check-label fs-md" for="Viswakarma">
-                             PM Viswakarma
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Trademark">
-                           <label class="form-check-label fs-md" for="Trademark ">
-                             Trademark
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Hub">
-                           <label class="form-check-label fs-md" for="Hub">
-                             National SC/ST Hub
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Barcode">
-                           <label class="form-check-label fs-md" for="Barcode">
-                             Barcode
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="ASPIRE">
-                           <label class="form-check-label fs-md" for="ASPIRE">
-                             ASPIRE
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="GI">
-                           <label class="form-check-label fs-md" for="GI">
-                             GI
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Consortia">
-                           <label class="form-check-label fs-md" for="Consortia">
-                             Consortia & Tender Marketing
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Design">
-                           <label class="form-check-label fs-md" for="Design">
-                             Design
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                     <tr>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="SFURTI">
-                           <label class="form-check-label fs-md" for="SFURTI">
-                             SFURTI
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td>
-                         <div class="form-check">
-                           <input class="form-check-input" type="checkbox" value="" id="Patents">
-                           <label class="form-check-label fs-md" for="Patents">
-                             Patents
-                           </label>
-                         </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                     </tr>
-                   </tbody>
-                 </table>
-               </div>
-             </div>
-           </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                  <label>Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.name.errors?.required">Name is required.</div>
+                </div>
+              </div>
 
-           <p>I understand that this information will be used to assess my eligibility for the RAMP project and I agree
-             to follow the project guidelines if selected.</p>
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="fatherOrHusbandName" placeholder="Father / Husband Name">
+                  <label>Father / Husband Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.fatherOrHusbandName.invalid && (f.fatherOrHusbandName.dirty || f.fatherOrHusbandName.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.fatherOrHusbandName.errors?.required">Father / Husband name is required.</div>
+                </div>
+              </div>
 
-           <div class="text-center">
-             <button class="btn btn-lime-green">Submit</button>
-           </div>
-         </div>
-       </div>
-     </div>
-   </section>
- </main>
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="date" class="form-control" formControlName="dateOfBirth" (change)="calculateAge()" placeholder="Date Of Birth">
+                  <label>Date Of Birth <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.dateOfBirth.invalid && (f.dateOfBirth.dirty || f.dateOfBirth.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.dateOfBirth.errors?.required">Date of birth is required.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="age" placeholder="Age" readonly>
+                  <label>Age</label>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="qualification" placeholder="Qualification">
+                  <label>Qualification</label>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="email" class="form-control" formControlName="emailId" placeholder="Email">
+                  <label>Email <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.emailId.invalid && (f.emailId.dirty || f.emailId.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.emailId.errors?.required">Email is required.</div>
+                  <div *ngIf="f.emailId.errors?.email">Enter valid email.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="phoneNo" placeholder="Phone Number">
+                  <label>Phone No. <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.phoneNo.invalid && (f.phoneNo.dirty || f.phoneNo.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.phoneNo.errors?.required">Phone number is required.</div>
+                  <div *ngIf="f.phoneNo.errors?.pattern">Enter a valid 10 digit number starting with 6-9.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="alternatePhoneNo" placeholder="Alternate Phone Number">
+                  <label>Alternate Phone No.</label>
+                </div>
+                <div *ngIf="f.alternatePhoneNo.invalid && (f.alternatePhoneNo.dirty || f.alternatePhoneNo.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.alternatePhoneNo.errors?.pattern">Enter a valid 10 digit number starting with 6-9.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <h6 class="text-green mt-4 mb-2">Demographic Information</h6>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Gender <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="male" value="male" formControlName="gender">
+                      <label class="form-check-label" for="male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="female" value="female" formControlName="gender">
+                      <label class="form-check-label" for="female">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="other" value="other" formControlName="gender">
+                      <label class="form-check-label" for="other">Transgender</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.gender.invalid && (f.gender.dirty || f.gender.touched)" class="text-danger fs-sm">Gender selection is required.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Caste <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="caste" id="sc" value="SC" formControlName="caste">
+                      <label class="form-check-label" for="sc">SC</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="caste" id="st" value="ST" formControlName="caste">
+                      <label class="form-check-label" for="st">ST</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="caste" id="bc" value="BC" formControlName="caste">
+                      <label class="form-check-label" for="bc">BC</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="caste" id="minority" value="Minority" formControlName="caste">
+                      <label class="form-check-label" for="minority">Minority</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="caste" id="general" value="General" formControlName="caste">
+                      <label class="form-check-label" for="general">General</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.caste.invalid && (f.caste.dirty || f.caste.touched)" class="text-danger fs-sm">Caste selection is required.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Disability <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="disability" id="disabilityYes" [value]="true" formControlName="disability">
+                      <label class="form-check-label" for="disabilityYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="disability" id="disabilityNo" [value]="false" formControlName="disability">
+                      <label class="form-check-label" for="disabilityNo">No</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.disability.invalid && (f.disability.dirty || f.disability.touched)" class="text-danger fs-sm">Disability selection is required.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <h6 class="text-green mt-4 mb-2">Address Details</h6>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="doorNo" placeholder="Door No.">
+                  <label>Door No. <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.doorNo.invalid && (f.doorNo.dirty || f.doorNo.touched)" class="text-danger fs-sm">Door number is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="streetName" placeholder="Street Name">
+                  <label>Street Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.streetName.invalid && (f.streetName.dirty || f.streetName.touched)" class="text-danger fs-sm">Street name is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="village" placeholder="Village">
+                  <label>Village <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.village.invalid && (f.village.dirty || f.village.touched)" class="text-danger fs-sm">Village is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="panchayatName" placeholder="Panchayat Name">
+                  <label>Panchayat Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.panchayatName.invalid && (f.panchayatName.dirty || f.panchayatName.touched)" class="text-danger fs-sm">Panchayat name is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="mandal" placeholder="Mandal">
+                  <label>Mandal <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.mandal.invalid && (f.mandal.dirty || f.mandal.touched)" class="text-danger fs-sm">Mandal is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="district" placeholder="District">
+                  <label>District <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.district.invalid && (f.district.dirty || f.district.touched)" class="text-danger fs-sm">District is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="state" placeholder="State">
+                  <label>State <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.state.invalid && (f.state.dirty || f.state.touched)" class="text-danger fs-sm">State is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="pincode" placeholder="Pincode" maxlength="6" inputmode="numeric">
+                  <label>Pincode <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.pincode.invalid && (f.pincode.dirty || f.pincode.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.pincode.errors?.required">Pincode is required.</div>
+                  <div *ngIf="f.pincode.errors?.pattern">Enter a valid 6 digit pincode.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="aadharNo" placeholder="Aadhaar" maxlength="12">
+                  <label>Aadhaar No. <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.aadharNo.invalid && (f.aadharNo.dirty || f.aadharNo.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.aadharNo.errors?.required">Aadhaar number is required.</div>
+                  <div *ngIf="f.aadharNo.errors?.pattern">Enter a valid 12 digit Aadhaar number starting from 2-9.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="panCard" placeholder="PAN" maxlength="10">
+                  <label>PAN Card <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.panCard.invalid && (f.panCard.dirty || f.panCard.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.panCard.errors?.required">PAN card number is required.</div>
+                  <div *ngIf="f.panCard.errors?.pattern">Enter a valid PAN in AAAAA9999A format.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <h6 class="text-green mt-4 mb-2">SHG Details</h6>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="shgName" placeholder="SHG Name">
+                  <label>SHG / Society Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.shgName.invalid && (f.shgName.dirty || f.shgName.touched)" class="text-danger fs-sm">SHG name is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="yearsSpentInShg" placeholder="Years" inputmode="numeric">
+                  <label>Years spent in SHG <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.yearsSpentInShg.invalid && (f.yearsSpentInShg.dirty || f.yearsSpentInShg.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.yearsSpentInShg.errors?.required">Years spent in SHG is required.</div>
+                  <div *ngIf="f.yearsSpentInShg.errors?.pattern">Enter a valid number of years.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="shgLeaderName" placeholder="SHG Leader">
+                  <label>SHG Leader Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.shgLeaderName.invalid && (f.shgLeaderName.dirty || f.shgLeaderName.touched)" class="text-danger fs-sm">SHG leader name is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Position in SHG <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="positionInShg" id="member" value="Member" formControlName="positionInShg">
+                      <label class="form-check-label" for="member">Member</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="positionInShg" id="firstLeader" value="First Leader" formControlName="positionInShg">
+                      <label class="form-check-label" for="firstLeader">First Leader</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="positionInShg" id="secondLeader" value="Second Leader" formControlName="positionInShg">
+                      <label class="form-check-label" for="secondLeader">Second Leader</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.positionInShg.invalid && (f.positionInShg.dirty || f.positionInShg.touched)" class="text-danger fs-sm">Position selection is required.</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="mandalFederationName" placeholder="Mandal Federation">
+                  <label>Mandal Federation Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.mandalFederationName.invalid && (f.mandalFederationName.dirty || f.mandalFederationName.touched)" class="text-danger fs-sm">Mandal federation name is required.</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="voName" placeholder="VO Name">
+                  <label>Name of V.O <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f.voName.invalid && (f.voName.dirty || f.voName.touched)" class="text-danger fs-sm">V.O name is required.</div>
+              </div>
+
+              <div class="col-12">
+                <h6 class="text-green mt-4 mb-2">Income & Aspirations</h6>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Source of Income <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="sourceOfIncome" id="self" value="Self-employment" formControlName="sourceOfIncome">
+                      <label class="form-check-label" for="self">Self-employment</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="sourceOfIncome" id="daily" value="Daily wage / Business" formControlName="sourceOfIncome">
+                      <label class="form-check-label" for="daily">Daily wage / Business</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="sourceOfIncome" id="source" value="No source of income / Unemployed" formControlName="sourceOfIncome">
+                      <label class="form-check-label" for="source">No source of income / Unemployed</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="sourceOfIncome" id="otherSource" value="Other" formControlName="sourceOfIncome">
+                      <label class="form-check-label" for="otherSource">Other</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.sourceOfIncome.invalid && (f.sourceOfIncome.dirty || f.sourceOfIncome.touched)" class="text-danger fs-sm">Please select a source of income.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Main Skills <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="skills" id="Handicrafts" value="Handicrafts" formControlName="skills">
+                      <label class="form-check-label" for="Handicrafts">Handicrafts</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="skills" id="Tailoring" value="Tailoring" formControlName="skills">
+                      <label class="form-check-label" for="Tailoring">Tailoring</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="skills" id="food" value="Food Processing" formControlName="skills">
+                      <label class="form-check-label" for="food">Food Processing</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="skills" id="electrical" value="Electrical & Electronics" formControlName="skills">
+                      <label class="form-check-label" for="electrical">Electrical & Electronics</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="skills" id="otherSkills" value="Other" formControlName="skills">
+                      <label class="form-check-label" for="otherSkills">Other</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.skills.invalid && (f.skills.dirty || f.skills.touched)" class="text-danger fs-sm">Please select at least one skill.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Willing to start / expand business? <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="willingToStartBusiness" id="existingYes" [value]="true" formControlName="willingToStartBusiness">
+                      <label class="form-check-label" for="existingYes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="willingToStartBusiness" id="existingNo" [value]="false" formControlName="willingToStartBusiness">
+                      <label class="form-check-label" for="existingNo">No</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.willingToStartBusiness.invalid && (f.willingToStartBusiness.dirty || f.willingToStartBusiness.touched)" class="text-danger fs-sm">Please select an option.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Business type of interest <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="businessType" id="Manufacturing" value="Manufacturing / Production" formControlName="businessType">
+                      <label class="form-check-label" for="Manufacturing">Manufacturing / Production</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="businessType" id="Retail" value="Retail / Service Sector" formControlName="businessType">
+                      <label class="form-check-label" for="Retail">Retail / Service Sector</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="businessType" id="existingOther" value="Other" formControlName="businessType">
+                      <label class="form-check-label" for="existingOther">Other</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.businessType.invalid && (f.businessType.dirty || f.businessType.touched)" class="text-danger fs-sm">Please select a business type.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Available for 15-day training? <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="availableForTraining" id="trainingYes" [value]="true" formControlName="availableForTraining">
+                      <label class="form-check-label" for="trainingYes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="availableForTraining" id="trainingNo" [value]="false" formControlName="availableForTraining">
+                      <label class="form-check-label" for="trainingNo">No</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.availableForTraining.invalid && (f.availableForTraining.dirty || f.availableForTraining.touched)" class="text-danger fs-sm">Please confirm your availability.</div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-600">Ready to work with MSME counselors? <span class="c-red">*</span></label>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="willingToWorkWithMsme" id="msmeYes" [value]="true" formControlName="willingToWorkWithMsme">
+                      <label class="form-check-label" for="msmeYes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="willingToWorkWithMsme" id="msmeNo" [value]="false" formControlName="willingToWorkWithMsme">
+                      <label class="form-check-label" for="msmeNo">No</label>
+                    </div>
+                  </div>
+                  <div *ngIf="f.willingToWorkWithMsme.invalid && (f.willingToWorkWithMsme.dirty || f.willingToWorkWithMsme.touched)" class="text-danger fs-sm">Please select an option.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-4 mb-4">
+              <div class="card-header bg-transparent py-3">
+                <h6 class="fw-600 mb-0 text-green">Utilization of schemes, platforms, certifications & linkages</h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table mb-0">
+                    <thead class="bg-lime-green text-white">
+                      <tr>
+                        <th>Govt Schemes</th>
+                        <th>Digital Platforms</th>
+                        <th>Certifications</th>
+                        <th>Financial Linkages</th>
+                        <th>Others</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="PMEGP" id="PMEGP" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="PMEGP">PMEGP</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="ONDC" id="ONDC" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="ONDC">ONDC</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="ZED-Bronze" id="bronze" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="bronze">ZED-Bronze</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Banks" id="Banks" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Banks">Banks</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Udyam Registration" id="Udyam" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Udyam">Udyam Registration</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="PMMY" id="PMMY" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="PMMY">PMMY</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="GeM" id="GeM" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="GeM">GeM</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="ZED-Silver" id="ZED-Silver" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="ZED-Silver">ZED-Silver</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="NBFCs" id="NBFCs" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="NBFCs">NBFCs</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Others" id="Others" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Others">Others</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="NSIC" id="NSIC" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="NSIC">NSIC</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="OEM" id="OEM" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="OEM">OEM</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="ZED-Gold" id="ZED-Gold" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="ZED-Gold">ZED-Gold</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Micro Finance" id="Micro" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Micro">Micro Finance</label>
+                          </div>
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Raw material" id="material" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="material">Raw material</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="TReDS" id="TReDS" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="TReDS">TReDS</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="LEAN - Basic" id="Basic" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Basic">LEAN - Basic</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Other Fis" id="Fis" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Fis">Other FIs</label>
+                          </div>
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="IC Schemes" id="Schemes" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Schemes">IC Schemes</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="LEAN - Intermediate" id="Intermediate" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Intermediate">LEAN - Intermediate</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Greening MSMEs" id="Greening" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Greening">Greening MSMEs</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="LEAN - Advanced" id="Advanced" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Advanced">LEAN - Advanced</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="PM Viswakarma" id="Viswakarma" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Viswakarma">PM Viswakarma</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Trademark" id="Trademark" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Trademark">Trademark</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="National SC/ST Hub" id="Hub" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Hub">National SC/ST Hub</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Barcode" id="Barcode" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Barcode">Barcode</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="ASPIRE" id="ASPIRE" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="ASPIRE">ASPIRE</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="GI" id="GI" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="GI">GI</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Consortia & Tender Marketing" id="Consortia" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Consortia">Consortia & Tender Marketing</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Design" id="Design" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Design">Design</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="SFURTI" id="SFURTI" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="SFURTI">SFURTI</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" #schemeCheckbox type="checkbox" value="Patents" id="Patents" (change)="onTableCheckbox($event)">
+                            <label class="form-check-label" for="Patents">Patents</label>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <p class="mb-3">I understand that this information will be used to assess my eligibility for the RAMP project and I agree to follow the project guidelines if selected.</p>
+
+            <div class="text-end">
+              <button type="submit" class="btn btn-lime-green" [disabled]="registrationForm.invalid">{{ isEditMode ? 'Update' : 'Submit' }}</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- MODAL: Improved UI for preview -->
+  <div class="modal fade" #confirmModal tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content shadow-lg rounded-4">
+        <div class="modal-header bg-lime-green text-white rounded-top-4">
+          <h5 class="modal-title fw-bold text-white" id="confirmModalLabel">
+            <i class="bi bi-eye me-2"></i>
+            {{ isEditMode ? 'Confirm Update Details' : 'Confirm Details' }}
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-3" *ngIf="confirmationData; else noConfirmationData" style="max-height: 70vh; overflow-y: auto;">
+          <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <div>
+              Please verify the captured details before submitting. Use the scroll inside this popup to review every section.
+            </div>
+          </div>
+
+          <div class="confirmation-section mb-4" *ngFor="let section of previewSections">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0 text-green fw-bold">{{ section.title }}</h6>
+              <hr class="flex-grow-1 ms-3" style="height:2px; background: #e0e0e0; border:0;">
+            </div>
+            <div class="table-responsive">
+              <table class="table table-sm table-borderless align-middle mb-2">
+                <tbody>
+                 <ng-container *ngFor="let fieldPair of getFieldPairs(section.fields)">
+                  <tr>
+                    <td class="text-muted small" style="width:20%" *ngIf="fieldPair[0]">{{ fieldPair[0].label }}</td>
+                    <td class="fw-semibold" style="width:30%" *ngIf="fieldPair[0]">{{ formatFieldValue(fieldPair[0].key) }}</td>
+                    <td class="text-muted small" style="width:20%" *ngIf="fieldPair[1]">{{ fieldPair[1].label }}</td>
+                    <td class="fw-semibold" style="width:30%" *ngIf="fieldPair[1]">{{ formatFieldValue(fieldPair[1].key) }}</td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="confirmation-section mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0 text-green fw-bold">Ecosystem Touchpoints</h6>
+              <span class="badge bg-light text-dark border border-lime-green">Program Usage</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-sm table-borderless align-middle mb-2">
+                <tbody>
+                  <tr>
+                    <td class="text-muted small" style="width: 20%;">Government Schemes</td>
+                    <td class="fw-semibold" style="width: 30%;">{{ formatList(confirmationData?.govtSchemes) }}</td>
+                    <td class="text-muted small" style="width: 20%;">Digital Platforms</td>
+                    <td class="fw-semibold" style="width: 30%;">{{ formatList(confirmationData?.digitalPlatforms) }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-muted small">Certifications</td>
+                    <td class="fw-semibold">{{ formatList(confirmationData?.certifications) }}</td>
+                    <td class="text-muted small">Financial Linkages</td>
+                    <td class="fw-semibold">{{ formatList(confirmationData?.financialLinkages) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <ng-template #noConfirmationData>
+          <div class="modal-body text-center text-muted py-5">
+            <i class="bi bi-exclamation-circle display-4 mb-3"></i>
+            <div>No data available for preview.</div>
+          </div>
+        </ng-template>
+        <div class="modal-footer bg-light rounded-bottom-4">
+          <button type="button" class="btn btn-secondary px-4" (click)="confirmModalRef?.hide()">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+          </button>
+          <button type="button" class="btn btn-lime-green px-4" (click)="saveData()">
+            <i class="bi bi-check-circle me-1"></i>
+            {{ isEditMode ? 'Confirm & Update' : 'Confirm & Submit' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- MODAL: Improved UI for preview -->
+<div class="modal fade" #confirmModal tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content shadow-lg rounded-4">
+      <div class="modal-header bg-lime-green text-white rounded-top-4">
+        <h5 class="modal-title fw-bold" id="confirmModalLabel">
+          <i class="bi bi-eye me-2"></i>
+          {{ isEditMode ? 'Confirm Update Details' : 'Confirm Details' }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 py-3" *ngIf="confirmationData; else noConfirmationData" style="max-height: 70vh; overflow-y: auto;">
+        <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          <div>
+            Please verify the captured details before submitting. Use the scroll inside this popup to review every section.
+          </div>
+        </div>
+
+        <div class="confirmation-section mb-4" *ngFor="let section of previewSections">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0 text-green fw-bold">{{ section.title }}</h6>
+            <hr class="flex-grow-1 ms-3" style="height:2px; background: #e0e0e0; border:0;">
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm table-borderless align-middle mb-2">
+              <tbody>
+                <ng-container *ngFor="let fieldPair of getFieldPairs(section.fields)">
+                  <tr>
+                    <td class="text-muted small" style="width: 20%; white-space: nowrap;" *ngIf="fieldPair[0]">{{ fieldPair[0].label }}</td>
+                    <td class="fw-semibold" style="width: 30%;" *ngIf="fieldPair[0]">{{ formatFieldValue(fieldPair[0].key) }}</td>
+                    <td class="text-muted small" style="width: 20%; white-space: nowrap;" *ngIf="fieldPair[1]">{{ fieldPair[1].label }}</td>
+                    <td class="fw-semibold" style="width: 30%;" *ngIf="fieldPair[1]">{{ formatFieldValue(fieldPair[1].key) }}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="confirmation-section mb-2">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0 text-green fw-bold">Ecosystem Touchpoints</h6>
+            <span class="badge bg-light text-dark border border-lime-green">Program Usage</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm table-borderless align-middle mb-2">
+              <tbody>
+                <tr>
+                  <td class="text-muted small" style="width: 20%;">Government Schemes</td>
+                  <td class="fw-semibold" style="width: 30%;">{{ formatList(confirmationData?.govtSchemes) }}</td>
+                  <td class="text-muted small" style="width: 20%;">Digital Platforms</td>
+                  <td class="fw-semibold" style="width: 30%;">{{ formatList(confirmationData?.digitalPlatforms) }}</td>
+                </tr>
+                <tr>
+                  <td class="text-muted small">Certifications</td>
+                  <td class="fw-semibold">{{ formatList(confirmationData?.certifications) }}</td>
+                  <td class="text-muted small">Financial Linkages</td>
+                  <td class="fw-semibold">{{ formatList(confirmationData?.financialLinkages) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <ng-template #noConfirmationData>
+        <div class="modal-body text-center text-muted py-5">
+          <i class="bi bi-exclamation-circle display-4 mb-3"></i>
+          <div>No data available for preview.</div>
+        </div>
+      </ng-template>
+      <div class="modal-footer bg-light rounded-bottom-4">
+        <button type="button" class="btn btn-secondary px-4" (click)="confirmModalRef?.hide()">
+          <i class="bi bi-x-circle me-1"></i> Cancel
+        </button>
+        <button type="button" class="btn btn-lime-green px-4" (click)="saveData()">
+          <i class="bi bi-check-circle me-1"></i>
+          {{ isEditMode ? 'Confirm & Update' : 'Confirm & Submit' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

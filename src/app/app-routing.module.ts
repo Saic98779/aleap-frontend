@@ -48,6 +48,7 @@ import { FinanceExpenditureComponent } from './PIA/finance-expenditure/finance-e
 import { ViewApplicationComponent } from './PIA/view-application/view-application.component';
 import { AssignCounsellorComponent } from './PIA/assign-counsellor/assign-counsellor.component';
 import { RegistrationNewComponent } from './PIA/registration-new/registration-new.component';
+import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 import { StartupAssesmentComponent } from './PIA/startup-assesment/startup-assesment.component';
 import { UploadParticipantsComponent } from './PIA/upload-participants/upload-participants.component';
 import { TrainingTargetsComponent } from './PIA/training-targets/training-targets.component';
@@ -207,6 +208,18 @@ const routes: Routes = [
         component: RegistrationNewComponent,
         canActivate: [AuthGuard],
         data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'Registration/:id',
+        component: RegistrationNewComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-registration-new',
+        component: ViewRegistrationNewComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR,Role.Admin] }
     },
      {
         path: 'assessment',
