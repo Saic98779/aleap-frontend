@@ -9,8 +9,8 @@ pipeline {
 
     stage('Clone Repository') {
       steps {
-        git branch: 'aleap_prod',
-          url: 'https://github.com/sriramakrishnakukunuri/ramp_jan.git'
+        git branch: 'main',
+          url: 'https://github.com/Saic98779/aleap-frontend.git'
       }
     }
 
