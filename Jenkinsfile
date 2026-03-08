@@ -20,7 +20,7 @@ pipeline {
       }
     }
 
-    stage('Build Frontend') {
+    stage('Build Frontend Application') {
       steps {
         sh 'npm run build'
       }
