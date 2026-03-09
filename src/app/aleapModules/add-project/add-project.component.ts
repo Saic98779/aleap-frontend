@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonServiceService } from '@app/_services/common-service.service';
+import { APIS } from '@app/constants/constants';
 
 @Component({
   selector: 'app-add-project',
@@ -20,7 +22,8 @@ export class AddProjectComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private _commonService: CommonServiceService
   ) { }
 
   ngOnInit(): void {
@@ -81,87 +84,99 @@ export class AddProjectComponent implements OnInit {
 
   submitProject() {
     this.submitted = true;
+    
+    // Mark all form controls as touched to show error messages
+    Object.keys(this.addProjectForm.controls).forEach(key => {
+      this.addProjectForm.get(key)?.markAsTouched();
+    });
+
     if (this.addProjectForm.invalid) {
-      Object.values(this.addProjectForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
+      // this.toastrService.error('Please fill all required fields before submitting', 'Validation Error');
       return;
     }
 
     this.loading = true;
 
-    const payload: any = {
-      ...this.addProjectForm.value,
-      projectId: this.projectId || Date.now(),
-      beneficiariesListFileName: this.addProjectForm.value.beneficiariesListFile?.name || '',
-      sanctionOrderFileName: this.addProjectForm.value.sanctionOrderFile?.name || '',
-      updatedAt: new Date().toISOString()
+    const formValue = this.addProjectForm.value;
+    const payload = {
+      titleOfProject: formValue.projectTitle,
+      fundingAgency: formValue.fundingAgency,
+      ministryOrConcernedDepartment: formValue.ministryDepartment,
+      spocDetails: `${formValue.spocName}, ${formValue.spocDesignation}, ${formValue.spocContactNo}, ${formValue.spocEmail}`,
+      projectCostInLakhs: parseFloat(formValue.projectCostLakhs),
+      startDate: new Date(formValue.tenureStartDate).toISOString(),
+      endDate: new Date(formValue.tenureEndDate).toISOString(),
+      projectHeadAndTeam: formValue.projectHeadTeam,
+      briefDescription: formValue.briefDescription,
+      projectLocation: formValue.projectLocation,
+      totalNoOfBeneficiaries: parseInt(formValue.beneficiariesCount),
+      expectedImpactOrOutcome: formValue.expectedImpactOutcome,
+      sanctionOrderFilePath: formValue.sanctionOrderFile?.name || '',
+      beneficiariesUploadFilePath: formValue.beneficiariesListFile?.name || ''
     };
 
-    delete payload.beneficiariesListFile;
-    delete payload.sanctionOrderFile;
-
-    const projects = this.getStoredProjects();
-    const existingIndex = projects.findIndex((item: any) => item.projectId === payload.projectId);
-
-    if (existingIndex > -1) {
-      projects[existingIndex] = {
-        ...projects[existingIndex],
-        ...payload
-      };
+    if (this.isEditMode && this.projectId) {
+      this._commonService.update(APIS.projects.update, payload, this.projectId).subscribe({
+        next: (res) => {
+          this.toastrService.success('Project Updated Successfully', 'Success');
+          this.loading = false;
+          this.router.navigate(['/view-project-data']);
+        },
+        error: (err) => {
+          this.toastrService.error('Failed to update project', 'Error');
+          this.loading = false;
+        }
+      });
     } else {
-      projects.unshift(payload);
+      this._commonService.add(APIS.projects.add, payload).subscribe({
+        next: (res) => {
+          this.toastrService.success('Project Added Successfully', 'Success');
+          this.loading = false;
+          this.router.navigate(['/view-project-data']);
+        },
+        error: (err) => {
+          this.toastrService.error('Failed to add project', 'Error');
+          this.loading = false;
+        }
+      });
     }
-
-    this.saveStoredProjects(projects);
-    this.toastrService.success(this.isEditMode ? 'Project Updated Successfully' : 'Project Added Successfully', 'Success');
-    this.loading = false;
-    this.router.navigate(['/view-project-data']);
   }
 
   loadProjectForEdit(projectId: number) {
-    const projects = this.getStoredProjects();
-    const currentProject = projects.find((item: any) => item.projectId === projectId);
+    this._commonService.getById(APIS.projects.getById, projectId).subscribe({
+      next: (res: any) => {
+        // Assuming the API returns the project data
+        const project = res.data;
+        this.addProjectForm.patchValue({
+          projectTitle: project.titleOfProject || '',
+          fundingAgency: project.fundingAgency || '',
+          ministryDepartment: project.ministryOrConcernedDepartment || '',
+          spocName: '', // Need to parse spocDetails if possible
+          spocDesignation: '',
+          spocContactNo: '',
+          spocEmail: '',
+          projectCostLakhs: project.projectCostInLakhs?.toString() || '',
+          tenureStartDate: project.startDate ? new Date(project.startDate).toISOString().split('T')[0] : '',
+          tenureEndDate: project.endDate ? new Date(project.endDate).toISOString().split('T')[0] : '',
+          projectHeadTeam: project.projectHeadAndTeam || '',
+          briefDescription: project.briefDescription || '',
+          projectLocation: project.projectLocation || '',
+          beneficiariesCount: project.totalNoOfBeneficiaries?.toString() || '',
+          beneficiariesListFile: null,
+          expectedImpactOutcome: project.expectedImpactOrOutcome || '',
+          sanctionOrderFile: null
+        });
 
-    if (!currentProject) {
-      this.toastrService.error('Project not found', 'Error');
-      this.router.navigate(['/view-project-data']);
-      return;
-    }
-
-    this.addProjectForm.patchValue({
-      projectTitle: currentProject.projectTitle || '',
-      fundingAgency: currentProject.fundingAgency || '',
-      ministryDepartment: currentProject.ministryDepartment || '',
-      spocName: currentProject.spocName || '',
-      spocDesignation: currentProject.spocDesignation || '',
-      spocContactNo: currentProject.spocContactNo || '',
-      spocEmail: currentProject.spocEmail || '',
-      projectCostLakhs: currentProject.projectCostLakhs || '',
-      tenureStartDate: currentProject.tenureStartDate || '',
-      tenureEndDate: currentProject.tenureEndDate || '',
-      projectHeadTeam: currentProject.projectHeadTeam || '',
-      briefDescription: currentProject.briefDescription || '',
-      projectLocation: currentProject.projectLocation || '',
-      beneficiariesCount: currentProject.beneficiariesCount || '',
-      beneficiariesListFile: null,
-      expectedImpactOutcome: currentProject.expectedImpactOutcome || '',
-      sanctionOrderFile: null
+        this.addProjectForm.get('beneficiariesListFile')?.clearValidators();
+        this.addProjectForm.get('beneficiariesListFile')?.updateValueAndValidity();
+        this.addProjectForm.get('sanctionOrderFile')?.clearValidators();
+        this.addProjectForm.get('sanctionOrderFile')?.updateValueAndValidity();
+      },
+      error: (err) => {
+        this.toastrService.error('Failed to load project', 'Error');
+        this.router.navigate(['/view-project-data']);
+      }
     });
-
-    this.addProjectForm.get('beneficiariesListFile')?.clearValidators();
-    this.addProjectForm.get('beneficiariesListFile')?.updateValueAndValidity();
-    this.addProjectForm.get('sanctionOrderFile')?.clearValidators();
-    this.addProjectForm.get('sanctionOrderFile')?.updateValueAndValidity();
-  }
-
-  getStoredProjects(): any[] {
-    const records = localStorage.getItem(this.projectsStorageKey);
-    return records ? JSON.parse(records) : [];
-  }
-
-  saveStoredProjects(projects: any[]) {
-    localStorage.setItem(this.projectsStorageKey, JSON.stringify(projects));
   }
 
   goToProjects() {

@@ -196,7 +196,7 @@
 
 						<div class="text-end mt-2">
 							<button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
-							<button type="submit" class="btn btn-lime-green" [disabled]="loading || addProjectForm.invalid">
+							<button type="submit" class="btn btn-lime-green" >
 								<span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
 								{{ isEditMode ? 'Update' : 'Submit' }}
 							</button>

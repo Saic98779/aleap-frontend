@@ -198,4 +198,11 @@ export const APIS = {
         GET_AGENCIES: API_BASE_URL+`/agencies`,
         GET_PROGRAMS: API_BASE_URL+`/agency/programs/dropdown`,
     },
+    projects: {
+        add: API_BASE_URL + '/projects',
+        getAll: API_BASE_URL + '/projects',
+        getById: API_BASE_URL + '/projects/',
+        update: API_BASE_URL + '/projects/',
+        delete: API_BASE_URL + '/projects/'
+    },
 }
