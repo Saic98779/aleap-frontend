@@ -129,11 +129,45 @@ export class ViewProjectComponent implements OnInit, OnDestroy {
         { data: 'projectLocation', title: 'Project Location' },
         { data: 'totalNoOfBeneficiaries', title: 'Total No. of Beneficiaries' },
         { data: 'expectedImpactOrOutcome', title: 'Expected Impact/Outcome' },
-        {
-          data: 'sanctionOrderFilePath',
-          title: 'Sanction Orders(Upload List)',
-          render: (data: any) => data || '-'
-        }
+{
+  data: 'sanctionOrderFilePath',
+  title: 'Sanction Orders(Upload List)',
+  render: (data: any, type: any, row: any) => {
+    if (data) {
+      return `
+        <a class="btn btn-default text-primary btn-sm file-viewer-btn" data-filepath="${data}" title="View File">
+          <span class="bi bi-eye"></span>
+        </a>
+      `;
+    }
+    return '-';
+  }
+},
+{
+  data: 'beneficiariesUploadFilePath',
+  title: 'Beneficiaries List (Upload List)',
+  render: (data: any, type: any, row: any) => {
+    if (data) {
+      return `
+        <a class="btn btn-default text-primary btn-sm file-viewer-btn" data-filepath="${data}" title="View File">
+          <span class="bi bi-eye"></span>
+        </a>
+      `;
+    }
+    return '-';
+  }
+},
+
+        // {
+        //   data: 'sanctionOrderFilePath',
+        //   title: 'Sanction Orders(Upload List)',
+        //   render: (data: any) => data || '-'
+        // },
+        // {
+        //   data: 'beneficiariesUploadFilePath',
+        //   title: 'Beneficiaries List (Upload List)',
+        //   render: (data: any) => data || '-'
+        // }
       ],
       initComplete: function () {
          $('#view-table-project').on('click', '.edit-btn', function () {
@@ -144,6 +178,10 @@ export class ViewProjectComponent implements OnInit, OnDestroy {
           const rowData = self.dataTable.row($(this).parents('tr')).data();
           self.deleteRow(rowData);
         });
+         $('#view-table-project').on('click', '.file-viewer-btn', function () {
+          const filePath = $(this).data('filepath');
+         self.showFileViewer(filePath);
+  });
       }
     });
   }
@@ -187,7 +225,13 @@ export class ViewProjectComponent implements OnInit, OnDestroy {
       }
     });
   }
+ // addd by Ramakrishna for common file preview
+  showFileViewer(filePath: string) {
+    console.log('File path to open:', filePath);
 
+    this._commonService.openFile(filePath);
+
+  }
   closeDeleteModal() {
     this.deleteModalRef?.hide();
     this.selectedProject = null;

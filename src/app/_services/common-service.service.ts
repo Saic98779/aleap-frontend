@@ -1,7 +1,7 @@
 import { HttpClient,HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIS } from '@app/constants/constants';
-import { catchError, forkJoin, map, Observable, throwError } from 'rxjs';
+import { catchError, forkJoin, map, Observable, Subject, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,10 @@ export class CommonServiceService {
   public getById(URL: any, id: any,): Observable<any> {
     return this.http.get(URL+id).pipe(catchError(this.formatErrors));
   }
-
+  uploadFile(directory: any, formData: any): Observable<any> {
+    const url = `${APIS.uploadfiles.upload}${directory}`;
+    return this.http.post(url, formData).pipe(catchError(this.formatErrors));
+  }
   uploadImage(formData:any): Observable<any> {
     const url = APIS.programCreation.addSessions;
     return this.http.post(url, formData);
@@ -115,6 +118,13 @@ export class CommonServiceService {
   }
   
   
+// file viewer data passing between components
+  private fileSubject = new Subject<string>();
+  file$ = this.fileSubject.asObservable();
+
+  openFile(filePath: string) {
+    this.fileSubject.next(filePath);
+  }
   
 }
 

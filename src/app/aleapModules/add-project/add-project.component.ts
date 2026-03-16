@@ -17,6 +17,8 @@ export class AddProjectComponent implements OnInit {
   loading = false;
   projectId: number | null = null;
   isEditMode = false;
+  uploadedBeneficiariesFile: File | string | null = null;
+  uploadedSanctionOrderFile: File | string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -47,7 +49,7 @@ export class AddProjectComponent implements OnInit {
         ministryDepartment: new FormControl('', [Validators.required]),
         spocName: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z .]*$/)]),
         spocDesignation: new FormControl('', [Validators.required]),
-        spocContactNo: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
+        spocContact: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
         spocEmail: new FormControl('', [Validators.required, Validators.email]),
         projectCostLakhs: new FormControl('', [Validators.required, Validators.pattern(/^(?:0|[1-9]\d*)(?:\.\d{1,2})?$/)]),
         tenureStartDate: new FormControl('', [Validators.required]),
@@ -80,6 +82,74 @@ export class AddProjectComponent implements OnInit {
     const selectedFile = input.files && input.files.length ? input.files[0] : null;
     this.addProjectForm.get(controlName)?.setValue(selectedFile);
     this.addProjectForm.get(controlName)?.markAsTouched();
+    if (!selectedFile) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append('files', selectedFile);
+    this._commonService.uploadFile('Project',formData).subscribe({
+      next: (res: any) => {
+        const filePath = res.data[0]; // Assuming the API returns the file path in this format
+        this.addProjectForm.get(controlName)?.setValue(filePath);
+        if (controlName === 'beneficiariesListFile') {
+          this.uploadedBeneficiariesFile = filePath;
+        } else {
+          this.uploadedSanctionOrderFile = filePath;
+        }
+      },
+      error: (err:any) => {
+        this.toastrService.error('File upload failed', 'Error');
+        this.addProjectForm.get(controlName)?.setValue(null);
+        if (controlName === 'beneficiariesListFile') {
+          this.uploadedBeneficiariesFile = null;
+        } else {
+          this.uploadedSanctionOrderFile = null;
+        }
+      }
+    });
+    // if (controlName === 'beneficiariesListFile') {
+    //   this.uploadedBeneficiariesFile = selectedFile;
+    //   return;
+    // }
+
+    // this.uploadedSanctionOrderFile = selectedFile;
+  }
+
+  removeFile(controlName: 'beneficiariesListFile' | 'sanctionOrderFile', inputId: string): void {
+    this._commonService.deleteId(APIS.uploadfiles.deleteFile, this.addProjectForm.get(controlName)?.value).subscribe({
+      next: (res:any) => {
+        // this.toastrService.success('File deleted successfully', 'Success');
+      },
+      error: (err:any) => {
+        // this.toastrService.error('Failed to delete file', 'Error');
+      }
+    });
+    this.addProjectForm.get(controlName)?.setValue(null);
+    this.addProjectForm.get(controlName)?.markAsTouched();
+    this.addProjectForm.get(controlName)?.updateValueAndValidity();
+
+    if (controlName === 'beneficiariesListFile') {
+      this.uploadedBeneficiariesFile = null;
+    } else {
+      this.uploadedSanctionOrderFile = null;
+    }
+
+    const fileInput = document.getElementById(inputId) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
+  getFileName(file: File | string | null): string {
+    if (!file) {
+      return '';
+    }
+
+    if (typeof file === 'string') {
+      return file.split('/').pop() || file;
+    }
+
+    return file.name;
   }
 
   submitProject() {
@@ -102,7 +172,11 @@ export class AddProjectComponent implements OnInit {
       titleOfProject: formValue.projectTitle,
       fundingAgency: formValue.fundingAgency,
       ministryOrConcernedDepartment: formValue.ministryDepartment,
-      spocDetails: `${formValue.spocName}, ${formValue.spocDesignation}, ${formValue.spocContactNo}, ${formValue.spocEmail}`,
+      spocDesignation: formValue.spocDesignation,
+      spocName: formValue.spocName,
+      spocContact: formValue.spocContact,
+      spocEmail: formValue.spocEmail,
+      spocDetails: `${formValue.spocName}, ${formValue.spocDesignation}, ${formValue.spocContact}, ${formValue.spocEmail}`,
       projectCostInLakhs: parseFloat(formValue.projectCostLakhs),
       startDate: new Date(formValue.tenureStartDate).toISOString(),
       endDate: new Date(formValue.tenureEndDate).toISOString(),
@@ -111,8 +185,8 @@ export class AddProjectComponent implements OnInit {
       projectLocation: formValue.projectLocation,
       totalNoOfBeneficiaries: parseInt(formValue.beneficiariesCount),
       expectedImpactOrOutcome: formValue.expectedImpactOutcome,
-      sanctionOrderFilePath: formValue.sanctionOrderFile?.name || '',
-      beneficiariesUploadFilePath: formValue.beneficiariesListFile?.name || ''
+      sanctionOrderFilePath: formValue.sanctionOrderFile,
+      beneficiariesUploadFilePath: formValue.beneficiariesListFile
     };
 
     if (this.isEditMode && this.projectId) {
@@ -151,10 +225,10 @@ export class AddProjectComponent implements OnInit {
           projectTitle: project.titleOfProject || '',
           fundingAgency: project.fundingAgency || '',
           ministryDepartment: project.ministryOrConcernedDepartment || '',
-          spocName: '', // Need to parse spocDetails if possible
-          spocDesignation: '',
-          spocContactNo: '',
-          spocEmail: '',
+          spocName: project.spocName || '',
+          spocDesignation: project.spocDesignation || '',
+          spocContact: project.spocContact || '',
+          spocEmail: project.spocEmail || '',
           projectCostLakhs: project.projectCostInLakhs?.toString() || '',
           tenureStartDate: project.startDate ? new Date(project.startDate).toISOString().split('T')[0] : '',
           tenureEndDate: project.endDate ? new Date(project.endDate).toISOString().split('T')[0] : '',
@@ -162,10 +236,13 @@ export class AddProjectComponent implements OnInit {
           briefDescription: project.briefDescription || '',
           projectLocation: project.projectLocation || '',
           beneficiariesCount: project.totalNoOfBeneficiaries?.toString() || '',
-          beneficiariesListFile: null,
+          beneficiariesListFile: project.beneficiariesUploadFilePath || null,
           expectedImpactOutcome: project.expectedImpactOrOutcome || '',
-          sanctionOrderFile: null
+          sanctionOrderFile: project.sanctionOrderFilePath || null
         });
+
+        this.uploadedBeneficiariesFile = project.beneficiariesUploadFilePath || null;
+        this.uploadedSanctionOrderFile = project.sanctionOrderFilePath || null;
 
         this.addProjectForm.get('beneficiariesListFile')?.clearValidators();
         this.addProjectForm.get('beneficiariesListFile')?.updateValueAndValidity();
@@ -190,5 +267,8 @@ export class AddProjectComponent implements OnInit {
       return;
     }
     this.addProjectForm.reset();
+    this.uploadedBeneficiariesFile = null;
+    this.uploadedSanctionOrderFile = null;
   }
+  
 }

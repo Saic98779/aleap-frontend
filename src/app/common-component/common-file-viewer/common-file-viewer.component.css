@@ -1,0 +1,24 @@
+.zoom-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.zoom-container img {
+  max-width: 90vw;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+.zoomed {
+  transform: scale(2);
+  cursor: zoom-out;
+}

@@ -5,7 +5,7 @@
                 <div class="card-header bg-transparent">
                     <div class="d-flex align-items-center justify-content-between flex-wrap">
                         <div>
-                            <h6 class="mb-2 mb-sm-0 text-green">MSME Counsellor Registration</h6>
+                            <h6 class="mb-2 mb-sm-0 text-green">{{ isEditMode ? 'Edit MSME Counsellor' : 'MSME Counsellor Registration' }}</h6>
                         </div>
                     </div>
                 </div>
@@ -17,18 +17,21 @@
                                     <input type="date" class="form-control" id="dateRegistration" placeholder="" name="dateOfRegistration" formControlName="dateOfRegistration">
                                     <label for="dateRegistration">Date Of Registration</label>
                                 </div>
+                                 <div *ngIf="f2['dateOfRegistration'].touched && !f2['dateOfRegistration'].valid" class="error" style="padding-top:  5px;">Date Of Registration is required</div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="nameCounsellor" placeholder="" name="nameOfCounsellor" formControlName="nameOfCounsellor">
                                     <label for="nameCounsellor">Name Of The MSME Counsellor</label>
                                 </div>
+                                <div *ngIf="f2['nameOfCounsellor'].touched && !f2['nameOfCounsellor'].valid" class="error" style="padding-top:  5px;">Name Of The MSME Counsellor is required</div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="date" class="form-control" id="dateOfBirth" placeholder="" name="dateOfBirth" formControlName="dateOfBirth">
                                     <label for="dateOfBirth">Date Of Birth</label>
                                 </div>
+                                <div *ngIf="f2['dateOfBirth'].touched && !f2['dateOfBirth'].valid" class="error" style="padding-top:  5px;">Date Of Birth is required</div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <label class="fs-md fw-600 mb-1">Gender</label>
@@ -45,7 +48,9 @@
                                         <input class="form-check-input" type="radio"  name="gender" formControlName="gender" id="tg" value="Transgender">
                                         <label class="form-check-label fs-md" for="tg">Transgender</label>
                                     </div>
+                                    <div *ngIf="f2['gender'].touched && !f2['gender'].valid" class="error" style="padding-top:  5px;">Gender is required</div>
                                 </div>
+
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-6">
                                 <label class="fs-md fw-600 mb-1">Social Category</label>
@@ -54,22 +59,29 @@
                                         <div class="row">
                                             <div class="col-6 col-sm-4 col-md-2 col-lg-4">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"  name="socialCategory" formControlName="socialCategory" id="sc" value="sc">
+                                                    <input class="form-check-input" type="radio"  name="socialCategory" formControlName="socialCategory" id="sc" value="SC">
                                                     <label class="form-check-label fs-md" for="sc">SC</label>
                                                 </div>
                                             </div>
                                             <div class="col-6 col-sm-4 col-md-2 col-lg-4">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"  name="socialCategory" formControlName="socialCategory" id="female" value="st">
-                                                    <label class="form-check-label fs-md" for="female">ST</label>
+                                                    <input class="form-check-input" type="radio"  name="socialCategory" formControlName="socialCategory" id="st" value="ST">
+                                                    <label class="form-check-label fs-md" for="st">ST</label>
                                                 </div>
                                             </div>
                                             <div class="col-6 col-sm-4 col-md-2 col-lg-4">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="socialCategory" formControlName="socialCategory"  id="bc" value="bc">
+                                                    <input class="form-check-input" type="radio" name="socialCategory" formControlName="socialCategory"  id="bc" value="BC">
                                                     <label class="form-check-label fs-md" for="bc">BC</label>
                                                 </div>
                                             </div>
+                                            <div class="col-6 col-sm-4 col-md-2 col-lg-4">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="socialCategory" formControlName="socialCategory"  id="OC" value="OC">
+                                                    <label class="form-check-label fs-md" for="OC">OC</label>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-6">
@@ -86,6 +98,7 @@
                                                     <label class="form-check-label fs-md" for="others">Others</label>
                                                 </div>
                                             </div>
+                                            <div *ngIf="f2['socialCategory'].touched && !f2['socialCategory'].valid" class="error" style="padding-top:  5px;">Social Category is required</div>
                                         </div>
                                     </div>
                                 </div>
@@ -132,6 +145,7 @@
                                                         <label class="form-check-label fs-md" for="iti">ITI</label>
                                                     </div>
                                                 </div>
+                                                    
                                                 
                                             </div>
                                         </div>
@@ -143,6 +157,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div *ngIf="f2['educationalQualification'].touched && !f2['educationalQualification'].valid" class="error" style="padding-top:  5px;">Educational Qualification is required</div>
                                     </div>
                                 </div>
                             </div>
@@ -153,15 +168,25 @@
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3">
                                       
-                                        <select class="form-select" id="district" name="districtId" formControlName="districtId">
+                                        <select class="form-select" id="district" name="districtId" formControlName="districtId" (change)="GetMandalByDistrict($any($event.target).value)">
                                             <option value="">Select District</option>
                                             <option *ngFor="let list of allDistricts" value="{{list.districtId}}">{{list.districtName}}</option>
                                         </select>
                                         <label for="district">Name Of The District</label>
                                     </div>
                                 </div>
-                               
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="District" name="mandalId" formControlName="mandalId">
+                                              <option selected value="">Select Mandal</option>
+                                              <option *ngFor="let list of MandalList" value="{{list.mandalId}}">{{list.mandalName}}</option>
+                                              <!-- <option value="1">Mandal 1</option> -->
+                                            </select>
+                                            <label for="Mandal">Mandal<span class="c-red"> *</span></label>
+                                        </div>
+                                        <div *ngIf="f2['mandalId'].touched && !f2['mandalId'].valid" class="error" style="padding-top:  5px;">Mandal is required</div>
+                                    </div>
+                                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="mandal" name="mandalId" formControlName="mandalId">
                                           <option selected>Select Mandal</option>
@@ -170,12 +195,13 @@
                                         </select>
                                         <label for="mandal">Mandal</label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="village" placeholder="" name="village" formControlName="village">
                                         <label for="village">Village</label>
                                     </div>
+                                    <div *ngIf="f2['village'].touched && !f2['village'].valid" class="error" style="padding-top:  5px;">Village is required</div>
                                 </div>
                                
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -183,18 +209,21 @@
                                         <input type="text" class="form-control" id="house" placeholder="" name="houseNo" formControlName="houseNo">
                                         <label for="house">House No.</label>
                                     </div>
+                                    <div *ngIf="f2['houseNo'].touched && !f2['houseNo'].valid" class="error" style="padding-top:  5px;">House No is required</div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3 mb-lg-0">
                                         <input type="text" class="form-control" id="street" placeholder="" name="streetName" formControlName="streetName">
                                         <label for="street">Street Name</label>
                                     </div>
+                                    <div *ngIf="f2['streetName'].touched && !f2['streetName'].valid" class="error" style="padding-top:  5px;">Street Name is required</div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3 mb-lg-0">
                                         <input type="text" class="form-control" id="landmark" placeholder="" name="landmark" formControlName="landmark">
                                         <label for="landmark">Landmark</label>
                                     </div>
+                                    <div *ngIf="f2['landmark'].touched && !f2['landmark'].valid" class="error" style="padding-top:  5px;">Landmark is required</div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3">
@@ -214,18 +243,21 @@
                                         <input type="number" class="form-control" id="exp" placeholder="" name="expriance" formControlName="expriance">
                                         <label for="exp">No. Of Years Of Exp</label>
                                     </div>
+                                    <div *ngIf="f2['expriance'].touched && !f2['expriance'].valid" class="error" style="padding-top:  5px;">No. Of Years Of Exp is required</div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3 mb-lg-0">
                                         <input type="text" class="form-control" id="designation" placeholder="" name="designation" formControlName="designation">
                                         <label for="designation">Designation</label>
                                     </div>
+                                    <div *ngIf="f2['designation'].touched && !f2['designation'].valid" class="error" style="padding-top:  5px;">Designation is required</div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-floating mb-3 mb-lg-0">
                                         <input type="text" class="form-control" id="specialization" placeholder="" name="specialzation" formControlName="specialzation">
                                         <label for="specialization">Specialization</label>
                                     </div>
+                                    <div *ngIf="f2['specialzation'].touched && !f2['specialzation'].valid" class="error" style="padding-top:  5px;">Specialization is required</div>
                                 </div>
                                 <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <label class="fs-md fw-600 mb-1">Select</label>
@@ -266,6 +298,8 @@
                                     <input type="email" class="form-control" id="email" placeholder="" name="emailId" formControlName="emailId">
                                     <label for="email">Email Id</label>
                                 </div>
+                                <div *ngIf="f2['emailId'].touched && !f2['emailId'].valid && !f2['emailId']?.errors?.['pattern']" class="error">Email Id is required</div>
+                                <div *ngIf="f2['emailId'].touched && !f2['emailId'].valid && f2['emailId']?.errors?.['pattern']" class="error">Email Id should be in valid format</div>
                             </div>
                         </div>
                         <!-- <div class="border rounded-3 py-3 px-3 mb-4">
@@ -302,7 +336,7 @@
                             </div>
                         </div> -->
                         <div class="text-end">
-                            <button type="button" (click)="submitForm()" class="btn btn-lime-green">Submit</button>
+                            <button type="button" (click)="submitForm()" class="btn btn-lime-green">{{ isEditMode ? 'Update' : 'Submit' }}</button>
                         </div>
                     </form>
                 </div>

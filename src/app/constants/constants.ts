@@ -75,8 +75,10 @@ export const APIS = {
         updateTempParticipant: API_BASE_URL + '/participants/temp/',
     },
     counsellerData:{
-        add: API_BASE_URL + '/saveCounsellor',
-        getData: API_BASE_URL + '/getAllCounsellors',
+        add: API_BASE_URL + '/counsellor/save',
+        getData: API_BASE_URL + '/counsellor/all',
+        update: API_BASE_URL + '/counsellor/update/',
+        delete: API_BASE_URL + '/counsellor/delete/',
     },
     userRegistration:{
         add: API_BASE_URL + '/auth/register',
@@ -205,4 +207,9 @@ export const APIS = {
         update: API_BASE_URL + '/projects/',
         delete: API_BASE_URL + '/projects/'
     },
+    uploadfiles:{
+        upload: API_BASE_URL +  '/files/upload?directory=' ,
+        getFilesByProgramId: API_BASE_URL + '/program/files/',
+        deleteFile: API_BASE_URL + '/files?path=',
+    }
 }

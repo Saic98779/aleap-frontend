@@ -197,6 +197,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
+    {
+        path: 'MSME-councellor-registeration/:id',
+        component: MsmeCouncellorRegisterationComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
       {
         path: 'assign-Counsellor',
         component: AssignCounsellorComponent,

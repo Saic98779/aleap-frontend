@@ -81,6 +81,7 @@ import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view
 import { AddProjectComponent } from './aleapModules/add-project/add-project.component';
 import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
 import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
+import { CommonFileViewerComponent } from './common-component/common-file-viewer/common-file-viewer.component';
 
 @NgModule({
     imports: [
@@ -167,7 +168,8 @@ import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-r
         ViewProgramsSeperateComponent,
         AddProjectComponent,
         ViewProjectComponent,
-        ViewRegistrationNewComponent
+        ViewRegistrationNewComponent,
+        CommonFileViewerComponent
 
     ],
     exports:[MaterialModule],

@@ -68,12 +68,12 @@
 
 							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
 								<div class="form-floating mb-3">
-									<input type="text" class="form-control" formControlName="spocContactNo" placeholder="Contact No.">
+									<input type="text" class="form-control" formControlName="spocContact" placeholder="Contact No.">
 									<label>Contact No. <span class="c-red">*</span></label>
 								</div>
-								<div *ngIf="f['spocContactNo'].touched && f['spocContactNo'].invalid" class="error" style="color: red;">
-									<span *ngIf="f['spocContactNo'].errors?.['required']">Contact No. is required</span>
-									<span *ngIf="f['spocContactNo'].errors?.['pattern']">Enter valid 10 digit mobile number</span>
+								<div *ngIf="f['spocContact'].touched && f['spocContact'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['spocContact'].errors?.['required']">Contact No. is required</span>
+									<span *ngIf="f['spocContact'].errors?.['pattern']">Enter valid 10 digit mobile number</span>
 								</div>
 							</div>
 
@@ -156,7 +156,15 @@
 							<div class="col-12 col-sm-6 col-md-6 col-lg-6">
 								<div class="mb-3">
 									<label class="form-label fs-md fw-600">Beneficiaries List (Upload List) <span class="c-red">*</span></label>
-									<input type="file" class="form-control" (change)="onFileChange('beneficiariesListFile', $event)">
+									<input id="beneficiariesFile" type="file" class="form-control" [disabled]="uploadedBeneficiariesFile" (change)="onFileChange('beneficiariesListFile', $event)">
+								</div>
+								<div *ngIf="uploadedBeneficiariesFile" class="mt-2 mb-2">
+									<div class="d-flex align-items-center mb-1">
+										<span class="me-2">{{ getFileName(uploadedBeneficiariesFile) }}</span>
+										<button type="button" (click)="removeFile('beneficiariesListFile', 'beneficiariesFile')" class="btn btn-sm btn-lime-green">
+											<span class="bi bi-trash"></span>
+										</button>
+									</div>
 								</div>
 								<div *ngIf="f['beneficiariesListFile'].touched && f['beneficiariesListFile'].invalid" class="error" style="color: red;">
 									Beneficiaries list file is required
@@ -166,7 +174,15 @@
 							<div class="col-12 col-sm-6 col-md-6 col-lg-6">
 								<div class="mb-3">
 									<label class="form-label fs-md fw-600">Sanction Orders (Upload file) <span class="c-red">*</span></label>
-									<input type="file" class="form-control" (change)="onFileChange('sanctionOrderFile', $event)">
+									<input id="sanctionOrderFile" type="file" class="form-control" [disabled]="uploadedSanctionOrderFile" (change)="onFileChange('sanctionOrderFile', $event)">
+								</div>
+								<div *ngIf="uploadedSanctionOrderFile" class="mt-2 mb-2">
+									<div class="d-flex align-items-center mb-1">
+										<span class="me-2">{{ getFileName(uploadedSanctionOrderFile) }}</span>
+										<button type="button" (click)="removeFile('sanctionOrderFile', 'sanctionOrderFile')" class="btn btn-sm btn-lime-green">
+											<span class="bi bi-trash"></span>
+										</button>
+									</div>
 								</div>
 								<div *ngIf="f['sanctionOrderFile'].touched && f['sanctionOrderFile'].invalid" class="error" style="color: red;">
 									Sanction order file is required
