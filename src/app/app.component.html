@@ -62,7 +62,14 @@
             <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active"><span class="bi bi-journal-text me-2 submenu-icon"></span>Program Summary</a></li>
           </ul>
         </li>
-
+        <li class="nav-item dropdown" [class.show]="openSubMenus['eventDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('eventDetails', $event)" [attr.aria-expanded]="openSubMenus['eventDetails']"><span class="bi bi-calendar-event me-2 menu-icon"></span>Event</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['eventDetails']">
+          <li><a class="dropdown-item" routerLink="/add-event-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Event</a></li>
+          <li><a class="dropdown-item" routerLink="/view-event-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Event</a></li>
+          </ul>
+        </li>
+        
          <li class="nav-item dropdown" [class.show]="openSubMenus['projectDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('projectDetails', $event)" [attr.aria-expanded]="openSubMenus['projectDetails']"><span class="bi bi-kanban me-2 menu-icon"></span>Project</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['projectDetails']">
@@ -70,6 +77,7 @@
           <li><a class="dropdown-item" routerLink="/view-project-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Project</a></li>
           </ul>
         </li>
+        
         <li class="nav-item dropdown" [class.show]="openSubMenus['programs']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('programs', $event)" [attr.aria-expanded]="openSubMenus['programs']"><span class="bi bi-kanban me-2 menu-icon"></span>Programs</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['programs']">
@@ -305,7 +313,7 @@
     margin: 2px 0;
     padding: 11px 14px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -337,7 +345,7 @@
   .sidebar-nav .dropdown-item {
     color: #d3defd;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 13px;
     padding: 7px 11px;
     font-weight: 600;
     display: flex;
@@ -499,7 +507,7 @@
     width: 150px;
     min-width: 150px;
     height: 36px;
-    font-size: 13px;
+    font-size: 12px;
     border-color: #c9d6f0;
     color: #2c3d88;
     background-color: #f3f6ff;
@@ -518,7 +526,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
   }
   .sidebar-toggle-btn:hover {
     background: #dfe6ff;
@@ -568,7 +576,7 @@
     .app-language-select {
       width: 128px;
       min-width: 128px;
-      font-size: 12px;
+      font-size: 11px;
     }
     .app-content {
       padding: 10px;

@@ -58,6 +58,8 @@ import { TargetsAndAchievementsComponent } from './PIA/targets-and-achievements/
 import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view-programs-seperate.component';
 import { AddProjectComponent } from './aleapModules/add-project/add-project.component';
 import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
+import { AddEventComponent } from './aleapModules/add-event/add-event.component';
+import { ViewEventComponent } from './aleapModules/view-event/view-event.component';
 
 const routes: Routes = [
     {
@@ -398,6 +400,24 @@ const routes: Routes = [
     {
         path: 'view-project-data',
         component: ViewProjectComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-event-data',
+        component: AddEventComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-event-data-edit/:id',
+        component: AddEventComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-event-data',
+        component: ViewEventComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },

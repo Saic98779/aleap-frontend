@@ -38,6 +38,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     this.formDetailsLocation();    
     this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;    
     this.getProgramLocation();    
+    this.getProjectsDropdown();
     this.getProgramTypeData();
     this.getAllActivityList()
     this.getProgramsByAgency()
@@ -131,9 +132,10 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
   formDetails() {
     
     this.programCreationMain = new FormGroup({
-      activityId: new FormControl("", [Validators.required]),
-      subActivityId: new FormControl("", [Validators.required]),
-      programType: new FormControl("", [Validators.required]),
+      activityId: new FormControl("",),
+      subActivityId: new FormControl("", ),
+      projectId: new FormControl("", [Validators.required]),
+      programType: new FormControl("", ),
       programTitle: new FormControl("", [Validators.required, Validators.pattern(/^[^\s].*/)]),
       startDate: new FormControl("", [Validators.required]),
       endDate: new FormControl("", [Validators.required]),
@@ -143,7 +145,6 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
       spocContactNo: new FormControl("", [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
       programLocation: new FormControl("", [Validators.required]),
       kpi: new FormControl("", [Validators.required]),
-      programCategory: new FormControl("Ramp", [Validators.required]), // New form control with default value
     }, { validators: this.validateDates as ValidatorFn });
     // Mark all controls as touched to show validation errors immediately
     //Object.values(this.programCreationMain.controls).forEach(control => control.markAsTouched());
@@ -236,6 +237,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     maindata['agencyId'] = Number(this.agencyId)
     maindata['activityId'] = Number(this.programCreationMain.value?.activityId)
     maindata['subActivityId'] = Number(this.programCreationMain.value?.subActivityId)
+    maindata['projectId'] = Number(this.programCreationMain.value?.projectId)
     
     this.loading = true;
     if(this.programId) {
@@ -311,6 +313,21 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
   }
 
   getProgramType: any = [];
+  projectsDropdownList: any[] = [];
+
+  getProjectsDropdown() {
+    this._commonService
+      .getDataByUrl(APIS.projects.dropdown)
+      .subscribe({
+        next: (data: any) => {
+          this.projectsDropdownList = data.data || [];
+        },
+        error: () => {
+          this.projectsDropdownList = [];
+        },
+      });
+  }
+
   getProgramTypeData() {
     this._commonService
       .getById(APIS.programCreation.getProgramType, this.agencyId)
@@ -379,6 +396,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
         this.programCreationMain.patchValue({
           activityId: program.activityId,
           subActivityId: program.subActivityId,
+          projectId: program.projectId || program.project_id || program.project?.projectId || program.project?.project_id || '',
           programType: program.programType,
           programTitle: program.programTitle,
           startDate: this.convertToISOFormat(program.startDate),
@@ -389,7 +407,6 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
           spocContactNo: program.spocContactNo,
           programLocation: program.programLocation,
           kpi: program.kpi,
-          programCategory: program.programCategory || 'Ramp', // Default to 'Ramp' if not specified
         });
 
         if (this.programCreationMain.invalid) {

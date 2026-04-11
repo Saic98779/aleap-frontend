@@ -1,0 +1,245 @@
+<main class="mt-4">
+	<section>
+		<div class="container-fluid">
+			<form [formGroup]="addEventForm" (ngSubmit)="submitEvent()">
+				<div class="card mb-4">
+					<div class="card-header bg-transparent">
+						<div class="d-flex justify-content-between align-items-center flex-wrap">
+							<h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Add' }} Event</h6>
+							<button type="button" class="btn btn-default" (click)="goToEvents()">Back</button>
+						</div>
+					</div>
+
+					<div class="card-body">
+						<div class="row">
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<select class="form-select" formControlName="eventType">
+										<option value="" disabled>Select Event Type</option>
+										<option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
+									</select>
+									<label>Event Type <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['eventType'].touched && f['eventType'].invalid" class="error" style="color: red;">
+									Event Type is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="eventTitle" placeholder="Event Title">
+									<label>Event Title <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['eventTitle'].touched && f['eventTitle'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['eventTitle'].errors?.['required']">Event Title is required</span>
+									<span *ngIf="f['eventTitle'].errors?.['pattern']">Event Title cannot start with spaces</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<!-- <select class="form-select" formControlName="projectName">
+										<option value="" disabled>Select Project</option>
+										<option *ngFor="let project of projectsDropdownList" [value]="project.titleOfProject">{{ project.titleOfProject }}</option>
+									</select> -->
+                                    <input type="text" class="form-control" formControlName="projectName" placeholder="Project Name">
+									<label>Project Name <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['projectName'].touched && f['projectName'].invalid" class="error" style="color: red;">
+									Project Name is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="fundingAgency" placeholder="Funding Agency">
+									<label>Funding Agency <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['fundingAgency'].touched && f['fundingAgency'].invalid" class="error" style="color: red;">
+									Funding Agency is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="ministry" placeholder="Ministry">
+									<label>Ministry <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['ministry'].touched && f['ministry'].invalid" class="error" style="color: red;">
+									Ministry is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<select class="form-select" formControlName="implementingAgency">
+										<option value="" disabled>Select Implementing Agency</option>
+										<option *ngFor="let agency of implementingAgencies" [value]="agency">{{ agency }}</option>
+									</select>
+									<label>Implementing Agency <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['implementingAgency'].touched && f['implementingAgency'].invalid" class="error" style="color: red;">
+									Implementing Agency is required
+								</div>
+							</div>
+
+							<div class="col-12">
+								<div class="form-floating mb-3">
+									<textarea class="form-control" formControlName="description" placeholder="Description" style="height: 100px"></textarea>
+									<label>Description <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['description'].touched && f['description'].invalid" class="error" style="color: red;">
+									Description is required
+								</div>
+							</div>
+
+							<div class="col-12"><h6 class="text-green mt-2 mb-3">Program Coordination</h6></div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="programCoordinatorName" placeholder="Program Coordinator Name">
+									<label>Program Coordinator Name <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['programCoordinatorName'].touched && f['programCoordinatorName'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['programCoordinatorName'].errors?.['required']">Program Coordinator Name is required</span>
+									<span *ngIf="f['programCoordinatorName'].errors?.['pattern']">Program Coordinator Name should contain only letters</span>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="designation" placeholder="Designation">
+									<label>Designation <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['designation'].touched && f['designation'].invalid" class="error" style="color: red;">
+									Designation is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<input type="number" class="form-control" formControlName="totalParticipants" placeholder="Total Participants">
+									<label>Total Participants <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['totalParticipants'].touched && f['totalParticipants'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['totalParticipants'].errors?.['required']">Total Participants is required</span>
+									<span *ngIf="f['totalParticipants'].errors?.['pattern']">Enter valid participant count greater than 0</span>
+								</div>
+							</div>
+
+							<div class="col-12"><h6 class="text-green mt-2 mb-3">Schedule and Location</h6></div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="date" class="form-control" formControlName="startDate" (change)="onDateChange()">
+									<label>Start Date <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['startDate'].touched && f['startDate'].invalid" class="error" style="color: red;">
+									Start Date is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="date" class="form-control" formControlName="endDate" (change)="onDateChange()">
+									<label>End Date <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['endDate'].touched && f['endDate'].errors?.['required']" class="error" style="color: red;">
+									End Date is required
+								</div>
+								<div *ngIf="f['endDate'].touched && addEventForm.errors?.['invalidEventDate']" class="error" style="color: red;">
+									End Date must be greater than or equal to Start Date
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="number" class="form-control" formControlName="totalDays" placeholder="Total Days" readonly>
+									<label>Total Days <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['totalDays'].touched && f['totalDays'].invalid" class="error" style="color: red;">
+									Total Days is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="time" class="form-control" formControlName="startTime">
+									<label>Start Time <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['startTime'].touched && f['startTime'].invalid" class="error" style="color: red;">
+									Start Time is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="time" class="form-control" formControlName="endTime">
+									<label>End Time <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['endTime'].touched && f['endTime'].invalid" class="error" style="color: red;">
+									End Time is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<select class="form-select" formControlName="districtId" (change)="onDistrictChange(f['districtId'].value)">
+										<option value="" disabled>Select District</option>
+										<option *ngFor="let district of allDistricts" [value]="getDistrictId(district)">{{ getDistrictLabel(district) }}</option>
+									</select>
+									<label>District <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['districtId'].touched && f['districtId'].invalid" class="error" style="color: red;">
+									District is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<select class="form-select" formControlName="mandalId">
+										<option value="" disabled>Select Mandal</option>
+										<option *ngFor="let mandal of mandalList" [value]="getMandalId(mandal)">{{ getMandalLabel(mandal) }}</option>
+									</select>
+									<label>Mandal <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['mandalId'].touched && f['mandalId'].invalid" class="error" style="color: red;">
+									Mandal is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="village" placeholder="Village">
+									<label>Village <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['village'].touched && f['village'].invalid" class="error" style="color: red;">
+									Village is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="pinCode" placeholder="Pin Code">
+									<label>Pin Code <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['pinCode'].touched && f['pinCode'].invalid" class="error" style="color: red;">
+									<span *ngIf="f['pinCode'].errors?.['required']">Pin Code is required</span>
+									<span *ngIf="f['pinCode'].errors?.['pattern']">Enter valid 6 digit Pin Code</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="text-end mt-2">
+							<button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
+							<button type="submit" class="btn btn-lime-green">
+								<span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+								{{ isEditMode ? 'Update' : 'Submit' }}
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+</main>

@@ -16,6 +16,8 @@ declare var bootstrap: any;
 export class AttentanceParticipantComponent implements OnInit,AfterViewInit {
   loginsessionDetails: any;
   agencyId: any;
+  selectedProjectId: any = '';
+  projectsDropdownList: any[] = [];
   programIds:any
   constructor(private fb: FormBuilder,
     private toastrService: ToastrService,
@@ -25,7 +27,7 @@ export class AttentanceParticipantComponent implements OnInit,AfterViewInit {
 
     ngOnInit(): void {
       this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
-      this.getProgramsByAgency()
+      this.getProjectsDropdown()
     }
 
     ngAfterViewInit(): void {
@@ -34,21 +36,79 @@ export class AttentanceParticipantComponent implements OnInit,AfterViewInit {
 
     agencyProgramList: any;
     agencyProgramListFiltered: any;
-    getProgramsByAgency() {
-      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus+'/'+(this.loginsessionDetails.agencyId?this.loginsessionDetails.agencyId:this.agencyId)+'?status=Participants Added'}`).subscribe({
+    getProjectsDropdown() {
+      this._commonService.getDataByUrl(APIS.projects.dropdown).subscribe({
+        next: (data: any) => {
+          this.projectsDropdownList = data?.data || [];
+          const firstProjectId = this.projectsDropdownList[0]?.projectId || this.projectsDropdownList[0]?.project_id || '';
+
+          if (firstProjectId) {
+            this.selectedProjectId = firstProjectId;
+            this.getProgramsByAgency(firstProjectId);
+            return;
+          }
+
+          this.selectedProjectId = '';
+          this.programIds = '';
+          this.agencyProgramList = [];
+          this.agencyProgramListFiltered = [];
+          this.ParticipantAttendanceData = '';
+        },
+        error: () => {
+          this.projectsDropdownList = [];
+          this.selectedProjectId = '';
+          this.programIds = '';
+          this.agencyProgramList = [];
+          this.agencyProgramListFiltered = [];
+          this.ParticipantAttendanceData = '';
+        }
+      });
+    }
+
+    onProjectChange(event: any) {
+      const projectId = event?.value || event?.target?.value || '';
+      this.selectedProjectId = projectId;
+      this.programIds = '';
+      this.agencyProgramList = [];
+      this.agencyProgramListFiltered = [];
+      this.ParticipantAttendanceData = '';
+
+      if (!projectId) {
+        return;
+      }
+
+      this.getProgramsByAgency(projectId);
+    }
+
+    getProgramsByAgency(projectId?: any) {
+      const currentAgencyId = this.loginsessionDetails.agencyId ? this.loginsessionDetails.agencyId : this.agencyId;
+
+      if (!projectId) {
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.programIds = '';
+        this.ParticipantAttendanceData = '';
+        return;
+      }
+
+      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + currentAgencyId}?status=Participants Added&projectId=${projectId}`).subscribe({
         next: (res: any) => {
-          this.agencyProgramList = res?.data
-          this.agencyProgramListFiltered = res?.data;
-          if(res?.data?.length){
-            this.programIds = this.agencyProgramList[0].programId
-            this.getData()
+          this.agencyProgramList = res?.data || [];
+          this.agencyProgramListFiltered = this.agencyProgramList;
+          if (this.agencyProgramList.length) {
+            this.programIds = this.agencyProgramList[0].programId;
+            this.getData();
           }else{
-            this.ParticipantAttendanceData = ''
-            this.programIds = ''
+            this.ParticipantAttendanceData = '';
+            this.programIds = '';
           }
           
         },
         error: (err) => {
+          this.agencyProgramList = [];
+          this.agencyProgramListFiltered = [];
+          this.ParticipantAttendanceData = '';
+          this.programIds = '';
           new Error(err);
         }
       })

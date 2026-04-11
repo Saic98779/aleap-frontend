@@ -1,149 +1,148 @@
- <main class="mt-4">
-        <section>
-            <div class="container-fluid">
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-7">
-                                <h6 class="fw-600 mb-2 mb-sm-2 mb-md-0">Assign Counsellor</h6>
+<main class="mt-4">
+    <section>
+        <div class="container-fluid">
+            <div class="card mb-3">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-7">
+                            <h6 class="fw-600 mb-2 mb-sm-2 mb-md-0">Assign Counsellor</h6>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                            <div class="mb-2 mb-sm-0">
+                                <input type="text" class="form-control" placeholder="Search By Name / Mobile No." [formControl]="searchControl">
                             </div>
-                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-                                <div class="mb-2 mb-sm-0">
-                                    <input type="text" class="form-control" placeholder="Search By Name / Mobile No.">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3 col-lg-2">
-                                <div class="d-grid text-end">
-                                    <button type="button" class="btn btn-lime-green"><span class="bi bi-search"></span> Search</button>
-                                </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                            <div class="d-grid text-end">
+                                <button type="button" class="btn btn-lime-green" (click)="onSearch()">
+                                    <span class="bi bi-search"></span> Search
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <table id="view-table" class="table table-bordered table-striped nowrap w-100">
-                            <thead class="bg-lime-green text-white">
-                               <tr>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="isLoading" class="text-center py-3">Loading counsellor records...</div>
+                    <table id="view-table" class="table table-bordered table-striped nowrap w-100" *ngIf="!isLoading">
+                        <thead class="bg-lime-green text-white">
+                            <tr>
                                 <th class="text-center">Select</th>
                                 <th>s.No</th>
                                 <th>Name</th>
                                 <th>Mobile No.</th>
                                 <th>Basic Details</th>
-                               </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="d-flex align-items-center justify-content-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="detailsRadio">
-                                        </div>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Ravi Kumar</td>
-                                    <td>9876543210</td>
-                                    <td>Ameeerpet, Hyderabad, Telangana</td>
-                               </tr>
-                                <tr>
-                                    <td class="d-flex align-items-center justify-content-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="detailsRadio">
-                                        </div>
-                                    </td>
-                                    <td>2</td>
-                                    <td>Ravi Kumar</td>
-                                    <td>9876543210</td>
-                                    <td>Hyderabad, Telangana</td>
-                               </tr>
-                                <tr>
-                                    <td class="d-flex align-items-center justify-content-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="detailsRadio">
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                    <td>Ravi Kumar</td>
-                                    <td>9876543210</td>
-                                    <td>Hyderabad, Telangana</td>
-                               </tr>
-                                <tr>
-                                    <td class="d-flex align-items-center justify-content-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="detailsRadio">
-                                        </div>
-                                    </td>
-                                    <td>4</td>
-                                    <td>Ravi Kumar</td>
-                                    <td>9876543210</td>
-                                    <td>Hyderabad, Telangana</td>
-                               </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!counsellorList.length">
+                                <td colspan="5" class="text-center">No counsellor records found</td>
+                            </tr>
+                            <tr *ngFor="let item of counsellorList; let i = index" [class.table-active]="isSelected(item)">
+                                <td class="text-center align-middle">
+                                    <div class="form-check d-flex align-items-center justify-content-center">
+                                        <input class="form-check-input" type="radio" name="detailsRadio" [checked]="isSelected(item)" (change)="selectCounsellor(item)">
+                                    </div>
+                                </td>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ item?.nameOfCounsellor || '-' }}</td>
+                                <td>{{ item?.contactNo || '-' }}</td>
+                                <td>{{ getBasicDetails(item) || '-' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <h6 class="fw-600 mb-2 mb-sm-2 mb-md-0">Selected Counsellor</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="bg-lime-green text-white">
+            <div class="card mb-3">
+                <div class="card-header bg-transparent">
+                    <h6 class="fw-600 mb-2 mb-sm-2 mb-md-0">Selected Counsellor</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="bg-lime-green text-white">
                                 <tr>
                                     <th>s.No</th>
                                     <th>Name</th>
                                     <th>Mobile No.</th>
                                     <th>Basic Details</th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ravi Kumar</td>
-                                        <td>9876543210</td>
-                                        <td>Ameeerpet, Hyderabad, Telangana</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row mb-4">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="mb-3 mb-lg-0">
-                                <label for="selection" class="fs-md fw-600 mb-1">Date Of Selection</label>
-                                <input type="date" class="form-control" id="selection" placeholder="">                                
-                            </div>
-                        </div>
-                    </div>
-                    <h6 class="fw-600">Allotment Details</h6>
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="mb-3">
-                                <label for="districtAlloted" class="fs-md fw-600 mb-1">Name Of The District Allotted</label>
-                                <select class="form-select" id="districtAlloted">
-                                    <option selected>Select District</option>
-                                    <option value="1">District 1</option>
-                                    <option value="2">District 2</option>
-                                </select>
-                               
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="mb-3 mb-lg-0">
-                                <label for="multiselect" class="fs-md fw-600 mb-1">Name Of The Mandal Allotted</label>
-                                <select class="form-select">
-                                    <option value="#">Select Mandal</option>
-                                    <option value="1">Mandal 1</option>
-                                    <option value="2">Mandal 2</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="!selectedCounsellor">
+                                    <td colspan="4" class="text-center">No counsellor selected</td>
+                                </tr>
+                                <tr *ngIf="selectedCounsellor">
+                                    <td>1</td>
+                                    <td>{{ selectedCounsellor?.nameOfCounsellor || '-' }}</td>
+                                    <td>{{ selectedCounsellor?.contactNo || '-' }}</td>
+                                    <td>{{ getBasicDetails(selectedCounsellor) || '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+
+            <form [formGroup]="assignCounsellorForm" (ngSubmit)="submitForm()">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="mb-3 mb-lg-0">
+                                    <label for="selection" class="fs-md fw-600 mb-1">Date Of Selection</label>
+                                    <input type="date" class="form-control" id="selection" formControlName="dateOfAllotment">
+                                    <div *ngIf="f['dateOfAllotment'].touched && f['dateOfAllotment'].invalid" class="text-danger fs-sm mt-1">
+                                        Date of selection is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h6 class="fw-600">Allotment Details</h6>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="mb-3">
+                                    <label for="districtAlloted" class="fs-md fw-600 mb-1">Name Of The District Allotted</label>
+                                    <mat-form-field appearance="outline" class="w-100 material-field">
+                                        <mat-select id="districtAlloted" formControlName="districtId" (selectionChange)="onDistrictChange($event.value)">
+                                            <mat-option value="">Select District</mat-option>
+                                            <mat-option *ngFor="let district of allDistricts" [value]="district?.districtId || district?.id">
+                                                {{ district?.districtName || district?.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div *ngIf="f['districtId'].touched && f['districtId'].invalid" class="text-danger fs-sm mt-1">
+                                        District is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="mb-3 mb-lg-0">
+                                    <label for="multiselect" class="fs-md fw-600 mb-1">Name Of The Mandal Allotted</label>
+                                    <mat-form-field appearance="outline" class="w-100 material-field">
+                                        <mat-select id="multiselect" formControlName="mandalId">
+                                            <mat-option value="">Select Mandal</mat-option>
+                                            <mat-option *ngFor="let mandal of MandalListSHG" [value]="mandal?.mandalId || mandal?.id">
+                                                {{ mandal?.mandalName || mandal?.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div *ngIf="f['mandalId'].touched && f['mandalId'].invalid" class="text-danger fs-sm mt-1">
+                                        Mandal is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-end">
+                                <div class="mb-3 mb-lg-0 w-100">
+                                    <button type="submit" class="btn btn-lime-green w-100" [disabled]="isSubmitting">
+                                        {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>

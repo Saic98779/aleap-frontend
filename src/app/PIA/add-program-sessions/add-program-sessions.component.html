@@ -57,15 +57,29 @@
                         <div class="col-3 col-sm-8 col-md-9 col-lg-2">
                             <h6 class="fw-600 mb-2 mb-sm-3 mb-md-0">Session Details</h6>
                         </div>
-                        <div class="col-5 col-sm-8 col-md-9 col-lg-4">
+                        <!-- <div class="col-5 col-sm-8 col-md-9 col-lg-4">
                         <mat-radio-group  aria-label="Program Category" class="d-flex align-items-center">
                             <label class="me-3 fw-bold">Program Category* </label>
                             <mat-radio-button value="Ramp" class="me-3">Ramp</mat-radio-button>
                             <mat-radio-button value="Others">Others</mat-radio-button>
                         </mat-radio-group>
-                        </div>
+                        </div> -->
 
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-3">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Project</mat-label>
+                                <mat-select [(ngModel)]="selectedProjectId"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (selectionChange)="onProjectChange($event)">
+                                    <mat-option value="" disabled>Select Project</mat-option>
+                                    <mat-option *ngFor="let project of projectsDropdownList"
+                                        [value]="project.projectId || project.project_id">
+                                        {{ project.titleOfProject || project.projectTitle || project.projectName || '-' }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <!-- <div class="form-floating mb-3 mb-sm-3 mb-md-0">
                                 <select class="form-select events-expenditure" [(ngModel)]="programId"
                                     [ngModelOptions]="{standalone: true}"
@@ -78,7 +92,10 @@
                             </div> -->
                             <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Program</mat-label>
-                                <mat-select [(ngModel)]="programId" (selectionChange)="dropdownProgramsList($event,'table')">
+                                <mat-select [(ngModel)]="programId"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [disabled]="!selectedProjectId || !agencyProgramListFiltered?.length"
+                                    (selectionChange)="dropdownProgramsList($event,'table')">
                                 <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                 </mat-select-filter>
                                 <mat-option value="" disabled>Select Program</mat-option>
@@ -88,13 +105,13 @@
                             </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-1">
+                        <div class="col-6 col-sm-4 col-md-2 col-lg-1">
                             <div class="text-end">
                                 <button type="button" class="btn btn-sm btn-lime-green"
                                     (click)="showSessionEditModal()"><span class="bi bi-plus-lg"></span> Add</button>
                             </div>
                         </div>
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                        <div class="col-6 col-sm-4 col-md-2 col-lg-2">
                             <div class="text-end">
                                 <button type="button" class="btn btn-lime-green" data-bs-toggle="modal"
                                     data-bs-target="#addResource">Add Resource Person</button>

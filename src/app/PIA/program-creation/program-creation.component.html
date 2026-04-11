@@ -9,23 +9,17 @@
                                 <h6 class="mb-2 mb-sm-0 text-green">{{this.programId?'Edit':'Add'}} Program</h6>
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="d-flex justify-content-evenly" style="justify-content: space-evenly;">
-                                    <label class="form-label fs-md fw-600">Program Category <span class="c-red"> *</span></label>
-                                    <div class="d-flex gap-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="programCategoryRamp" 
-                                                formControlName="programCategory" value="Ramp" checked>
-                                            <label class="form-check-label" for="programCategoryRamp">Ramp</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="programCategoryOthers" 
-                                                formControlName="programCategory" value="Others">
-                                            <label class="form-check-label" for="programCategoryOthers">Others</label>
-                                        </div>
-                                    </div>
-                                    <!-- <div *ngIf="f2['programCategory'].touched && !f2['programCategory'].valid" class="error"
-                                        style="color: red;">Program Category is required</div> -->
+                                <div class="form-floating mb-0">
+                                    <select class="form-select" formControlName="projectId">
+                                        <option selected value="">Select Project</option>
+                                        <option *ngFor="let project of projectsDropdownList" [value]="project.project_id">
+                                            {{project.titleOfProject}}
+                                        </option>
+                                    </select>
+                                    <label>Project <span class="c-red"> *</span></label>
                                 </div>
+                                <div *ngIf="f2['projectId'].touched && !f2['projectId'].valid" class="error"
+                                    style="color: red;">Project is required</div>
                             </div>
                             <div>
                                 <ng-container *ngIf="programId">
@@ -51,7 +45,7 @@
                                         <option selected value="">Select Type Of Activity</option>
                                         <option value="{{list.activityId}}" *ngFor="let list of activityList">{{list.activityName}}</option>
                                     </select>
-                                    <label>Type Of Activity <span class="c-red"> *</span></label>
+                                    <label>Type Of Activity</label>
                                 </div>
                                 <div *ngIf="f2['activityId'].touched && !f2['activityId'].valid" class="error"
                                     style="color: red;">Type Of Activity is required</div>
@@ -62,7 +56,7 @@
                                         <option selected value="">Select Sub Activity</option>
                                         <option value="{{list.subActivityId}}" *ngFor="let list of subActivitiesList">{{list.subActivityName}}</option>
                                     </select>
-                                    <label>Sub Activity<span class="c-red"> *</span></label>
+                                    <label>Sub Activity</label>
                                 </div>
                                 <div *ngIf="f2['subActivityId'].touched && !f2['subActivityId'].valid" class="error"
                                     style="color: red;">Sub Activity is required</div>
@@ -76,7 +70,7 @@
                                         <option value="{{list.programType}}" *ngFor="let list of getProgramType">{{list.programType}}</option>
                                         <!-- <option value="Program3">Program3</option> -->
                                     </select>
-                                    <label>Budget Head <span class="c-red"> *</span></label>
+                                    <label>Budget Head </label>
                                 </div>
                                 <div *ngIf="f2['programType'].touched && !f2['programType'].valid" class="error"
                                     style="color: red;">Budget Head is required</div>

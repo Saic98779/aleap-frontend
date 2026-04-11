@@ -23,6 +23,8 @@ export class AddParticipantDataComponent implements OnInit {
   submitedData: any = []
   OragnizationType: any = 'SHG'
   agencyId:any
+  selectedProjectId: any = '';
+  projectsDropdownList: any[] = [];
   // udyamYesOrNo:any='No'
   programIds: any = '';
   loginsessionDetails: any;
@@ -118,7 +120,7 @@ export class AddParticipantDataComponent implements OnInit {
     //this.getData()
     
     //this.getAllPrograms()
-    this.getProgramsByAgency()
+    this.getProjectsDropdown()
     //this.fOrg['udyamYesOrNo'].value.setValue('No')
     this.getAllDistricts()
     this.getAllSectors()
@@ -128,6 +130,10 @@ export class AddParticipantDataComponent implements OnInit {
     this.participantdetailsId = this.route.snapshot.paramMap.get('id')?.split('-')[0];
     this.EditProgramId = this.route.snapshot.paramMap.get('id')?.split('-')[1];
     console.log(this.participantdetailsId, 'participantdetailsId');
+
+    if (this.EditProgramId) {
+      this.syncProjectForProgram(this.EditProgramId);
+    }
 
     if (this.participantdetailsId) {
       setTimeout(() => {
@@ -168,14 +174,100 @@ export class AddParticipantDataComponent implements OnInit {
   }
 
   agencyProgramList: any;
-  getProgramsByAgency() {
-    //`${APIS.programCreation.getProgramsListByAgency+'/'+this.loginsessionDetails.agencyId}`
+  agencyProgramListFiltered: any;
+  getProjectsDropdown() {
+    this._commonService.getDataByUrl(APIS.projects.dropdown).subscribe({
+      next: (data: any) => {
+        this.projectsDropdownList = data?.data || [];
 
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + this.loginsessionDetails.agencyId}?status=Sessions Created`).subscribe({
+        if (this.EditProgramId) {
+          return;
+        }
+
+        const firstProjectId = this.projectsDropdownList[0]?.projectId || this.projectsDropdownList[0]?.project_id || '';
+        if (firstProjectId) {
+          this.selectedProjectId = firstProjectId;
+          this.getProgramsByAgency(firstProjectId);
+          return;
+        }
+
+        this.selectedProjectId = '';
+        this.programIds = '';
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+      },
+      error: () => {
+        this.projectsDropdownList = [];
+        this.selectedProjectId = '';
+        this.programIds = '';
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+      }
+    })
+  }
+
+  onProjectChange(event: any) {
+    const projectId = event?.target?.value || event?.value || '';
+    this.selectedProjectId = projectId;
+    this.programIds = '';
+    this.agencyProgramList = [];
+    this.agencyProgramListFiltered = [];
+    this.ParticipantDataForm.patchValue({ programIds: '' });
+    this.programData = {};
+
+    if (!projectId) {
+      return;
+    }
+
+    this.getProgramsByAgency(projectId);
+  }
+
+  syncProjectForProgram(programId: any) {
+    if (!programId) {
+      return;
+    }
+
+    this._commonService.getById(APIS.programCreation.getSingleProgramsList, programId).subscribe({
+      next: (data: any) => {
+        const projectId = data?.data?.projectId || data?.data?.project_id || '';
+        if (!projectId) {
+          return;
+        }
+
+        this.selectedProjectId = projectId;
+        this.getProgramsByAgency(projectId, programId);
+      },
+      error: () => {
+        new Error('Unable to sync project for selected program');
+      }
+    });
+  }
+
+  getProgramsByAgency(projectId?: any, preselectedProgramId?: any) {
+    if (!projectId) {
+      this.agencyProgramList = [];
+      this.agencyProgramListFiltered = [];
+      this.programIds = '';
+      return;
+    }
+
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + this.loginsessionDetails.agencyId}?status=Sessions Created&projectId=${projectId}`).subscribe({
       next: (res: any) => {
-        this.agencyProgramList = res?.data
+        this.agencyProgramList = res?.data || [];
+        this.agencyProgramListFiltered = this.agencyProgramList;
+
+        const selectedProgramId = preselectedProgramId || this.agencyProgramList[0]?.programId || '';
+        this.programIds = selectedProgramId;
+
+        if (selectedProgramId) {
+          this.ParticipantDataForm.patchValue({ programIds: selectedProgramId });
+          this.getProgramDetailsById(selectedProgramId);
+        }
       },
       error: (err) => {
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.programIds = '';
         new Error(err);
       }
     })
@@ -214,6 +306,8 @@ export class AddParticipantDataComponent implements OnInit {
   }
   dropdownProgramsList(event: any, type: any) {
     this.programIds = event.target.value
+    this.ParticipantDataForm.patchValue({ programIds: this.programIds });
+    this.getProgramDetailsById(this.programIds);
     if (type == 'table') {
       this.getData()
     }
@@ -459,7 +553,7 @@ export class AddParticipantDataComponent implements OnInit {
   getDataByMobileNumber(MobileNumber:any){
     // console.log(MobileNumber,String(MobileNumber).length,MobileNumber.length==10)
     this.previousParticipationDetails={}
-    if(String(MobileNumber).length){
+    if(MobileNumber && String(MobileNumber).length ==10){
       this.DefaultDisabled=false
       this._commonService.getById(APIS.captureOutcome.getParticipantData,MobileNumber).subscribe({
         next: (res: any) => {

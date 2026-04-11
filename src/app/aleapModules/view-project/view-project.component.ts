@@ -103,6 +103,7 @@ export class ViewProjectComponent implements OnInit, OnDestroy {
         },
         { data: 'titleOfProject', title: 'Title of the Project' },
         { data: 'fundingAgency', title: 'Funding Agency' },
+        {data: 'implementingAgency', title: 'Implementing Agency' },
         { data: 'ministryOrConcernedDepartment', title: 'Ministry/Concerned Department' },
         { data: 'spocDetails', title: 'SPOC from Funding Agency' },
         { data: 'projectCostInLakhs', title: 'Project Cost in Lakhs' },

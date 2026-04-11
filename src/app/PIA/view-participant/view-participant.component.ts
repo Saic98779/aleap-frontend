@@ -18,6 +18,8 @@ export class ViewParticipantComponent implements OnInit {
 
   loginsessionDetails: any;
     agencyId: any;
+    selectedProjectId: any = '';
+    projectsDropdownList: any[] = [];
     programIds:any
     constructor(private fb: FormBuilder,
       private toastrService: ToastrService,
@@ -29,11 +31,9 @@ export class ViewParticipantComponent implements OnInit {
       this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
       // Set default program type
       this.programType = 'RAMP';
+      this.getProjectsDropdown();
       if(this.loginsessionDetails.userRole == 'ADMIN') {
         this.getAgenciesList()
-      }
-      else{
-        this.getProgramsByAgency()
       }
      
     }
@@ -46,22 +46,63 @@ export class ViewParticipantComponent implements OnInit {
       this.agencyList = res.data;
       this.agencyListFiltered= this.agencyList;
       this.selectedAgencyId = res.data[0].agencyId
-      this.getProgramsByAgencyAdmin(this.selectedAgencyId)
+      if (this.selectedProjectId) {
+        this.getProgramsByAgencyAdmin(this.selectedAgencyId)
+      }
     }, (error) => {
       this.toastrService.error(error.error.message);
     });
   }
+    getProjectsDropdown() {
+      this._commonService.getDataByUrl(APIS.projects.dropdown).subscribe({
+        next: (data: any) => {
+          this.projectsDropdownList = data?.data || [];
+          this.selectedProjectId = this.projectsDropdownList[0]?.projectId || this.projectsDropdownList[0]?.project_id || '';
+
+          if (!this.selectedProjectId) {
+            this.agencyProgramList = [];
+            this.agencyProgramListFiltered = [];
+            this.programIds = '';
+            this.submitedData = '';
+            return;
+          }
+
+          if (this.loginsessionDetails?.userRole !== 'ADMIN') {
+            this.getProgramsByAgency();
+          } else if (this.selectedAgencyId) {
+            this.getProgramsByAgencyAdmin(this.selectedAgencyId);
+          }
+        },
+        error: () => {
+          this.projectsDropdownList = [];
+          this.selectedProjectId = '';
+          this.agencyProgramList = [];
+          this.agencyProgramListFiltered = [];
+          this.programIds = '';
+          this.submitedData = '';
+        }
+      });
+    }
     agencyProgramList: any;
     agencyProgramListFiltered:any;
     getProgramsByAgencyAdmin(agency:any) {
       this.submitedData = ''
-      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgency+'/'+agency}`).subscribe({
+      if (!agency || !this.selectedProjectId) {
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.programIds = '';
+        return;
+      }
+
+      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + agency}?status=Sessions Created&projectId=${this.selectedProjectId}`).subscribe({
         next: (res: any) => {
-          this.agencyProgramList = res?.data
+          this.agencyProgramList = res?.data || []
           this.agencyProgramListFiltered = this.agencyProgramList
-          this.programIds = this.agencyProgramList[0].programId
+          this.programIds = this.agencyProgramList[0]?.programId || ''
           this.submitedData = ''
-          this.getData()
+          if (this.programIds) {
+            this.getData()
+          }
         },
         error: (err) => {
           new Error(err);
@@ -69,19 +110,45 @@ export class ViewParticipantComponent implements OnInit {
       })
     }
     getProgramsByAgency() {
-     
+      if (!this.selectedProjectId) {
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.programIds = '';
+        this.submitedData = '';
+        return;
+      }
 
-      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + (this.loginsessionDetails.agencyId?this.loginsessionDetails.agencyId:this.agencyId)}?status=Sessions Created`).subscribe({
+      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + (this.loginsessionDetails.agencyId?this.loginsessionDetails.agencyId:this.agencyId)}?status=Sessions Created&projectId=${this.selectedProjectId}`).subscribe({
         next: (res: any) => {
-          this.agencyProgramList = res?.data
+          this.agencyProgramList = res?.data || []
           this.agencyProgramListFiltered= this.agencyProgramList
-          this.programIds = this.agencyProgramList[0].programId
-          this.getData()
+          this.programIds = this.agencyProgramList[0]?.programId || ''
+          if (this.programIds) {
+            this.getData()
+          }
         },
         error: (err) => {
           new Error(err);
         }
       })
+    }
+    onProjectChange(event: any) {
+      this.selectedProjectId = event?.value || '';
+      this.programIds = '';
+      this.submitedData = '';
+      this.agencyProgramList = [];
+      this.agencyProgramListFiltered = [];
+
+      if (!this.selectedProjectId) {
+        return;
+      }
+
+      if (this.loginsessionDetails?.userRole === 'ADMIN') {
+        this.getProgramsByAgencyAdmin(this.selectedAgencyId);
+        return;
+      }
+
+      this.getProgramsByAgency();
     }
     dropdownProgramsList(event: any, type: any) {
       this.submitedData = ''

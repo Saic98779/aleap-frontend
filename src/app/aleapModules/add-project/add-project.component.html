@@ -32,6 +32,18 @@
 									Funding Agency is required
 								</div>
 							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
+								<div class="form-floating mb-3">
+									<select class="form-select" formControlName="implementingAgency">
+										<option value="" disabled>Select Implementing Agency</option>
+										<option *ngFor="let agency of implementingAgencies" [value]="agency">{{ agency }}</option>
+									</select>
+									<label>Implementing Agency <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['implementingAgency'].touched && f['implementingAgency'].invalid" class="error" style="color: red;">
+									Implementing Agency is required
+								</div>
+							</div>
 
 							<div class="col-12 col-sm-6 col-md-4 col-lg-4">
 								<div class="form-floating mb-3">

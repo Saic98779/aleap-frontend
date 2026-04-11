@@ -70,7 +70,8 @@ import { ViewApplicationComponent } from './PIA/view-application/view-applicatio
 import { RegistrationNewComponent } from './PIA/registration-new/registration-new.component';
 import { StartupAssesmentComponent } from './PIA/startup-assesment/startup-assesment.component';
 import { MatSelectFilterModule } from 'mat-select-filter';
-import { MatFormFieldModule } from '@angular/material/form-field';import { StarRatingComponent } from './manual-components/star-rating/star-rating.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { StarRatingComponent } from './manual-components/star-rating/star-rating.component';
 import { UploadParticipantsComponent } from './PIA/upload-participants/upload-participants.component';
 import { TrainingTargetsComponent } from './PIA/training-targets/training-targets.component';
 import { ProgressMonitoringComponent } from './PIA/progress-monitoring/progress-monitoring.component';
@@ -80,6 +81,8 @@ import { MonthlyRangeComponent } from './PIA/monthly-range/monthly-range.compone
 import { ViewProgramsSeperateComponent } from './PIA/view-programs-seperate/view-programs-seperate.component';
 import { AddProjectComponent } from './aleapModules/add-project/add-project.component';
 import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
+import { AddEventComponent } from './aleapModules/add-event/add-event.component';
+import { ViewEventComponent } from './aleapModules/view-event/view-event.component';
 import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 import { CommonFileViewerComponent } from './common-component/common-file-viewer/common-file-viewer.component';
 
@@ -168,6 +171,8 @@ import { CommonFileViewerComponent } from './common-component/common-file-viewer
         ViewProgramsSeperateComponent,
         AddProjectComponent,
         ViewProjectComponent,
+        AddEventComponent,
+        ViewEventComponent,
         ViewRegistrationNewComponent,
         CommonFileViewerComponent
 

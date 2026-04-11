@@ -21,6 +21,8 @@ export class UpdateProgramExecutionComponent implements OnInit {
 
   imageUrlDownloadPath = `${API_BASE_URL}/program/file/download/`;
   imagePreviewUrl: any
+  selectedProjectId: any = '';
+  projectsDropdownList: any[] = [];
   mediaCoverageForm!: FormGroup;
   mediaExecutionForm!: FormGroup;
   isEditMode = false;
@@ -38,7 +40,7 @@ export class UpdateProgramExecutionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProgramsByAgency()
+    this.getProjectsDropdown()
     this.getSessionResource()
     this.mediaCoverageForm = this.fb.group({
       date: ['', Validators.required],
@@ -71,13 +73,77 @@ export class UpdateProgramExecutionComponent implements OnInit {
   agencyProgramList: any;
   programId: any = ''
   agencyProgramListFiltered: any;
-  getProgramsByAgency() {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus + '/' + this.agencyId + '?status=Program Execution'}`).subscribe({
+  getProjectsDropdown() {
+    this._commonService.getDataByUrl(APIS.projects.dropdown).subscribe({
+      next: (data: any) => {
+        this.projectsDropdownList = data?.data || [];
+        const firstProjectId = this.projectsDropdownList[0]?.projectId || this.projectsDropdownList[0]?.project_id || '';
+
+        if (firstProjectId) {
+          this.selectedProjectId = firstProjectId;
+          this.getProgramsByAgency(firstProjectId);
+          return;
+        }
+
+        this.selectedProjectId = '';
+        this.programId = '';
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.ProgramData = '';
+      },
+      error: () => {
+        this.projectsDropdownList = [];
+        this.selectedProjectId = '';
+        this.programId = '';
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.ProgramData = '';
+      }
+    });
+  }
+
+  onProjectChange(event: any) {
+    const projectId = event?.value || event?.target?.value || '';
+    this.selectedProjectId = projectId;
+    this.programId = '';
+    this.agencyProgramList = [];
+    this.agencyProgramListFiltered = [];
+    this.ProgramData = '';
+
+    if (!projectId) {
+      return;
+    }
+
+    this.getProgramsByAgency(projectId);
+  }
+
+  getProgramsByAgency(projectId?: any) {
+    if (!projectId) {
+      this.agencyProgramList = [];
+      this.agencyProgramListFiltered = [];
+      this.programId = '';
+      this.ProgramData = '';
+      return;
+    }
+
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + this.agencyId}?status=Program Execution&projectId=${projectId}`).subscribe({
       next: (res: any) => {
-        this.agencyProgramList = res?.data
-        this.agencyProgramListFiltered= this.agencyProgramList
+        this.agencyProgramList = res?.data || [];
+        this.agencyProgramListFiltered = this.agencyProgramList;
+        this.programId = this.agencyProgramList[0]?.programId || '';
+
+        if (this.programId) {
+          this.getProgramDetailsById(this.programId);
+          return;
+        }
+
+        this.ProgramData = '';
       },
       error: (err) => {
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.programId = '';
+        this.ProgramData = '';
         new Error(err);
       }
     })
@@ -472,7 +538,7 @@ export class UpdateProgramExecutionComponent implements OnInit {
         this.closeConfirmSession();
         this.ProgramData = ''
         this.programId = ''
-        this.getProgramsByAgency()
+        this.getProgramsByAgency(this.selectedProjectId)
       },
       error: (err: any) => {
         this.closeConfirmSession();

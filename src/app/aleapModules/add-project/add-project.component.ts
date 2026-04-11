@@ -11,6 +11,14 @@ import { APIS } from '@app/constants/constants';
   styleUrls: ['./add-project.component.css']
 })
 export class AddProjectComponent implements OnInit {
+  
+  readonly implementingAgencies = [
+    'ALEAP',
+    'AIC_ALEAP_WEHUB',
+    'CED',
+    'WEITTC',
+    'ACGA'
+  ];
   private readonly projectsStorageKey = 'aleapProjectData';
   addProjectForm!: FormGroup;
   submitted = false;
@@ -46,6 +54,7 @@ export class AddProjectComponent implements OnInit {
       {
         projectTitle: new FormControl('', [Validators.required, Validators.pattern(/^[^\s].*/)]),
         fundingAgency: new FormControl('', [Validators.required]),
+        implementingAgency: new FormControl('', [Validators.required]),
         ministryDepartment: new FormControl('', [Validators.required]),
         spocName: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z .]*$/)]),
         spocDesignation: new FormControl('', [Validators.required]),
@@ -171,6 +180,7 @@ export class AddProjectComponent implements OnInit {
     const payload = {
       titleOfProject: formValue.projectTitle,
       fundingAgency: formValue.fundingAgency,
+      implementingAgency: formValue.implementingAgency,
       ministryOrConcernedDepartment: formValue.ministryDepartment,
       spocDesignation: formValue.spocDesignation,
       spocName: formValue.spocName,
@@ -224,6 +234,7 @@ export class AddProjectComponent implements OnInit {
         this.addProjectForm.patchValue({
           projectTitle: project.titleOfProject || '',
           fundingAgency: project.fundingAgency || '',
+          implementingAgency: project.implementingAgency || '',
           ministryDepartment: project.ministryOrConcernedDepartment || '',
           spocName: project.spocName || '',
           spocDesignation: project.spocDesignation || '',

@@ -129,10 +129,23 @@
             <div class="card mb-3">
                 <div class="card-header bg-transparent">
                     <div class="row align-items-center">
-                        <div class="col-12 col-sm-4 col-md-8 col-lg-9">
+                        <div class="col-12 col-sm-4 col-md-4 col-lg-6">
                             <h6 class="fw-600 mb-2 mb-sm-0">Program Execution</h6>
                         </div>
-                        <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                             <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Project</mat-label>
+                                <mat-select [(ngModel)]="selectedProjectId"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (selectionChange)="onProjectChange($event)">
+                                <mat-option value="" disabled>Select Project</mat-option>
+                                <mat-option *ngFor="let project of projectsDropdownList" [value]="project.projectId || project.project_id">
+                                {{ project.titleOfProject || project.projectTitle || project.projectName || '-' }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <!-- <select class="form-select events-expenditure" [(ngModel)]="programId"
                                 [ngModelOptions]="{standalone: true}"
                                 (change)="dropdownProgramsList($event,'table')">
@@ -142,7 +155,10 @@
                             </select> -->
                              <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Program</mat-label>
-                                <mat-select [(ngModel)]="programId" (selectionChange)="dropdownProgramsList($event,'table')">
+                                <mat-select [(ngModel)]="programId"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [disabled]="!selectedProjectId || !agencyProgramListFiltered?.length"
+                                    (selectionChange)="dropdownProgramsList($event,'table')">
                                 <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                 </mat-select-filter>
                                 <mat-option value="" disabled>Select Program</mat-option>

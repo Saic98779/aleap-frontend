@@ -1,0 +1,11 @@
+.table-active td {
+	background-color: rgba(25, 118, 210, 0.08) !important;
+}
+
+.material-field {
+	margin-bottom: -1.25em;
+}
+
+:host ::ng-deep .material-field .mat-mdc-form-field-subscript-wrapper {
+	display: none;
+}

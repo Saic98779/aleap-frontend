@@ -13,7 +13,7 @@
                     <!-- Program Type Radio Buttons -->
                     <div class="col-4 mb-3">
                     </div>
-                    <div class="col-4 mb-3">
+                    <!-- <div class="col-4 mb-3">
                         <div class="program-type-selector">
                             <label class="me-3 fw-500">Program Type:</label>
                             <mat-radio-group [(ngModel)]="programType" class="program-type-radio">
@@ -21,7 +21,7 @@
                                 <mat-radio-button value="Others">Others</mat-radio-button>
                             </mat-radio-group>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <!-- RAMP Programs Section -->
                     <ng-container *ngIf="programType === 'RAMP'">
@@ -41,8 +41,19 @@
                             </div>
                             <div class="col-8 col-sm-3 col-md-3 col-lg-3">
                                 <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>List Of Projects</mat-label>
+                                    <mat-select [(ngModel)]="selectedProjectId" (selectionChange)="onProjectChange($event)">
+                                        <mat-option value="" disabled>Select Project</mat-option>
+                                        <mat-option *ngFor="let project of projectsDropdownList" [value]="project.projectId || project.project_id">
+                                            {{ project.titleOfProject || project.projectTitle || project.projectName || '-' }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-8 col-sm-3 col-md-3 col-lg-3">
+                                <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>List Of Program</mat-label>
-                                    <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')">
+                                    <mat-select [(ngModel)]="programIds" [disabled]="!selectedProjectId || !agencyProgramListFiltered?.length" (selectionChange)="dropdownProgramsList($event,'table')">
                                         <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                         </mat-select-filter>
                                         <mat-option value="" disabled>Select Program</mat-option>
@@ -57,8 +68,19 @@
                         <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN'">
                             <div class="col-lg-3 col-sm-6 col-md-6 ">
                                 <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>List Of Projects</mat-label>
+                                    <mat-select [(ngModel)]="selectedProjectId" (selectionChange)="onProjectChange($event)">
+                                        <mat-option value="" disabled>Select Project</mat-option>
+                                        <mat-option *ngFor="let project of projectsDropdownList" [value]="project.projectId || project.project_id">
+                                            {{ project.titleOfProject || project.projectTitle || project.projectName || '-' }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-md-6 ">
+                                <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>List Of Program</mat-label>
-                                    <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')">
+                                    <mat-select [(ngModel)]="programIds" [disabled]="!selectedProjectId || !agencyProgramListFiltered?.length" (selectionChange)="dropdownProgramsList($event,'table')">
                                         <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                         </mat-select-filter>
                                         <mat-option value="" disabled>Select Program</mat-option>

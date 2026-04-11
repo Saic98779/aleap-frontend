@@ -203,9 +203,22 @@ export const APIS = {
     projects: {
         add: API_BASE_URL + '/projects',
         getAll: API_BASE_URL + '/projects',
+        dropdown: API_BASE_URL + '/projects/dropdown',
         getById: API_BASE_URL + '/projects/',
         update: API_BASE_URL + '/projects/',
         delete: API_BASE_URL + '/projects/'
+    },
+    events: {
+        add: API_BASE_URL + '/events',
+        getAll: API_BASE_URL + '/events',
+        getById: API_BASE_URL + '/events/',
+        update: API_BASE_URL + '/events/',
+        delete: API_BASE_URL + '/events/'
+    },
+     counsellorAssignment: {
+        getAll: API_BASE_URL + '/counsellor/all',
+        searchByContact: 'http://localhost:8084/workflow/counsellor/by-contact?contactNo=',
+        assignMandal: API_BASE_URL + '/counsellor/assign-mandal'
     },
     uploadfiles:{
         upload: API_BASE_URL +  '/files/upload?directory=' ,

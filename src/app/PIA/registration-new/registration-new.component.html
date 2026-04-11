@@ -194,8 +194,33 @@
                 </div>
                 <div *ngIf="f.panchayatName.invalid && (f.panchayatName.dirty || f.panchayatName.touched)" class="text-danger fs-sm">Panchayat name is required.</div>
               </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
+               <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="form-floating mb-3">
+                  <!-- <input type="text" class="form-control" id="district" placeholder="" formControlName="distId"> -->
+                  <select class="form-select" id="district" formControlName="district"
+                    (change)="GetMandalByDistrictSHG($any($event.target).value)">
+                    <option value="">Select District</option>
+                    <option *ngFor="let list of allDistricts" value="{{list?.districtId}}">{{list?.districtName}}
+                    </option>
+                  </select>
+                  <label for="district">District <span class="c-red"> *</span></label>
+                </div>
+                <div *ngIf="f.district.invalid && (f.district.dirty || f.district.touched)" class="text-danger fs-sm">
+                  District is required.</div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="form-floating mb-3">
+                  <select class="form-select" id="mandal" formControlName="mandal">
+                    <option selected value="">Select Mandal</option>
+                    <option *ngFor="let list of MandalListSHG" value="{{list?.mandalId}}">{{list?.mandalName}}</option>
+                    <!-- <option value="1">Mandal 1</option> -->
+                  </select>
+                  <label for="Mandal">Mandal <span class="c-red"> *</span></label>
+                </div>
+                <div *ngIf="f.mandal.invalid && (f.mandal.dirty || f.mandal.touched)" class="text-danger fs-sm">Mandal
+                  is required.</div>
+              </div>
+              <!-- <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">
                   <input type="text" class="form-control" formControlName="mandal" placeholder="Mandal">
                   <label>Mandal <span class="c-red">*</span></label>
@@ -209,7 +234,7 @@
                   <label>District <span class="c-red">*</span></label>
                 </div>
                 <div *ngIf="f.district.invalid && (f.district.dirty || f.district.touched)" class="text-danger fs-sm">District is required.</div>
-              </div>
+              </div> -->
 
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">

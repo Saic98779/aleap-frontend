@@ -101,7 +101,8 @@ export class ESDPTrainingComponent implements OnInit {
   private searchSubject = new Subject<string>();
 
   onSearchChange(event:any){
-    if(event){
+    
+    if(event && event.length == 10) {
       this.showParticpantFlag = false
       this.searchSubject.next(event);
     }else {

@@ -4517,12 +4517,14 @@ textarea.form-control.is-invalid {
 
 .toast-container {
   --bs-toast-zindex: 1090;
-  position: absolute;
-  z-index: var(--bs-toast-zindex);
+  /* position: absolute;
+  z-index: var(--bs-toast-zindex); */
   width: -moz-max-content;
   width: max-content;
   max-width: 100%;
   pointer-events: none;
+  position: fixed !important;
+  z-index: 99999 !important;
 }
 .toast-container > :not(:last-child) {
   margin-bottom: var(--bs-toast-spacing);
@@ -15538,4 +15540,173 @@ iframe.goog-te-banner-frame,
   left: auto !important;
   bottom: auto !important;
   z-index: 99999 !important;
+}
+
+html {
+  font-size: clamp(14px, 0.35vw + 13px, 15px);
+}
+
+body {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+h1,
+.h1 {
+  font-size: clamp(1.95rem, 1.55rem + 1.5vw, 2.45rem);
+}
+
+h2,
+.h2 {
+  font-size: clamp(1.7rem, 1.4rem + 1vw, 2.05rem);
+}
+
+h3,
+.h3 {
+  font-size: clamp(1.45rem, 1.2rem + 0.7vw, 1.75rem);
+}
+
+h4,
+.h4 {
+  font-size: clamp(1.25rem, 1.08rem + 0.45vw, 1.45rem);
+}
+
+h5,
+.h5 {
+  font-size: 1.1rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.98rem;
+}
+
+p,
+.fs-md,
+.form-label,
+.form-control,
+.form-select,
+.dropdown-item,
+.btn,
+.page-link,
+.nav-tabs .nav-link,
+.nav-pills .nav-link,
+.dataTables_wrapper,
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+  font-size: 0.92rem;
+}
+
+.small,
+small,
+.fs-sm,
+.form-text,
+.text-muted,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+  font-size: 0.84rem;
+}
+
+.form-control,
+.form-select,
+.btn {
+  min-height: calc(1.45em + 0.7rem + 2px);
+}
+
+.form-control-lg,
+.form-select-lg,
+.btn-lg {
+  font-size: 1.02rem;
+}
+
+.table,
+table {
+  font-size: 0.9rem;
+}
+
+.table > :not(caption) > * > *,
+table.dataTable thead > tr > th,
+table.dataTable thead > tr > td,
+table.dataTable tbody > tr > th,
+table.dataTable tbody > tr > td {
+  padding: 0.7rem 0.65rem;
+}
+
+.card-title,
+.modal-title,
+.dropdown-header {
+  font-size: 1rem;
+}
+
+.app-content .form-label {
+  font-size: 12px;
+}
+
+.app-content .form-check-label,
+.app-content .mat-radio-label-content,
+.app-content .mat-checkbox-label,
+.app-content .form-control,
+.app-content .form-select {
+  font-size: 13px;
+}
+
+.app-content .table thead th,
+.app-content .table tbody td {
+  font-size: 12px;
+}
+
+@media (max-width: 991.98px) {
+  html {
+    font-size: 14.5px;
+  }
+
+  .table,
+  table,
+  .form-control,
+  .form-select,
+  .btn,
+  .dropdown-item {
+    font-size: 0.89rem;
+  }
+}
+
+@media (max-width: 576px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1,
+  .h1 {
+    font-size: 1.75rem;
+  }
+
+  h2,
+  .h2 {
+    font-size: 1.5rem;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.32rem;
+  }
+
+  h4,
+  .h4 {
+    font-size: 1.16rem;
+  }
+
+  h5,
+  .h5,
+  h6,
+  .h6 {
+    font-size: 0.96rem;
+  }
+
+  .table > :not(caption) > * > *,
+  table.dataTable thead > tr > th,
+  table.dataTable thead > tr > td,
+  table.dataTable tbody > tr > th,
+  table.dataTable tbody > tr > td {
+    padding: 0.62rem 0.55rem;
+  }
 }

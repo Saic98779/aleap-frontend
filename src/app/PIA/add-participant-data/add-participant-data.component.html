@@ -65,7 +65,18 @@
                             </div> -->
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
                                 <div class="form-floating mb-3" [ngClass]="{'isDisabled':this.EditProgramId || DefaultDisabled}" >
-                                    <select class="form-select" id="programId" formControlName="programIds" (change)="getProgramDetailsById($any($event.target).value)">
+                                    <select class="form-select" id="projectId" [value]="selectedProjectId" (change)="onProjectChange($event)">
+                                        <option value="">Select Project</option>
+                                        <option *ngFor="let project of projectsDropdownList" [value]="project?.projectId || project?.project_id">
+                                            {{project?.titleOfProject || project?.projectTitle || project?.projectName || '-' }}
+                                        </option>
+                                    </select>
+                                    <label for="projectId">Project <span class="c-red"> *</span></label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
+                                <div class="form-floating mb-3" [ngClass]="{'isDisabled':this.EditProgramId || DefaultDisabled}" >
+                                    <select class="form-select" id="programId" formControlName="programIds" [disabled]="!selectedProjectId || !agencyProgramList?.length" (change)="getProgramDetailsById($any($event.target).value)">
                                         <option value="">Select Program</option>
                                         <option *ngFor="let list of agencyProgramList"  value="{{list?.programId}}">{{list?.programTitle}}</option>
                                         <!-- <ng-container *ngFor="let list of agencyProgramList">
@@ -316,15 +327,16 @@
 
 <!-- begin:: modal add new location -->
 <div class="modal fade" id="addOrganisation" tabindex="-1" aria-labelledby="addOrganisationLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <form [formGroup]="OrganisationForm" >
-            <div class="modal-content">
+            <div class="modal-content modal-height-based-on-screen">
                 <div class="modal-header py-2">
                     <h6 class="modal-title" id="addLocationLabel">Add Organisation</h6>
                     <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card shadow-md p-3 mb-4">
+                    <ng-container class="modal-scrolling">
+                        <div class="card shadow-md p-3 mb-4">
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">                                   
@@ -803,6 +815,9 @@
                             </div>
                         </div>
                     </div>
+
+                    </ng-container>
+                    
     
                     <div class="text-end">
                         <button type="button" class="btn btn-lime-green"  data-bs-dismiss="modal" [disabled]="!OrganisationForm.valid" [ngClass]="{'disabled': OrganisationForm.invalid}" (click)="SubmitformOrganization()">Submit</button>

@@ -16,6 +16,8 @@ declare var bootstrap: any;
 export class AddProgramSessionsComponent implements OnInit {
 
   agencyId: any
+  projectsDropdownList: any[] = [];
+  selectedProjectId: any = '';
   modalFormStype!: FormGroup;
   sourceTypes: any = [];
   sessionForm!: FormGroup;
@@ -157,7 +159,7 @@ export class AddProgramSessionsComponent implements OnInit {
   ngOnInit(): void {
     this.getSessionResourceData = []
     this.sourceTypes = []
-    this.getProgramsByAgency()
+    this.getProjectsDropdown()
     this.getSessionResource();
     this.initializeSessionForm();
 
@@ -337,15 +339,77 @@ export class AddProgramSessionsComponent implements OnInit {
   agencyProgramList: any;
   agencyProgramListFiltered: any ;
   programId: any = ''
-  getProgramsByAgency() {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + this.agencyId}?status=Program Scheduled`).subscribe({
+  getProjectsDropdown() {
+    this._commonService.getDataByUrl(APIS.projects.dropdown).subscribe({
+      next: (data: any) => {
+        this.projectsDropdownList = data?.data || [];
+        const firstProjectId = this.projectsDropdownList[0]?.projectId || this.projectsDropdownList[0]?.project_id || '';
+
+        if (firstProjectId) {
+          this.selectedProjectId = firstProjectId;
+          this.getProgramsByAgency(firstProjectId);
+          return;
+        }
+
+        this.selectedProjectId = '';
+        this.programId = '';
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.ProgramData = '';
+      },
+      error: () => {
+        this.projectsDropdownList = [];
+        this.selectedProjectId = '';
+        this.programId = '';
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.ProgramData = '';
+      }
+    });
+  }
+
+  onProjectChange(event: any) {
+    const projectId = event?.value || event?.target?.value || '';
+    this.selectedProjectId = projectId;
+    this.programId = '';
+    this.ProgramData = '';
+    this.agencyProgramList = [];
+    this.agencyProgramListFiltered = [];
+
+    if (!projectId) {
+      return;
+    }
+
+    this.getProgramsByAgency(projectId);
+  }
+
+  getProgramsByAgency(projectId?: any) {
+    if (!projectId) {
+      this.agencyProgramList = [];
+      this.agencyProgramListFiltered = [];
+      this.programId = '';
+      this.ProgramData = '';
+      return;
+    }
+
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession + this.agencyId}?status=Program Scheduled&projectId=${projectId}`).subscribe({
       next: (res: any) => {
-        this.agencyProgramList = res?.data
-        this.programId=res.data[0]?.programId
-        this.agencyProgramListFiltered= this.agencyProgramList
-        this.dropdownProgramsList({ value: res.data[0]?.programId }, 'table');
+        this.agencyProgramList = res?.data || [];
+        this.agencyProgramListFiltered = this.agencyProgramList;
+        this.programId = this.agencyProgramList[0]?.programId || '';
+
+        if (this.programId) {
+          this.dropdownProgramsList({ value: this.programId }, 'table');
+          return;
+        }
+
+        this.ProgramData = '';
       },
       error: (err) => {
+        this.agencyProgramList = [];
+        this.agencyProgramListFiltered = [];
+        this.programId = '';
+        this.ProgramData = '';
         new Error(err);
       }
     })

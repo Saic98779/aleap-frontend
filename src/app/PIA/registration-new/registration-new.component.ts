@@ -115,6 +115,7 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.selectedLanguage = localStorage.getItem('registration_lang') || 'en';
     // this.loadGoogleTranslateScript();
+    this.getAllDistricts();
     this.buildForm();
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
@@ -125,7 +126,31 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
       }
     }
   }
+  allDistricts:any
+  getAllDistricts(){
+    this.allDistricts = []
+    this._commonService.getDataByUrl(APIS.masterList.getDistricts).subscribe({
+      next: (data: any) => {
+        this.allDistricts = data.data;
+      },
+      error: (err: any) => {
+        this.allDistricts = [];
+      }
+    })
+  }
+    MandalListSHG:any
+  GetMandalByDistrictSHG(event: any) {
+    this.MandalListSHG=[]
+    this._commonService.getDataByUrl(APIS.masterList.getMandal + event).subscribe({
+      next: (data: any) => {
+        this.MandalListSHG = data.data;
+      },
+      error: (err: any) => {
+        this.MandalListSHG = [];
+      }
+    })
 
+  }
   private loadRegistrationById(id: number) {
     this._commonService.getDataByUrl(APIS.questionnaire.byId + id).subscribe({
       next: (res: any) => {
