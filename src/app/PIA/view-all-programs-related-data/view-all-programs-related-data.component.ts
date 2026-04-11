@@ -17,8 +17,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 export class ViewAllProgramsRelatedDataComponent implements OnInit {
   loginsessionDetails: any;
   agencyId: any;
-  programIds:any
+  programIds:any = ''
   activeTab:any;
+  selectedProjectId:any = '';
+  projectsDropdownList: any[] = [];
+  projectsDropdownListFiltered: any = [];
    @ViewChild('addRemarks') addRemarks!: ElementRef;
   constructor(private fb: FormBuilder,
     private toastrService: ToastrService,
@@ -30,11 +33,9 @@ export class ViewAllProgramsRelatedDataComponent implements OnInit {
     this.formDetailsRemark()
     this.activeTab = 'nav-five';
     this.loginsessionDetails = JSON.parse(sessionStorage.getItem('user') || '{}');  
+    this.getProjectsDropdown()
     if(this.loginsessionDetails.userRole == 'ADMIN') {
       this.getAgenciesList()
-    }
-    else{
-      this.getProgramsByAgency()
     }
    
   }
@@ -42,6 +43,10 @@ export class ViewAllProgramsRelatedDataComponent implements OnInit {
  
   onTabChange(activeTab:any){
     this.activeTab = activeTab;
+    if ((activeTab == 'nav-five' || activeTab == 'nav-ones' || activeTab == 'nav-three' || activeTab == 'nav-four') && !this.hasSpecificProgramSelection()) {
+      this.clearProgramDrivenData();
+      return;
+    }
     if(activeTab=='nav-ones' || activeTab=='nav-five') { 
       console.log(activeTab); 
       this.getProgramDetailsById(this.programIds)
@@ -63,14 +68,102 @@ export class ViewAllProgramsRelatedDataComponent implements OnInit {
   selectedAgencyId:any;
   agencyList:any;
   agencyListFiltered:any;
+  getProjectsDropdown() {
+    this._commonService.getDataByUrl(APIS.projects.dropdown).subscribe({
+      next: (data: any) => {
+        this.projectsDropdownList = (data?.data || []).map((item: any) => ({
+          ...item,
+          project_id: item?.project_id ?? item?.projectId,
+          titleOfProject: item?.titleOfProject ?? item?.projectName
+        }));
+        this.projectsDropdownListFiltered = this.projectsDropdownList;
+      },
+      error: () => {
+        this.projectsDropdownList = [];
+        this.projectsDropdownListFiltered = [];
+      }
+    });
+  }
+
+  getSelectionValue(event: any) {
+    return event?.value ?? event?.target?.value ?? event;
+  }
+
+  hasSpecificProgramSelection() {
+    return !!this.programIds && this.programIds !== 'All Programs';
+  }
+
+  clearProgramDrivenData() {
+    this.ProgramData = [];
+    this.submitedData = [];
+    this.ParticipantAttendanceData = [];
+    this.TotalAmount = 0;
+    this.getExpenditureData = [];
+    this.getExpenditureDataBoth = [];
+    this.getBulkExpenditureData = [];
+  }
+
+  resetProgramSelection(programId: any = '') {
+    this.programIds = programId;
+    this.agencyProgramList = [];
+    this.agencyProgramListFiltered = [];
+    this.clearProgramDrivenData();
+  }
+
+  onAgencyChange(event: any) {
+    const agency = this.getSelectionValue(event);
+    this.selectedAgencyId = agency;
+
+    if (agency === 'All Agencies') {
+      this.selectedProjectId = '';
+      this.resetProgramSelection('All Programs');
+      this.onTabChange(this.activeTab);
+      return;
+    }
+
+    if (this.selectedProjectId) {
+      this.getProgramsByAgencyAdmin(agency, this.selectedProjectId);
+      return;
+    }
+
+    this.resetProgramSelection();
+  }
+
+  onProjectChange(event: any) {
+    const projectId = this.getSelectionValue(event);
+    this.selectedProjectId = projectId;
+
+    if (this.loginsessionDetails?.userRole == 'ADMIN') {
+      if (this.selectedAgencyId && this.selectedAgencyId !== 'All Agencies' && projectId) {
+        this.getProgramsByAgencyAdmin(this.selectedAgencyId, projectId);
+        return;
+      }
+
+      if (this.selectedAgencyId === 'All Agencies') {
+        this.resetProgramSelection('All Programs');
+        this.onTabChange(this.activeTab);
+        return;
+      }
+
+      this.resetProgramSelection();
+      return;
+    }
+
+    if (projectId) {
+      this.getProgramsByAgency(projectId);
+      return;
+    }
+
+    this.resetProgramSelection();
+  }
+
   // All Agency data  for admin login
 getAgenciesList() {
   this.agencyList = [];
   this._commonService.getDataByUrl(APIS.masterList.agencyList).subscribe((res: any) => {
     this.agencyList = res.data;
     this.agencyListFiltered= this.agencyList;
-    this.selectedAgencyId = res.data[0].agencyId
-    this.getProgramsByAgencyAdmin(this.selectedAgencyId)
+    this.selectedAgencyId = res.data[0]?.agencyId || ''
   }, (error) => {
     this.toastrService.error(error.error.message);
   });
@@ -78,25 +171,23 @@ getAgenciesList() {
   // All Programs data for admin login
   agencyProgramList: any;
   agencyProgramListFiltered: any;
-  getProgramsByAgencyAdmin(agency:any) {
+  getProgramsByAgencyAdmin(agency:any, projectId: any = this.selectedProjectId) {
     if(agency == 'All Agencies') {
-      this.programIds = 'All Programs'
-      this.agencyProgramList=[]
+      this.resetProgramSelection('All Programs')
       this.onTabChange(this.activeTab);
     }
+    else if (!projectId) {
+      this.resetProgramSelection();
+    }
     else{
-      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${agency}?status=Program Expenditure Updated`).subscribe({
+      this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession}${agency}?status=Program Expenditure Updated&projectId=${projectId}`).subscribe({
         next: (data: any) => {
-          this.agencyProgramList = data?.data
+          this.agencyProgramList = data?.data || []
           this.agencyProgramListFiltered=this.agencyProgramList
           this.programIds = this.agencyProgramList?.[0]?.programId
           console.log(this.agencyProgramList,this.agencyProgramList.length)
           if(!this.agencyProgramList.length) {
-            this.ProgramData=[]
-            this.submitedData = []
-            this.ParticipantAttendanceData=[]
-            this.TotalAmount=0
-            this.getExpenditureDataBoth=[]
+            this.clearProgramDrivenData()
 
           }
           else{
@@ -105,6 +196,7 @@ getAgenciesList() {
           
         },
         error: (err) => {
+          this.resetProgramSelection();
           console.error('Error loading programs:', err);
         }
       });
@@ -113,15 +205,25 @@ getAgenciesList() {
     
   }
   // get programs by  Agency login
-  getProgramsByAgency() {
-    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListByAgencyStatus}/${this.agencyId}?status=Program Expenditure Updated`).subscribe({
+  getProgramsByAgency(projectId: any = this.selectedProjectId) {
+    if (!projectId) {
+      this.resetProgramSelection();
+      return;
+    }
+
+    this._commonService.getDataByUrl(`${APIS.programCreation.getProgramsListBySession}${this.agencyId}?status=Program Expenditure Updated&projectId=${projectId}`).subscribe({
       next: (data: any) => {
-        this.agencyProgramList = data?.data
+        this.agencyProgramList = data?.data || []
         this.agencyProgramListFiltered = this.agencyProgramList
-        this.programIds = this.agencyProgramList[0].programId
-        this.onTabChange(this.activeTab);
+        this.programIds = this.agencyProgramList?.[0]?.programId || ''
+        if (this.programIds) {
+          this.onTabChange(this.activeTab);
+        } else {
+          this.clearProgramDrivenData();
+        }
       },
       error: (err) => {
+        this.resetProgramSelection();
         console.error('Error loading programs:', err);
       }
     });
@@ -129,13 +231,13 @@ getAgenciesList() {
   }
   dropdownProgramsList(event: any, type: any) {
     this.submitedData = ''
-    this.programIds = event.value
-    if(event.value == 'All Programs') {
+    this.programIds = this.getSelectionValue(event)
+    if(this.programIds == 'All Programs') {
       this.onTabChange(this.activeTab);
 
     }
     else{
-      if (type == 'table' && event.value) {
+      if (type == 'table' && this.programIds) {
         this.onTabChange(this.activeTab);
       }
     }
@@ -575,6 +677,9 @@ getAgenciesList() {
   ProgramData: any
   getProgramDetailsById(programId: string) {
     this.ProgramData = []
+    if (!programId || programId === 'All Programs') {
+      return;
+    }
     this._commonService.getById(APIS.programCreation.getSingleProgramsList, programId).subscribe({
       next: (data: any) => {
         this.ProgramData = data.data;

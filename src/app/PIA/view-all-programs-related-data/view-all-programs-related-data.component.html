@@ -6,13 +6,13 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                         <h6 class="fw-600 mb-2 mb-sm-0">Completed Programs</h6>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <!-- <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                         <mat-radio-group  aria-label="Program Category" class="d-flex align-items-center">
                             <label class="me-3 fw-bold">Program Category* </label>
                             <mat-radio-button value="Ramp" class="me-3" checked>Ramp</mat-radio-button>
                             <mat-radio-button value="Others">Others</mat-radio-button>
                         </mat-radio-group>
-                    </div>
+                    </div> -->
                     <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
                         <div class="col-12 col-sm-3 col-md-3 col-lg-3">
                             <!-- <label for="Agencies" style="font-weight: 600;">List Of Agencies</label>
@@ -22,12 +22,25 @@
                             </select> -->
                             <mat-form-field appearance="outline" class="w-100">
                             <mat-label>List Of Agencies</mat-label>
-                                <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="getProgramsByAgencyAdmin($event.value)">
+                                <mat-select [(ngModel)]="selectedAgencyId" (selectionChange)="onAgencyChange($event)">
                                 <mat-select-filter [array]="agencyList" [displayMember]="'agencyName'" (filteredReturn)="agencyListFiltered = $event">
                                 </mat-select-filter>
                                 <mat-option value="All Agencies">All Agencies</mat-option>
                                 <mat-option *ngFor="let list of agencyListFiltered" [value]="list.agencyId">
                                 {{ list.agencyName }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                            <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>List Of Projects</mat-label>
+                                <mat-select [(ngModel)]="selectedProjectId" (selectionChange)="onProjectChange($event)">
+                                <mat-select-filter [array]="projectsDropdownList" [displayMember]="'titleOfProject'" (filteredReturn)="projectsDropdownListFiltered = $event">
+                                </mat-select-filter>
+                                <mat-option value="" disabled>Select Project</mat-option>
+                                <mat-option *ngFor="let list of projectsDropdownListFiltered" [value]="list.project_id">
+                                {{ list.titleOfProject }}
                                 </mat-option>
                             </mat-select>
                             </mat-form-field>
@@ -40,7 +53,7 @@
                             </select> -->
                             <mat-form-field appearance="outline" class="w-100">
                             <mat-label>List Of Program</mat-label>
-                                <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')">
+                                <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')" [disabled]="!selectedProjectId || selectedAgencyId == 'All Agencies' || !agencyProgramListFiltered?.length">
                                 <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                 </mat-select-filter>
                                 <mat-option value="All Programs">All Programs</mat-option>
@@ -53,13 +66,26 @@
                     </ng-container>   
                     <ng-container *ngIf="loginsessionDetails?.userRole != 'ADMIN'">
                         <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                             <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>List Of Projects</mat-label>
+                                <mat-select [(ngModel)]="selectedProjectId" (selectionChange)="onProjectChange($event)">
+                                <mat-select-filter [array]="projectsDropdownList" [displayMember]="'titleOfProject'" (filteredReturn)="projectsDropdownListFiltered = $event">
+                                </mat-select-filter>
+                                <mat-option value="" disabled>Select Project</mat-option>
+                                <mat-option *ngFor="let list of projectsDropdownListFiltered" [value]="list.project_id">
+                                {{ list.titleOfProject }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 col-lg-3">
                             <!-- <label for="Agencies" style="font-weight: 600;">List Of Programs</label>
                             <select class="form-select" [(ngModel)]="programIds" (change)="dropdownProgramsList($event,'table')">
                                    <option *ngFor="let list of agencyProgramList" value="{{list.programId}}">{{list.programTitle}}</option>
                             </select> -->
                              <mat-form-field appearance="outline" class="w-100">
                             <mat-label>List Of Program</mat-label>
-                                <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')">
+                                <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')" [disabled]="!selectedProjectId || !agencyProgramListFiltered?.length">
                                 <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
                                 </mat-select-filter>
                                 <mat-option value="" disabled>Select Program</mat-option>
@@ -80,7 +106,7 @@
                       <button [ngClass]="{ 'active':activeTab==='nav-ones'}" (click)="onTabChange('nav-ones')" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-ones" type="button" role="tab" aria-controls="nav-home" aria-selected="true"> Session Details</button>
                       <button [ngClass]="{ 'active':activeTab==='nav-twos'}" (click)="onTabChange('nav-twos')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-twos" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> Participant Details </button>
                       <button [ngClass]="{ 'active':activeTab==='nav-three'}" (click)="onTabChange('nav-three')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-three" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> Attendance Details</button>
-                      <button [ngClass]="{ 'active':activeTab==='nav-four'}" (click)="onTabChange('nav-four')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-four" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> Expenditure Details</button>
+                      <!-- <button [ngClass]="{ 'active':activeTab==='nav-four'}" (click)="onTabChange('nav-four')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-four" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> Expenditure Details</button> -->
                    </div>
                   </nav>
               

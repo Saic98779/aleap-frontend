@@ -1,0 +1,50 @@
+<main class="mt-4">
+  <section>
+    <div class="card mb-3">
+      <div class="card-header bg-transparent">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="fw-600 mb-2 mb-sm-0">Enquiry Details</h6>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <table id="view-table-enquiry" class="table table-borderless table-striped nowrap w-100">
+          <thead class="bg-lime-green text-white">
+            <tr>
+              <th>S.No</th>
+              <th class="text-center">Actions</th>
+              <th>Walk-In Name</th>
+              <th>WhatsApp Number</th>
+              <th>Email</th>
+              <th>Startup / Company</th>
+              <th>Sectors</th>
+              <th>Stage</th>
+              <th>Incubation Support Required</th>
+              <th>Support Services Required</th>
+              <th>Form Received Date</th>
+              <th>Official Name</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fade" #deleteConfirmModal tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-lime-green">
+        <h5 class="modal-title text-white" id="deleteConfirmLabel">Delete Enquiry</h5>
+        <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this enquiry?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-lime-green" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -65,7 +65,7 @@
                             </div> -->
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3" >
                                 <div class="form-floating mb-3" [ngClass]="{'isDisabled':this.EditProgramId || DefaultDisabled}" >
-                                    <select class="form-select" id="projectId" [value]="selectedProjectId" (change)="onProjectChange($event)">
+                                    <select class="form-select" id="projectId" formControlName="projectId" [value]="selectedProjectId" (change)="onProjectChange($any($event.target).value)">
                                         <option value="">Select Project</option>
                                         <option *ngFor="let project of projectsDropdownList" [value]="project?.projectId || project?.project_id">
                                             {{project?.titleOfProject || project?.projectTitle || project?.projectName || '-' }}

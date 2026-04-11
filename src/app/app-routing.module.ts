@@ -60,6 +60,8 @@ import { AddProjectComponent } from './aleapModules/add-project/add-project.comp
 import { ViewProjectComponent } from './aleapModules/view-project/view-project.component';
 import { AddEventComponent } from './aleapModules/add-event/add-event.component';
 import { ViewEventComponent } from './aleapModules/view-event/view-event.component';
+import { AddEnquiryComponent } from './aleapModules/add-enquiry/add-enquiry.component';
+import { ViewEnquiryComponent } from './aleapModules/view-enquiry/view-enquiry.component';
 
 const routes: Routes = [
     {
@@ -400,6 +402,24 @@ const routes: Routes = [
     {
         path: 'view-project-data',
         component: ViewProjectComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-enquiry-data',
+        component: AddEnquiryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-enquiry-data-edit/:id',
+        component: AddEnquiryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-enquiry-data',
+        component: ViewEnquiryComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },

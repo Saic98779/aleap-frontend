@@ -1,0 +1,225 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <form [formGroup]="addEnquiryForm" (ngSubmit)="submitEnquiry()">
+        <div class="card mb-4">
+          <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Add' }} Enquiry Form</h6>
+              <button type="button" class="btn btn-default" (click)="goToEnquiries()">Back</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12"><h6 class="text-green mt-2 mb-3">Walk-In Details</h6></div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="walkInName" placeholder="Name of the Walk-in">
+                  <label>Name of the Walk-in <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['walkInName'].touched && f['walkInName'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['walkInName'].errors?.['required']">Name of the Walk-in is required</span>
+                  <span *ngIf="f['walkInName'].errors?.['pattern']">Name cannot start with spaces</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="whatsappNumber" placeholder="WhatsApp Number">
+                  <label>WhatsApp Number <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['whatsappNumber'].touched && f['whatsappNumber'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['whatsappNumber'].errors?.['required']">WhatsApp Number is required</span>
+                  <span *ngIf="f['whatsappNumber'].errors?.['pattern']">WhatsApp Number must start with 6, 7, 8, or 9 and be 10 digits</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                  <label>Email <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['email'].touched && f['email'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['email']">Enter a valid email address</span>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="address" placeholder="Address" style="height: 90px"></textarea>
+                  <label>Address <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['address'].touched && f['address'].invalid" class="error" style="color: red;">
+                  Address is required
+                </div>
+              </div>
+
+              <div class="col-12"><h6 class="text-green mt-2 mb-3">Startup Details</h6></div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="startupOrCompanyName" placeholder="Startup/Innovation brand name /Company">
+                  <label>Startup/Innovation brand name /Company <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['startupOrCompanyName'].touched && f['startupOrCompanyName'].invalid" class="error" style="color: red;">
+                  Startup/Company Name is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="stage">
+                    <option value="" disabled>Select Stage</option>
+                    <option *ngFor="let stage of stageOptions" [value]="stage">{{ stage }}</option>
+                  </select>
+                  <label>Stage of Idea/Business <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['stage'].touched && f['stage'].invalid" class="error" style="color: red;">
+                  Stage is required
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="innovationDescription" placeholder="Innovation Description" style="height: 120px"></textarea>
+                  <label>Innovation/Prototype/Product Description <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['innovationDescription'].touched && f['innovationDescription'].invalid" class="error" style="color: red;">
+                  Innovation Description is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field appearance="outline" class="w-100 mb-3">
+                  <mat-label>Sectors <span class="c-red">*</span></mat-label>
+                  <mat-select formControlName="sectors" multiple>
+                    <mat-option *ngFor="let sector of allSectors" [value]="getSectorValue(sector)">{{ getSectorLabel(sector) }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="f['sectors'].touched && f['sectors'].invalid" class="error" style="color: red; margin-top: -10px;">
+                  At least one sector is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="mb-3">
+                  <label class="fs-md fw-600 mb-1">Incubation Support Required <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="incubationSupportRequired" [value]="true" id="supportYes">
+                      <label class="form-check-label" for="supportYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="incubationSupportRequired" [value]="false" id="supportNo">
+                      <label class="form-check-label" for="supportNo">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="f['incubationSupportRequired'].touched && f['incubationSupportRequired'].invalid" class="error" style="color: red;">
+                  Please choose whether incubation support is required
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="incubationSupportDescription" placeholder="Incubation Support Description" style="height: 100px"></textarea>
+                  <label>Incubation Support Description</label>
+                </div>
+                <div *ngIf="addEnquiryForm.errors?.['incubationSupportDescriptionRequired'] && (f['incubationSupportDescription'].touched || submitted)" class="error" style="color: red;">
+                  Incubation Support Description is required when support is needed
+                </div>
+              </div>
+
+              <div class="col-12"><h6 class="text-green mt-2 mb-3">Support and Review</h6></div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Support Services Required <span class="c-red">*</span></label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let option of supportServiceOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="option" [checked]="isSupportServiceSelected(option)" (change)="onSupportServiceChange(option, $event)">
+                      <label class="form-check-label" [for]="option">{{ option }}</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="f['supportServicesRequired'].touched && f['supportServicesRequired'].invalid" class="error" style="color: red;">
+                  At least one support service is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="applicantSignature" placeholder="Applicant Signature">
+                  <label>Applicant Signature <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['applicantSignature'].touched && f['applicantSignature'].invalid" class="error" style="color: red;">
+                  Applicant Signature is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="date" class="form-control" formControlName="formReceivedDate">
+                  <label>Form Received Date <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['formReceivedDate'].touched && f['formReceivedDate'].invalid" class="error" style="color: red;">
+                  Form Received Date is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="officialName" placeholder="Official Name">
+                  <label>Official Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['officialName'].touched && f['officialName'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['officialName'].errors?.['required']">Official Name is required</span>
+                  <span *ngIf="f['officialName'].errors?.['pattern']">Official Name cannot start with spaces</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label fs-md fw-600">Enquiry Form File <span class="c-red">*</span></label>
+                  <input id="enquiryFormFile" type="file" class="form-control" [disabled]="uploadedEnquiryFile" (change)="onFileChange($event)">
+                </div>
+                <div *ngIf="uploadedEnquiryFile" class="mt-2 mb-2">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">{{ getFileName(uploadedEnquiryFile) }}</span>
+                    <button type="button" (click)="removeFile('enquiryFormFile')" class="btn btn-sm btn-lime-green">
+                      <span class="bi bi-trash"></span>
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="f['enquiryFromFilePath'].touched && f['enquiryFromFilePath'].invalid" class="error" style="color: red;">
+                  Enquiry form file is required
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="discussionSummary" placeholder="Discussion Summary" style="height: 120px"></textarea>
+                  <label>Discussion Summary / Recommendations <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['discussionSummary'].touched && f['discussionSummary'].invalid" class="error" style="color: red;">
+                  Discussion Summary is required
+                </div>
+              </div>
+            </div>
+
+            <div class="text-end mt-2">
+              <button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
+              <button type="submit" class="btn btn-lime-green">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                {{ isEditMode ? 'Update' : 'Submit' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

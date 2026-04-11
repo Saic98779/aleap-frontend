@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonServiceService } from '@app/_services/common-service.service';
 import { APIS } from '@app/constants/constants';
 import { ToastrService } from 'ngx-toastr';
 import moment from 'moment';
-import { debounceTime, fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-esdp-training',
@@ -17,6 +17,7 @@ export class ESDPTrainingComponent implements OnInit {
   MobileNumber:any
   ParticipantData:any;
   agencyId:any
+  allSectors:any = []
   constructor(
     private fb: FormBuilder,
     private toastrService: ToastrService,
@@ -32,17 +33,54 @@ export class ESDPTrainingComponent implements OnInit {
   ngOnInit(): void {
     this.formDetails();
     this.getESDPProgram();
+    this.getAllSectors();
   }
 
   esdpTrainingList:any;
   getESDPProgram() {
-    this._commonService.getDataByUrl(APIS.programCreation.getESDPProgram).subscribe({
+    this._commonService.getDataByUrl(APIS.programCreation.getESDPTraining).subscribe({
       next: (res: any) => {
         console.log(res)
-        this.esdpTrainingList = res.data
+        this.esdpTrainingList = res?.data || [];
       },
       error: (err) => {
         new Error(err);
+      }
+    })
+  }
+
+  normalizeSectorList(sectors: any) {
+    if (Array.isArray(sectors)) {
+      return sectors.map((sector: any) => sector?.sectorName || sector?.sector || sector?.name || sector).filter((sector: any) => !!sector);
+    }
+
+    if (typeof sectors === 'string' && sectors.trim()) {
+      return sectors.split(',').map((sector: string) => sector.trim()).filter((sector: string) => !!sector);
+    }
+
+    return [];
+  }
+
+  getSectorDisplay(sectors: any) {
+    return this.normalizeSectorList(sectors).join(', ');
+  }
+
+  getSectorLabel(sector: any) {
+    return sector?.sectorName || sector?.sector || sector?.name || sector;
+  }
+
+  getSectorValue(sector: any) {
+    return sector?.sectorName || sector?.sector || sector?.name || sector;
+  }
+
+  getAllSectors(){
+    this.allSectors = []
+    this._commonService.getDataByUrl(APIS.masterList.getSectors).subscribe({
+      next: (data: any) => {
+        this.allSectors = data.data;
+      },
+      error: () => {
+        this.allSectors = [];
       }
     })
   }
@@ -54,11 +92,14 @@ export class ESDPTrainingComponent implements OnInit {
       participantName: new FormControl(""),
       organizationId: new FormControl(""),
       organizationName: new FormControl(""),
+      memberId: new FormControl(""),
+      sectors: new FormControl(""),
       dateOfAwarenessProgram: new FormControl("",[Validators.required]),
       interestedInAttending15Days: new FormControl("",[Validators.required]),
       dateOfApplicationReceived: new FormControl("",[Validators.required]),
       selectedForTraining: new FormControl("",[Validators.required]),
-      organizationCategory: new FormControl("",[Validators.required]),
+      interestedSectorsForEsdp: new FormControl([], [Validators.required]),
+      organizationCategory: new FormControl(""),
       nameOfTheSHG: new FormControl(""),
     });    
   }
@@ -75,6 +116,9 @@ export class ESDPTrainingComponent implements OnInit {
           this.ParticipantData = res?.data
           this.showParticpantFlag = false
           this.programDatesDropdown = res?.data?.programDates
+          const autoSelectedDate = res?.data?.programDates?.[0] || ''
+          const sectorsDisplay = this.getSectorDisplay(res?.data?.sectors)
+          const autoApplicationDate = moment().format('DD-MM-YYYY')
           this.ESDPTraningForm.patchValue({
             agencyId: this.agencyId,
             participantId: this.ParticipantData.participantId,
@@ -82,6 +126,12 @@ export class ESDPTrainingComponent implements OnInit {
             participantName: this.ParticipantData.participantName,
             organizationName: this.ParticipantData.organizationName,
             organizationCategory: this.ParticipantData.organizationCategory,
+            memberId: this.ParticipantData.memberId || '',
+            sectors: sectorsDisplay,
+            dateOfAwarenessProgram: autoSelectedDate,
+            // dateOfApplicationReceived: autoApplicationDate,
+            interestedSectorsForEsdp: this.normalizeSectorList(res?.data?.sectors),
+            nameOfTheSHG: this.ParticipantData.nameOfTheSHG || ''
           })
           this.toastrService.success('Participant data found successfully');
         }else {
@@ -115,16 +165,26 @@ export class ESDPTrainingComponent implements OnInit {
       this.toastrService.error('Please search the participant data first');
       return;
     }
+
+    if (this.ESDPTraningForm.invalid) {
+      this.ESDPTraningForm.markAllAsTouched();
+      this.toastrService.error('Please fill all required fields');
+      return;
+    }
       
-    let dateOfApplicationReceived = moment(this.ESDPTraningForm.value.dateOfApplicationReceived, moment.ISO_8601, true).isValid() 
-      ? moment(this.ESDPTraningForm.value.dateOfApplicationReceived).format('DD-MM-YYYY') 
-      : '';
-    let dataObj = {      
-      ...this.ESDPTraningForm.value,
+    let dateOfApplicationReceived = this.ESDPTraningForm.value.dateOfApplicationReceived || '';
+    let dataObj = {
+      participantId: Number(this.ESDPTraningForm.value.participantId || 0),
+      organizationId: Number(this.ESDPTraningForm.value.organizationId || 0),
+      agencyId: Number(this.ESDPTraningForm.value.agencyId || 0),
+      dateOfAwarenessProgram: this.ESDPTraningForm.value.dateOfAwarenessProgram,
+      interestedInAttending15Days: this.ESDPTraningForm.value.interestedInAttending15Days,
       dateOfApplicationReceived: dateOfApplicationReceived,
+      selectedForTraining: this.ESDPTraningForm.value.selectedForTraining,
+      interestedSectorsForEsdp: this.normalizeSectorList(this.ESDPTraningForm.value.interestedSectorsForEsdp)
     }
     
-    this._commonService.add(APIS.programCreation.addESDPProgram, dataObj).subscribe((res: any) => {
+    this._commonService.add(APIS.programCreation.saveESDPTraining, dataObj).subscribe((res: any) => {
       this.toastrService.success('ESDP Program added successfully', 'Success');
       this.ESDPTraningForm.reset();
       this.getESDPProgram();

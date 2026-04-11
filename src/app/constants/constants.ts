@@ -24,6 +24,8 @@ export const APIS = {
         getSubActivityListByActivity: API_BASE_URL + '/activityById',
         getESDPProgram: API_BASE_URL + '/getESDPTraining',
         addESDPProgram: API_BASE_URL + '/SaveESDPTraining',
+        getESDPTraining: API_BASE_URL + '/getESDPTraining',
+        saveESDPTraining: API_BASE_URL + '/SaveESDPTraining',
         updateProgram: API_BASE_URL + '/updateProgram',
         deleteSession: API_BASE_URL + '/program/session/delete',
         deleteProgram: API_BASE_URL + '/program/delete/',
@@ -214,6 +216,13 @@ export const APIS = {
         getById: API_BASE_URL + '/events/',
         update: API_BASE_URL + '/events/',
         delete: API_BASE_URL + '/events/'
+    },
+    enquiry: {
+        add: API_BASE_URL + '/enquiry',
+        getAll: API_BASE_URL + '/enquiry',
+        getById: API_BASE_URL + '/enquiry/',
+        update: API_BASE_URL + '/enquiry/',
+        delete: API_BASE_URL + '/enquiry/'
     },
      counsellorAssignment: {
         getAll: API_BASE_URL + '/counsellor/all',

@@ -1,169 +1,188 @@
 <main class="mt-4">
-    <section>
-        <div class="container-fluid">
-            <div class="card mb-4">
-                <div class="card-header bg-transparent">
-                    <h6 class="mb-2 mb-sm-0">ESDP Trainng Program Application</h6>
-                </div>
-                <div class="card-body">                    
-                    <div class="row mb-4">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="esdpdetails" id="mobile" value="shgMobile" checked>
-                                <label class="form-check-label fs-md" for="mobile">Mobile No. of the SHG</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="esdpdetails" id="member" value="shgName" disabled>
-                                <label class="form-check-label fs-md" for="member">Name of the Member SHG</label>
-                            </div>
-                            
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            
-                            <div class="mb-3 mb-lg-0 show-hide" id="shgMobile">
-                                <input type="text" class="form-control form-sm-control" (ngModelChange)="onSearchChange($event)" [(ngModel)]="MobileNumber" placeholder="Mobile No. of the SHG">
-                            </div>
-                            <div class="mb-3 mb-lg-0 show-hide" id="shgName" style="display: none;">
-                                <input type="text" class="form-control form-sm-control" placeholder="Name of the Member SHG">
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <!-- <button type="button" class="btn btn-lime-green mt-1" (click)="Search()" >Search</button> -->
-                            <div class="text-end" *ngIf="showParticpantFlag">
-                                <a type="button" routerLink="/add-participant-data" class="btn btn-lime-green">Add New Participant</a>
-                            </div>
-                        </div>                        
-                    </div>
-                    <form [formGroup]="ESDPTraningForm" (ngSubmit)="onModalSubmitRegister()">
-                        <div class="border rounded-3 py-3 px-3 mb-4">
-                            <h6 class="fs-md fw-600">SHG Member Details</h6>
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3 mb-lg-0">
-                                        <input type="text" class="form-control" id="startup" placeholder="" formControlName="organizationCategory">
-                                        <label for="startup">SHG / Startup</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3 mb-lg-0">
-                                        <input type="text" class="form-control" id="member" placeholder="">
-                                        <label for="member">Member ID</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3 mb-lg-0">
-                                        <input type="text" class="form-control" id="sector" placeholder="">
-                                        <label for="sector">SHG Operating Sector</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3 mb-lg-0">
-                                        <select class="form-select" id="interested" formControlName="dateOfAwarenessProgram">
-                                            <option value="">Select</option>                                            
-                                            <option *ngFor="let list of programDatesDropdown" value="{{list}}">{{list}}</option>
-                                        </select>
-                                        <label for="awareness">Date of Awareness Program</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border rounded-3 py-3 px-3 mb-4">
-                            <h6 class="fs-md fw-600">ESDP Training Application Details</h6>
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="mb-3 mb-lg-0">
-                                        <label class="fs-md fw-600 mb-1">Interested in Attending 15Days</label>
-                                        <div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" formControlName="interestedInAttending15Days" type="radio"  id="yes" value="yes">
-                                                <label class="form-check-label" for="yes">Yes</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" formControlName="interestedInAttending15Days" type="radio" id="no" value="No">
-                                                <label class="form-check-label" for="no">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3 mb-lg-0">
-                                        <input type="date" class="form-control" formControlName="dateOfApplicationReceived" id="application" placeholder="">
-                                        <label for="application">Date of Application Received</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="form-floating mb-3 mb-lg-0">
-                                        <select class="form-select" id="interested" >
-                                            <option selected>Select</option>
-                                            <option value="1">Training1</option>
-                                            <option value="2">Training2</option>
-                                        </select>
-                                        <label for="interested">Sector interested for ESDP Training</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="mb-3 mb-lg-0">
-                                        <label class="fs-md fw-600 mb-1">Selected for Training</label>
-                                        <div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" formControlName="selectedForTraining"  id="yes1" value="option1">
-                                                <label class="form-check-label" for="yes1">Yes</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" formControlName="selectedForTraining" id="no1" value="option2">
-                                                <label class="form-check-label" for="no1">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                            
-                            </div>
-                            <div class="row">
-                                <div style="float: right;">
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-lime-green">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-header bg-transparent">
-                    <h6 class="fw-600 mb-2 mb-sm-0">Applicants</h6>
-                </div>
-                <div class="card-body">
-                    <table id="esdp-table" class="table table-bordered nowrap w-100">
-                        <thead class="bg-lime-green text-white">
-                            <tr>
-                                <th>S.No</th>
-                                <th>SHG Name</th>
-                                <th>Member ID</th>
-                                <th>Member Name</th>
-                                <th>SHG/Startup</th>
-                                <th>Date of Awareness Program</th>
-                                <th>Interested in 15 Days ESDP Prog</th>
-                                <th>Date of Applications Received</th>
-                                <th>Selected for Training</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let list of esdpTrainingList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>{{list.shgname}}</td>
-                                <td>{{list.memberId}}</td>
-                                <td>{{list.memberName}}</td>
-                                <td>{{list.organizationCategory}}</td>
-                                <td>{{list.dateOfAwarenessProgram}}</td>
-                                <td>{{list.interestedInAttending15Days}}</td>
-                                <td>{{list.dateOfApplicationReceived}}</td>
-                                <td>{{list.selectedForTraining}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <section>
+    <div class="container-fluid">
+      <div class="card mb-4">
+        <div class="card-header bg-transparent">
+          <h6 class="mb-2 mb-sm-0">ESDP Trainng Program Application</h6>
         </div>
-    </section>
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="esdpdetails" id="mobile" value="shgMobile" checked>
+                <label class="form-check-label fs-md" for="mobile">Mobile No. of the SHG</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="esdpdetails" id="member" value="shgName" disabled>
+                <label class="form-check-label fs-md" for="member">Name of the Member SHG</label>
+              </div>
+
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+
+              <div class="mb-3 mb-lg-0 show-hide" id="shgMobile">
+                <input type="text" class="form-control form-sm-control" (ngModelChange)="onSearchChange($event)"
+                  [(ngModel)]="MobileNumber" placeholder="Mobile No. of the SHG">
+              </div>
+              <div class="mb-3 mb-lg-0 show-hide" id="shgName" style="display: none;">
+                <input type="text" class="form-control form-sm-control" placeholder="Name of the Member SHG">
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <!-- <button type="button" class="btn btn-lime-green mt-1" (click)="Search()" >Search</button> -->
+              <div class="text-end" *ngIf="showParticpantFlag">
+                <a type="button" routerLink="/add-participant-data" class="btn btn-lime-green">Add New Participant</a>
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="ESDPTraningForm" (ngSubmit)="onModalSubmitRegister()">
+            <div class="border rounded-3 py-3 px-3 mb-4">
+              <h6 class="fs-md fw-600">SHG Member Details</h6>
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3 mb-lg-0">
+                    <input type="text" class="form-control" id="startup" placeholder=""
+                      formControlName="organizationName" readonly>
+                    <label for="startup">SHG / Startup</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3 mb-lg-0">
+                    <input type="text" class="form-control" id="member" placeholder="" formControlName="memberId" readonly>
+                    <label for="member">Member ID</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3 mb-lg-0">
+                    <input type="text" class="form-control" id="sector" placeholder="" formControlName="sectors" readonly>
+                    <label for="sector">SHG Operating Sector</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3 mb-lg-0">
+                    <input type="text" class="form-control" formControlName="dateOfAwarenessProgram" id="application"
+                      placeholder="" readonly>
+                    <label for="application">Date of Awareness Program</label>
+                  </div>
+                </div>
+                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3 mb-lg-0">
+                    <select class="form-select" id="interested" formControlName="dateOfAwarenessProgram">
+                      <option value="">Select</option>
+                      <option *ngFor="let list of programDatesDropdown" value="{{list}}">{{list}}</option>
+                    </select>
+                    <label for="awareness">Date of Awareness Program</label>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="border rounded-3 py-3 px-3 mb-4">
+              <h6 class="fs-md fw-600">ESDP Training Application Details</h6>
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="mb-3 mb-lg-0">
+                    <label class="fs-md fw-600 mb-1">Interested in Attending 15Days</label>
+                    <div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" formControlName="interestedInAttending15Days" type="radio"
+                          id="yes" value="Yes">
+                        <label class="form-check-label" for="yes">Yes</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" formControlName="interestedInAttending15Days" type="radio"
+                          id="no" value="No">
+                        <label class="form-check-label" for="no">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-floating mb-3 mb-lg-0">
+                    <input type="date" class="form-control" formControlName="dateOfApplicationReceived" id="application"
+                      placeholder="">
+                    <label for="application">Date of Application Received</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Sector interested for ESDP Training</mat-label>
+                    <mat-select formControlName="interestedSectorsForEsdp" multiple>
+                      <mat-option *ngIf="!allSectors?.length" [disabled]="true">No Data</mat-option>
+                      <mat-option *ngFor="let sector of allSectors" [value]="getSectorValue(sector)">
+                        {{ getSectorLabel(sector) }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="mb-3 mb-lg-0">
+                    <label class="fs-md fw-600 mb-1">Selected for Training</label>
+                    <div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="selectedForTraining" id="yes1"
+                          value="Yes">
+                        <label class="form-check-label" for="yes1">Yes</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="selectedForTraining" id="no1"
+                          value="No">
+                        <label class="form-check-label" for="no1">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div style="float: right;">
+                  <div class="text-end">
+                    <button type="submit" class="btn btn-lime-green">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-header bg-transparent">
+          <h6 class="fw-600 mb-2 mb-sm-0">Applicants</h6>
+        </div>
+        <div class="card-body">
+          <div class="esdp-table-wrapper">
+            <table id="esdp-table" class="table table-bordered nowrap w-100 mb-0">
+              <thead class="bg-lime-green text-white">
+                <tr>
+                  <th>S.No</th>
+                  <th>SHG Name</th>
+                  <th>Member ID</th>
+                  <th>Member Name</th>
+                  <th>SHG/Startup</th>
+                  <th>Date of Awareness Program</th>
+                  <th>Interested Sectors For ESDP</th>
+                  <th>Interested in 15 Days ESDP Prog</th>
+                  <th>Date of Applications Received</th>
+                  <th>Selected for Training</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let list of esdpTrainingList; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{list.shgname}}</td>
+                  <td>{{list.memberId}}</td>
+                  <td>{{list.memberName}}</td>
+                  <td>{{list.organizationCategory}}</td>
+                  <td>{{list.dateOfAwarenessProgram}}</td>
+                  <td>{{getSectorDisplay(list.interestedSectorsForEsdp)}}</td>
+                  <td>{{list.interestedInAttending15Days}}</td>
+                  <td>{{list.dateOfApplicationReceived}}</td>
+                  <td>{{list.selectedForTraining}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>

@@ -8,7 +8,7 @@
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: 500;
-    color: #00b300;
+    color: #2f7ed8 ;
     background-color: #fff;
     /* border: 1px solid transparent;
     border-top-left-radius: 0.25rem;
@@ -21,15 +21,15 @@
   .nav-tabs .nav-link:hover {
     /* border-color: #e9ecef #e9ecef #dee2e6; */
     background-color: #fff;
-    color: #00b300;
+    color: #2f7ed8 ;
   }
   
   /* Active tab styling */
   .nav-tabs .nav-link.active {
-    color: #00b300;
+    color: #2f7ed8 ;
     background-color: #fff;
     /* border-color: #dee2e6 #dee2e6 #fff; */
-    border-bottom: 3px solid #00b300;
+    border-bottom: 3px solid #2f7ed8 ;
   }
   
   /* Focus state for accessibility */

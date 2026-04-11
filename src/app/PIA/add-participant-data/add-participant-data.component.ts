@@ -207,7 +207,7 @@ export class AddParticipantDataComponent implements OnInit {
   }
 
   onProjectChange(event: any) {
-    const projectId = event?.target?.value || event?.value || '';
+    const projectId = event;
     this.selectedProjectId = projectId;
     this.programIds = '';
     this.agencyProgramList = [];
@@ -343,6 +343,7 @@ export class AddParticipantDataComponent implements OnInit {
       certificateIssueDate: new FormControl("",),
       needAssessmentMethodology: new FormControl("",),
       programIds: new FormControl("", [Validators.required,]),
+      projectId: new FormControl("", [Validators.required,]),
     
       // TargetSector: new FormControl("",[Validators.required,]),
       // targetAudience: new FormControl("",[Validators.required,]),
@@ -594,6 +595,7 @@ export class AddParticipantDataComponent implements OnInit {
     this.isedit=true
     this.participantId=item.participantId
    console.log(this.OrganizationData)
+   this.onProjectChange(item.projectId)
     this.ParticipantDataForm.patchValue({ ...item,programIds :item.programIds?.[0],certificateIssueDate: item.certificateIssueDate?this.convertToISOFormat(item.certificateIssueDate):'',isAspirant:item.organizationId?'Existing Oragnization':'Aspirant',organizationId:this.OrganizationData.filter((data:any)=>{
       if(data.organizationId==item?.organizationId){
             return data

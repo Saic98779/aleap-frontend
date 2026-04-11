@@ -78,6 +78,7 @@
           </ul>
         </li>
         
+        
         <li class="nav-item dropdown" [class.show]="openSubMenus['programs']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('programs', $event)" [attr.aria-expanded]="openSubMenus['programs']"><span class="bi bi-kanban me-2 menu-icon"></span>Programs</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['programs']">
@@ -98,7 +99,7 @@
           <ul class="dropdown-menu" [class.show]="openSubMenus['participantDetails']">
             <li><a class="dropdown-item" routerLink="/add-participant-data" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Add Participant</a></li>
             <li><a class="dropdown-item" routerLink="/view-participant-data" routerLinkActive="active"><span class="bi bi-person-vcard me-2 submenu-icon"></span>View Participant</a></li>
-            <li><a class="dropdown-item" href="#"><span class="bi bi-check-circle me-2 submenu-icon"></span>View Completed</a></li>
+            <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active" ><span class="bi bi-check-circle me-2 submenu-icon"></span>View Completed</a></li>
           </ul>
         </li>
 
@@ -126,6 +127,13 @@
             <!-- <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active"><span class="bi bi-clipboard2-check me-2 submenu-icon"></span>Startups Assessments</a></li> -->
           </ul>
         </li>
+          <li class="nav-item dropdown" [class.show]="openSubMenus['enquiryDetails']" *appHasRole="[Role.Admin, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+            <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('enquiryDetails', $event)" [attr.aria-expanded]="openSubMenus['enquiryDetails']"><span class="bi bi-journal-text me-2 menu-icon"></span>Enquiry Form</a>
+            <ul class="dropdown-menu" [class.show]="openSubMenus['enquiryDetails']">
+            <li><a class="dropdown-item" routerLink="/add-enquiry-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Enquiry</a></li>
+            <li><a class="dropdown-item" routerLink="/view-enquiry-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Enquiry</a></li>
+            </ul>
+          </li>
 
         <li class="nav-item" [class.show]="openSubMenus['Startups']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link" routerLink="/assessment" routerLinkActive="active" (click)="closeAllSubMenus()">

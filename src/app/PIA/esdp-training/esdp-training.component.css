@@ -1,0 +1,11 @@
+.esdp-table-wrapper {
+	width: 100%;
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: auto;
+	max-height: 420px;
+}
+
+.esdp-table-wrapper table {
+	min-width: 1200px;
+}
