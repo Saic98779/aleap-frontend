@@ -1,0 +1,142 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <form [formGroup]="addEmployeeForm" (ngSubmit)="submitEmployee()">
+        <div class="card mb-4">
+          <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Add' }} Employee</h6>
+              <button type="button" class="btn btn-default" (click)="goToEmployees()">Back</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                  <label>Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['name'].touched && f['name'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['name'].errors?.['required']">Name is required</span>
+                  <span *ngIf="f['name'].errors?.['pattern']">Name cannot start with spaces</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="educationalQualification" placeholder="Educational Qualification">
+                  <label>Educational Qualification <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['educationalQualification'].touched && f['educationalQualification'].invalid" class="error" style="color: red;">
+                  Educational Qualification is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="gender">
+                    <option value="" disabled>Select Gender</option>
+                    <option *ngFor="let g of genders" [value]="g">{{ g }}</option>
+                  </select>
+                  <label>Gender <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['gender'].touched && f['gender'].invalid" class="error" style="color: red;">
+                  Gender is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="category">
+                    <option value="" disabled>Select Category</option>
+                    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                  </select>
+                  <label>Category <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['category'].touched && f['category'].invalid" class="error" style="color: red;">
+                  Category is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="designation" placeholder="Designation">
+                  <label>Designation <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['designation'].touched && f['designation'].invalid" class="error" style="color: red;">
+                  Designation is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="date" class="form-control" formControlName="dateOfJoining" placeholder="Date of Joining">
+                  <label>Date of Joining <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['dateOfJoining'].touched && f['dateOfJoining'].invalid" class="error" style="color: red;">
+                  Date of Joining is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="date" class="form-control" formControlName="dateOfRelieving" placeholder="Date of Relieving">
+                  <label>Date of Relieving</label>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="phone" placeholder="Phone" maxlength="10">
+                  <label>Phone <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['phone'].touched && f['phone'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['phone'].errors?.['required']">Phone is required</span>
+                  <span *ngIf="f['phone'].errors?.['pattern']">Enter a valid 10-digit phone number starting with 6-9</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                  <label>Email <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['email'].touched && f['email'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['email']">Enter a valid email address</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="mb-3">
+                  <label class="form-label fs-md fw-600">Photo (Upload file)</label>
+                  <input id="employeePhotoFile" type="file" class="form-control" accept=".jpg,.jpeg,.png" [disabled]="uploadedPhotoFile" (change)="onPhotoFileChange($event)">
+                </div>
+                <div *ngIf="uploadedPhotoFile" class="mt-2 mb-2">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">{{ getFileName(uploadedPhotoFile) }}</span>
+                    <button type="button" (click)="removePhotoFile('employeePhotoFile')" class="btn btn-sm btn-lime-green">
+                      <span class="bi bi-trash"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card-footer bg-transparent d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+            <button type="submit" class="btn btn-lime-green" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+              {{ isEditMode ? 'Update' : 'Save' }}
+            </button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

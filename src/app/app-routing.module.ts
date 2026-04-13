@@ -62,6 +62,8 @@ import { AddEventComponent } from './aleapModules/add-event/add-event.component'
 import { ViewEventComponent } from './aleapModules/view-event/view-event.component';
 import { AddEnquiryComponent } from './aleapModules/add-enquiry/add-enquiry.component';
 import { ViewEnquiryComponent } from './aleapModules/view-enquiry/view-enquiry.component';
+import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.component';
+import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
 
 const routes: Routes = [
     {
@@ -420,6 +422,24 @@ const routes: Routes = [
     {
         path: 'view-enquiry-data',
         component: ViewEnquiryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-employee',
+        component: AddEmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-employee-edit/:id',
+        component: AddEmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-employee',
+        component: ViewEmployeeComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },

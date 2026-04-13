@@ -1,0 +1,40 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <div class="card mb-4">
+        <div class="card-header bg-transparent">
+          <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <h6 class="mb-0 text-green">Employee List</h6>
+            <!-- <button type="button" class="btn btn-success btn-sm" routerLink="/add-employee">
+              <span class="bi bi-plus-circle me-1"></span> Add Employee
+            </button> -->
+          </div>
+        </div>
+
+        <div class="card-body">
+          <table id="view-table-employee" class="table table-hover table-bordered w-100">
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Delete Confirm Modal -->
+<div class="modal fade" #deleteConfirmModal tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{ selectedEmployee?.name }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-lime-green" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
