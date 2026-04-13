@@ -3,10 +3,11 @@ pipeline {
 
   environment {
     SERVER = "ubuntu@51.222.155.92"
-    APP_PATH = "/home/ubuntu/frontend"
+    APP_PATH = "/var/www/html"
   }
 
   stages {
+
     stage('Clean Workspace') {
       steps {
         deleteDir()
@@ -48,7 +49,7 @@ pipeline {
       echo "==== Copying build to server (/tmp) ===="
       scp -o StrictHostKeyChecking=no -r dist/skill-development/* $SERVER:/tmp/frontend/
 
-      echo "==== Moving files to final location ===="
+      echo "==== Moving files to Nginx folder ===="
       ssh -o StrictHostKeyChecking=no $SERVER "
         sudo rm -rf $APP_PATH/* &&
         sudo cp -r /tmp/frontend/* $APP_PATH/ &&
