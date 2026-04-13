@@ -20,6 +20,7 @@ export class ViewProjectComponent implements OnInit, OnDestroy {
   deleteModalRef: any;
   selectedProject: any = null;
 
+  
   constructor(
     private router: Router,
     private toastrService: ToastrService,
