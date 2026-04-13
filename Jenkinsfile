@@ -7,6 +7,8 @@ pipeline {
   }
 
   stages {
+
+    ```
     stage('Clean Workspace') {
       steps {
         deleteDir()
@@ -29,6 +31,7 @@ pipeline {
     stage('Build Frontend Application') {
       steps {
         sh '''
+      set -e
       npm run build
       echo "==== Build Output ===="
       ls -la dist/
@@ -36,20 +39,24 @@ pipeline {
       }
     }
 
-    stage('Prepare Server Folder') {
-      steps {
-        sh '''
-      ssh -o StrictHostKeyChecking=no $SERVER "mkdir -p $APP_PATH"
-    '''
-      }
-    }
-
     stage('Deploy Frontend') {
       steps {
         sh '''
-      ssh -o StrictHostKeyChecking=no $SERVER "rm -rf $APP_PATH/*"
-      scp -o StrictHostKeyChecking=no -r dist/skill-development/* $SERVER:$APP_PATH/
-      ssh -o StrictHostKeyChecking=no $SERVER "sudo chown -R www-data:www-data $APP_PATH && sudo chmod -R 755 $APP_PATH"
+      set -e
+
+      echo "==== Preparing temp folder ===="
+      ssh -o StrictHostKeyChecking=no $SERVER "rm -rf /tmp/frontend && mkdir -p /tmp/frontend"
+
+      echo "==== Copying build to server (/tmp) ===="
+      scp -o StrictHostKeyChecking=no -r dist/skill-development/* $SERVER:/tmp/frontend/
+
+      echo "==== Moving files to final location ===="
+      ssh -o StrictHostKeyChecking=no $SERVER "
+        sudo rm -rf $APP_PATH/* &&
+        sudo cp -r /tmp/frontend/* $APP_PATH/ &&
+        sudo chown -R www-data:www-data $APP_PATH &&
+        sudo chmod -R 755 $APP_PATH
+      "
     '''
       }
     }
@@ -61,6 +68,8 @@ pipeline {
     '''
       }
     }
+    ```
+
   }
 
   post {
