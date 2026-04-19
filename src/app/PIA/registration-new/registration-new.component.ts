@@ -34,6 +34,12 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
   digitalPlatforms: string[] = [];
   certifications: string[] = [];
   financialLinkages: string[] = [];
+  statesList: any[] = [];
+  allDistricts: any[] = [];
+  MandalListSHG: any[] = [];
+  private pendingStateValue: any = 'Telangana';
+  private pendingDistrictValue: any = null;
+  private pendingMandalValue: any = null;
 
   readonly previewSections = [
     {
@@ -60,14 +66,14 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
     {
       title: 'Address',
       fields: [
-        { label: 'Door No.', key: 'doorNo' },
-        { label: 'Street Name', key: 'streetName' },
+        { label: 'House No / Door No', key: 'houseNoOrDoorNo' },
+        { label: 'Street / Block', key: 'streetOrBlock' },
         { label: 'Village', key: 'village' },
-        { label: 'Panchayat Name', key: 'panchayatName' },
-        { label: 'Mandal', key: 'mandal' },
-        { label: 'District', key: 'district' },
         { label: 'State', key: 'state' },
-        { label: 'Pincode', key: 'pincode' }
+        { label: 'District', key: 'district' },
+        { label: 'Mandal', key: 'mandal' },
+        { label: 'Pin Code', key: 'pinCode' },
+        { label: 'Panchayat Name', key: 'panchayatName' },
       ]
     },
     {
@@ -115,8 +121,8 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.selectedLanguage = localStorage.getItem('registration_lang') || 'en';
     // this.loadGoogleTranslateScript();
-    this.getAllDistricts();
     this.buildForm();
+    this.getStates();
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       this.isEditMode = true;
@@ -126,31 +132,186 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
       }
     }
   }
-  allDistricts:any
-  getAllDistricts(){
-    this.allDistricts = []
-    this._commonService.getDataByUrl(APIS.masterList.getDistricts).subscribe({
+
+  getStates() {
+    this.statesList = [];
+    this._commonService.getDataByUrl(APIS.masterList.getStates).subscribe({
       next: (data: any) => {
-        this.allDistricts = data.data;
+        this.statesList = data?.data || [];
+        this.applyPendingLocationSelection();
       },
-      error: (err: any) => {
+      error: () => {
+        this.statesList = [];
+      }
+    });
+  }
+
+  onStateChange(stateId: any) {
+    this.getDistrictsByState(stateId);
+  }
+
+  getDistrictsByState(stateId: any, selectedDistrict: any = null, selectedMandal: any = null) {
+    this.allDistricts = [];
+    this.MandalListSHG = [];
+    this.registrationForm.patchValue({ district: '', mandal: '' }, { emitEvent: false });
+
+    if (!stateId) {
+      return;
+    }
+
+    this._commonService.getDataByUrl(APIS.masterList.getDistrictsByState + stateId).subscribe({
+      next: (data: any) => {
+        this.allDistricts = data?.data || [];
+        if (selectedDistrict !== null && selectedDistrict !== undefined && selectedDistrict !== '') {
+          const districtId = this.resolveDistrictId(selectedDistrict);
+          if (districtId) {
+            this.registrationForm.patchValue({ district: districtId }, { emitEvent: false });
+            this.getMandalsByDistrict(districtId, selectedMandal);
+          }
+        }
+      },
+      error: () => {
         this.allDistricts = [];
       }
-    })
+    });
   }
-    MandalListSHG:any
-  GetMandalByDistrictSHG(event: any) {
-    this.MandalListSHG=[]
-    this._commonService.getDataByUrl(APIS.masterList.getMandal + event).subscribe({
+
+  onDistrictChange(districtId: any) {
+    this.getMandalsByDistrict(districtId);
+  }
+
+  getMandalsByDistrict(districtId: any, selectedMandal: any = null) {
+    this.MandalListSHG = [];
+    this.registrationForm.patchValue({ mandal: '' }, { emitEvent: false });
+
+    if (!districtId) {
+      return;
+    }
+
+    this._commonService.getDataByUrl(APIS.masterList.getMandalsByDistrict + districtId).subscribe({
       next: (data: any) => {
-        this.MandalListSHG = data.data;
+        this.MandalListSHG = data?.data || [];
+        if (selectedMandal !== null && selectedMandal !== undefined && selectedMandal !== '') {
+          const mandalId = this.resolveMandalId(selectedMandal);
+          this.registrationForm.patchValue({ mandal: mandalId || '' }, { emitEvent: false });
+        }
       },
-      error: (err: any) => {
+      error: () => {
         this.MandalListSHG = [];
       }
-    })
-
+    });
   }
+
+  getStateLabel(item: any): string {
+    return item?.stateName || item?.state_name || item?.name || item?.state || '';
+  }
+
+  getStateId(item: any): any {
+    return item?.stateId || item?.state_id || item?.id || item?.stateCode || item?.state;
+  }
+
+  getDistrictLabel(item: any): string {
+    return item?.districtName || item?.district_name || item?.name || item?.district || '';
+  }
+
+  getDistrictId(item: any): any {
+    return item?.districtId || item?.district_id || item?.id || item?.districtCode || item?.district;
+  }
+
+  getMandalLabel(item: any): string {
+    return item?.mandalName || item?.mandal_name || item?.name || item?.mandal || '';
+  }
+
+  getMandalId(item: any): any {
+    return item?.mandalId || item?.mandal_id || item?.id || item?.mandalCode || item?.mandal;
+  }
+
+  private resolveStateId(value: any): any {
+    const normalized = this.normalizeText(value);
+    const state = this.statesList.find((item: any) => {
+      const idMatch = `${this.getStateId(item)}` === `${value}`;
+      const nameMatch = this.normalizeText(this.getStateLabel(item)) === normalized;
+      return idMatch || nameMatch;
+    });
+
+    if (state) {
+      return this.getStateId(state);
+    }
+
+    const telangana = this.statesList.find((item: any) => this.normalizeText(this.getStateLabel(item)) === 'telangana');
+    return telangana ? this.getStateId(telangana) : '';
+  }
+
+  private resolveDistrictId(value: any): any {
+    const normalized = this.normalizeText(value);
+    const district = this.allDistricts.find((item: any) => {
+      const idMatch = `${this.getDistrictId(item)}` === `${value}`;
+      const nameMatch = this.normalizeText(this.getDistrictLabel(item)) === normalized;
+      return idMatch || nameMatch;
+    });
+
+    if (district) {
+      return this.getDistrictId(district);
+    }
+
+    const fuzzyMatch = this.allDistricts.find((item: any) => this.normalizeText(this.getDistrictLabel(item)).includes(normalized));
+    return fuzzyMatch ? this.getDistrictId(fuzzyMatch) : '';
+  }
+
+  private resolveMandalId(value: any): any {
+    const normalized = this.normalizeText(value);
+    const mandal = this.MandalListSHG.find((item: any) => {
+      const idMatch = `${this.getMandalId(item)}` === `${value}`;
+      const nameMatch = this.normalizeText(this.getMandalLabel(item)) === normalized;
+      return idMatch || nameMatch;
+    });
+
+    if (mandal) {
+      return this.getMandalId(mandal);
+    }
+
+    const fuzzyMatch = this.MandalListSHG.find((item: any) => this.normalizeText(this.getMandalLabel(item)).includes(normalized));
+    return fuzzyMatch ? this.getMandalId(fuzzyMatch) : '';
+  }
+
+  private normalizeText(value: any): string {
+    return `${value || ''}`.trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  private getSelectedStateName(stateId: any): string {
+    const state = this.statesList.find((item: any) => `${this.getStateId(item)}` === `${stateId}`);
+    return state ? this.getStateLabel(state) : stateId;
+  }
+
+  private getSelectedDistrictName(districtId: any): string {
+    const district = this.allDistricts.find((item: any) => `${this.getDistrictId(item)}` === `${districtId}`);
+    return district ? this.getDistrictLabel(district) : districtId;
+  }
+
+  private getSelectedMandalName(mandalId: any): string {
+    const mandal = this.MandalListSHG.find((item: any) => `${this.getMandalId(item)}` === `${mandalId}`);
+    return mandal ? this.getMandalLabel(mandal) : mandalId;
+  }
+
+  private applyPendingLocationSelection() {
+    if (!this.statesList.length) {
+      return;
+    }
+
+    const stateSource = this.pendingStateValue || 'Telangana';
+    const stateId = this.resolveStateId(stateSource);
+    if (!stateId) {
+      return;
+    }
+
+    this.registrationForm.patchValue({ state: stateId }, { emitEvent: false });
+    this.getDistrictsByState(stateId, this.pendingDistrictValue, this.pendingMandalValue);
+
+    this.pendingStateValue = null;
+    this.pendingDistrictValue = null;
+    this.pendingMandalValue = null;
+  }
+
   private loadRegistrationById(id: number) {
     this._commonService.getDataByUrl(APIS.questionnaire.byId + id).subscribe({
       next: (res: any) => {
@@ -193,14 +354,14 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
       gender: data?.gender ?? '',
       caste: data?.caste ?? '',
       disability: data?.disability,
-      doorNo: data?.doorNo ?? '',
-      streetName: data?.streetName ?? '',
+      houseNoOrDoorNo: data?.houseNoOrDoorNo || data?.doorNo || '',
+      streetOrBlock: data?.streetOrBlock || data?.streetName || '',
       village: data?.village ?? '',
       panchayatName: data?.panchayatName ?? '',
-      mandal: data?.mandal ?? '',
-      district: data?.district ?? '',
-      state: data?.state ?? '',
-      pincode: data?.pincode != null ? String(data.pincode) : '',
+      mandal: '',
+      district: '',
+      state: '',
+      pinCode: data?.pinCode != null ? String(data.pinCode) : (data?.pincode != null ? String(data.pincode) : ''),
       aadharNo: data?.aadharNo ?? '',
       panCard: data?.panCard ?? '',
       shgName: data?.shgName ?? '',
@@ -218,6 +379,10 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
     });
 
     this.registrationForm.get('age')?.setValue(data?.age ?? '');
+    this.pendingStateValue = data?.stateId || data?.state || 'Telangana';
+    this.pendingDistrictValue = data?.districtId || data?.district || '';
+    this.pendingMandalValue = data?.mandalId || data?.mandal || '';
+    this.applyPendingLocationSelection();
     setTimeout(() => this.syncSchemeCheckboxes(), 0);
   }
 
@@ -234,14 +399,14 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
       gender: ['', Validators.required],
       caste: ['', Validators.required],
       disability: [null, booleanRequired],
-      doorNo: ['', Validators.required],
-      streetName: ['', Validators.required],
+      houseNoOrDoorNo: ['', Validators.required],
+      streetOrBlock: ['', Validators.required],
       village: ['', Validators.required],
       panchayatName: ['', Validators.required],
       mandal: ['', Validators.required],
       district: ['', Validators.required],
-      state: ['Telangana', Validators.required],
-      pincode: ['', [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
+      state: ['', Validators.required],
+      pinCode: ['', [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       aadharNo: ['', [Validators.required, Validators.pattern('^[2-9][0-9]{11}$')]],
       panCard: ['', [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]$')]],
       shgName: ['', Validators.required],
@@ -349,6 +514,12 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
     const raw = this.registrationForm.getRawValue();
     const payload: any = {
       ...raw,
+      state: this.getSelectedStateName(raw.state),
+      district: this.getSelectedDistrictName(raw.district),
+      mandal: this.getSelectedMandalName(raw.mandal),
+      doorNo: raw.houseNoOrDoorNo,
+      streetName: raw.streetOrBlock,
+      pincode: raw.pinCode,
       govtSchemes: this.govtSchemes,
       digitalPlatforms: this.digitalPlatforms,
       certifications: this.certifications,
@@ -364,6 +535,7 @@ export class RegistrationNewComponent implements OnInit, OnDestroy {
     if (payload.phoneNo) payload.phoneNo = Number(payload.phoneNo);
     if (payload.alternatePhoneNo) payload.alternatePhoneNo = Number(payload.alternatePhoneNo);
     if (payload.age) payload.age = Number(payload.age);
+    if (payload.pinCode) payload.pinCode = Number(payload.pinCode);
     if (payload.pincode) payload.pincode = Number(payload.pincode);
     if (payload.yearsSpentInShg) payload.yearsSpentInShg = Number(payload.yearsSpentInShg);
     this.confirmationData = payload;

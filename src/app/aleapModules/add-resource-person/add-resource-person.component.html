@@ -1,0 +1,136 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <form [formGroup]="addResourcePersonForm" (ngSubmit)="submitResourcePerson()">
+        <div class="card mb-4">
+          <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0 text-green">Add Resource Person</h6>
+              <button type="button" class="btn btn-default" (click)="goToSessions()">Back</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row align-items-center mb-2">
+              <div class="col-12">
+                <div class="form-check mb-2">
+                  <input id="isVip" class="form-check-input" type="checkbox" formControlName="isVIP" (change)="onVipChange($event)">
+                  <label class="form-check-label" for="isVip">VIP</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="name" placeholder="Resource Person Name">
+                  <label>Resource Person Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['name'].touched && f['name'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['name'].errors?.['required']">Resource Person Name is required</span>
+                  <span *ngIf="f['name'].errors?.['pattern']">Resource Person Name should contain only letters and spaces</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="mobileNo" placeholder="Mobile Number">
+                  <label>Mobile Number <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['mobileNo'].touched && f['mobileNo'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['mobileNo'].errors?.['required']">Mobile Number is required</span>
+                  <span *ngIf="f['mobileNo'].errors?.['pattern']">Mobile Number must start with 6, 7, 8, or 9 and be 10 digits</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                  <label>Email <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['email'].touched && f['email'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['pattern']">Enter a valid email</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="organizationName" placeholder="Organization Name">
+                  <label>Organization Name <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['organizationName'].touched && f['organizationName'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['organizationName'].errors?.['required']">Organization Name is required</span>
+                  <span *ngIf="f['organizationName'].errors?.['pattern']">Organization Name should start with a letter</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="qualification" placeholder="Qualification">
+                  <label>Qualification <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['qualification'].touched && f['qualification'].invalid" class="error" style="color: red;">
+                  Qualification is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="designation" placeholder="Designation">
+                  <label>Designation <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['designation'].touched && f['designation'].invalid" class="error" style="color: red;">
+                  Designation is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="specialization" placeholder="Specialization">
+                  <label>Specialization <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['specialization'].touched && f['specialization'].invalid" class="error" style="color: red;">
+                  Specialization is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="gender">
+                    <option value="" disabled>Select Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="T">Trans-Gender</option>
+                  </select>
+                  <label>Gender <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['gender'].touched && f['gender'].invalid" class="error" style="color: red;">
+                  Gender is required
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="briefDescription" placeholder="Brief Description" style="height: 110px"></textarea>
+                  <label>Brief Description <span *ngIf="!f['isVIP'].value" class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['briefDescription'].touched && f['briefDescription'].invalid" class="error" style="color: red;">
+                  Brief Description is required
+                </div>
+              </div>
+            </div>
+
+            <div class="text-end mt-2">
+              <button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
+              <button type="submit" class="btn btn-lime-green" [disabled]="loading || addResourcePersonForm.invalid">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

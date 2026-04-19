@@ -55,7 +55,7 @@ getFullFileUrl(path: string): string {
         this.safeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(viewerUrl);
       }
     }
-
+    console.log('Determined file type:', this.fileType, 'Safe URL:', this.safeFileUrl,this.filePath);
     this.showModal = true;
   });
 }

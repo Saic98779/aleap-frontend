@@ -20,10 +20,42 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 })
 export class ProgramCreationComponent implements OnInit, AfterViewInit {
   programCreationMain!: FormGroup;
+  addEventForm!: FormGroup;
   programCreationSub!: FormGroup;
   locationForm!: FormGroup;
   programId: string | null = null;
+  editEventId: string | null = null;
+  isEventEditMode = false;
   agencyId:any
+  selectedProjectTitle = '';
+  isRampProject = true;
+  statesList: any[] = [];
+  eventDistrictList: any[] = [];
+  eventMandalList: any[] = [];
+  private pendingEventStateValue: any = null;
+  private pendingEventDistrictValue: any = null;
+  private pendingEventMandalValue: any = null;
+  readonly eventTypes = [
+    'AWARENESS',
+    'TRAINING',
+    'WORKSHOP',
+    'SEMINAR_WEBINAR',
+    'CONFERENCE',
+    'CONCLAVE',
+    'NETWORK_MEET',
+    'HACKATHON',
+    'EXHIBITION',
+    'MENTORACTIONS',
+    'INDUSTRIAL_VISIT',
+    'OTHERS'
+  ];
+  readonly implementingAgencies = [
+    'ALEAP',
+    'AIC_ALEAP_WEHUB',
+    'CED',
+    'WEITTC',
+    'ACGA'
+  ];
   @ViewChild("pickerstart") pickerstart!: TemplateRef<any>;
   @ViewChild("pickerEnd") pickerEnd!: TemplateRef<any>;
   constructor(
@@ -34,6 +66,7 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
   ) {
     this.formDetails();   
+    this.formDetailsEvent();
     this.getAllDistricts() 
     this.formDetailsLocation();    
     this.agencyId = JSON.parse(sessionStorage.getItem('user') || '{}').agencyId;    
@@ -45,15 +78,36 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getStatesForEvents();
     this.programId = this.route.snapshot.paramMap.get('id');
+    const editMode = this.route.snapshot.queryParamMap.get('mode');
+    const queryProjectId = this.route.snapshot.queryParamMap.get('projectId');
+
+    if (queryProjectId) {
+      this.programCreationMain.patchValue({ projectId: queryProjectId }, { emitEvent: false });
+      this.addEventForm.patchValue({ projectId: queryProjectId }, { emitEvent: false });
+      this.onProjectSelectionChange(queryProjectId);
+    }
+
     if (this.programId) {
-      this.getProgramDetailsById(this.programId);
+      if (editMode === 'event') {
+        this.isEventEditMode = true;
+        this.editEventId = this.programId;
+        this.getEventDetailsById(this.programId);
+      } else {
+        this.isEventEditMode = false;
+        this.getProgramDetailsById(this.programId);
+      }
     }
     console.log(this.programId, 'programId');
     //(document.getElementById('collapseExample') as HTMLElement).classList.add('show');
     
     this.programCreationMain.controls['activityId'].valueChanges.subscribe((activityId: any) => {
       if(activityId) this.getSubActivitiesList(activityId);
+    });
+
+    this.programCreationMain.controls['projectId'].valueChanges.subscribe((projectId: any) => {
+      this.onProjectSelectionChange(projectId);
     });
   }
   allDistricts:any
@@ -125,6 +179,10 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     return this.programCreationMain.controls;
   }
 
+  get ef() {
+    return this.addEventForm.controls;
+  }
+
   get fLocation() {
     return this.locationForm.controls;
   }
@@ -150,6 +208,37 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     //Object.values(this.programCreationMain.controls).forEach(control => control.markAsTouched());
   }
 
+  formDetailsEvent() {
+    this.addEventForm = new FormGroup(
+      {
+        projectId: new FormControl('', [Validators.required]),
+        eventType: new FormControl('', [Validators.required]),
+        eventTitle: new FormControl('', [Validators.required, Validators.pattern(/^[^\s].*/)]),
+        description: new FormControl('', [Validators.required]),
+        projectName: new FormControl('', [Validators.required]),
+        fundingAgency: new FormControl('', [Validators.required]),
+        ministry: new FormControl('', [Validators.required]),
+        implementingAgency: new FormControl('ALEAP', [Validators.required]),
+        programCoordinatorName: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z .]*$/)]),
+        designation: new FormControl('', [Validators.required]),
+        startDate: new FormControl('', [Validators.required]),
+        endDate: new FormControl('', [Validators.required]),
+        totalDays: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
+        startTime: new FormControl('', [Validators.required]),
+        endTime: new FormControl('', [Validators.required]),
+        houseNoOrDoorNo: new FormControl('', [Validators.required]),
+        streetOrBlock: new FormControl('', [Validators.required]),
+        stateId: new FormControl('', [Validators.required]),
+        districtId: new FormControl('', [Validators.required]),
+        mandalId: new FormControl('', [Validators.required]),
+        village: new FormControl('', [Validators.required]),
+        pinCode: new FormControl('', [Validators.required, Validators.pattern(/^\d{6}$/)]),
+        totalParticipants: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]\d*$/)])
+      },
+      { validators: this.validateEventDates as ValidatorFn }
+    );
+  }
+
   validateDates: ValidatorFn = (formGroup: AbstractControl): ValidationErrors | null => {
     const startDate = formGroup.get('startDate')?.value;
     const endDate = formGroup.get('endDate')?.value;
@@ -161,6 +250,412 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
       formGroup.get('endDate')?.setErrors(null);
       return null;
     }
+  }
+
+  validateEventDates: ValidatorFn = (formGroup: AbstractControl): ValidationErrors | null => {
+    const startDate = formGroup.get('startDate')?.value;
+    const endDate = formGroup.get('endDate')?.value;
+
+    if (!startDate || !endDate) {
+      return null;
+    }
+
+    return new Date(endDate) < new Date(startDate) ? { invalidEventDate: true } : null;
+  };
+
+  onEventDateChange() {
+    const startDate = this.addEventForm.get('startDate')?.value;
+    const endDate = this.addEventForm.get('endDate')?.value;
+
+    if (!startDate || !endDate) {
+      this.addEventForm.patchValue({ totalDays: '' }, { emitEvent: false });
+      return;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime()) || end < start) {
+      this.addEventForm.patchValue({ totalDays: '' }, { emitEvent: false });
+      return;
+    }
+
+    const diffInMs = end.getTime() - start.getTime();
+    const totalDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1;
+    this.addEventForm.patchValue({ totalDays }, { emitEvent: false });
+  }
+
+  getStatesForEvents() {
+    this._commonService.getDataByUrl(APIS.masterList.getStates).subscribe({
+      next: (data: any) => {
+        this.statesList = data?.data || [];
+        this.applyPendingEventStateSelection();
+      },
+      error: () => {
+        this.statesList = [];
+      }
+    });
+  }
+
+  getEventDistrictsByState(stateId: any, selectedDistrict: any = null, selectedMandal: any = null) {
+    this.eventDistrictList = [];
+    this.eventMandalList = [];
+    this.addEventForm.patchValue({ districtId: '', mandalId: '' }, { emitEvent: false });
+
+    if (!stateId) {
+      return;
+    }
+
+    this._commonService.getDataByUrl(APIS.masterList.getDistrictsByState + stateId).subscribe({
+      next: (data: any) => {
+        this.eventDistrictList = data?.data || [];
+        if (selectedDistrict !== null && selectedDistrict !== undefined && selectedDistrict !== '') {
+          const districtId = this.resolveDistrictIdFromList(selectedDistrict);
+          if (districtId) {
+            this.addEventForm.patchValue({ districtId }, { emitEvent: false });
+            this.getEventMandalsByDistrict(districtId, selectedMandal);
+          }
+        }
+      },
+      error: () => {
+        this.eventDistrictList = [];
+      }
+    });
+  }
+
+  getEventMandalsByDistrict(districtId: any, selectedMandal: any = null) {
+    this.addEventForm.patchValue({ mandalId: '' });
+    this.eventMandalList = [];
+
+    if (!districtId) {
+      return;
+    }
+
+    this._commonService.getDataByUrl(APIS.masterList.getMandalsByDistrict + districtId).subscribe({
+      next: (data: any) => {
+        this.eventMandalList = data?.data || [];
+        if (selectedMandal !== null && selectedMandal !== undefined && selectedMandal !== '') {
+          const mandalId = this.resolveMandalIdFromEvent({ mandal: selectedMandal, mandalId: selectedMandal });
+          this.addEventForm.patchValue({ mandalId: mandalId || '' }, { emitEvent: false });
+        }
+      },
+      error: () => {
+        this.eventMandalList = [];
+      }
+    });
+  }
+
+  onEventStateChange(stateId: any) {
+    this.getEventDistrictsByState(stateId);
+  }
+
+  onEventDistrictChange(districtId: any) {
+    this.getEventMandalsByDistrict(districtId);
+  }
+
+  getStateLabel(item: any): string {
+    return item?.stateName || item?.state_name || item?.name || item?.state || '';
+  }
+
+  getStateId(item: any): any {
+    return item?.stateId || item?.state_id || item?.id || item?.stateCode || item?.state;
+  }
+
+  getDistrictLabel(item: any): string {
+    return item?.districtName || item?.district_name || item?.name || item?.district || '';
+  }
+
+  getDistrictId(item: any): any {
+    return item?.districtId || item?.district_id || item?.id || item?.districtCode || item?.district;
+  }
+
+  getMandalLabel(item: any): string {
+    return item?.mandalName || item?.mandal_name || item?.name || item?.mandal || '';
+  }
+
+  getMandalId(item: any): any {
+    return item?.mandalId || item?.mandal_id || item?.id || item?.mandalCode || item?.mandal;
+  }
+
+  private resolveDistrictIdFromEvent(eventData: any): any {
+    const directId = eventData?.districtId || eventData?.district_id;
+    if (directId) {
+      return directId;
+    }
+
+    const districtName = `${eventData?.district || ''}`.trim().toUpperCase();
+    if (!districtName || !Array.isArray(this.eventDistrictList)) {
+      return '';
+    }
+
+    const matchedDistrict = this.eventDistrictList.find((item: any) => {
+      const label = `${this.getDistrictLabel(item) || ''}`.trim().toUpperCase();
+      return label === districtName;
+    });
+
+    return matchedDistrict ? this.getDistrictId(matchedDistrict) : '';
+  }
+
+  private resolveMandalIdFromEvent(eventData: any): any {
+    const directId = eventData?.mandalId || eventData?.mandal_id;
+    if (directId) {
+      return directId;
+    }
+
+    const mandalName = `${eventData?.mandal || ''}`.trim().toUpperCase();
+    if (!mandalName || !Array.isArray(this.eventMandalList)) {
+      return '';
+    }
+
+    const matchedMandal = this.eventMandalList.find((item: any) => {
+      const label = `${this.getMandalLabel(item) || ''}`.trim().toUpperCase();
+      return label === mandalName;
+    });
+
+    return matchedMandal ? this.getMandalId(matchedMandal) : '';
+  }
+
+  private getSelectedDistrictName(districtId: any): string {
+    const district = this.eventDistrictList.find((item: any) => `${this.getDistrictId(item)}` === `${districtId}`);
+    return district ? this.getDistrictLabel(district) : districtId;
+  }
+
+  private getSelectedStateName(stateId: any): string {
+    const state = this.statesList.find((item: any) => `${this.getStateId(item)}` === `${stateId}`);
+    return state ? this.getStateLabel(state) : stateId;
+  }
+
+  private resolveStateIdFromList(value: any): any {
+    const normalized = `${value || ''}`.trim().toLowerCase();
+    const matchedState = this.statesList.find((item: any) => {
+      const itemId = this.getStateId(item);
+      const itemName = this.getStateLabel(item);
+      return `${itemId}` === `${value}` || `${itemName || ''}`.trim().toLowerCase() === normalized;
+    });
+    return matchedState ? this.getStateId(matchedState) : '';
+  }
+
+  private resolveDistrictIdFromList(value: any): any {
+    const normalized = `${value || ''}`.trim().toLowerCase();
+    const matchedDistrict = this.eventDistrictList.find((item: any) => {
+      const itemId = this.getDistrictId(item);
+      const itemName = this.getDistrictLabel(item);
+      return `${itemId}` === `${value}` || `${itemName || ''}`.trim().toLowerCase() === normalized;
+    });
+    return matchedDistrict ? this.getDistrictId(matchedDistrict) : value;
+  }
+
+  private applyPendingEventStateSelection() {
+    if (!this.statesList.length) {
+      return;
+    }
+
+    const stateSource = this.pendingEventStateValue || 'Telangana';
+    const stateId = this.resolveStateIdFromList(stateSource);
+    if (!stateId) {
+      return;
+    }
+
+    this.addEventForm.patchValue({ stateId }, { emitEvent: false });
+    this.getEventDistrictsByState(stateId, this.pendingEventDistrictValue, this.pendingEventMandalValue);
+
+    this.pendingEventStateValue = null;
+    this.pendingEventDistrictValue = null;
+    this.pendingEventMandalValue = null;
+  }
+
+  private getSelectedMandalName(mandalId: any): string {
+    const mandal = this.eventMandalList.find((item: any) => `${this.getMandalId(item)}` === `${mandalId}`);
+    return mandal ? this.getMandalLabel(mandal) : mandalId;
+  }
+
+  private getProjectTitleById(projectId: any): string {
+    const project = this.projectsDropdownList.find((item: any) => `${item?.project_id ?? item?.projectId}` === `${projectId}`);
+    return project?.titleOfProject || project?.projectTitle || project?.projectName || '';
+  }
+
+  private getProjectIdByName(projectName: any): any {
+    const normalizedName = `${projectName || ''}`.trim().toUpperCase();
+    if (!normalizedName) {
+      return '';
+    }
+
+    const project = this.projectsDropdownList.find((item: any) => {
+      const title = `${item?.titleOfProject || item?.projectTitle || item?.projectName || ''}`.trim().toUpperCase();
+      return title === normalizedName;
+    });
+
+    return project?.project_id ?? project?.projectId ?? '';
+  }
+
+  onProjectSelectionChange(projectId: any) {
+    this.selectedProjectTitle = this.getProjectTitleById(projectId);
+    this.isRampProject = `${this.selectedProjectTitle}`.trim().toUpperCase() === 'RAMP';
+
+    this.addEventForm.patchValue({
+      projectId: projectId || '',
+      projectName: this.selectedProjectTitle || ''
+    });
+
+    if (projectId) {
+      this.getProjectDetailsById(projectId);
+      return;
+    }
+
+    this.addEventForm.patchValue({
+      fundingAgency: '',
+      ministry: '',
+      implementingAgency: 'ALEAP'
+    });
+  }
+
+  getProjectDetailsById(projectId: any) {
+    this._commonService.getById(APIS.projects.getById, projectId).subscribe({
+      next: (res: any) => {
+        const project = res?.data ?? res ?? {};
+        const projectName = this.getValueByKeys(project, ['titleOfProject', 'projectTitle', 'projectName', 'name']) || this.selectedProjectTitle;
+        const fundingAgency = this.getValueByKeys(project, ['fundingAgency', 'fundingAgencyName', 'fundingSource']);
+        const ministry = this.getValueByKeys(project, ['ministry', 'ministryOrConcernedDepartment']);
+        const implementingAgency = this.getValueByKeys(project, ['implementingAgency', 'implementingAgencyName', 'agencyName']) || 'ALEAP';
+
+        this.addEventForm.patchValue({
+          projectName,
+          fundingAgency,
+          ministry,
+          implementingAgency
+        });
+      },
+      error: () => {
+        this.toastrService.error('Failed to load project details', 'Project Error');
+      }
+    });
+  }
+
+  private getValueByKeys(source: any, keys: string[]): string {
+    for (const key of keys) {
+      const value = source?.[key];
+      if (value !== null && value !== undefined && `${value}`.trim() !== '') {
+        return `${value}`;
+      }
+    }
+    return '';
+  }
+
+  onSubmitByProject() {
+    if (this.isRampProject) {
+      this.submitProgramCreation();
+      return;
+    }
+
+    this.submitEventFromProgramCreation();
+  }
+
+  submitEventFromProgramCreation() {
+    Object.keys(this.addEventForm.controls).forEach((key) => {
+      this.addEventForm.get(key)?.markAsTouched();
+    });
+
+    if (this.addEventForm.invalid) {
+      return;
+    }
+
+    const formValue = this.addEventForm.value;
+    const payload: any = {
+      eventType: formValue.eventType,
+      eventTitle: formValue.eventTitle,
+      description: formValue.description,
+      projectName: this.selectedProjectTitle || formValue.projectName,
+      fundingAgency: formValue.fundingAgency,
+      ministry: formValue.ministry,
+      implementingAgency: formValue.implementingAgency,
+      programCoordinatorName: formValue.programCoordinatorName,
+      designation: formValue.designation,
+      startDate: formValue.startDate,
+      endDate: formValue.endDate,
+      totalDays: parseInt(formValue.totalDays, 10),
+      startTime: formValue.startTime,
+      endTime: formValue.endTime,
+      state: this.getSelectedStateName(formValue.stateId),
+      district: this.getSelectedDistrictName(formValue.districtId),
+      mandal: this.getSelectedMandalName(formValue.mandalId),
+      houseNoOrDoorNo: formValue.houseNoOrDoorNo,
+      streetOrBlock: formValue.streetOrBlock,
+      village: formValue.village,
+      pinCode: formValue.pinCode,
+      totalParticipants: parseInt(formValue.totalParticipants, 10)
+    };
+
+    this.loading = true;
+    const request$ = this.isEventEditMode && this.editEventId
+      ? this._commonService.update(APIS.events.update, payload, this.editEventId)
+      : this._commonService.add(APIS.events.add, payload);
+
+    request$.subscribe({
+      next: () => {
+        this.loading = false;
+        this.toastrService.success(this.isEventEditMode ? 'Event updated successfully' : 'Event added successfully', 'Success');
+        this.router.navigate(['/veiw-program-creation']);
+      },
+      error: (err: any) => {
+        this.loading = false;
+        this.toastrService.error(err?.error?.message || err?.message || (this.isEventEditMode ? 'Failed to update event' : 'Failed to add event'), 'Error');
+      }
+    });
+  }
+
+  getEventDetailsById(eventId: string) {
+    this._commonService.getById(APIS.events.getById, eventId).subscribe({
+      next: (res: any) => {
+        const eventData = res?.data ?? res ?? {};
+        const resolvedProjectId = eventData?.projectId || eventData?.project_id || this.getProjectIdByName(eventData?.projectName) || this.addEventForm.get('projectId')?.value || '';
+
+        if (resolvedProjectId) {
+          this.programCreationMain.patchValue({ projectId: resolvedProjectId }, { emitEvent: false });
+          this.addEventForm.patchValue({ projectId: resolvedProjectId }, { emitEvent: false });
+          this.onProjectSelectionChange(resolvedProjectId);
+        } else {
+          this.selectedProjectTitle = `${eventData?.projectName || ''}`;
+          this.isRampProject = `${this.selectedProjectTitle}`.trim().toUpperCase() === 'RAMP';
+        }
+
+        this.addEventForm.patchValue({
+          projectId: resolvedProjectId || '',
+          eventType: eventData?.eventType || '',
+          eventTitle: eventData?.eventTitle || '',
+          description: eventData?.description || '',
+          projectName: eventData?.projectName || this.selectedProjectTitle || '',
+          fundingAgency: eventData?.fundingAgency || '',
+          ministry: eventData?.ministry || '',
+          implementingAgency: eventData?.implementingAgency || 'ALEAP',
+          programCoordinatorName: eventData?.programCoordinatorName || '',
+          designation: eventData?.designation || '',
+          startDate: this.normalizeDateForInput(eventData?.startDate),
+          endDate: this.normalizeDateForInput(eventData?.endDate),
+          totalDays: eventData?.totalDays || '',
+          startTime: eventData?.startTime ? this.convertTo24HourFormat(eventData.startTime) : '',
+          endTime: eventData?.endTime ? this.convertTo24HourFormat(eventData.endTime) : '',
+          houseNoOrDoorNo: eventData?.houseNoOrDoorNo || '',
+          streetOrBlock: eventData?.streetOrBlock || '',
+          stateId: '',
+          districtId: '',
+          mandalId: '',
+          village: eventData?.village || '',
+          pinCode: eventData?.pinCode || '',
+          totalParticipants: eventData?.totalParticipants || ''
+        });
+
+        this.pendingEventStateValue = eventData?.stateId || eventData?.state || 'Telangana';
+        this.pendingEventDistrictValue = eventData?.districtId || eventData?.district || '';
+        this.pendingEventMandalValue = eventData?.mandalId || eventData?.mandal || '';
+        this.applyPendingEventStateSelection();
+       
+
+        this.onEventDateChange();
+      },
+      error: (err: any) => {
+        this.toastrService.error(err?.error?.message || err?.message || 'Error fetching event details!', 'Error');
+      }
+    });
   }
 
   formDetailsLocation() {
@@ -315,12 +810,75 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
   getProgramType: any = [];
   projectsDropdownList: any[] = [];
 
+  private resolveProjectId(program: any): any {
+    const directId = program?.projectId || program?.project_id || program?.project?.projectId || program?.project?.project_id;
+    if (directId) {
+      return directId;
+    }
+
+    const projectName = `${
+      program?.projectName ||
+      program?.projectTitle ||
+      program?.titleOfProject ||
+      program?.project?.titleOfProject ||
+      program?.project?.projectTitle ||
+      ''
+    }`.trim().toUpperCase();
+
+    if (!projectName) {
+      return '';
+    }
+
+    const matched = this.projectsDropdownList.find((item: any) => {
+      const name = `${item?.titleOfProject || item?.projectTitle || item?.projectName || ''}`.trim().toUpperCase();
+      return name === projectName;
+    });
+
+    return matched?.project_id ?? matched?.projectId ?? '';
+  }
+
+  private normalizeDateForInput(value: any): string {
+    if (!value) {
+      return '';
+    }
+
+    const dateText = `${value}`;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateText)) {
+      return dateText;
+    }
+
+    if (/^\d{2}-\d{2}-\d{4}$/.test(dateText)) {
+      const [day, month, year] = dateText.split('-');
+      return `${year}-${month}-${day}`;
+    }
+
+    const parsed = new Date(dateText);
+    if (isNaN(parsed.getTime())) {
+      return '';
+    }
+
+    return parsed.toISOString().split('T')[0];
+  }
+
   getProjectsDropdown() {
     this._commonService
       .getDataByUrl(APIS.projects.dropdown)
       .subscribe({
         next: (data: any) => {
           this.projectsDropdownList = data.data || [];
+          const selectedProjectId = this.programCreationMain.get('projectId')?.value || this.addEventForm.get('projectId')?.value || '';
+
+          if (!selectedProjectId && this.projectsDropdownList.length) {
+            const firstProjectId = this.projectsDropdownList[0]?.project_id ?? this.projectsDropdownList[0]?.projectId ?? '';
+            if (firstProjectId) {
+              this.programCreationMain.patchValue({ projectId: firstProjectId }, { emitEvent: false });
+              this.addEventForm.patchValue({ projectId: firstProjectId }, { emitEvent: false });
+              this.onProjectSelectionChange(firstProjectId);
+              return;
+            }
+          }
+
+          this.onProjectSelectionChange(selectedProjectId);
         },
         error: () => {
           this.projectsDropdownList = [];
@@ -393,14 +951,16 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
     this._commonService.getById(APIS.programCreation.getSingleProgramsList, programId).subscribe({
       next: (data: any) => {
         const program = data.data;
+        const resolvedProjectId = this.resolveProjectId(program) || this.programCreationMain.get('projectId')?.value || this.addEventForm.get('projectId')?.value || '';
+
         this.programCreationMain.patchValue({
           activityId: program.activityId,
           subActivityId: program.subActivityId,
-          projectId: program.projectId || program.project_id || program.project?.projectId || program.project?.project_id || '',
+          projectId: resolvedProjectId,
           programType: program.programType,
           programTitle: program.programTitle,
-          startDate: this.convertToISOFormat(program.startDate),
-          endDate: this.convertToISOFormat(program.endDate),
+          startDate: this.normalizeDateForInput(program.startDate),
+          endDate: this.normalizeDateForInput(program.endDate),
           startTime: this.convertTo24HourFormat(program.startTime),
           endTime: this.convertTo24HourFormat(program.endTime),
           spocName: program.spocName,
@@ -408,6 +968,34 @@ export class ProgramCreationComponent implements OnInit, AfterViewInit {
           programLocation: program.programLocation,
           kpi: program.kpi,
         });
+
+        this.onProjectSelectionChange(resolvedProjectId);
+
+        if (!this.isRampProject) {
+          this.addEventForm.patchValue({
+            projectId: resolvedProjectId,
+            eventType: program.eventType || '',
+            eventTitle: program.eventTitle || program.programTitle || '',
+            description: program.description || '',
+            projectName: program.projectName || this.selectedProjectTitle || '',
+            fundingAgency: program.fundingAgency || '',
+            ministry: program.ministry || '',
+            implementingAgency: program.implementingAgency || 'ALEAP',
+            programCoordinatorName: program.programCoordinatorName || program.spocName || '',
+            designation: program.designation || '',
+            startDate: this.normalizeDateForInput(program.startDate),
+            endDate: this.normalizeDateForInput(program.endDate),
+            totalDays: program.totalDays || '',
+            startTime: program.startTime ? this.convertTo24HourFormat(program.startTime) : '',
+            endTime: program.endTime ? this.convertTo24HourFormat(program.endTime) : '',
+            districtId: program.districtId || '',
+            mandalId: program.mandalId || '',
+            village: program.village || '',
+            pinCode: program.pinCode || '',
+            totalParticipants: program.totalParticipants || ''
+          });
+          this.onEventDateChange();
+        }
 
         if (this.programCreationMain.invalid) {
           Object.values(this.programCreationMain.controls).forEach(control => {

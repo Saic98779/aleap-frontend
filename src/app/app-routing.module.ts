@@ -64,6 +64,7 @@ import { AddEnquiryComponent } from './aleapModules/add-enquiry/add-enquiry.comp
 import { ViewEnquiryComponent } from './aleapModules/view-enquiry/view-enquiry.component';
 import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.component';
 import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
+import { AddResourcePersonComponent } from './aleapModules/add-resource-person/add-resource-person.component';
 
 const routes: Routes = [
     {
@@ -434,6 +435,12 @@ const routes: Routes = [
     {
         path: 'add-employee-edit/:id',
         component: AddEmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-resource-person',
+        component: AddResourcePersonComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },

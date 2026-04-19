@@ -79,18 +79,44 @@ openSubMenus: {[key: string]: boolean} = {};
     onMenuClick(event: Event) {
         event.stopPropagation();
     }
-toggleSubMenu(menu: string, event: Event) {
+toggleSubMenu(menu: string, event: Event, parentMenu?: string) {
   event.preventDefault();
   event.stopPropagation();
-  // If the submenu is already open, close it. Otherwise, close all and open the clicked one.
-  if (this.openSubMenus[menu]) {
-    this.openSubMenus[menu] = false;
+  
+    if (this.openSubMenus[menu]) {
+        this.closeSubTree(menu);
   } else {
-    Object.keys(this.openSubMenus).forEach(key => {
-      this.openSubMenus[key] = false;
-    });
+        if (parentMenu) {
+            this.closeSiblingMenus(parentMenu, menu);
+            this.openSubMenus[parentMenu] = true;
+        } else {
+            this.closeAllSubMenus();
+        }
     this.openSubMenus[menu] = true;
   }
+}
+
+private closeSubTree(menu: string) {
+        Object.keys(this.openSubMenus).forEach(key => {
+                if (key === menu || key.startsWith(`${menu}.`)) {
+                        this.openSubMenus[key] = false;
+                }
+        });
+}
+
+private closeSiblingMenus(parentMenu: string, currentMenu: string) {
+        const prefix = `${parentMenu}.`;
+        const currentDepth = this.getMenuDepth(currentMenu);
+
+        Object.keys(this.openSubMenus).forEach(key => {
+                if (key.startsWith(prefix) && this.getMenuDepth(key) === currentDepth && key !== currentMenu) {
+                        this.closeSubTree(key);
+                }
+        });
+}
+
+private getMenuDepth(menu: string): number {
+        return menu.split('.').length;
 }
 
 closeAllSubMenus() {

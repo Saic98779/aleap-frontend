@@ -165,18 +165,18 @@
 
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">
-                  <input type="text" class="form-control" formControlName="doorNo" placeholder="Door No.">
-                  <label>Door No. <span class="c-red">*</span></label>
+                  <input type="text" class="form-control" formControlName="houseNoOrDoorNo" placeholder="House No / Door No">
+                  <label>House No / Door No <span class="c-red">*</span></label>
                 </div>
-                <div *ngIf="f.doorNo.invalid && (f.doorNo.dirty || f.doorNo.touched)" class="text-danger fs-sm">Door number is required.</div>
+                <div *ngIf="f.houseNoOrDoorNo.invalid && (f.houseNoOrDoorNo.dirty || f.houseNoOrDoorNo.touched)" class="text-danger fs-sm">House No / Door No is required.</div>
               </div>
 
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">
-                  <input type="text" class="form-control" formControlName="streetName" placeholder="Street Name">
-                  <label>Street Name <span class="c-red">*</span></label>
+                  <input type="text" class="form-control" formControlName="streetOrBlock" placeholder="Street / Block">
+                  <label>Street / Block <span class="c-red">*</span></label>
                 </div>
-                <div *ngIf="f.streetName.invalid && (f.streetName.dirty || f.streetName.touched)" class="text-danger fs-sm">Street name is required.</div>
+                <div *ngIf="f.streetOrBlock.invalid && (f.streetOrBlock.dirty || f.streetOrBlock.touched)" class="text-danger fs-sm">Street / Block is required.</div>
               </div>
 
               <div class="col-12 col-sm-6 col-md-3">
@@ -189,18 +189,21 @@
 
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">
-                  <input type="text" class="form-control" formControlName="panchayatName" placeholder="Panchayat Name">
-                  <label>Panchayat Name <span class="c-red">*</span></label>
+                  <select class="form-select" id="state" formControlName="state" (change)="onStateChange($any($event.target).value)">
+                    <option value="">Select State</option>
+                    <option *ngFor="let stateItem of statesList" [value]="getStateId(stateItem)">{{ getStateLabel(stateItem) }}</option>
+                  </select>
+                  <label for="state">State <span class="c-red"> *</span></label>
                 </div>
-                <div *ngIf="f.panchayatName.invalid && (f.panchayatName.dirty || f.panchayatName.touched)" class="text-danger fs-sm">Panchayat name is required.</div>
+                <div *ngIf="f.state.invalid && (f.state.dirty || f.state.touched)" class="text-danger fs-sm">State is required.</div>
               </div>
                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="form-floating mb-3">
                   <!-- <input type="text" class="form-control" id="district" placeholder="" formControlName="distId"> -->
                   <select class="form-select" id="district" formControlName="district"
-                    (change)="GetMandalByDistrictSHG($any($event.target).value)">
+                    (change)="onDistrictChange($any($event.target).value)">
                     <option value="">Select District</option>
-                    <option *ngFor="let list of allDistricts" value="{{list?.districtId}}">{{list?.districtName}}
+                    <option *ngFor="let list of allDistricts" [value]="getDistrictId(list)">{{getDistrictLabel(list)}}
                     </option>
                   </select>
                   <label for="district">District <span class="c-red"> *</span></label>
@@ -212,7 +215,7 @@
                 <div class="form-floating mb-3">
                   <select class="form-select" id="mandal" formControlName="mandal">
                     <option selected value="">Select Mandal</option>
-                    <option *ngFor="let list of MandalListSHG" value="{{list?.mandalId}}">{{list?.mandalName}}</option>
+                    <option *ngFor="let list of MandalListSHG" [value]="getMandalId(list)">{{getMandalLabel(list)}}</option>
                     <!-- <option value="1">Mandal 1</option> -->
                   </select>
                   <label for="Mandal">Mandal <span class="c-red"> *</span></label>
@@ -238,21 +241,21 @@
 
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">
-                  <input type="text" class="form-control" formControlName="state" placeholder="State">
-                  <label>State <span class="c-red">*</span></label>
+                  <input type="text" class="form-control" formControlName="pinCode" placeholder="Pin Code" maxlength="6" inputmode="numeric">
+                  <label>Pin Code <span class="c-red">*</span></label>
                 </div>
-                <div *ngIf="f.state.invalid && (f.state.dirty || f.state.touched)" class="text-danger fs-sm">State is required.</div>
+                <div *ngIf="f.pinCode.invalid && (f.pinCode.dirty || f.pinCode.touched)" class="text-danger fs-sm">
+                  <div *ngIf="f.pinCode.errors?.required">Pin Code is required.</div>
+                  <div *ngIf="f.pinCode.errors?.pattern">Enter a valid 6 digit Pin Code.</div>
+                </div>
               </div>
 
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="form-floating">
-                  <input type="text" class="form-control" formControlName="pincode" placeholder="Pincode" maxlength="6" inputmode="numeric">
-                  <label>Pincode <span class="c-red">*</span></label>
+                  <input type="text" class="form-control" formControlName="panchayatName" placeholder="Panchayat Name">
+                  <label>Panchayat Name <span class="c-red">*</span></label>
                 </div>
-                <div *ngIf="f.pincode.invalid && (f.pincode.dirty || f.pincode.touched)" class="text-danger fs-sm">
-                  <div *ngIf="f.pincode.errors?.required">Pincode is required.</div>
-                  <div *ngIf="f.pincode.errors?.pattern">Enter a valid 6 digit pincode.</div>
-                </div>
+                <div *ngIf="f.panchayatName.invalid && (f.panchayatName.dirty || f.panchayatName.touched)" class="text-danger fs-sm">Panchayat name is required.</div>
               </div>
 
               <div class="col-12 col-sm-6 col-md-3">

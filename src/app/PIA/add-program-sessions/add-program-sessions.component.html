@@ -44,8 +44,7 @@
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="form-floating mb-3 mb-sm-0">
-                                <button type="button" class="btn btn-lime-green" data-bs-toggle="modal"
-                                    data-bs-target="#addResource">Add Resource Person</button>
+                                    <a class="btn btn-lime-green" routerLink="/add-resource-person">Add Resource Person</a>
                             </div>
                         </div>
                     </div>
@@ -111,12 +110,12 @@
                                     (click)="showSessionEditModal()"><span class="bi bi-plus-lg"></span> Add</button>
                             </div>
                         </div>
-                        <div class="col-6 col-sm-4 col-md-2 col-lg-2">
+                        <!-- <div class="col-6 col-sm-4 col-md-2 col-lg-2">
                             <div class="text-end">
                                 <button type="button" class="btn btn-lime-green" data-bs-toggle="modal"
                                     data-bs-target="#addResource">Add Resource Person</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="card-body" id="">
@@ -406,160 +405,6 @@
     </div>
 </div>
 
-<!-- begin:: modal add new resource person -->
-<div class="modal fade" id="addResource" tabindex="-1" aria-labelledby="addResourceLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <form [formGroup]="modalFormStype" (ngSubmit)="onModalSubmitType()">
-            <div class="modal-content">
-                <div class="modal-header py-2">
-                    <h6 class="modal-title" id="addResourceLabel">Add New Resource Person</h6>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <label class="form-check-label"> </label>
-                                <input type="checkbox" class="form-check-input me-2" (change)="changeStatus($event)" formControlName="isVIP" >VIP
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingSelectGender" formControlName="name"
-                                    placeholder="Resource Person" />
-                                <label for="floatingSelectGender">Resource Person<span class="c-red"> *</span></label>
-                                <div *ngIf="modalFormStype.controls['name'].touched && !modalFormStype.controls['name'].valid && modalFormStype.controls['name']?.errors?.['pattern']"
-                                    class="error" style="color: red;margin-top: 5px">Resource Person Should be
-                                    Characters</div>
-                                <div *ngIf="modalFormStype.controls['name'].touched && modalFormStype.controls['name'].invalid && !modalFormStype.controls['name']?.errors?.['pattern']"
-                                    class="error" style="color: red; margin-top: 5px;">
-                                    Resource Person is required
-                                </div>
-                            </div>
-                        </div>
-                        <!-- isVIP -->
-                      
-                      
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="mobileNo"
-                                    placeholder="Mobile No" />
-                                <label>Mobile No<span *ngIf="!fresouce['isVIP'].value" class="c-red"> *</span></label>
-                                <!-- <div *ngIf="modalFormStype.controls['mobileNo'].touched && modalFormStype.controls['mobileNo'].invalid" class="error" style="color: red;margin-top: 5px">
-                                    Mobile No is required
-                                </div> -->
-                                <div *ngIf="modalFormStype.controls['mobileNo'].touched && !modalFormStype.controls['mobileNo'].valid && !modalFormStype.controls['mobileNo']?.errors?.['pattern']"
-                                    class="error" style="color: red;margin-top: 5px">Mobile No is required</div>
-                                <div *ngIf="modalFormStype.controls['mobileNo'].touched && !modalFormStype.controls['mobileNo'].valid && modalFormStype.controls['mobileNo']?.errors?.['pattern']"
-                                    class="error" style="color: red;margin-top: 5px">Mobile No Starts with 6,7,8,9 and
-                                    should be 10 digits</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" formControlName="email" placeholder="Email" />
-                                <label>Email<span class="c-red" *ngIf="!fresouce['isVIP'].value" > *</span></label>
-                                <div *ngIf="modalFormStype.controls['email'].touched && modalFormStype.controls['email'].invalid"
-                                    class="error" style="color: red;margin-top: 5px">
-                                    Email is required
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="organizationName"
-                                    placeholder="Organization Name" />
-                                <label>Organization Name<span *ngIf="!fresouce['isVIP'].value"  class="c-red"> *</span></label>
-                                <!-- <div *ngIf="modalFormStype.controls['organizationName'].touched && modalFormStype.controls['organizationName'].invalid" class="error" style="color: red;margin-top: 5px">
-                                    Organization Name is required
-                                </div> -->
-                                <div *ngIf="modalFormStype.controls['organizationName'].touched && !modalFormStype.controls['organizationName'].valid && modalFormStype.controls['organizationName']?.errors?.['pattern']"
-                                    class="error" style="color: red;margin-top: 5px"> Organization Name Should be
-                                    Characters and numerics</div>
-                                <div *ngIf="modalFormStype.controls['organizationName'].touched && modalFormStype.controls['organizationName'].invalid && !modalFormStype.controls['organizationName']?.errors?.['pattern']"
-                                    class="error" style="color: red; margin-top: 5px;">
-                                    Organization Name is required
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="qualification"
-                                    placeholder="Qualification" />
-                                <label>Qualification<span *ngIf="!fresouce['isVIP'].value"  class="c-red"> *</span></label>
-                                <div *ngIf="modalFormStype.controls['qualification'].touched && modalFormStype.controls['qualification'].invalid"
-                                    class="error" style="color: red;margin-top: 5px">
-                                    Qualification is required
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="designation"
-                                    placeholder="Designation" />
-                                <label>Designation<span *ngIf="!fresouce['isVIP'].value"  class="c-red"> *</span></label>
-                                <div *ngIf="modalFormStype.controls['designation'].touched && modalFormStype.controls['designation'].invalid"
-                                    class="error" style="color: red;margin-top: 5px">
-                                    Designation is required
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="specialization"
-                                    placeholder="Specialization" />
-                                <label>Specialization<span *ngIf="!fresouce['isVIP'].value"  class="c-red"> *</span></label>
-                                <div *ngIf="modalFormStype.controls['specialization'].touched && modalFormStype.controls['specialization'].invalid"
-                                    class="error" style="color: red;margin-top: 5px">
-                                    Specialization is required
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" formControlName="gender">
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
-                                    <option value="T">Trans-Gender</option>
-                                </select>
-                                <label>Gender<span class="c-red"> *</span></label>
-                                <div *ngIf="modalFormStype.controls['gender'].touched && modalFormStype.controls['gender'].invalid"
-                                    class="error" style="color: red;margin-top: 5px">
-                                    Gender is required
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" formControlName="briefDescription"
-                                placeholder="Brief Description"></textarea>
-                            <label>Brief Description <span *ngIf="!fresouce['isVIP'].value"  class="c-red"> *</span></label>
-                            <div *ngIf="modalFormStype.controls['briefDescription'].touched && modalFormStype.controls['briefDescription'].invalid"
-                                class="error" style="color: red;margin-top: 5px">
-                                Brief Description is required
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-lime-green" [ngClass]="{'disabled': modalFormStype.invalid}"
-                        [disabled]="modalFormStype.invalid">Add Resource
-                        Person</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- end:: modal add new resource person -->
 
 <!-- Preview POP UP START-->
 <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">

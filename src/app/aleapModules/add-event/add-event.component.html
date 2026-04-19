@@ -184,6 +184,49 @@
 
 							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
 								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="houseNoOrDoorNo" placeholder="House No / Door No">
+									<label>House No / Door No <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['houseNoOrDoorNo'].touched && f['houseNoOrDoorNo'].invalid" class="error" style="color: red;">
+									House No / Door No is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="streetOrBlock" placeholder="Street / Block">
+									<label>Street / Block <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['streetOrBlock'].touched && f['streetOrBlock'].invalid" class="error" style="color: red;">
+									Street / Block is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" formControlName="village" placeholder="Village">
+									<label>Village <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['village'].touched && f['village'].invalid" class="error" style="color: red;">
+									Village is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
+									<select class="form-select" formControlName="stateId" (change)="onStateChange(f['stateId'].value)">
+										<option value="" disabled>Select State</option>
+										<option *ngFor="let state of statesList" [value]="getStateId(state)">{{ getStateLabel(state) }}</option>
+									</select>
+									<label>State <span class="c-red">*</span></label>
+								</div>
+								<div *ngIf="f['stateId'].touched && f['stateId'].invalid" class="error" style="color: red;">
+									State is required
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
+								<div class="form-floating mb-3">
 									<select class="form-select" formControlName="districtId" (change)="onDistrictChange(f['districtId'].value)">
 										<option value="" disabled>Select District</option>
 										<option *ngFor="let district of allDistricts" [value]="getDistrictId(district)">{{ getDistrictLabel(district) }}</option>
@@ -205,16 +248,6 @@
 								</div>
 								<div *ngIf="f['mandalId'].touched && f['mandalId'].invalid" class="error" style="color: red;">
 									Mandal is required
-								</div>
-							</div>
-
-							<div class="col-12 col-sm-6 col-md-3 col-lg-3">
-								<div class="form-floating mb-3">
-									<input type="text" class="form-control" formControlName="village" placeholder="Village">
-									<label>Village <span class="c-red">*</span></label>
-								</div>
-								<div *ngIf="f['village'].touched && f['village'].invalid" class="error" style="color: red;">
-									Village is required
 								</div>
 							</div>
 

@@ -1,0 +1,9 @@
+.form-check-input {
+  margin-top: 0.25rem;
+}
+
+.error {
+  margin-top: -8px;
+  margin-bottom: 10px;
+  font-size: 0.875rem;
+}

@@ -9,9 +9,9 @@
 
     <nav class="sidebar-nav" (click)="onSidebarNavigation($event)">
       <ul class="navbar-nav flex-column w-100">
-        <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
+        <!-- <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR,Role.CALL_CENTER,Role.Admin]">
           <a class="nav-link" routerLink="/global-dashboard" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-speedometer2 me-2 menu-icon"></span>Dashboard</a>
-        </li>
+        </li> -->
         <li class="nav-item" *appHasRole="[Role.CALL_CENTER]">
           <a class="nav-link" routerLink="/participant-details" routerLinkActive="active" (click)="closeAllSubMenus()"><span class="bi bi-person-check me-2 menu-icon"></span>Program Participation Verification</a>
         </li>
@@ -62,13 +62,13 @@
             <li><a class="dropdown-item" routerLink="/program-summary" routerLinkActive="active"><span class="bi bi-journal-text me-2 submenu-icon"></span>Program Summary</a></li>
           </ul>
         </li>
-        <li class="nav-item dropdown" [class.show]="openSubMenus['eventDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+        <!-- <li class="nav-item dropdown" [class.show]="openSubMenus['eventDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('eventDetails', $event)" [attr.aria-expanded]="openSubMenus['eventDetails']"><span class="bi bi-calendar-event me-2 menu-icon"></span>Event</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['eventDetails']">
           <li><a class="dropdown-item" routerLink="/add-event-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Event</a></li>
           <li><a class="dropdown-item" routerLink="/view-event-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Event</a></li>
           </ul>
-        </li>
+        </li> -->
         
          <li class="nav-item dropdown" [class.show]="openSubMenus['projectDetails']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('projectDetails', $event)" [attr.aria-expanded]="openSubMenus['projectDetails']"><span class="bi bi-kanban me-2 menu-icon"></span>Project</a>
@@ -80,14 +80,13 @@
         
         
         <li class="nav-item dropdown" [class.show]="openSubMenus['programs']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('programs', $event)" [attr.aria-expanded]="openSubMenus['programs']"><span class="bi bi-kanban me-2 menu-icon"></span>Programs</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('programs', $event)" [attr.aria-expanded]="openSubMenus['programs']"><span class="bi bi-kanban me-2 menu-icon"></span>Programs / Events</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['programs']">
-            <li><a class="dropdown-item" routerLink="/program-creation" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Program</a></li>
+            <li><a class="dropdown-item" routerLink="/program-creation" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Program / Event</a></li>
             <li><a class="dropdown-item" routerLink="/add-sessions" routerLinkActive="active"><span class="bi bi-calendar2-plus me-2 submenu-icon"></span>Add Sessions</a></li>
-            <li><a class="dropdown-item" routerLink="/attendance-Participant" routerLinkActive="active"><span class="bi bi-person-lines-fill me-2 submenu-icon"></span>Particpant Attendance Details</a></li>
             <!-- <li><a class="dropdown-item" routerLink="/rawMaterials-Participant" routerLinkActive="active"><span class="bi bi-box-seam me-2 submenu-icon"></span>Particpant Raw Material Details</a></li> -->
             <li><a class="dropdown-item" routerLink="/update-program-execution" routerLinkActive="active"><span class="bi bi-play-circle me-2 submenu-icon"></span>Program Execution</a></li>
-            <li><a class="dropdown-item" routerLink="/veiw-program-creation" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View My Programs</a></li>
+            <li><a class="dropdown-item" routerLink="/veiw-program-creation" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View My Programs / Events</a></li>
             <!-- <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active"><span class="bi bi-check2-square me-2 submenu-icon"></span>View Completed programs</a></li> -->
           </ul>
         </li>
@@ -99,12 +98,13 @@
           <ul class="dropdown-menu" [class.show]="openSubMenus['participantDetails']">
             <li><a class="dropdown-item" routerLink="/add-participant-data" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Add Participant</a></li>
             <li><a class="dropdown-item" routerLink="/view-participant-data" routerLinkActive="active"><span class="bi bi-person-vcard me-2 submenu-icon"></span>View Participant</a></li>
+             <li><a class="dropdown-item" routerLink="/attendance-Participant" routerLinkActive="active"><span class="bi bi-person-lines-fill me-2 submenu-icon"></span>Particpant Attendance Details</a></li>
             <li><a class="dropdown-item" routerLink="/view-Completed-program-related" routerLinkActive="active" ><span class="bi bi-check-circle me-2 submenu-icon"></span>View Completed</a></li>
           </ul>
         </li>
 
        
-           <li class="nav-item dropdown" [class.show]="openSubMenus['counsellor']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+           <!-- <li class="nav-item dropdown" [class.show]="openSubMenus['counsellor']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('counsellor', $event)" [attr.aria-expanded]="openSubMenus['counsellor']"><span class="bi bi-person-badge me-2 menu-icon"></span>Counsellor</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['counsellor']">
             <li><a class="dropdown-item" routerLink="/MSME-councellor-registeration" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Counsellor Registration</a></li>
@@ -118,16 +118,50 @@
             <li><a class="dropdown-item" routerLink="/esdp-training" routerLinkActive="active"><span class="bi bi-journal-plus me-2 submenu-icon"></span>ESDP Application</a></li>
             <li><a class="dropdown-item" routerLink="/view-application" routerLinkActive="active"><span class="bi bi-journal-check me-2 submenu-icon"></span>View Application</a></li>
           </ul>
-        </li>
-          <li class="nav-item dropdown" [class.show]="openSubMenus['Survey']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+        </li> -->
+          <!-- <li class="nav-item dropdown" [class.show]="openSubMenus['Survey']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('Survey', $event)" [attr.aria-expanded]="openSubMenus['Survey']"><span class="bi bi-ui-checks me-2 menu-icon"></span>Survey</a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['Survey']">
             <li><a class="dropdown-item" routerLink="/Registration" routerLinkActive="active"><span class="bi bi-pencil-square me-2 submenu-icon"></span>Survey Registration</a></li>
             <li><a class="dropdown-item" routerLink="/view-registration-new" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Survey Details</a></li>
-            <!-- <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active"><span class="bi bi-clipboard2-check me-2 submenu-icon"></span>Startups Assessments</a></li> -->
+            <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active"><span class="bi bi-clipboard2-check me-2 submenu-icon"></span>Startups Assessments</a></li>
+          </ul>
+        </li> -->
+           <li class="nav-item dropdown" [class.show]="openSubMenus['rampForms']" *appHasRole="[Role.Admin, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('rampForms', $event)" [attr.aria-expanded]="openSubMenus['rampForms']"><span class="bi bi-ui-checks-grid me-2 menu-icon"></span>Ramp Forms</a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['rampForms']">
+            <li class="dropdown-submenu" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+              <a class="dropdown-item dropdown-toggle submenu-toggle" href="#" role="button" (click)="toggleSubMenu('rampForms.counsellor', $event, 'rampForms')" [attr.aria-expanded]="openSubMenus['rampForms.counsellor']"><span class="bi bi-person-badge me-2 submenu-icon"></span>Counsellor</a>
+              <ul class="dropdown-menu" [class.show]="openSubMenus['rampForms.counsellor']">
+                <li><a class="dropdown-item" routerLink="/MSME-councellor-registeration" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Counsellor Registration</a></li>
+                <li><a class="dropdown-item" routerLink="/assign-Counsellor" routerLinkActive="active"><span class="bi bi-person-check me-2 submenu-icon"></span>Assign Counsellor</a></li>
+                <li><a class="dropdown-item" routerLink="/view-MSME-councellor" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Counsellor Registration</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-submenu" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+              <a class="dropdown-item dropdown-toggle submenu-toggle" href="#" role="button" (click)="toggleSubMenu('rampForms.esdpTraining', $event, 'rampForms')" [attr.aria-expanded]="openSubMenus['rampForms.esdpTraining']"><span class="bi bi-mortarboard me-2 submenu-icon"></span>ESDP Training</a>
+              <ul class="dropdown-menu" [class.show]="openSubMenus['rampForms.esdpTraining']">
+                <li><a class="dropdown-item" routerLink="/esdp-training" routerLinkActive="active"><span class="bi bi-journal-plus me-2 submenu-icon"></span>ESDP Application</a></li>
+                <li><a class="dropdown-item" routerLink="/view-application" routerLinkActive="active"><span class="bi bi-journal-check me-2 submenu-icon"></span>View Application</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-submenu" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+              <a class="dropdown-item dropdown-toggle submenu-toggle" href="#" role="button" (click)="toggleSubMenu('rampForms.survey', $event, 'rampForms')" [attr.aria-expanded]="openSubMenus['rampForms.survey']"><span class="bi bi-pencil-square me-2 submenu-icon"></span>Survey</a>
+              <ul class="dropdown-menu" [class.show]="openSubMenus['rampForms.survey']">
+                <li><a class="dropdown-item" routerLink="/Registration" routerLinkActive="active"><span class="bi bi-file-earmark-plus me-2 submenu-icon"></span>Survey Registration</a></li>
+                <li><a class="dropdown-item" routerLink="/view-registration-new" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Survey Details</a></li>
+              </ul>
+            </li>
+            <!-- <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle submenu-toggle" href="#" role="button" (click)="toggleSubMenu('rampForms.enquiryDetails', $event, 'rampForms')" [attr.aria-expanded]="openSubMenus['rampForms.enquiryDetails']"><span class="bi bi-journal-text me-2 submenu-icon"></span>Enquiry Form</a>
+              <ul class="dropdown-menu" [class.show]="openSubMenus['rampForms.enquiryDetails']">
+                <li><a class="dropdown-item" routerLink="/add-enquiry-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Enquiry</a></li>
+                <li><a class="dropdown-item" routerLink="/view-enquiry-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Enquiry</a></li>
+              </ul>
+            </li> -->
           </ul>
         </li>
-          <li class="nav-item dropdown" [class.show]="openSubMenus['enquiryDetails']" *appHasRole="[Role.Admin, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+        <li class="nav-item dropdown" [class.show]="openSubMenus['enquiryDetails']" *appHasRole="[Role.Admin, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
             <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('enquiryDetails', $event)" [attr.aria-expanded]="openSubMenus['enquiryDetails']"><span class="bi bi-journal-text me-2 menu-icon"></span>Enquiry Form</a>
             <ul class="dropdown-menu" [class.show]="openSubMenus['enquiryDetails']">
             <li><a class="dropdown-item" routerLink="/add-enquiry-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Enquiry</a></li>
@@ -151,6 +185,7 @@
           </a>
           <ul class="dropdown-menu" [class.show]="openSubMenus['employee']">
             <li><a class="dropdown-item" routerLink="/add-employee" routerLinkActive="active"><span class="bi bi-person-plus me-2 submenu-icon"></span>Add Employee</a></li>
+            <li><a class="dropdown-item" routerLink="/add-resource-person" routerLinkActive="active"><span class="bi bi-person-workspace me-2 submenu-icon"></span>Add Resource Person</a></li>
             <li><a class="dropdown-item" routerLink="/view-employee" routerLinkActive="active"><span class="bi bi-person-lines-fill me-2 submenu-icon"></span>View Employee</a></li>
           </ul>
         </li>

@@ -1,16 +1,16 @@
 <main class="mt-4">
     <section>
         <div class="container-fluid">
-            <form [formGroup]="programCreationMain">
+            <form [formGroup]="isRampProject ? programCreationMain : addEventForm" (ngSubmit)="onSubmitByProject()">
                 <div class="card mb-4">
                     <div class="card-header bg-transparent">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                             <div>
-                                <h6 class="mb-2 mb-sm-0 text-green">{{this.programId?'Edit':'Add'}} Program</h6>
+                                <h6 class="mb-2 mb-sm-0 text-green">{{((this.programId ? 'Edit' : 'Add') + ' Program / Event')}}</h6>
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <div class="form-floating mb-0">
-                                    <select class="form-select" formControlName="projectId">
+                                    <select class="form-select" formControlName="projectId" (change)="onProjectSelectionChange($any($event.target).value)">
                                         <option selected value="">Select Project</option>
                                         <option *ngFor="let project of projectsDropdownList" [value]="project.project_id">
                                             {{project.titleOfProject}}
@@ -27,7 +27,7 @@
                                 </ng-container>
                                 
                                 <!-- class="btn btn-secondary" -->
-                                <button type="button"  class="btn btn-lime-green" data-bs-toggle="modal"
+                                <button type="button" *ngIf="isRampProject" class="btn btn-lime-green" data-bs-toggle="modal"
                                     data-bs-target="#addLocation">Add New Location</button>
                                 <!-- <a class="btn btn-default ms-3" id="iconChange" data-bs-toggle="collapse"
                                     href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="card-body" id="collapseExample">
 
-                        <div class="row" styles="margin-right='20px';margin-left='20px'">
+                        <div class="row" styles="margin-right='20px';margin-left='20px'" *ngIf="isRampProject">
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" formControlName="activityId">
@@ -205,7 +205,7 @@
                             </div>
                             <div class="text-end">
                                 <button type="submit" class="btn btn-lime-green" [ngClass]="{'disabled': programCreationMain.invalid}"
-                                [disabled]="loading || programCreationMain.invalid" (click)="submitProgramCreation()">
+                                [disabled]="loading || programCreationMain.invalid">
                                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
                                 {{this.programId?'Update':'Submit'}}</button>
                             </div>
@@ -234,6 +234,191 @@
                                     <label>Target No. of Participants</label>
                                 </div>
                             </div> -->
+                        </div>
+
+                        <div class="row" *ngIf="!isRampProject">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" formControlName="eventType">
+                                        <option value="" disabled>Select Event Type</option>
+                                        <option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
+                                    </select>
+                                    <label>Event Type <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="eventTitle" placeholder="Event Title">
+                                    <label>Event Title <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="projectName" placeholder="Project Name" [readonly]="true">
+                                    <label>Project Name <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="fundingAgency" placeholder="Funding Agency">
+                                    <label>Funding Agency <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="ministry" placeholder="Ministry">
+                                    <label>Ministry <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" formControlName="implementingAgency">
+                                        <option value="" disabled>Select Implementing Agency</option>
+                                        <option *ngFor="let agency of implementingAgencies" [value]="agency">{{ agency }}</option>
+                                    </select>
+                                    <label>Implementing Agency <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" formControlName="description" placeholder="Description" style="height: 100px"></textarea>
+                                    <label>Description <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12"><h6 class="text-green mt-2 mb-3">Program Coordination</h6></div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="programCoordinatorName" placeholder="Program Coordinator Name">
+                                    <label>Program Coordinator Name <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="designation" placeholder="Designation">
+                                    <label>Designation <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" formControlName="totalParticipants" placeholder="Total Participants">
+                                    <label>Total Participants <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12"><h6 class="text-green mt-2 mb-3">Schedule and Location</h6></div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" formControlName="startDate" (change)="onEventDateChange()">
+                                    <label>Start Date <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" formControlName="endDate" (change)="onEventDateChange()">
+                                    <label>End Date <span class="c-red">*</span></label>
+                                </div>
+                                <div *ngIf="ef['endDate'].touched && addEventForm.errors?.['invalidEventDate']" class="error" style="color: red;">
+                                    End Date must be greater than or equal to Start Date
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" formControlName="totalDays" placeholder="Total Days" readonly>
+                                    <label>Total Days <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="time" class="form-control" formControlName="startTime">
+                                    <label>Start Time <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="time" class="form-control" formControlName="endTime">
+                                    <label>End Time <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="houseNoOrDoorNo" placeholder="House No / Door No">
+                                    <label>House No / Door No <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="streetOrBlock" placeholder="Street / Block">
+                                    <label>Street / Block <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="village" placeholder="Village">
+                                    <label>Village <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" formControlName="stateId" (change)="onEventStateChange(ef['stateId'].value)">
+                                        <option value="" disabled>Select State</option>
+                                        <option *ngFor="let state of statesList" [value]="getStateId(state)">{{ getStateLabel(state) }}</option>
+                                    </select>
+                                    <label>State <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" formControlName="districtId" (change)="onEventDistrictChange(ef['districtId'].value)">
+                                        <option value="" disabled>Select District</option>
+                                        <option *ngFor="let district of eventDistrictList" [value]="getDistrictId(district)">{{ getDistrictLabel(district) }}</option>
+                                    </select>
+                                    <label>District <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" formControlName="mandalId">
+                                        <option value="" disabled>Select Mandal</option>
+                                        <option *ngFor="let mandal of eventMandalList" [value]="getMandalId(mandal)">{{ getMandalLabel(mandal) }}</option>
+                                    </select>
+                                    <label>Mandal <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" formControlName="pinCode" placeholder="Pin Code">
+                                    <label>Pin Code <span class="c-red">*</span></label>
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-lime-green" [ngClass]="{'disabled': addEventForm.invalid}"
+                                [disabled]="loading || addEventForm.invalid">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                                Submit</button>
+                            </div>
                         </div>
 
                     </div>

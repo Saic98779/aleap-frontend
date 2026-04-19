@@ -17,6 +17,7 @@ export class AddEventComponent implements OnInit {
   eventId: number | null = null;
   isEditMode = false;
 
+  statesList: any[] = [];
   allDistricts: any[] = [];
   mandalList: any[] = [];
   projectsDropdownList: any[] = [];
@@ -44,6 +45,7 @@ export class AddEventComponent implements OnInit {
     'ACGA'
   ];
 
+  private pendingStateValue: any = null;
   private pendingDistrictValue: any = null;
   private pendingMandalValue: any = null;
 
@@ -58,7 +60,7 @@ export class AddEventComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.getProjectsDropdown();
-    this.getAllDistricts();
+    this.getStates();
 
     this.eventId = Number(this.route.snapshot.paramMap.get('id')) || null;
     if (this.eventId) {
@@ -88,6 +90,9 @@ export class AddEventComponent implements OnInit {
         totalDays: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
         startTime: new FormControl('', [Validators.required]),
         endTime: new FormControl('', [Validators.required]),
+        houseNoOrDoorNo: new FormControl('', [Validators.required]),
+        streetOrBlock: new FormControl('', [Validators.required]),
+        stateId: new FormControl('', [Validators.required]),
         districtId: new FormControl('', [Validators.required]),
         mandalId: new FormControl('', [Validators.required]),
         village: new FormControl('', [Validators.required]),
@@ -142,11 +147,37 @@ export class AddEventComponent implements OnInit {
     });
   }
 
-  getAllDistricts() {
-    this._commonService.getDataByUrl(APIS.masterList.getDistricts).subscribe({
+  getStates() {
+    this._commonService.getDataByUrl(APIS.masterList.getStates).subscribe({
+      next: (data: any) => {
+        this.statesList = data?.data || [];
+        this.applyPendingStateSelection();
+      },
+      error: () => {
+        this.statesList = [];
+      }
+    });
+  }
+
+  getDistrictsByState(stateId: any, selectedDistrict: any = null, selectedMandal: any = null) {
+    this.allDistricts = [];
+    this.mandalList = [];
+    this.addEventForm.patchValue({ districtId: '', mandalId: '' }, { emitEvent: false });
+
+    if (!stateId) {
+      return;
+    }
+
+    this._commonService.getDataByUrl(APIS.masterList.getDistrictsByState + stateId).subscribe({
       next: (data: any) => {
         this.allDistricts = data?.data || [];
-        this.applyPendingDistrictSelection();
+        if (selectedDistrict !== null && selectedDistrict !== undefined && selectedDistrict !== '') {
+          const districtId = this.resolveDistrictId(selectedDistrict);
+          if (districtId) {
+            this.addEventForm.patchValue({ districtId }, { emitEvent: false });
+            this.getMandalsByDistrict(districtId, selectedMandal);
+          }
+        }
       },
       error: () => {
         this.allDistricts = [];
@@ -160,7 +191,7 @@ export class AddEventComponent implements OnInit {
       return;
     }
 
-    this._commonService.getDataByUrl(APIS.masterList.getMandal + districtId).subscribe({
+    this._commonService.getDataByUrl(APIS.masterList.getMandalsByDistrict + districtId).subscribe({
       next: (data: any) => {
         this.mandalList = data?.data || [];
         if (selectedMandal !== null && selectedMandal !== undefined && selectedMandal !== '') {
@@ -174,6 +205,10 @@ export class AddEventComponent implements OnInit {
         this.mandalList = [];
       }
     });
+  }
+
+  onStateChange(stateId: any) {
+    this.getDistrictsByState(stateId);
   }
 
   onDistrictChange(districtId: any) {
@@ -213,8 +248,11 @@ export class AddEventComponent implements OnInit {
       totalDays: parseInt(formValue.totalDays, 10),
       startTime: formValue.startTime,
       endTime: formValue.endTime,
+      state: this.getSelectedStateName(formValue.stateId),
       district: this.getSelectedDistrictName(formValue.districtId),
       mandal: this.getSelectedMandalName(formValue.mandalId),
+      houseNoOrDoorNo: formValue.houseNoOrDoorNo,
+      streetOrBlock: formValue.streetOrBlock,
       village: formValue.village,
       pinCode: formValue.pinCode,
       totalParticipants: parseInt(formValue.totalParticipants, 10)
@@ -267,14 +305,17 @@ export class AddEventComponent implements OnInit {
           totalDays: event.totalDays?.toString() || '',
           startTime: this.formatTimeValue(event.startTime),
           endTime: this.formatTimeValue(event.endTime),
+          houseNoOrDoorNo: event.houseNoOrDoorNo || '',
+          streetOrBlock: event.streetOrBlock || '',
           village: event.village || '',
           pinCode: event.pinCode || '',
           totalParticipants: event.totalParticipants?.toString() || ''
         });
 
+        this.pendingStateValue = event.stateId || event.state || 'Telangana';
         this.pendingDistrictValue = event.districtId || event.district || '';
         this.pendingMandalValue = event.mandalId || event.mandal || '';
-        this.applyPendingDistrictSelection();
+        this.applyPendingStateSelection();
         this.onDateChange();
       },
       error: (err: any) => {
@@ -297,6 +338,19 @@ export class AddEventComponent implements OnInit {
 
     this.addEventForm.reset({ implementingAgency: 'ALEAP' });
     this.mandalList = [];
+    this.allDistricts = [];
+    this.pendingStateValue = 'Telangana';
+    this.pendingDistrictValue = null;
+    this.pendingMandalValue = null;
+    this.applyPendingStateSelection();
+  }
+
+  getStateLabel(item: any): string {
+    return item?.stateName || item?.state_name || item?.name || item?.state || '';
+  }
+
+  getStateId(item: any): any {
+    return item?.stateId || item?.state_id || item?.id || item?.stateCode || item?.state;
   }
 
   getDistrictLabel(item: any): string {
@@ -320,25 +374,44 @@ export class AddEventComponent implements OnInit {
     return district ? this.getDistrictLabel(district) : districtId;
   }
 
+  private getSelectedStateName(stateId: any): string {
+    const state = this.statesList.find(item => `${this.getStateId(item)}` === `${stateId}`);
+    return state ? this.getStateLabel(state) : stateId;
+  }
+
   private getSelectedMandalName(mandalId: any): string {
     const mandal = this.mandalList.find(item => `${this.getMandalId(item)}` === `${mandalId}`);
     return mandal ? this.getMandalLabel(mandal) : mandalId;
   }
 
-  private applyPendingDistrictSelection() {
-    if (!this.pendingDistrictValue || !this.allDistricts.length) {
+  private applyPendingStateSelection() {
+    if (!this.statesList.length) {
       return;
     }
 
-    const districtId = this.resolveDistrictId(this.pendingDistrictValue);
-    if (!districtId) {
+    const stateSource = this.pendingStateValue || 'Telangana';
+    const stateId = this.resolveStateId(stateSource);
+    if (!stateId) {
       return;
     }
 
-    this.addEventForm.patchValue({ districtId });
-    this.getMandalsByDistrict(districtId, this.pendingMandalValue);
+    this.addEventForm.patchValue({ stateId }, { emitEvent: false });
+    this.getDistrictsByState(stateId, this.pendingDistrictValue, this.pendingMandalValue);
+
+    this.pendingStateValue = null;
     this.pendingDistrictValue = null;
     this.pendingMandalValue = null;
+  }
+
+  private resolveStateId(value: any): any {
+    const normalized = `${value || ''}`.trim().toLowerCase();
+    const matchedState = this.statesList.find(item => {
+      const itemId = this.getStateId(item);
+      const itemName = this.getStateLabel(item);
+      return `${itemId}` === `${value}` || `${itemName || ''}`.trim().toLowerCase() === normalized;
+    });
+
+    return matchedState ? this.getStateId(matchedState) : '';
   }
 
   private resolveDistrictId(value: any): any {
