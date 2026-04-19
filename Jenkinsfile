@@ -1,11 +1,18 @@
 pipeline {
   agent any
+
   environment {
     SERVER = "ubuntu@51.222.155.92"
-    APP_PATH = "/home/ubuntu/frontend"
+    APP_PATH = "/var/www/html"
   }
 
   stages {
+
+    stage('Clean Workspace') {
+      steps {
+        deleteDir()
+      }
+    }
 
     stage('Clone Repository') {
       steps {
@@ -22,33 +29,53 @@ pipeline {
 
     stage('Build Frontend Application') {
       steps {
-        sh 'npm run build'
-      }
-    }
-
-    stage('Prepare Server Folder') {
-      steps {
         sh '''
-            ssh $SERVER "mkdir -p $APP_PATH"
-            '''
+      set -e
+      npm run build
+      echo "==== Build Output ===="
+      ls -la dist/
+    '''
       }
     }
 
     stage('Deploy Frontend') {
       steps {
         sh '''
-            scp -r dist/skill-development/* $SERVER:$APP_PATH/
-            '''
+      set -e
+
+      echo "==== Preparing temp folder ===="
+      ssh -o StrictHostKeyChecking=no $SERVER "rm -rf /tmp/frontend && mkdir -p /tmp/frontend"
+
+      echo "==== Copying build to server (/tmp) ===="
+      scp -o StrictHostKeyChecking=no -r dist/skill-development/* $SERVER:/tmp/frontend/
+
+      echo "==== Moving files to Nginx folder ===="
+      ssh -o StrictHostKeyChecking=no $SERVER "
+        sudo rm -rf $APP_PATH/* &&
+        sudo cp -r /tmp/frontend/* $APP_PATH/ &&
+        sudo chown -R www-data:www-data $APP_PATH &&
+        sudo chmod -R 755 $APP_PATH
+      "
+    '''
       }
     }
 
     stage('Reload Nginx') {
       steps {
         sh '''
-            ssh $SERVER "sudo systemctl reload nginx"
-            '''
+      ssh -o StrictHostKeyChecking=no $SERVER "sudo systemctl reload nginx"
+    '''
       }
     }
 
+  }
+
+  post {
+    success {
+      echo 'Deployment Successful!'
+    }
+    failure {
+      echo 'Deployment Failed!'
+    }
   }
 }
