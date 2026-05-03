@@ -5,8 +5,8 @@
         <div class="card mb-4">
           <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-              <h6 class="mb-0 text-green">Add Resource Person</h6>
-              <button type="button" class="btn btn-default" (click)="goToSessions()">Back</button>
+              <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Add' }} Resource Person</h6>
+              <button type="button" class="btn btn-default" routerLink="/view-resource">Back</button>
             </div>
           </div>
 
@@ -125,7 +125,7 @@
               <button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
               <button type="submit" class="btn btn-lime-green" [disabled]="loading || addResourcePersonForm.invalid">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-                Submit
+                {{ isEditMode ? 'Update' : 'Submit' }}
               </button>
             </div>
           </div>

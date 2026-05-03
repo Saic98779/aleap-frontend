@@ -34,16 +34,16 @@
                                     <option value="">Select Program</option>
                                     <option *ngFor="let list of agencyProgramList" value="{{list.programId}}">{{list.programTitle}}</option>
                                 </select> -->
-                                  <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>List Of Program</mat-label>
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>List Of Program</mat-label>
                                 <mat-select [(ngModel)]="programIds" (selectionChange)="dropdownProgramsList($event,'table')">
-                                <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
-                                </mat-select-filter>
-                                <mat-option value="" >Select Program</mat-option>
-                                <mat-option *ngFor="let list of agencyProgramListFiltered" [value]="list.programId">
-                                {{ list.programTitle }}
-                                </mat-option>
-                            </mat-select>
+                                    <mat-select-filter [array]="agencyProgramList" [displayMember]="'programTitle'" (filteredReturn)="agencyProgramListFiltered = $event">
+                                    </mat-select-filter>
+                                    <mat-option value="" >Select Program</mat-option>
+                                    <mat-option *ngFor="let list of agencyProgramListFiltered" [value]="list.programId">
+                                    {{ list.programTitle }}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                             </div>
                         </div>

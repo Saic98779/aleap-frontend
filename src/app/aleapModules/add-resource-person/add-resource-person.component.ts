@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,18 +16,35 @@ export class AddResourcePersonComponent implements OnInit {
   addResourcePersonForm!: FormGroup;
   submitted = false;
   loading = false;
+  isEditMode = false;
+  resourceId: any = null;
 
   private readonly agencyId = JSON.parse(sessionStorage.getItem('user') || '{}')?.agencyId;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private toastrService: ToastrService,
     private commonService: CommonServiceService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+
+    this.resourceId = this.route.snapshot.paramMap.get('id');
+    if (!this.resourceId) {
+      return;
+    }
+
+    this.isEditMode = true;
+    const navState = history.state?.resource;
+    if (navState) {
+      this.patchResourceForm(navState);
+      return;
+    }
+
+    this.loadResourceForEdit(this.resourceId);
   }
 
   get f() {
@@ -97,15 +115,26 @@ export class AddResourcePersonComponent implements OnInit {
     }
 
     this.loading = true;
-    this.commonService.add(APIS.programCreation.addResource, this.addResourcePersonForm.value).subscribe({
+    const payload = this.addResourcePersonForm.value;
+    const request$ = this.isEditMode && this.resourceId
+      ? this.commonService.update(APIS.resource.update, payload, this.resourceId)
+      : this.commonService.add(APIS.programCreation.addResource, payload);
+
+    request$.subscribe({
       next: () => {
         this.loading = false;
-        this.toastrService.success('Resource Person Created Successfully', 'Success');
-        this.router.navigate(['/add-sessions']);
+        this.toastrService.success(
+          this.isEditMode ? 'Resource Person Updated Successfully' : 'Resource Person Created Successfully',
+          'Success'
+        );
+        this.router.navigate(['/view-resource']);
       },
       error: (err: any) => {
         this.loading = false;
-        this.toastrService.error(err?.error?.message || err?.message || 'Failed to create resource person', 'Error');
+        this.toastrService.error(
+          err?.error?.message || err?.message || `Failed to ${this.isEditMode ? 'update' : 'create'} resource person`,
+          'Error'
+        );
       }
     });
   }
@@ -115,10 +144,64 @@ export class AddResourcePersonComponent implements OnInit {
   }
 
   resetForm(): void {
+    if (this.isEditMode) {
+      this.loadResourceForEdit(this.resourceId);
+      return;
+    }
+
     this.submitted = false;
     this.addResourcePersonForm.reset({
       isVIP: false,
       agencyIds: [this.agencyId]
     });
+  }
+
+  private loadResourceForEdit(resourceId: any): void {
+    const endpoint = this.agencyId ? APIS.programCreation.getResource + '/' + this.agencyId : APIS.masterList.getresources;
+    this.commonService.getDataByUrl(endpoint).subscribe({
+      next: (res: any) => {
+        const rows = this.normalizeList(res);
+        const current = rows.find((item: any) => String(this.getResourceId(item)) === String(resourceId));
+        if (!current) {
+          this.toastrService.error('Resource data not found', 'Error');
+          this.router.navigate(['/view-resource']);
+          return;
+        }
+        this.patchResourceForm(current);
+      },
+      error: (err: any) => {
+        this.toastrService.error(err?.error?.message || err?.message || 'Failed to load resource details', 'Error');
+        this.router.navigate(['/view-resource']);
+      }
+    });
+  }
+
+  private patchResourceForm(resource: any): void {
+    this.addResourcePersonForm.patchValue({
+      name: resource?.name || '',
+      mobileNo: resource?.mobileNo || '',
+      email: resource?.email || '',
+      organizationName: resource?.organizationName || '',
+      qualification: resource?.qualification || '',
+      designation: resource?.designation || '',
+      isVIP: !!resource?.isVIP,
+      specialization: resource?.specialization || '',
+      briefDescription: resource?.briefDescription || '',
+      gender: resource?.gender || '',
+      agencyIds: resource?.agencyIds || [this.agencyId]
+    });
+
+    if (resource?.isVIP) {
+      this.onVipChange({ target: { checked: true } } as any);
+    }
+  }
+
+  private normalizeList(res: any): any[] {
+    const data = res?.data ?? res;
+    return Array.isArray(data) ? data : data ? [data] : [];
+  }
+
+  private getResourceId(item: any): any {
+    return item?.resourceId || item?.id;
   }
 }

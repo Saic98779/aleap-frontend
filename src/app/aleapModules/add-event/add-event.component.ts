@@ -95,7 +95,7 @@ export class AddEventComponent implements OnInit {
         stateId: new FormControl('', [Validators.required]),
         districtId: new FormControl('', [Validators.required]),
         mandalId: new FormControl('', [Validators.required]),
-        village: new FormControl('', [Validators.required]),
+      village: new FormControl('', [Validators.required]),
         pinCode: new FormControl('', [Validators.required, Validators.pattern(/^\d{6}$/)]),
         totalParticipants: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]\d*$/)])
       },

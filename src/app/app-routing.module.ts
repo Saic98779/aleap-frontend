@@ -65,6 +65,7 @@ import { ViewEnquiryComponent } from './aleapModules/view-enquiry/view-enquiry.c
 import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.component';
 import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
 import { AddResourcePersonComponent } from './aleapModules/add-resource-person/add-resource-person.component';
+import { ViewResourceComponent } from './aleapModules/view-resource/view-resource.component';
 
 const routes: Routes = [
     {
@@ -445,8 +446,20 @@ const routes: Routes = [
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
     {
+        path: 'add-resource-person-edit/:id',
+        component: AddResourcePersonComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
         path: 'view-employee',
         component: ViewEmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-resource',
+        component: ViewResourceComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },

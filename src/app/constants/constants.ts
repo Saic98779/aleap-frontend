@@ -234,6 +234,10 @@ export const APIS = {
         update:  API_BASE_URL + '/employee/',
         delete:  API_BASE_URL + '/employee/'
     },
+    resource: {
+        update: API_BASE_URL + '/resource/update/',
+        delete: API_BASE_URL + '/resource/delete/'
+    },
      counsellorAssignment: {
         getAll: API_BASE_URL + '/counsellor/all',
         searchByContact: 'http://localhost:8084/workflow/counsellor/by-contact?contactNo=',

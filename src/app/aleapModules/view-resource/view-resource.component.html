@@ -1,0 +1,92 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <div class="card mb-4">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col-12 col-sm-6 col-md-8 col-lg-8">
+              <h6 class="fw-600 mb-2 mb-sm-0 text-green">View Resources</h6>
+            </div>
+            <ng-container *ngIf="loginsessionDetails?.userRole == 'ADMIN'">
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <label for="agencyFilter" style="font-weight: 600;">List Of Agencies</label>
+                <select
+                  id="agencyFilter"
+                  class="form-select"
+                  (change)="getResourcesByAgency($any($event.target).value)"
+                >
+                  <option value="All Agency" selected>All Agencies</option>
+                  <option *ngFor="let list of agencyList" [value]="list.agencyId">{{ list.agencyName }}</option>
+                </select>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-12 text-end">
+              <button type="button" (click)="downloadResourceList()" class="btn btn-secondary">Download Resources</button>
+            </div>
+          </div>
+
+          <div class="dtable-container">
+            <table id="view-table-resource-details" class="display" style="width:100%">
+              <thead class="bg-lime-green text-white">
+                <tr>
+                  <th>S.No</th>
+                  <th>Edit / Delete</th>
+                  <th *ngIf="loginsessionDetails?.userRole == 'ADMIN'">Agency</th>
+                  <th>Organization Name</th>
+                  <th>Resource Name</th>
+                  <th>Designation</th>
+                  <th>Specialization</th>
+                  <th>Mobile Number</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="resources">
+                <tr *ngFor="let item of resources; let i = index">
+                  <td class="text-start">{{ i + 1 }}</td>
+                  <td class="text-center resource-actions">
+                    <button type="button" class="btn btn-default text-lime-green btn-sm me-2" (click)="editRow(item)" title="Edit">
+                      <span class="bi bi-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-default text-danger btn-sm" (click)="deleteRow(item)" title="Delete">
+                      <span class="bi bi-trash"></span>
+                    </button>
+                  </td>
+                  <td *ngIf="loginsessionDetails?.userRole == 'ADMIN'">{{ item?.agencyNames }}</td>
+                  <td>{{ item?.organizationName }}</td>
+                  <td>{{ item?.name }}</td>
+                  <td>{{ item?.designation }}</td>
+                  <td>{{ item?.specialization }}</td>
+                  <td>{{ item?.mobileNo }}</td>
+                  <td>{{ item?.email }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fade" #deleteConfirmModal tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{ selectedResource?.name }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-lime-green" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
