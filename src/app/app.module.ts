@@ -89,6 +89,8 @@ import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.c
 import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
 import { AddResourcePersonComponent } from './aleapModules/add-resource-person/add-resource-person.component';
 import { ViewResourceComponent } from './aleapModules/view-resource/view-resource.component';
+import { AddMembershipComponent } from './aleapModules/add-membership/add-membership.component';
+import { ViewMembershipComponent } from './aleapModules/view-membership/view-membership.component';
 import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 import { CommonFileViewerComponent } from './common-component/common-file-viewer/common-file-viewer.component';
 
@@ -185,6 +187,8 @@ import { CommonFileViewerComponent } from './common-component/common-file-viewer
         AddResourcePersonComponent,
         ViewEmployeeComponent,
         ViewResourceComponent,
+        AddMembershipComponent,
+        ViewMembershipComponent,
         ViewRegistrationNewComponent,
         CommonFileViewerComponent
 

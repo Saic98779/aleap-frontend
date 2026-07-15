@@ -227,6 +227,13 @@ export const APIS = {
         update: API_BASE_URL + '/enquiry/',
         delete: API_BASE_URL + '/enquiry/'
     },
+    membership: {
+        add: API_BASE_URL + '/membership',
+        getAll: API_BASE_URL + '/membership',
+        getById: API_BASE_URL + '/membership/',
+        update: API_BASE_URL + '/membership/',
+        delete: API_BASE_URL + '/membership/'
+    },
     employee: {
         add:  API_BASE_URL + '/employee',
         getAll: API_BASE_URL +  '/employee',

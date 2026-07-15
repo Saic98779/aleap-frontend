@@ -66,6 +66,8 @@ import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.c
 import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
 import { AddResourcePersonComponent } from './aleapModules/add-resource-person/add-resource-person.component';
 import { ViewResourceComponent } from './aleapModules/view-resource/view-resource.component';
+import { AddMembershipComponent } from './aleapModules/add-membership/add-membership.component';
+import { ViewMembershipComponent } from './aleapModules/view-membership/view-membership.component';
 
 const routes: Routes = [
     {
@@ -481,7 +483,25 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
-    
+    {
+        path: 'add-membership-data',
+        component: AddMembershipComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-membership-data-edit/:id',
+        component: AddMembershipComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-membership-data',
+        component: ViewMembershipComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+
     {
         path: 'login',
         component: LoginComponent
