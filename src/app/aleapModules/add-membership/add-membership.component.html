@@ -1,0 +1,587 @@
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <form [formGroup]="addMembershipForm" (ngSubmit)="submitMembership()">
+        <div class="card mb-4">
+          <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Add' }} Membership Application</h6>
+              <button type="button" class="btn btn-default" (click)="goToMemberships()">Back</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12"><h6 class="text-green mt-2 mb-3">Applicant Details</h6></div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control text-uppercase" formControlName="name" placeholder="Name (In Capital Letters)">
+                  <label>Name (In Capital Letters) <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['name'].touched && f['name'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['name'].errors?.['required']">Name is required</span>
+                  <span *ngIf="f['name'].errors?.['pattern']">Name cannot start with spaces</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="membershipType">
+                    <option value="" disabled>Select Type</option>
+                    <option *ngFor="let t of membershipTypeOptions" [value]="t">{{ t }}</option>
+                  </select>
+                  <label>Membership Type <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['membershipType'].touched && f['membershipType'].invalid" class="error" style="color: red;">
+                  Membership Type is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="date" class="form-control" formControlName="applicationDate">
+                  <label>Application Date <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['applicationDate'].touched && f['applicationDate'].invalid" class="error" style="color: red;">
+                  Application Date is required
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="requiresOrg()">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="organizationName" placeholder="Organization Name">
+                  <label>Organization Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['organizationNameRequired'] && submitted" class="error" style="color: red;">
+                  Organization Name is required for Institution / Association
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="requiresOrg()">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="representativeName" placeholder="Representative's Name">
+                  <label>Representative's Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['representativeNameRequired'] && submitted" class="error" style="color: red;">
+                  Representative's Name is required for Institution / Association
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="officePhone" placeholder="Office Phone">
+                  <label>Office Phone</label>
+                </div>
+                <div *ngIf="f['officePhone'].touched && f['officePhone'].invalid" class="error" style="color: red;">
+                  Enter a valid phone number
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="residencePhone" placeholder="Residence Phone">
+                  <label>Residence Phone</label>
+                </div>
+                <div *ngIf="f['residencePhone'].touched && f['residencePhone'].invalid" class="error" style="color: red;">
+                  Enter a valid phone number
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                  <label>Email <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['email'].touched && f['email'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['email']">Enter a valid email</span>
+                </div>
+              </div>
+
+              <!-- Office Address -->
+              <div class="col-12"><h6 class="text-green mt-3 mb-3">Office Address</h6></div>
+              <ng-container formGroupName="officeAddress">
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="houseNo" placeholder="House No.">
+                    <label>House No. <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="officeAddress.get('houseNo')?.touched && officeAddress.get('houseNo')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="streetName" placeholder="Street Name">
+                    <label>Street Name <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="officeAddress.get('streetName')?.touched && officeAddress.get('streetName')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="landmark" placeholder="Landmark">
+                    <label>Landmark</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="location" placeholder="Location">
+                    <label>Location</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="village" placeholder="Village">
+                    <label>Village</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="villageOther" placeholder="Village (Other)">
+                    <label>Village (Other)</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="mandal" placeholder="Mandal">
+                    <label>Mandal</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="mandalOther" placeholder="Mandal (Other)">
+                    <label>Mandal (Other)</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="district" placeholder="District">
+                    <label>District <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="officeAddress.get('district')?.touched && officeAddress.get('district')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="state" placeholder="State">
+                    <label>State <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="officeAddress.get('state')?.touched && officeAddress.get('state')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="pincode" placeholder="Pincode">
+                    <label>Pincode <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="officeAddress.get('pincode')?.touched && officeAddress.get('pincode')?.invalid" class="error" style="color: red;">Enter a valid 6-digit pincode</div>
+                </div>
+              </ng-container>
+
+              <!-- Residential Address -->
+              <div class="col-12"><h6 class="text-green mt-3 mb-3">Residential Address</h6></div>
+              <ng-container formGroupName="residentialAddress">
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="houseNo" placeholder="House No.">
+                    <label>House No. <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="residentialAddress.get('houseNo')?.touched && residentialAddress.get('houseNo')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="streetName" placeholder="Street Name">
+                    <label>Street Name <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="residentialAddress.get('streetName')?.touched && residentialAddress.get('streetName')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="landmark" placeholder="Landmark">
+                    <label>Landmark</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="location" placeholder="Location">
+                    <label>Location</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="village" placeholder="Village">
+                    <label>Village</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="villageOther" placeholder="Village (Other)">
+                    <label>Village (Other)</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="mandal" placeholder="Mandal">
+                    <label>Mandal</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="mandalOther" placeholder="Mandal (Other)">
+                    <label>Mandal (Other)</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="district" placeholder="District">
+                    <label>District <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="residentialAddress.get('district')?.touched && residentialAddress.get('district')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="state" placeholder="State">
+                    <label>State <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="residentialAddress.get('state')?.touched && residentialAddress.get('state')?.invalid" class="error" style="color: red;">Required</div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="pincode" placeholder="Pincode">
+                    <label>Pincode <span class="c-red">*</span></label>
+                  </div>
+                  <div *ngIf="residentialAddress.get('pincode')?.touched && residentialAddress.get('pincode')?.invalid" class="error" style="color: red;">Enter a valid 6-digit pincode</div>
+                </div>
+              </ng-container>
+
+              <!-- Payment -->
+              <div class="col-12"><h6 class="text-green mt-3 mb-3">Payment Details</h6></div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" formControlName="amount" placeholder="Amount (Rs.)">
+                  <label>Amount (Rs.) <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['amount'].touched && f['amount'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['amount'].errors?.['required']">Amount is required</span>
+                  <span *ngIf="f['amount'].errors?.['pattern']">Enter a valid amount</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="billNo" placeholder="Bill No.">
+                  <label>Bill No. <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['billNo'].touched && f['billNo'].invalid" class="error" style="color: red;">Bill No. is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="datetime-local" class="form-control" formControlName="billDate">
+                  <label>Bill Date <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['billDate'].touched && f['billDate'].invalid" class="error" style="color: red;">Bill Date is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="payeeName" placeholder="Payee Name">
+                  <label>Payee Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['payeeName'].touched && f['payeeName'].invalid" class="error" style="color: red;">Payee Name is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="paymentType">
+                    <option value="" disabled>Select Payment Type</option>
+                    <option *ngFor="let p of paymentTypeOptions" [value]="p">{{ p }}</option>
+                  </select>
+                  <label>Payment Type <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['paymentType'].touched && f['paymentType'].invalid" class="error" style="color: red;">Payment Type is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4" *ngIf="showChequeFields() || showBankFields()">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="bankName" placeholder="Bank Name">
+                  <label>Bank Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['bankNameRequired'] && submitted" class="error" style="color: red;">Bank Name is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4" *ngIf="showBankFields()">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="ifscCode" placeholder="IFSC Code">
+                  <label>IFSC Code <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['ifscCodeRequired'] && submitted" class="error" style="color: red;">IFSC Code is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4" *ngIf="showBankFields() || showUpiFields()">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="transactionId" placeholder="Transaction ID">
+                  <label>Transaction ID <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['transactionIdRequired'] && submitted" class="error" style="color: red;">Transaction ID is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4" *ngIf="showChequeFields()">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="checkNo" placeholder="Cheque No.">
+                  <label>Cheque No. <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['checkNoRequired'] && submitted" class="error" style="color: red;">Cheque No. is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4" *ngIf="showChequeFields()">
+                <div class="form-floating mb-3">
+                  <input type="date" class="form-control" formControlName="checkDate">
+                  <label>Cheque Date <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="addMembershipForm.errors?.['checkDateRequired'] && submitted" class="error" style="color: red;">Cheque Date is required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="purpose" placeholder="Purpose" style="height: 80px"></textarea>
+                  <label>Purpose <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['purpose'].touched && f['purpose'].invalid" class="error" style="color: red;">Purpose is required</div>
+              </div>
+
+              <!-- Uploads -->
+              <div class="col-12"><h6 class="text-green mt-3 mb-3">Documents</h6></div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fs-md fw-600">Bill Attachment <span class="c-red">*</span></label>
+                  <input id="billFile" type="file" class="form-control" [disabled]="!!uploadedFiles.billPath" (change)="onFileChange($event, 'billPath')">
+                </div>
+                <div *ngIf="uploadedFiles.billPath" class="mt-1 mb-2 d-flex align-items-center">
+                  <span class="me-2">{{ getFileName(uploadedFiles.billPath) }}</span>
+                  <button type="button" (click)="removeFile('billPath', 'billFile')" class="btn btn-sm btn-lime-green"><span class="bi bi-trash"></span></button>
+                </div>
+                <div *ngIf="f['billPath'].touched && f['billPath'].invalid" class="error" style="color: red;">Bill upload is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fs-md fw-600">Signature</label>
+                  <input id="signatureFile" type="file" class="form-control" [disabled]="!!uploadedFiles.signaturePath" (change)="onFileChange($event, 'signaturePath')">
+                </div>
+                <div *ngIf="uploadedFiles.signaturePath" class="mt-1 mb-2 d-flex align-items-center">
+                  <span class="me-2">{{ getFileName(uploadedFiles.signaturePath) }}</span>
+                  <button type="button" (click)="removeFile('signaturePath', 'signatureFile')" class="btn btn-sm btn-lime-green"><span class="bi bi-trash"></span></button>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fs-md fw-600">ID Proof</label>
+                  <input id="idProofFile" type="file" class="form-control" [disabled]="!!uploadedFiles.idProofPath" (change)="onFileChange($event, 'idProofPath')">
+                </div>
+                <div *ngIf="uploadedFiles.idProofPath" class="mt-1 mb-2 d-flex align-items-center">
+                  <span class="me-2">{{ getFileName(uploadedFiles.idProofPath) }}</span>
+                  <button type="button" (click)="removeFile('idProofPath', 'idProofFile')" class="btn btn-sm btn-lime-green"><span class="bi bi-trash"></span></button>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fs-md fw-600">Photo</label>
+                  <input id="photoFile" type="file" class="form-control" [disabled]="!!uploadedFiles.photoPath" (change)="onFileChange($event, 'photoPath')">
+                </div>
+                <div *ngIf="uploadedFiles.photoPath" class="mt-1 mb-2 d-flex align-items-center">
+                  <span class="me-2">{{ getFileName(uploadedFiles.photoPath) }}</span>
+                  <button type="button" (click)="removeFile('photoPath', 'photoFile')" class="btn btn-sm btn-lime-green"><span class="bi bi-trash"></span></button>
+                </div>
+              </div>
+
+              <!-- Proposed / Seconded -->
+              <div class="col-12"><h6 class="text-green mt-3 mb-3">Proposed By / Seconded By</h6></div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="proposedByName" placeholder="Proposed By - Name">
+                  <label>Proposed By - Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['proposedByName'].touched && f['proposedByName'].invalid" class="error" style="color: red;">Proposer name is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="secondedByName" placeholder="Seconded By - Name">
+                  <label>Seconded By - Name <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['secondedByName'].touched && f['secondedByName'].invalid" class="error" style="color: red;">Seconder name is required</div>
+              </div>
+
+              <div class="col-12">
+                <p class="fs-sm fst-italic mb-3">The proposer and seconder should be existing members of the Association.</p>
+              </div>
+
+              <!-- Institution / Involvement -->
+              <div class="col-12"><h6 class="text-green mt-3 mb-3">Institution / Involvement</h6></div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="institutionsInvolved" placeholder="Institutions actively involved in" style="height: 90px"></textarea>
+                  <label>Institutions actively involved in <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['institutionsInvolved'].touched && f['institutionsInvolved'].invalid" class="error" style="color: red;">This field is required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="institutionsNameAndAddress" placeholder="Institutions Name &amp; Address" style="height: 90px"></textarea>
+                  <label>Institutions Name &amp; Address <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['institutionsNameAndAddress'].touched && f['institutionsNameAndAddress'].invalid" class="error" style="color: red;">Institutions Name &amp; Address is required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="objectivesActivities" placeholder="Objectives / Activities" style="height: 100px"></textarea>
+                  <label>Objectives / Activities <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['objectivesActivities'].touched && f['objectivesActivities'].invalid" class="error" style="color: red;">Objectives / Activities is required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="natureOfInvolvement" placeholder="Nature of Involvement" style="height: 90px"></textarea>
+                  <label>Nature of Involvement <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['natureOfInvolvement'].touched && f['natureOfInvolvement'].invalid" class="error" style="color: red;">Nature of Involvement is required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check mt-2 mb-3">
+                  <input class="form-check-input" type="checkbox" formControlName="agreedToRules" id="agreedToRules">
+                  <label class="form-check-label" for="agreedToRules">
+                    I/We have read the rules and regulations of Association of Lady Entrepreneurs of India and agree to abide by the same. <span class="c-red">*</span>
+                  </label>
+                </div>
+                <div *ngIf="f['agreedToRules'].touched && f['agreedToRules'].invalid" class="error" style="color: red;">You must agree to the rules and regulations</div>
+              </div>
+            </div>
+
+            <div class="text-end mt-2">
+              <button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
+              <button type="submit" class="btn btn-lime-green">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                {{ isEditMode ? 'Update' : 'Submit' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h6 class="text-green fw-600 mb-2">NOTE: MEMBERSHIP VALUED</h6>
+            <ol class="mb-4 ps-3">
+              <li>Subject to the Realization of Ch/DD from Bank.</li>
+              <li>Subject to the approval of Membership in M.C. Meeting of the Association.</li>
+              <li>Please renew the subscription on or before 31<sup>st</sup> March of every year.</li>
+            </ol>
+
+            <h6 class="text-green fw-600 mb-2">RULES AND REGULATIONS</h6>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">I. NAME</p>
+              <p class="mb-0">The Name of the Association is &quot;Association of Lady Entrepreneurs of India&quot; (ALEAP-India).</p>
+            </div>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">II. OFFICE</p>
+              <p class="mb-0">The Office of &quot;Association of Lady Entrepreneurs of India&quot; is located at 8-2-120/86/9/A/30, Road No.2, Banjara Hills, Behind LUCID Diagnostics, Hyderabad-500034.</p>
+            </div>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">III. OBJECTIVES</p>
+              <ol class="mb-0 ps-3">
+                <li>To Develop entrepreneurial skills in women and assist them in starting their own industry.</li>
+                <li>To arrange and organize training programmes, Seminars and Conferences in the field to taxation, finance, exports and management for imparting skills/education.</li>
+                <li>To help the Members in their role towards the community and nation at large in activities of social welfare.</li>
+                <li>To collaborate and establish effective liaison and coordination between the government industry and commerce in all activities relating to the above subjects.</li>
+                <li>To send delegations abroad and to receive delegations from foreign countries.</li>
+                <li>Any activity incidental and related to the above subjects.</li>
+              </ol>
+            </div>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">IV. MEMBERSHIP</p>
+              <ol class="mb-0 ps-3">
+                <li>
+                  There shall be the following membership:
+                  <ol type="a" class="ps-3 mt-1">
+                    <li>Individual membership shall be open to ladies engaged in trade, commerce or any other procession or industry.</li>
+                    <li>Life Membership will be open to individuals, Companies, Corporations and Associations.</li>
+                    <li>Institutional Membership shall be open to the companies, Corporate Bodies, Firm or Partnership and other similar activity owned or managed by ladies.</li>
+                    <li>Association Membership shall be open to the ladies Organizations, Local Organizations, Local Chamber of commerce, Member bodies whose objectives are similar to those of the association.</li>
+                  </ol>
+                </li>
+                <li>All applications for membership must be proposed and seconded by existing members of the &quot;Association of Lady Entrepreneurs of India&quot; (ALEAP-India).</li>
+                <li>The Managing Committee of the Association shall be the sole judge as to the eligibility of an applicant for membership.</li>
+                <li>The cost of the applicant is Rs.10/-.</li>
+              </ol>
+            </div>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">V. MEMBERSHIP SUBSCRIPTION (Rs. Per Annum)</p>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered mb-2">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Type</th>
+                      <th class="text-end">Fee (Rs.)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>1</td><td>Individual Membership Fee</td><td class="text-end">1000-00</td></tr>
+                    <tr><td></td><td>Admission Fee</td><td class="text-end">100-00</td></tr>
+                    <tr><td>2</td><td>Institutional Membership Fee</td><td class="text-end">2000-00</td></tr>
+                    <tr><td></td><td>Admission Fee</td><td class="text-end">100-00</td></tr>
+                    <tr><td>3</td><td>Association Membership Fee</td><td class="text-end">1000-00</td></tr>
+                    <tr><td></td><td>Admission Fee</td><td class="text-end">100-00</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="mb-0">4. A Life member shall pay ten times the Prevailing subscription rate which the Managing Committee may determine from time to time. A life member enrolled need not pay any subscription during her/its life time.</p>
+            </div>
+
+            <p class="fw-600 mb-3">Members whose dues are not cleared before 31<sup>st</sup> March of every year shall not be eligible to Vote/Contest the elections.</p>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">The following have to be submitted by the members:</p>
+              <ol type="a" class="mb-0 ps-3">
+                <li>ID Proof</li>
+                <li>Two photos for ALEAP Id Card <span class="text-muted">(30-00)</span></li>
+                <li>Chq/DD/Payable at Hyd. In favour of Association of Lady Entrepreneurs of India (ALEAP INDIA)</li>
+              </ol>
+            </div>
+
+            <p class="mb-3">For the purpose of subscription, the relevant year is 1<sup>st</sup> April to 31<sup>st</sup> March. Members should also renew their subscriptions before 31<sup>st</sup> March every year failing which they shall not be eligible to vote/contest the elections.</p>
+
+            <div class="mb-3">
+              <p class="fw-600 mb-1">The Association will have the following Office Bearers:</p>
+              <ol class="mb-0 ps-3">
+                <li>President</li>
+                <li>Vice-President</li>
+                <li>Secretary</li>
+                <li>Treasurer and joint Secretary</li>
+                <li>14 other Members of the Managing Committee</li>
+              </ol>
+            </div>
+
+            <ul class="mb-0 ps-3 fs-sm">
+              <li>Article 19 - powers, Functions and Duties of Managing Committee.</li>
+              <li>Article 26 - property and functions of the Association.</li>
+              <li>Article 28 - duties of the Officers of the Association.</li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
