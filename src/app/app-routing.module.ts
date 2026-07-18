@@ -50,6 +50,7 @@ import { AssignCounsellorComponent } from './PIA/assign-counsellor/assign-counse
 import { RegistrationNewComponent } from './PIA/registration-new/registration-new.component';
 import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 import { StartupAssesmentComponent } from './PIA/startup-assesment/startup-assesment.component';
+import { ViewStartupAssessmentComponent } from './PIA/view-startup-assessment/view-startup-assessment.component';
 import { UploadParticipantsComponent } from './PIA/upload-participants/upload-participants.component';
 import { TrainingTargetsComponent } from './PIA/training-targets/training-targets.component';
 import { ProgressMonitoringComponent } from './PIA/progress-monitoring/progress-monitoring.component';
@@ -242,6 +243,18 @@ const routes: Routes = [
         component: StartupAssesmentComponent,
         canActivate: [AuthGuard],
         data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'assessment/:id',
+        component: StartupAssesmentComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-assessment',
+        component: ViewStartupAssessmentComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
     {
         path: 'view-MSME-councellor',

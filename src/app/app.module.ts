@@ -69,6 +69,7 @@ import { AssignCounsellorComponent } from './PIA/assign-counsellor/assign-counse
 import { ViewApplicationComponent } from './PIA/view-application/view-application.component';
 import { RegistrationNewComponent } from './PIA/registration-new/registration-new.component';
 import { StartupAssesmentComponent } from './PIA/startup-assesment/startup-assesment.component';
+import { ViewStartupAssessmentComponent } from './PIA/view-startup-assessment/view-startup-assessment.component';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StarRatingComponent } from './manual-components/star-rating/star-rating.component';
@@ -169,6 +170,7 @@ import { CommonFileViewerComponent } from './common-component/common-file-viewer
         ViewApplicationComponent,
         RegistrationNewComponent,
         StartupAssesmentComponent,
+        ViewStartupAssessmentComponent,
         StarRatingComponent,
         UploadParticipantsComponent,
         TrainingTargetsComponent,

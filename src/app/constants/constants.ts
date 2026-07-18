@@ -234,6 +234,14 @@ export const APIS = {
         update: API_BASE_URL + '/membership/',
         delete: API_BASE_URL + '/membership/'
     },
+    startupAssessment: {
+        add: API_BASE_URL + '/startup-surveys/draft',
+        getAll: API_BASE_URL + '/startup-surveys',
+        getById: API_BASE_URL + '/startup-surveys/',
+        update: API_BASE_URL + '/startup-surveys/',
+        patch: API_BASE_URL + '/startup-surveys/',
+        delete: API_BASE_URL + '/startup-surveys/'
+    },
     employee: {
         add:  API_BASE_URL + '/employee',
         getAll: API_BASE_URL +  '/employee',
