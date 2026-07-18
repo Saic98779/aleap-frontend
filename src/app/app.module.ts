@@ -69,6 +69,7 @@ import { AssignCounsellorComponent } from './PIA/assign-counsellor/assign-counse
 import { ViewApplicationComponent } from './PIA/view-application/view-application.component';
 import { RegistrationNewComponent } from './PIA/registration-new/registration-new.component';
 import { StartupAssesmentComponent } from './PIA/startup-assesment/startup-assesment.component';
+import { ViewStartupAssessmentComponent } from './PIA/view-startup-assessment/view-startup-assessment.component';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StarRatingComponent } from './manual-components/star-rating/star-rating.component';
@@ -89,6 +90,8 @@ import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.c
 import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
 import { AddResourcePersonComponent } from './aleapModules/add-resource-person/add-resource-person.component';
 import { ViewResourceComponent } from './aleapModules/view-resource/view-resource.component';
+import { AddMembershipComponent } from './aleapModules/add-membership/add-membership.component';
+import { ViewMembershipComponent } from './aleapModules/view-membership/view-membership.component';
 import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 import { CommonFileViewerComponent } from './common-component/common-file-viewer/common-file-viewer.component';
 
@@ -167,6 +170,7 @@ import { CommonFileViewerComponent } from './common-component/common-file-viewer
         ViewApplicationComponent,
         RegistrationNewComponent,
         StartupAssesmentComponent,
+        ViewStartupAssessmentComponent,
         StarRatingComponent,
         UploadParticipantsComponent,
         TrainingTargetsComponent,
@@ -185,6 +189,8 @@ import { CommonFileViewerComponent } from './common-component/common-file-viewer
         AddResourcePersonComponent,
         ViewEmployeeComponent,
         ViewResourceComponent,
+        AddMembershipComponent,
+        ViewMembershipComponent,
         ViewRegistrationNewComponent,
         CommonFileViewerComponent
 

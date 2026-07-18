@@ -1,1738 +1,532 @@
-  <main class="mt-4">
-        <section>
-            <div class="container-fluid">
-                <h6 class="text-green fw-bold mb-3">Startups Need Assessment Format</h6>
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Basic Information</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Startup Name</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border shadow-none mb-3">
-                            <div class="card-header bg-lime-green rounded-top text-white">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h6 class="mb-0">Founder's</h6>
-                                    </div>
-                                    <div>
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#addFounder" class="btn btn-default btn-sm"><span class="bi bi-plus-lg"></span> Add Founder</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>S.No.</th>
-                                                <th>Founder Name</th>
-                                                <th>Gender</th>
-                                                <th>Age</th>
-                                                <th>Educational Qualification</th>
-                                                <th>Email</th>
-                                                <th>Phone No.</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Ravi Kishore</td>
-                                                <td>Male</td>
-                                                <td>46</td>
-                                                <td>B. Tech</td>
-                                                <td>ravi@gmail.com</td>
-                                                <td>9876543210</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Kishore</td>
-                                                <td>Male</td>
-                                                <td>33</td>
-                                                <td>Degree</td>
-                                                <td>kishore@gmail.com</td>
-                                                <td>9876543210</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                            
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">State</label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select State</option>
-                                        <option value="1">Telangana</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">District</label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select District</option>
-                                        <option value="1">Rangareddy</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">City</label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select City</option>
-                                        <option value="1">Hyderabad</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Mandal</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Village</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Date of Establishment </label>
-                                    <input type="date" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Sector / Industry</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Website / Social Media</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                        </div>          
-                    </div>
-                </div>
+<main class="mt-4">
+  <section>
+    <div class="container-fluid">
+      <form [formGroup]="assessmentForm" (ngSubmit)="submitAssessment()">
 
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Business Overview</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Describe your product / service in brief </label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">What problem are you solving?</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Describe your product/service in brief</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">What is your unique value proposition (USP)?</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Do you have a formal business plan or strategy document? </label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="strategyDoc" id="yesDoc" value="yesDoc">
-                                            <label class="form-check-label fs-md" for="yesDoc">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="strategyDoc" id="noDoc" value="noDoc">
-                                            <label class="form-check-label fs-md" for="noDoc">No</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="strategyDoc" id="inprogressDoc" value="inprogressDoc">
-                                            <label class="form-check-label fs-md" for="inprogressDoc">Inprogress</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Do you have Business Goals Clarity (Next 12 Months)</label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select</option>
-                                        <option value="1">Clear</option>
-                                        <option value="2">Vague</option>
-                                        <option value="3">None</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Key areas where business mentoring is required</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="keyArea1" value="">
-                                            <label class="form-check-label fs-md" for="keyArea1">Business Model Refinement </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="keyArea2" value="">
-                                            <label class="form-check-label fs-md" for="keyArea2">Product-Market Fit</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="keyArea3" value="">
-                                            <label class="form-check-label fs-md" for="keyArea3">Pricing Strategy</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="keyArea4" value="">
-                                            <label class="form-check-label fs-md" for="keyArea4">Business Expansion Planning</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="keyArea5" value="">
-                                            <label class="form-check-label fs-md" for="keyArea5">Competitive Strategy</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Business Model type</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="businessModalRadio" id="bmt1" value="">
-                                            <label class="form-check-label fs-md" for="bmt1">B2B</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="businessModalRadio" id="bmt2" value="">
-                                            <label class="form-check-label fs-md" for="bmt2">B2C</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="businessModalRadio" id="bmt3" value="">
-                                            <label class="form-check-label fs-md" for="bmt3">B2G</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="businessModalRadio" id="bmt4" value="">
-                                            <label class="form-check-label fs-md" for="bmt4">Other</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-9">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Current Stage of Startup</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="currentStageRadio" id="css1" value="">
-                                            <label class="form-check-label fs-md" for="css1">Idea</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="currentStageRadio" id="css2" value="">
-                                            <label class="form-check-label fs-md" for="css2">Prototype</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="currentStageRadio" id="css3" value="">
-                                            <label class="form-check-label fs-md" for="css3"> MVP (Minimum Viable Product)</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="currentStageRadio" id="css4" value="">
-                                            <label class="form-check-label fs-md" for="css4"> Early Revenue</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="currentStageRadio" id="css5" value="">
-                                            <label class="form-check-label fs-md" for="css5">Growth</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="currentStageRadio" id="css6" value="">
-                                            <label class="form-check-label fs-md" for="css6">Scaleup</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Is the startup registered with DPIIT?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="dpiit" id="dpiit1" value="">
-                                            <label class="form-check-label fs-md" for="dpiit1">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="dpiit" id="dpiit2" value="">
-                                            <label class="form-check-label fs-md" for="dpiit2">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-9">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">If yes, Registration Type</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="registrationTypeRadio" id="rt1" value="">
-                                            <label class="form-check-label fs-md" for="rt1">Pvt Ltd</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="registrationTypeRadio" id="rt2" value="">
-                                            <label class="form-check-label fs-md" for="rt2">LLP</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="registrationTypeRadio" id="rt3" value="">
-                                            <label class="form-check-label fs-md" for="rt3">Partnership</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="registrationTypeRadio" id="rt4" value="">
-                                            <label class="form-check-label fs-md" for="rt4">OPC</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="registrationTypeRadio" id="rt5" value="">
-                                            <label class="form-check-label fs-md" for="rt5">Other</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>          
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Team and Resources</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Total Team Size</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">No. of Full time employees</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">No. of part time employees / freelancers</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <label class="fs-md fw-600 mb-1">Key Team Members & roles</label>
-                                        <div>
-                                            <button type="button" class="btn btn-sm btn-lime-green" data-bs-toggle="modal" data-bs-target="#addMember">Add Member</button>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive mt-2">
-                                        <table class="table table-bordered mb-0">
-                                            <thead class="btn-lime-green text-white">
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Designation</th>
-                                                    <th>Key Tasks</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>name 1</td>
-                                                    <td>designation 1</td>
-                                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, a ullam? Nisi quam quae assumenda est ratione quo.</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Support needed in</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sn1" value="">
-                                            <label class="form-check-label fs-md" for="sn1">Hiring Strategy</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sn2" value="">
-                                            <label class="form-check-label fs-md" for="sn2">Skill Development / Training </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sn3" value="">
-                                            <label class="form-check-label fs-md" for="sn3">Founders’ Capacity Building</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sn4" value="">
-                                            <label class="form-check-label fs-md" for="sn4">Team Performance Management </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sn5" value="">
-                                            <label class="form-check-label fs-md" for="sn5">HR/Payroll Setup</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Market & Customers</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Who is your target customer segment? </label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>                            
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Primary challenges in reaching customers</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="customersRadio" id="rc1" value="">
-                                            <label class="form-check-label fs-md" for="rc1">Awareness</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="customersRadio" id="rc2" value="">
-                                            <label class="form-check-label fs-md" for="rc2">Pricing</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="customersRadio" id="rc3" value="">
-                                            <label class="form-check-label fs-md" for="rc3">Competition</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="customersRadio" id="rc4" value="">
-                                            <label class="form-check-label fs-md" for="rc4">Digital Marketing</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="customersRadio" id="rc5" value="">
-                                            <label class="form-check-label fs-md" for="rc5">Logistics</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="customersRadio" id="rc6" value="">
-                                            <label class="form-check-label fs-md" for="rc6">Others</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                            
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Support required in</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sr1" value="">
-                                            <label class="form-check-label fs-md" for="sr1">Branding & Marketing</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sr2" value="">
-                                            <label class="form-check-label fs-md" for="sr2">Digital Presence (Website, SEO, Ads)</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sr3" value="">
-                                            <label class="form-check-label fs-md" for="sr3">Customer Acquisition </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sr4" value="">
-                                            <label class="form-check-label fs-md" for="sr4">Export Readiness </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="sr5" value="">
-                                            <label class="form-check-label fs-md" for="sr5">B2B/B2C/B2G Linkages</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Need help with Customer Segment Clarity?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="segmentRadio" id="segment1" value="">
-                                            <label class="form-check-label fs-md" for="segment1">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="segmentRadio" id="segment2" value="">
-                                            <label class="form-check-label fs-md" for="segment2">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Revenue model</label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select</option>
-                                        <option value="1">Subscription</option>
-                                        <option value="2">Commission</option>
-                                        <option value="3">Licensing</option>
-                                        <option value="4">One-time Sale</option>
-                                        <option value="5">Freemium</option>
-                                        <option value="6">Others</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Monthly revenue (approx)</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Technology & Innovation</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">                         
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Product Readiness Level?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="productLevelRadio" id="prl1" value="">
-                                            <label class="form-check-label fs-md" for="prl1">Idea</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="productLevelRadio" id="prl2" value="">
-                                            <label class="form-check-label fs-md" for="prl2">Under</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="productLevelRadio" id="prl3" value="">
-                                            <label class="form-check-label fs-md" for="prl3">Development</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="productLevelRadio" id="prl4" value="">
-                                            <label class="form-check-label fs-md" for="prl4">Launched</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="productLevelRadio" id="prl5" value="">
-                                            <label class="form-check-label fs-md" for="prl5">Improving</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>   
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Core technology used (if any)</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>                         
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Any IPs filed or planned (Patents / Copyrights / Trademarks)</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>                            
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Need for Technical Infrastructure?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="infrastructureRadio" id="technicalYes" value="infraYes">
-                                            <label class="form-check-label fs-md" for="technicalYes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="infrastructureRadio" id="technicalNo" value="infraNo">
-                                            <label class="form-check-label fs-md" for="technicalNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>   
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 show-hide" style="display: none;" id="infraYes">
-                                <div class="mb-3">
-                                    <textarea class="form-control" rows="2" placeholder="Write here"></textarea>
-                                </div>
-                            </div>               
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Need support in</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needSupportRadio1" id="ns1" value="">
-                                            <label class="form-check-label fs-md" for="ns1"> Product Development </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needSupportRadio1" id="ns2" value="">
-                                            <label class="form-check-label fs-md" for="ns2">Prototyping</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needSupportRadio1" id="ns3" value="">
-                                            <label class="form-check-label fs-md" for="ns3">Tech Validation</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needSupportRadio1" id="ns4" value="">
-                                            <label class="form-check-label fs-md" for="ns4">R&D Collaboration</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needSupportRadio1" id="ns5" value="">
-                                            <label class="form-check-label fs-md" for="ns5">Design and Packaging</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needSupportRadio1" id="ns6" value="">
-                                            <label class="form-check-label fs-md" for="ns6">Quality Testing & Certification</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Digital Maturity (tools currently used)</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="digitalRadio" id="dm1" value="">
-                                            <label class="form-check-label fs-md" for="dm1"> CRM </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="digitalRadio" id="dm2" value="">
-                                            <label class="form-check-label fs-md" for="dm2">Inventory Mgmt</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="digitalRadio" id="dm3" value="">
-                                            <label class="form-check-label fs-md" for="dm3">Payment Gateway</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="digitalRadio" id="dm4" value="">
-                                            <label class="form-check-label fs-md" for="dm4">Website / App</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="digitalRadio" id="dm5" value="">
-                                            <label class="form-check-label fs-md" for="dm5">ERP</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="digitalRadio" id="dm6" value="">
-                                            <label class="form-check-label fs-md" for="dm6">None</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Support needed in</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ns11" value="">
-                                            <label class="form-check-label fs-md" for="ns1">IT Systems Setup</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ns12" value="">
-                                            <label class="form-check-label fs-md" for="ns2">Cybersecurity</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ns13" value="">
-                                            <label class="form-check-label fs-md" for="ns3">Cloud Services</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ns14" value="">
-                                            <label class="form-check-label fs-md" for="ns4">AI/ML Adoption</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ns15" value="">
-                                            <label class="form-check-label fs-md" for="ns5"> App/Web Development</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ns16" value="">
-                                            <label class="form-check-label fs-md" for="ns6">UI/UX Improvement</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Need assistance in</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needAssistanceRadio" id="na1" value="">
-                                            <label class="form-check-label fs-md" for="na1"> Incubation Space</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needAssistanceRadio" id="na2" value="">
-                                            <label class="form-check-label fs-md" for="na2">Manufacturing Setup</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needAssistanceRadio" id="na3" value="">
-                                            <label class="form-check-label fs-md" for="na3">Equipment Procurement</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="needAssistanceRadio" id="na4" value="">
-                                            <label class="form-check-label fs-md" for="na4"> Regulatory Certifications (e.g., FSSAI, ISO, etc.)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Do you face major infra related issues? </label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select</option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Funding & Financials</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Total Investment till date</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Source of Funds</label>
-                                    <select class="form-select form-select-sm">
-                                        <option value="#">Select</option>
-                                        <option value="1">Bootstrapped</option>
-                                        <option value="2">Angel</option>
-                                        <option value="2">VC</option>
-                                        <option value="2">Grant</option>
-                                        <option value="2">Others</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Do you maintain formal accounting / book keeping?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="formalAccountRadio" id="fa1" value="">
-                                            <label class="form-check-label fs-md" for="fa1">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="formalAccountRadio" id="fa2" value="">
-                                            <label class="form-check-label fs-md" for="fa2">No</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="formalAccountRadio" id="fa3" value="">
-                                            <label class="form-check-label fs-md" for="fa3">Partially</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Support needed in</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="support1" value="">
-                                            <label class="form-check-label fs-md" for="support1">Financial Modelling</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="support2" value="">
-                                            <label class="form-check-label fs-md" for="support2">Accounting & Bookkeeping</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="support3" value="">
-                                            <label class="form-check-label fs-md" for="support3">Investor Readiness</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="support4" value="">
-                                            <label class="form-check-label fs-md" for="support4">Grant Writing / Govt Schemes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="support5" value="">
-                                            <label class="form-check-label fs-md" for="support5"> GST / Tax Filing</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="support6" value="">
-                                            <label class="form-check-label fs-md" for="support6">Legal Compliance (Company Law, IP, etc.) </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Are you seeking external funding in the next 6 – 12 months</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="fundingRadio" id="fundYes" value="yesFund">
-                                            <label class="form-check-label fs-md" for="fundYes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="fundingRadio" id="fundNo" value="noFund">
-                                            <label class="form-check-label fs-md" for="fundNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>   
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 fund-hide" style="display: none;" id="yesFund">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">If Yes</label>
-                                    <div class="input-group input-group-sm mb-3">
-                                        <span class="input-group-text">&#8377;</span>
-                                        <input type="text" class="form-control" placeholder="00.00">
-                                    </div>
-                                </div>
-                            </div>  
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Current Funding Need</label>
-                                   <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>       
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Government Schemes Support</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Are you aware of central / state government startup schemes?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="schemeRadio" id="schemesYes" value="">
-                                            <label class="form-check-label fs-md" for="schemesYes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="schemeRadio" id="schemesNo" value="">
-                                            <label class="form-check-label fs-md" for="schemesNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Have you availed any startup incentives (SIDBI, Startup India, MSME, T-Hub etc.)?</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="incentiveRadio" id="incentivesYes" value="yesIncentive">
-                                            <label class="form-check-label fs-md" for="incentivesYes">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="incentiveRadio" id="incentivesNo" value="noIncentive">
-                                            <label class="form-check-label fs-md" for="incentivesNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>  
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 incentive-hide" style="display: none;" id="yesIncentive">
-                                <div class="mb-3">
-                                    <textarea class="form-control" rows="2" placeholder="Write here"></textarea>
-                                </div>
-                            </div>  
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Support required in availing</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="supportRequiredRadio" id="support11" value="">
-                                            <label class="form-check-label fs-md" for="support11"> Government Grants</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="supportRequiredRadio" id="support12" value="">
-                                            <label class="form-check-label fs-md" for="support12">Startup India Registration</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="supportRequiredRadio" id="support13" value="">
-                                            <label class="form-check-label fs-md" for="support13"> Subsidies/Incentives</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="supportRequiredRadio" id="support14" value="">
-                                            <label class="form-check-label fs-md" for="support14"> Institutional Connects (R&D labs, Banks, Corporates, etc.) </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>      
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0"> Support Needs (Tick all that apply and give ranking based on your priority) </h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds1">
-                                    <label class="form-check-label fs-md" for="supportneeds1">
-                                        Business Mentoring
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds2">
-                                    <label class="form-check-label fs-md" for="supportneeds2">
-                                        Legal & Compliance Support 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds3">
-                                    <label class="form-check-label fs-md" for="supportneeds3">
-                                        Funding/Investment Access
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds4">
-                                    <label class="form-check-label fs-md" for="supportneeds4">
-                                        Market Linkages 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds5">
-                                    <label class="form-check-label fs-md" for="supportneeds5">
-                                        Incubation Space / Lab 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds6">
-                                    <label class="form-check-label fs-md" for="supportneeds6">
-                                        Technical Support 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds7">
-                                    <label class="form-check-label fs-md" for="supportneeds7">
-                                        Digital / IT Support 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds8">
-                                    <label class="form-check-label fs-md" for="supportneeds8">
-                                        Branding & Marketing  
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds9">
-                                    <label class="form-check-label fs-md" for="supportneeds9">
-                                        Exports / Internationalization 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds10">
-                                    <label class="form-check-label fs-md" for="supportneeds10">
-                                        HR / Team Development 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="supportneeds11">
-                                    <label class="form-check-label fs-md" for="supportneeds11">
-                                        Government Schemes / Subsidies 
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0"> Challenges Faced </h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <label class="fw-600 fs-md mb-1"> Briefly list 3–5 key challenges your startup is currently facing</label>
-                                <textarea class="form-control" rows="5" placeholder="Write here"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Future Plans</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Key milestones planned in the next 6–12 months</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <div class="mb-3">
-                                    <label class="fs-md fw-600 mb-1">Long-term vision (2–5 years)</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mt-4 mb-3">
-                    <div class="card-header bg-transparent">
-                        <h6 class="fw-600 mb-0">Scoring Pattern</h6>
-                    </div>
-                    <div class="card-body">                        
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Business Support</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Business Plan or Strategy Document</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="businessplan" id="businessYes" value="">
-                                                        <label class="form-check-label fs-md" for="businessYes">Yes (0)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="businessplan" id="businessNo" value="">
-                                                        <label class="form-check-label fs-md" for="businessNo">No (3)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="businessplan" id="inprogress" value="">
-                                                        <label class="form-check-label fs-md" for="inprogress">Inprogress (1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td rowspan="3" valign="middle" class="text-center">10</td>
-                                                <td>03</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Business Goals Clarity (next 12 months)</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="goals" id="clear" value="">
-                                                        <label class="form-check-label fs-md" for="clear">Clear (0)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="goals" id="Vague" value="">
-                                                        <label class="form-check-label fs-md" for="Vague">Vague (1)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="goals" id="goalNone" value="">
-                                                        <label class="form-check-label fs-md" for="goalNone">None (2)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Requires mentoring in Key areas where business mentoring is required</td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="goals" id="clear" value="">
-                                                        <label class="form-check-label fs-md" for="clear">Number of items ticked (1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>05</td>
-                                                <td>05</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Human Resource Support</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Team gaps present</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="team" id="TeamYes" value="">
-                                                        <label class="form-check-label fs-md" for="TeamYes">Yes (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="team" id="teamNo" value="">
-                                                        <label class="form-check-label fs-md" for="teamNo">No (0)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td rowspan="3" valign="middle" class="text-center">05</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>No. of HR support areas selected</td>
-                                                <td>
-                                                    <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="hr" id="hr" value="">
-                                                        <label class="form-check-label fs-md" for="hr">(1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td>03</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Market Support</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Major market access challenges identified</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="challenges" id="zero" value="">
-                                                        <label class="form-check-label fs-md" for="zero">0</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="challenges" id="one" value="">
-                                                        <label class="form-check-label fs-md" for="one">1 (1)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="challenges" id="two" value="">
-                                                        <label class="form-check-label fs-md" for="two">2-3 (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="challenges" id="three" value="">
-                                                        <label class="form-check-label fs-md" for="three"> &gt;3 (3)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td rowspan="3" valign="middle" class="text-center">10</td>
-                                                <td>03</td>
-                                            </tr>
-                                            <tr>
-                                                <td>No. of market support needs selected</td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="supportone" id="supportOne" value="">
-                                                        <label class="form-check-label fs-md" for="supportOne">(1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>05</td>
-                                                <td>05</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Need help with customer segment clarity?</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="customersegment" id="customerYes" value="">
-                                                        <label class="form-check-label fs-md" for="customerYes">Yes (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="customersegment" id="customerNo" value="">
-                                                        <label class="form-check-label fs-md" for="customerNo">No (0)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td>02</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Product and Service Development</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Product Readiness Level</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="readiness" id="launched" value="">
-                                                        <label class="form-check-label fs-md" for="launched">Launched (0)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="readiness" id="dev" value="">
-                                                        <label class="form-check-label fs-md" for="dev">Dev (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="readiness" id="idea" value="">
-                                                        <label class="form-check-label fs-md" for="idea">Idea (3)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td rowspan="3" valign="middle" class="text-center">08</td>
-                                                <td>05</td>
-                                            </tr>
-                                            <tr>
-                                                <td>No. of support areas selected (Product Dev, R&D, etc.)</td>
-                                                <td>
-                                                    <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="supportareas" id="supportareas" value="">
-                                                        <label class="form-check-label fs-md" for="supportareas">(1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td>03</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Digital Support</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Need for technical infrastructure</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="technicalRadio" id="technicalYes1" value="">
-                                                        <label class="form-check-label fs-md" for="technicalYes1">Yes (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="technicalRadio" id="technicalNo1" value="">
-                                                        <label class="form-check-label fs-md" for="technicalNo1">No (0)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td rowspan="3" valign="middle" class="text-center">10</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Digital Maturity (tools used)</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="tools" id="tools" value="">
-                                                        <label class="form-check-label fs-md" for="tools">&gt;3 tools (0)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="tools" id="one-two" value="">
-                                                        <label class="form-check-label fs-md" for="one-two">1-2 (1)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="tools" id="noneTools" value="">
-                                                        <label class="form-check-label fs-md" for="noneTools">None (3)</label>
-                                                    </div>
-                                                </td>
-                                                <td>05</td>
-                                                <td>05</td>
-                                            </tr>
-                                            <tr>
-                                                <td>No. of tech support areas selected </td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="tech" value="">
-                                                        <label class="form-check-label fs-md" for="tech">(1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>05</td>
-                                                <td>05</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Infrastructure Support</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Major infra issues faced</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="infraIssues" id="issuesYes" value="">
-                                                        <label class="form-check-label fs-md" for="issuesYes">Yes (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="infraIssues" id="issuesNo" value="">
-                                                        <label class="form-check-label fs-md" for="issuesNo">No (0)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td rowspan="3" valign="middle" class="text-center">07</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>No. of support needs selected</td>
-                                                <td>
-                                                    <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="supportareas1" id="supportareas1" value="">
-                                                        <label class="form-check-label fs-md" for="supportareas1">(1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td>03</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Finance, Funding & Compliance</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Has formal accounting/bookkeeping</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="bookkeeping" id="bookkeepingYes" value="">
-                                                        <label class="form-check-label fs-md" for="bookkeepingYes">Yes (0)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="bookkeeping" id="bookkeepingPartial" value="">
-                                                        <label class="form-check-label fs-md" for="bookkeepingPartial">Partial (1)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="bookkeeping" id="bookkeepingNo" value="">
-                                                        <label class="form-check-label fs-md" for="bookkeepingNo">No (2)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td rowspan="3" valign="middle" class="text-center">10</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Is actively seeking funding</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="tools" id="tools" value="">
-                                                        <label class="form-check-label fs-md" for="tools">Yes (2)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="tools" id="one-two" value="">
-                                                        <label class="form-check-label fs-md" for="one-two">No (0)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>No. of support areas selected in finance</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="supportareas2" value="">
-                                                        <label class="form-check-label fs-md" for="supportareas2">(1)</label>
-                                                    </div>
-                                                </td>
-                                                <td>06</td>
-                                                <td>06</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Govt Schemes Support</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Awareness of schemes</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="awarness" id="awarenessYes" value="">
-                                                        <label class="form-check-label fs-md" for="awarenessYes">Yes (0)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="awarness" id="awarenessNo" value="">
-                                                        <label class="form-check-label fs-md" for="awarenessNo">No (2)</label>
-                                                    </div>
-                                                </td>
-                                                <td>02</td>
-                                                <td rowspan="3" valign="middle" class="text-center">5</td>
-                                                <td>02</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Need help with schemes/linkages</td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="linkages" id="linkagesYes" value="">
-                                                        <label class="form-check-label fs-md" for="linkagesYes">Yes (3)</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="linkages" id="linkagesNo" value="">
-                                                        <label class="form-check-label fs-md" for="linkagesNo">No (0)</label>
-                                                    </div>
-                                                </td>
-                                                <td>03</td>
-                                                <td>03</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header bg-transparent">
-                                <h6 class="fw-600 mb-3 mb-sm-3 mb-md-0">Support Needs</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="bg-lime-green text-white">
-                                            <tr>
-                                                <th>Assessment Item</th>
-                                                <th>Response</th>
-                                                <th>Marks</th>
-                                                <th class="text-center">Total Marks</th>
-                                                <th>Startup Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Assign score based on ranking</td>
-                                                <td>(Rank 1 = 2 pts, Rank 2 = 1.8, ..., Rank 10 =0.2)  </td>
-                                                <td>11</td>
-                                                <td rowspan="3" valign="middle" class="text-center">11</td>
-                                                <td>11</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <p>Total Marks: <strong>76</strong></p>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p>Marks between 60 – 76 : </p>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p>High Priority Support</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p>Marks between 45  - 59 : </p>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p>Medium Priority Support</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p>Marks between 30 – 44 : </p>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p>Low Priority Support</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p class="mb-0">Marks &lt; 30 : </p>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                        <p class="mb-0">Minimal Immediate Support</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>                
-
-                <!-- <div class="text-end mb-3">
-                    <button type="button" class="btn btn-lime-green" data-bs-toggle="modal" data-bs-target="#previewModal">Submit</button>
-                </div> -->
-                
+        <div class="card mb-4">
+          <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Startups' }} Needs Assessment</h6>
+              <button type="button" class="btn btn-default" (click)="goToAssessments()">Back</button>
             </div>
-        </section>
-    </main>
+          </div>
 
-    <div class="modal fade" id="addFounder" tabindex="-1" aria-labelledby="addFounderLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header py-2">
-                    <h6 class="modal-title" id="addFounderLabel">Add Founder</h6>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="card-body">
+            <!-- I. Basic Information -->
+            <h6 class="text-green fw-600 mt-1 mb-3">I. Basic Information</h6>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="startupName" placeholder="Startup Name">
+                  <label>Startup Name <span class="c-red">*</span></label>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="fs-md fw-600 mb-1">Founder's Name(s)</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="fs-md fw-600 mb-1">Gender of Primary Founder</label>
-                                <div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="male" value="male">
-                                        <label class="form-check-label fs-md" for="male">Male</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                                        <label class="form-check-label fs-md" for="female">Female</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="other" value="other">
-                                        <label class="form-check-label fs-md" for="other">Other</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="fs-md fw-600 mb-1">Age of Primary Founder</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="fs-md fw-600 mb-1">Educational qualifications of primary founder</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="fs-md fw-600 mb-1">Email</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="fs-md fw-600 mb-1">Phone No.</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-grid">
-                                <button type="button" class="btn btn-lime-green btn-sm">Submit</button>
-                            </div>
-                        </div>
-                    </div>
+                <div *ngIf="f['startupName'].touched && f['startupName'].invalid" class="error" style="color: red;">Startup Name is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="founderName" placeholder="Founder's Name(s)">
+                  <label>Founder's Name(s) <span class="c-red">*</span></label>
                 </div>
+                <div *ngIf="f['founderName'].touched && f['founderName'].invalid" class="error" style="color: red;">Founder name is required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="genderOfPrimaryFounder">
+                    <option value="" disabled>Select Gender</option>
+                    <option *ngFor="let g of genderOptions" [value]="g">{{ enumLabel(g) }}</option>
+                  </select>
+                  <label>Gender of Primary Founder <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['genderOfPrimaryFounder'].touched && f['genderOfPrimaryFounder'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" formControlName="ageOfPrimaryFounder" placeholder="Age">
+                  <label>Age of Primary Founder <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['ageOfPrimaryFounder'].touched && f['ageOfPrimaryFounder'].invalid" class="error" style="color: red;">Age must be between 15 and 100</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-8">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="educationalQualification" placeholder="Educational Qualification">
+                  <label>Educational Qualification of Primary Founder <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['educationalQualification'].touched && f['educationalQualification'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                  <label>Email <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['email'].touched && f['email'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['email']">Enter a valid email</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="phone" placeholder="Phone">
+                  <label>Phone <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['phone'].touched && f['phone'].invalid" class="error" style="color: red;">
+                  <span *ngIf="f['phone'].errors?.['required']">Phone is required</span>
+                  <span *ngIf="f['phone'].errors?.['pattern']">10-digit number starting with 6-9</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="city" placeholder="City">
+                  <label>City <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['city'].touched && f['city'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="district" placeholder="District">
+                  <label>District <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['district'].touched && f['district'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="state" placeholder="State">
+                  <label>State <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['state'].touched && f['state'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="date" class="form-control" formControlName="dateOfEstablishment">
+                  <label>Date of Establishment <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['dateOfEstablishment'].touched && f['dateOfEstablishment'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="sectorIndustry" placeholder="Sector / Industry">
+                  <label>Sector / Industry <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['sectorIndustry'].touched && f['sectorIndustry'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="webSite" placeholder="Website / Social Media">
+                  <label>Website / Social Media</label>
+                </div>
+              </div>
             </div>
+
+            <!-- II. Business Overview -->
+            <h6 class="text-green fw-600 mt-3 mb-3">II. Business Overview</h6>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="productServiceDescription" placeholder="Product / Service" style="height: 90px"></textarea>
+                  <label>Describe your product / service in brief <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['productServiceDescription'].touched && f['productServiceDescription'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="problemSolving" placeholder="Problem" style="height: 90px"></textarea>
+                  <label>What problem are you solving? <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['problemSolving'].touched && f['problemSolving'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="uniqueValueProposition" placeholder="USP" style="height: 90px"></textarea>
+                  <label>Unique Value Proposition (USP) <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['uniqueValueProposition'].touched && f['uniqueValueProposition'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="businessPlanStatus">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of businessPlanStatusOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Formal Business Plan? <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['businessPlanStatus'].touched && f['businessPlanStatus'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="businessGoalsClarity">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of businessGoalsClarityOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Business Goals Clarity (Next 12 Months) <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['businessGoalsClarity'].touched && f['businessGoalsClarity'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="businessModelType">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of businessModelTypeOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Business Model Type <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['businessModelType'].touched && f['businessModelType'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Key areas where business mentoring is required</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of businessMentoringTypeOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'bmt_' + opt" [checked]="isSelected('businessMentoringTypes', opt)" (change)="toggleMulti('businessMentoringTypes', opt, $event)">
+                      <label class="form-check-label" [for]="'bmt_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="startupStage">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of startupStageOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Current Stage of Startup <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['startupStage'].touched && f['startupStage'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="fs-md fw-600 mb-1">Registered with DPIIT? <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="dpiitRegistered" [value]="true" id="dpiitYes">
+                      <label class="form-check-label" for="dpiitYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="dpiitRegistered" [value]="false" id="dpiitNo">
+                      <label class="form-check-label" for="dpiitNo">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="f['dpiitRegistered'].touched && f['dpiitRegistered'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6" *ngIf="f['dpiitRegistered'].value === true">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="registrationType">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of registrationTypeOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Registration Type <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="assessmentForm.errors?.['registrationTypeRequired'] && submitted" class="error" style="color: red;">Registration Type is required</div>
+              </div>
+            </div>
+
+            <!-- III. Team & Resources -->
+            <h6 class="text-green fw-600 mt-3 mb-3">III. Team &amp; Resources</h6>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" formControlName="totalTeamSize" placeholder="Total Team Size">
+                  <label>Total Team Size <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['totalTeamSize'].touched && f['totalTeamSize'].invalid" class="error" style="color: red;">Required (min 1)</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" formControlName="fullTimeEmployees" placeholder="Full time">
+                  <label>Full-time Employees <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['fullTimeEmployees'].touched && f['fullTimeEmployees'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" formControlName="partTimeEmployees" placeholder="Part time / freelancers">
+                  <label>Part-time Employees / Freelancers <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['partTimeEmployees'].touched && f['partTimeEmployees'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+            </div>
+
+            <div class="card border shadow-none mb-3">
+              <div class="card-header bg-lime-green rounded-top text-white d-flex align-items-center justify-content-between">
+                <h6 class="mb-0">Key Team Members &amp; Roles</h6>
+                <button type="button" class="btn btn-default btn-sm" (click)="addTeamMember()"><span class="bi bi-plus-lg"></span> Add Member</button>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive" formArrayName="keyTeamMembers">
+                  <table class="table table-sm align-middle">
+                    <thead>
+                      <tr>
+                        <th style="width:60px">S.No.</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Key Tasks</th>
+                        <th style="width:80px">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let member of keyTeamMembers.controls; let i = index" [formGroupName]="i">
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                          <input type="text" class="form-control form-control-sm" formControlName="name" placeholder="Name">
+                          <div *ngIf="member.get('name')?.touched && member.get('name')?.invalid" class="error" style="color: red;">Required</div>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control form-control-sm" formControlName="designation" placeholder="Designation">
+                          <div *ngIf="member.get('designation')?.touched && member.get('designation')?.invalid" class="error" style="color: red;">Required</div>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control form-control-sm" formControlName="keyTasks" placeholder="Key Tasks">
+                          <div *ngIf="member.get('keyTasks')?.touched && member.get('keyTasks')?.invalid" class="error" style="color: red;">Required</div>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-default btn-sm text-danger" (click)="removeTeamMember(i)"><span class="bi bi-trash"></span></button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="keyTeamMembers.length === 0">
+                        <td colspan="5" class="text-center text-muted">No team members added</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Support needed in</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of supportNeededOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'sn_' + opt" [checked]="isSelected('supportNeeded', opt)" (change)="toggleMulti('supportNeeded', opt, $event)">
+                      <label class="form-check-label" [for]="'sn_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- IV. Market & Customers -->
+            <h6 class="text-green fw-600 mt-3 mb-3">IV. Market &amp; Customers</h6>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="targetCustomerSegment" placeholder="Target customer segment" style="height: 80px"></textarea>
+                  <label>Target Customer Segment <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['targetCustomerSegment'].touched && f['targetCustomerSegment'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="fs-md fw-600 mb-1">Need help with Customer Segment Clarity? <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="customerSegmentClarityNeeded" [value]="true" id="cscYes">
+                      <label class="form-check-label" for="cscYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="customerSegmentClarityNeeded" [value]="false" id="cscNo">
+                      <label class="form-check-label" for="cscNo">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="f['customerSegmentClarityNeeded'].touched && f['customerSegmentClarityNeeded'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="revenueModel">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of revenueModelOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Revenue Model <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['revenueModel'].touched && f['revenueModel'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" formControlName="monthlyRevenue" placeholder="Monthly Revenue">
+                  <label>Monthly Revenue (approx)</label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Primary challenges in reaching customers</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of primaryChallengeOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'pc_' + opt" [checked]="isSelected('primaryChallenges', opt)" (change)="toggleMulti('primaryChallenges', opt, $event)">
+                      <label class="form-check-label" [for]="'pc_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Support required in</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of supportRequiredOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'sr_' + opt" [checked]="isSelected('supportRequired', opt)" (change)="toggleMulti('supportRequired', opt, $event)">
+                      <label class="form-check-label" [for]="'sr_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- V. Technology & Innovation -->
+            <h6 class="text-green fw-600 mt-3 mb-3">V. Technology &amp; Innovation</h6>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <select class="form-select" formControlName="productReadinessLevel">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let s of productReadinessLevelOptions" [value]="s">{{ enumLabel(s) }}</option>
+                  </select>
+                  <label>Product Readiness Level <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="f['productReadinessLevel'].touched && f['productReadinessLevel'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="coreTechnologyUsed" placeholder="Core Technology">
+                  <label>Core Technology Used</label>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" formControlName="ipsFiledOrPlanned" placeholder="IPs Filed / Planned">
+                  <label>IPs Filed / Planned (Patents, Copyrights, Trademarks)</label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Need support in (Product / Tech)</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of productDevelopmentSupportsOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'pds_' + opt" [checked]="isSelected('productDevelopmentSupports', opt)" (change)="toggleMulti('productDevelopmentSupports', opt, $event)">
+                      <label class="form-check-label" [for]="'pds_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="fs-md fw-600 mb-1">Need for Technical Infrastructure? <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="technicalInfrastructureNeeded" [value]="true" id="tinYes">
+                      <label class="form-check-label" for="tinYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="technicalInfrastructureNeeded" [value]="false" id="tinNo">
+                      <label class="form-check-label" for="tinNo">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="f['technicalInfrastructureNeeded'].touched && f['technicalInfrastructureNeeded'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12" *ngIf="f['technicalInfrastructureNeeded'].value === true">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" formControlName="technicalInfrastructureDescription" placeholder="Describe" style="height: 80px"></textarea>
+                  <label>Technical Infrastructure Description <span class="c-red">*</span></label>
+                </div>
+                <div *ngIf="assessmentForm.errors?.['technicalInfrastructureDescriptionRequired'] && submitted" class="error" style="color: red;">Description is required</div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Digital Maturity (tools currently used)</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of digitalMaturityToolsOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'dmt_' + opt" [checked]="isSelected('digitalMaturityTools', opt)" (change)="toggleMulti('digitalMaturityTools', opt, $event)">
+                      <label class="form-check-label" [for]="'dmt_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Support needed in (Technical)</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of technicalInfrastructureSupportsOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'tis_' + opt" [checked]="isSelected('technicalInfrastructureSupports', opt)" (change)="toggleMulti('technicalInfrastructureSupports', opt, $event)">
+                      <label class="form-check-label" [for]="'tis_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="mb-3">
+                  <label class="fs-md fw-600 mb-1">Do you face major infra related issues? <span class="c-red">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="infraRelatedIssues" [value]="true" id="iriYes">
+                      <label class="form-check-label" for="iriYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="infraRelatedIssues" [value]="false" id="iriNo">
+                      <label class="form-check-label" for="iriNo">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="f['infraRelatedIssues'].touched && f['infraRelatedIssues'].invalid" class="error" style="color: red;">Required</div>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-md fw-600 mb-2">Need assistance in</label>
+                <div class="row border rounded-3 px-2 py-2 mb-3">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let opt of infrastructureAssistanceOptions">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'ia_' + opt" [checked]="isSelected('infrastructureAssistance', opt)" (change)="toggleMulti('infrastructureAssistance', opt, $event)">
+                      <label class="form-check-label" [for]="'ia_' + opt">{{ enumLabel(opt) }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-end mt-2">
+              <button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
+              <button type="submit" class="btn btn-lime-green">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                {{ isEditMode ? 'Update' : 'Submit' }}
+              </button>
+            </div>
+          </div>
         </div>
+      </form>
     </div>
-
-    <div class="modal fade" id="addMember" tabindex="-1" aria-labelledby="addMemberLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header py-2">
-                    <h6 class="modal-title" id="addLocationLabel">Add Member</h6>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="name" class="fs-md fw-600">Name</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="name" class="fs-md fw-600">Designation</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="name" class="fs-md fw-600">Key Tasks</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-grid">
-                                <button type="button" class="btn btn-lime-green btn-sm">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  </section>
+</main>

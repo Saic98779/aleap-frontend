@@ -169,15 +169,23 @@
             </ul>
           </li>
 
-        <li class="nav-item" [class.show]="openSubMenus['Startups']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-          <a class="nav-link" routerLink="/assessment" routerLinkActive="active" (click)="closeAllSubMenus()">
+        <li class="nav-item dropdown" [class.show]="openSubMenus['Startups']" *appHasRole="[Role.Admin, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('Startups', $event)" [attr.aria-expanded]="openSubMenus['Startups']">
             <span class="bi bi-clipboard2-check me-2 menu-icon"></span>Startups Assessments
           </a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['Startups']">
+            <li><a class="dropdown-item" routerLink="/assessment" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>New Assessment</a></li>
+            <li><a class="dropdown-item" routerLink="/view-assessment" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Assessments</a></li>
+          </ul>
         </li>
-        <li class="nav-item" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
-          <a class="nav-link" routerLink="/membership" routerLinkActive="active" (click)="closeAllSubMenus()">
+        <li class="nav-item dropdown" [class.show]="openSubMenus['membership']" *appHasRole="[Role.Admin, Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('membership', $event)" [attr.aria-expanded]="openSubMenus['membership']">
             <span class="bi bi-person-badge me-2 menu-icon"></span>Membership
           </a>
+          <ul class="dropdown-menu" [class.show]="openSubMenus['membership']">
+            <li><a class="dropdown-item" routerLink="/add-membership-data" routerLinkActive="active"><span class="bi bi-plus-square me-2 submenu-icon"></span>Add Membership</a></li>
+            <li><a class="dropdown-item" routerLink="/view-membership-data" routerLinkActive="active"><span class="bi bi-eye me-2 submenu-icon"></span>View Membership</a></li>
+          </ul>
         </li>
         <li class="nav-item dropdown" [class.show]="openSubMenus['employee']" *appHasRole="[Role.AGENCY_MANAGER, Role.AGENCY_EXECUTOR]">
           <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleSubMenu('employee', $event)" [attr.aria-expanded]="openSubMenus['employee']">

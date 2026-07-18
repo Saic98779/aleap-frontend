@@ -50,6 +50,7 @@ import { AssignCounsellorComponent } from './PIA/assign-counsellor/assign-counse
 import { RegistrationNewComponent } from './PIA/registration-new/registration-new.component';
 import { ViewRegistrationNewComponent } from './PIA/view-registration-new/view-registration-new.component';
 import { StartupAssesmentComponent } from './PIA/startup-assesment/startup-assesment.component';
+import { ViewStartupAssessmentComponent } from './PIA/view-startup-assessment/view-startup-assessment.component';
 import { UploadParticipantsComponent } from './PIA/upload-participants/upload-participants.component';
 import { TrainingTargetsComponent } from './PIA/training-targets/training-targets.component';
 import { ProgressMonitoringComponent } from './PIA/progress-monitoring/progress-monitoring.component';
@@ -66,6 +67,8 @@ import { AddEmployeeComponent } from './aleapModules/add-employee/add-employee.c
 import { ViewEmployeeComponent } from './aleapModules/view-employee/view-employee.component';
 import { AddResourcePersonComponent } from './aleapModules/add-resource-person/add-resource-person.component';
 import { ViewResourceComponent } from './aleapModules/view-resource/view-resource.component';
+import { AddMembershipComponent } from './aleapModules/add-membership/add-membership.component';
+import { ViewMembershipComponent } from './aleapModules/view-membership/view-membership.component';
 
 const routes: Routes = [
     {
@@ -240,6 +243,18 @@ const routes: Routes = [
         component: StartupAssesmentComponent,
         canActivate: [AuthGuard],
         data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'assessment/:id',
+        component: StartupAssesmentComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-assessment',
+        component: ViewStartupAssessmentComponent,
+        canActivate: [AuthGuard],
+        data: { roles:  [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
     {
         path: 'view-MSME-councellor',
@@ -481,7 +496,25 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
     },
-    
+    {
+        path: 'add-membership-data',
+        component: AddMembershipComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'add-membership-data-edit/:id',
+        component: AddMembershipComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+    {
+        path: 'view-membership-data',
+        component: ViewMembershipComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin,Role.AGENCY_MANAGER,Role.AGENCY_EXECUTOR] }
+    },
+
     {
         path: 'login',
         component: LoginComponent
