@@ -68,32 +68,44 @@ export class ViewStartupAssessmentComponent implements OnInit, OnDestroy {
         },
         {
           data: null,
-          title: 'Edit / Delete',
-          render: () => `
-            <button type="button" class="btn btn-default text-lime-green btn-sm edit-btn me-2" title="Edit">
-              <span class="bi bi-pencil"></span>
-            </button>
-            <button type="button" class="btn btn-default text-danger btn-sm delete-btn" title="Delete">
-              <span class="bi bi-trash"></span>
-            </button>
-          `,
+          title: 'Actions',
+          render: (r: any, t: any, item: any) => {
+            const isDraft = item?.formStage === 'PENDING';
+            const editTitle = isDraft ? 'Continue Editing' : 'Edit';
+            const editIcon = isDraft ? 'bi-pencil-square' : 'bi-pencil';
+            return `
+              <button type="button" class="btn btn-default text-lime-green btn-sm edit-btn me-2" title="${editTitle}">
+                <span class="bi ${editIcon}"></span>
+              </button>
+              <button type="button" class="btn btn-default text-danger btn-sm delete-btn" title="Delete">
+                <span class="bi bi-trash"></span>
+              </button>
+            `;
+          },
           className: 'text-center',
           orderable: false
         },
-        { data: 'startupName', title: 'Startup' },
-        { data: 'founderName', title: 'Founder' },
-        { data: 'email', title: 'Email' },
-        { data: 'phone', title: 'Phone' },
-        { data: 'sectorIndustry', title: 'Sector' },
-        { data: 'startupStage', title: 'Stage' },
-        { data: 'businessModelType', title: 'Business Model' },
-        { data: 'city', title: 'City' },
-        { data: 'state', title: 'State' },
         {
-          data: 'dateOfEstablishment',
-          title: 'Established',
-          render: (value: any) => this.formatDate(value)
-        }
+          data: null,
+          title: 'Status',
+          render: (r: any, t: any, item: any) => {
+            const stage = item?.formStage;
+            if (stage === 'COMPLETED') return '<span class="badge bg-success">COMPLETED</span>';
+            if (stage === 'PENDING') return '<span class="badge bg-warning text-dark">DRAFT</span>';
+            return '-';
+          },
+          className: 'text-center'
+        },
+        { data: null, title: 'Startup', render: (r: any, t: any, item: any) => item?.startupName || '-' },
+        { data: null, title: 'Founder', render: (r: any, t: any, item: any) => item?.founderName || '-' },
+        { data: null, title: 'Email', render: (r: any, t: any, item: any) => item?.email || '-' },
+        { data: null, title: 'Phone', render: (r: any, t: any, item: any) => item?.phone || '-' },
+        { data: null, title: 'Sector', render: (r: any, t: any, item: any) => item?.sectorIndustry || '-' },
+        { data: null, title: 'Stage', render: (r: any, t: any, item: any) => item?.startupStage || '-' },
+        { data: null, title: 'Business Model', render: (r: any, t: any, item: any) => item?.businessModelType || '-' },
+        { data: null, title: 'City', render: (r: any, t: any, item: any) => item?.city || '-' },
+        { data: null, title: 'State', render: (r: any, t: any, item: any) => item?.state || '-' },
+        { data: null, title: 'Established', render: (r: any, t: any, item: any) => this.formatDate(item?.dateOfEstablishment) }
       ],
       initComplete: function () {
         $('#view-table-assessment').on('click', '.edit-btn', function () {

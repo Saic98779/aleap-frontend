@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -15,8 +16,11 @@ export class StartupAssesmentComponent implements OnInit {
   assessmentForm!: FormGroup;
   submitted = false;
   loading = false;
+  savingDraft = false;
   assessmentId: number | null = null;
   isEditMode = false;
+  formStage: 'PENDING' | 'COMPLETED' = 'PENDING';
+  lastSavedAt: Date | null = null;
 
   readonly genderOptions = ['MALE', 'FEMALE', 'OTHER'];
   readonly businessPlanStatusOptions = ['YES', 'NO', 'IN_PROGRESS'];
@@ -90,6 +94,7 @@ export class StartupAssesmentComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     private toastrService: ToastrService,
     private _commonService: CommonServiceService,
     private _authService: AuthenticationService
@@ -244,82 +249,110 @@ export class StartupAssesmentComponent implements OnInit {
       return;
     }
 
+    this.sendAssessment('COMPLETED');
+  }
+
+  saveDraft() {
+    if (this.savingDraft || this.loading) return;
+    this.sendAssessment('PENDING');
+  }
+
+  private sendAssessment(stage: 'PENDING' | 'COMPLETED') {
+    const isDraft = stage === 'PENDING';
     const v = this.assessmentForm.value;
     const currentUser: any = this._authService.userValue;
     const userId = currentUser?.userId || currentUser?.id || currentUser?.email || '';
 
     const payload: any = {
-      startupName: v.startupName,
-      founderName: v.founderName,
-      genderOfPrimaryFounder: v.genderOfPrimaryFounder,
-      ageOfPrimaryFounder: Number(v.ageOfPrimaryFounder),
-      educationalQualification: v.educationalQualification,
-      email: v.email,
-      phone: v.phone,
-      city: v.city,
-      district: v.district,
-      state: v.state,
+      startupName: v.startupName || '',
+      founderName: v.founderName || '',
+      genderOfPrimaryFounder: v.genderOfPrimaryFounder || null,
+      ageOfPrimaryFounder: v.ageOfPrimaryFounder !== '' && v.ageOfPrimaryFounder != null ? Number(v.ageOfPrimaryFounder) : null,
+      educationalQualification: v.educationalQualification || '',
+      email: v.email || '',
+      phone: v.phone || '',
+      city: v.city || '',
+      district: v.district || '',
+      state: v.state || '',
       dateOfEstablishment: this.formatDate(v.dateOfEstablishment),
-      sectorIndustry: v.sectorIndustry,
+      sectorIndustry: v.sectorIndustry || '',
       webSite: v.webSite || '',
 
-      productServiceDescription: v.productServiceDescription,
-      problemSolving: v.problemSolving,
-      uniqueValueProposition: v.uniqueValueProposition,
-      businessPlanStatus: v.businessPlanStatus,
-      businessGoalsClarity: v.businessGoalsClarity,
+      productServiceDescription: v.productServiceDescription || '',
+      problemSolving: v.problemSolving || '',
+      uniqueValueProposition: v.uniqueValueProposition || '',
+      businessPlanStatus: v.businessPlanStatus || null,
+      businessGoalsClarity: v.businessGoalsClarity || null,
       businessMentoringTypes: v.businessMentoringTypes || [],
-      startupStage: v.startupStage,
-      businessModelType: v.businessModelType,
-      dpiitRegistered: !!v.dpiitRegistered,
-      registrationType: v.registrationType || '',
+      startupStage: v.startupStage || null,
+      businessModelType: v.businessModelType || null,
+      dpiitRegistered: v.dpiitRegistered == null ? null : !!v.dpiitRegistered,
+      registrationType: v.registrationType || null,
 
-      totalTeamSize: Number(v.totalTeamSize),
-      fullTimeEmployees: Number(v.fullTimeEmployees),
-      partTimeEmployees: Number(v.partTimeEmployees),
+      totalTeamSize: v.totalTeamSize !== '' && v.totalTeamSize != null ? Number(v.totalTeamSize) : null,
+      fullTimeEmployees: v.fullTimeEmployees !== '' && v.fullTimeEmployees != null ? Number(v.fullTimeEmployees) : null,
+      partTimeEmployees: v.partTimeEmployees !== '' && v.partTimeEmployees != null ? Number(v.partTimeEmployees) : null,
       keyTeamMembers: (v.keyTeamMembers || []).map((m: any) => ({
         id: m.id ?? null,
         startupSurveyId: m.startupSurveyId ?? null,
-        name: m.name,
-        designation: m.designation,
-        keyTasks: m.keyTasks
+        name: m.name || '',
+        designation: m.designation || '',
+        keyTasks: m.keyTasks || ''
       })),
       supportNeeded: v.supportNeeded || [],
 
-      targetCustomerSegment: v.targetCustomerSegment,
-      customerSegmentClarityNeeded: !!v.customerSegmentClarityNeeded,
+      targetCustomerSegment: v.targetCustomerSegment || '',
+      customerSegmentClarityNeeded: v.customerSegmentClarityNeeded == null ? null : !!v.customerSegmentClarityNeeded,
       primaryChallenges: v.primaryChallenges || [],
       supportRequired: v.supportRequired || [],
-      revenueModel: v.revenueModel,
+      revenueModel: v.revenueModel || null,
       monthlyRevenue: v.monthlyRevenue !== '' && v.monthlyRevenue != null ? Number(v.monthlyRevenue) : null,
 
-      productReadinessLevel: v.productReadinessLevel,
+      productReadinessLevel: v.productReadinessLevel || null,
       productDevelopmentSupports: v.productDevelopmentSupports || [],
       coreTechnologyUsed: v.coreTechnologyUsed || '',
       ipsFiledOrPlanned: v.ipsFiledOrPlanned || '',
-      technicalInfrastructureNeeded: !!v.technicalInfrastructureNeeded,
+      technicalInfrastructureNeeded: v.technicalInfrastructureNeeded == null ? null : !!v.technicalInfrastructureNeeded,
       technicalInfrastructureDescription: v.technicalInfrastructureDescription || '',
       digitalMaturityTools: v.digitalMaturityTools || [],
       technicalInfrastructureSupports: v.technicalInfrastructureSupports || [],
-      infraRelatedIssues: !!v.infraRelatedIssues,
+      infraRelatedIssues: v.infraRelatedIssues == null ? null : !!v.infraRelatedIssues,
       infrastructureAssistance: v.infrastructureAssistance || [],
+      formStage: stage,
       userId: userId
     };
 
-    this.loading = true;
-    const req$ = this.isEditMode && this.assessmentId
-      ? this._commonService.update(APIS.startupAssessment.update, payload, this.assessmentId)
+    if (isDraft) this.savingDraft = true; else this.loading = true;
+
+    const req$ = this.assessmentId
+      ? this._commonService.patch(APIS.startupAssessment.patch, payload, this.assessmentId)
       : this._commonService.add(APIS.startupAssessment.add, payload);
 
     req$.subscribe({
-      next: () => {
+      next: (res: any) => {
+        this.savingDraft = false;
         this.loading = false;
-        this.toastrService.success(`Assessment ${this.isEditMode ? 'updated' : 'submitted'} successfully`, 'Success');
-        this.router.navigate(['/view-assessment']);
+        this.lastSavedAt = new Date();
+        this.formStage = stage;
+
+        const returnedId = res?.data?.id ?? res?.id;
+        if (!this.assessmentId && returnedId) {
+          this.assessmentId = returnedId;
+          this.isEditMode = true;
+          this.location.replaceState(`/assessment/${returnedId}`);
+        }
+
+        if (isDraft) {
+          this.toastrService.success('Draft saved. You can continue later.', 'Draft Saved');
+        } else {
+          this.toastrService.success('Assessment submitted successfully', 'Success');
+          this.router.navigate(['/view-assessment']);
+        }
       },
       error: (err: any) => {
+        this.savingDraft = false;
         this.loading = false;
-        this.toastrService.error(err?.error?.message || err?.message || `Failed to ${this.isEditMode ? 'update' : 'submit'} assessment`, 'Error');
+        this.toastrService.error(err?.error?.message || err?.message || `Failed to ${isDraft ? 'save draft' : 'submit assessment'}`, 'Error');
       }
     });
   }
@@ -386,6 +419,9 @@ export class StartupAssesmentComponent implements OnInit {
 
         this.keyTeamMembers.clear();
         (a.keyTeamMembers || []).forEach((m: any) => this.keyTeamMembers.push(this.buildTeamMemberGroup(m)));
+
+        this.formStage = a.formStage === 'COMPLETED' ? 'COMPLETED' : 'PENDING';
+        this.lastSavedAt = a.updatedAt ? new Date(a.updatedAt) : null;
       },
       error: (err: any) => {
         this.toastrService.error(err?.error?.message || err?.message || 'Failed to load assessment', 'Error');

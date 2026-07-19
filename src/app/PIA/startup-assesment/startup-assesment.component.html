@@ -6,8 +6,15 @@
         <div class="card mb-4">
           <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-              <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Startups' }} Needs Assessment</h6>
-              <button type="button" class="btn btn-default" (click)="goToAssessments()">Back</button>
+              <div class="d-flex align-items-center gap-2">
+                <h6 class="mb-0 text-green">{{ isEditMode ? 'Edit' : 'Startups' }} Needs Assessment</h6>
+                <span *ngIf="isEditMode && formStage === 'PENDING'" class="badge bg-warning text-dark ms-2">DRAFT</span>
+                <span *ngIf="isEditMode && formStage === 'COMPLETED'" class="badge bg-success ms-2">COMPLETED</span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <small *ngIf="lastSavedAt" class="text-muted me-2">Last saved: {{ lastSavedAt | date:'medium' }}</small>
+                <button type="button" class="btn btn-default" (click)="goToAssessments()">Back</button>
+              </div>
             </div>
           </div>
 
@@ -517,12 +524,22 @@
               </div>
             </div>
 
-            <div class="text-end mt-2">
-              <button type="button" class="btn btn-default me-2" (click)="resetForm()">Reset</button>
-              <button type="submit" class="btn btn-lime-green">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-                {{ isEditMode ? 'Update' : 'Submit' }}
-              </button>
+            <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
+              <small class="text-muted">
+                <span *ngIf="lastSavedAt">Last saved: {{ lastSavedAt | date:'medium' }}</span>
+                <span *ngIf="!lastSavedAt && !isEditMode">Not saved yet. Use "Save Draft" to keep partial progress.</span>
+              </small>
+              <div>
+                <button type="button" class="btn btn-default me-2" (click)="resetForm()" [disabled]="loading || savingDraft">Reset</button>
+                <button type="button" class="btn btn-secondary me-2" (click)="saveDraft()" [disabled]="loading || savingDraft">
+                  <span *ngIf="savingDraft" class="spinner-border spinner-border-sm me-1"></span>
+                  Save Draft
+                </button>
+                <button type="submit" class="btn btn-lime-green" [disabled]="loading || savingDraft">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                  {{ formStage === 'COMPLETED' ? 'Update' : 'Submit' }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
